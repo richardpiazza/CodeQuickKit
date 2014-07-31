@@ -89,6 +89,11 @@ typedef enum : NSUInteger {
 - (id <NSObject>)serializedObjectForPropertyName:(NSString *)propertyName withData:(id)data;
 @end
 
+/*!
+ @abstract      CQKSerializableNSObject
+ @discussion    Leverages the ObjC runtime to automatically de/serialize all \@property
+                objects to a dictionary/json string.
+ */
 @interface CQKSerializableNSObject : NSObject <NSCoding, NSCopying, CQKSerializableNSObjectProtocol>
 
 /*!

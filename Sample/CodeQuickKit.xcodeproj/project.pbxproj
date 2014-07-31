@@ -13,6 +13,7 @@
 		E169F37C198478B5005ED326 /* CQKSerializableNSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E169F37A198478B5005ED326 /* CQKSerializableNSObject.m */; };
 		E169F37D198478B5005ED326 /* CQKSerializableNSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E169F37A198478B5005ED326 /* CQKSerializableNSObject.m */; };
 		E169F37F198478D4005ED326 /* CQKSerializableNSObjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E169F37E198478D4005ED326 /* CQKSerializableNSObjectTests.m */; };
+		E195999B198A2A8E00DA348B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E195999A198A2A8E00DA348B /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,41 @@
 			remoteInfo = CodeQuickKit;
 		};
 		E169F36A1984783E005ED326 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E169F3541984783D005ED326 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E169F35C1984783D005ED326;
+			remoteInfo = CodeQuickKit;
+		};
+		E1959990198A2A5C00DA348B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E169F3541984783D005ED326 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E169F35C1984783D005ED326;
+			remoteInfo = CodeQuickKit;
+		};
+		E1959992198A2A5C00DA348B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E169F3541984783D005ED326 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E169F35C1984783D005ED326;
+			remoteInfo = CodeQuickKit;
+		};
+		E1959994198A2A5F00DA348B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E169F3541984783D005ED326 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E169F35C1984783D005ED326;
+			remoteInfo = CodeQuickKit;
+		};
+		E195999C198A2AB100DA348B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E169F3541984783D005ED326 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E169F35C1984783D005ED326;
+			remoteInfo = CodeQuickKit;
+		};
+		E195999E198A2AB100DA348B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E169F3541984783D005ED326 /* Project object */;
 			proxyType = 1;
@@ -76,13 +112,13 @@
 
 /* Begin PBXFileReference section */
 		E169F35D1984783E005ED326 /* CodeQuickKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CodeQuickKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E169F3611984783E005ED326 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E169F3621984783E005ED326 /* CodeQuickKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodeQuickKit.h; sourceTree = "<group>"; };
 		E169F3681984783E005ED326 /* CodeQuickKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodeQuickKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E169F36E1984783E005ED326 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E169F379198478B5005ED326 /* CQKSerializableNSObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQKSerializableNSObject.h; sourceTree = "<group>"; };
 		E169F37A198478B5005ED326 /* CQKSerializableNSObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKSerializableNSObject.m; sourceTree = "<group>"; };
 		E169F37E198478D4005ED326 /* CQKSerializableNSObjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKSerializableNSObjectTests.m; sourceTree = "<group>"; };
+		E195999A198A2A8E00DA348B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +145,7 @@
 			children = (
 				E169F35F1984783E005ED326 /* CodeQuickKit */,
 				E169F36C1984783E005ED326 /* CodeQuickKitTests */,
+				E1959996198A2A8E00DA348B /* Sample */,
 				E169F35E1984783E005ED326 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -126,19 +163,11 @@
 			isa = PBXGroup;
 			children = (
 				E169F3621984783E005ED326 /* CodeQuickKit.h */,
-				E169F3601984783E005ED326 /* Supporting Files */,
 				E169F379198478B5005ED326 /* CQKSerializableNSObject.h */,
 				E169F37A198478B5005ED326 /* CQKSerializableNSObject.m */,
 			);
-			path = CodeQuickKit;
-			sourceTree = "<group>";
-		};
-		E169F3601984783E005ED326 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				E169F3611984783E005ED326 /* Info.plist */,
-			);
-			name = "Supporting Files";
+			name = CodeQuickKit;
+			path = ../CodeQuickKit;
 			sourceTree = "<group>";
 		};
 		E169F36C1984783E005ED326 /* CodeQuickKitTests */ = {
@@ -156,6 +185,14 @@
 				E169F36E1984783E005ED326 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E1959996198A2A8E00DA348B /* Sample */ = {
+			isa = PBXGroup;
+			children = (
+				E195999A198A2A8E00DA348B /* Info.plist */,
+			);
+			name = Sample;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,6 +247,11 @@
 				E1D1B7F71985BA9700982696 /* PBXTargetDependency */,
 				E1027F89198668FA003F4409 /* PBXTargetDependency */,
 				E1027F8B198668FA003F4409 /* PBXTargetDependency */,
+				E1959991198A2A5C00DA348B /* PBXTargetDependency */,
+				E1959993198A2A5C00DA348B /* PBXTargetDependency */,
+				E1959995198A2A5F00DA348B /* PBXTargetDependency */,
+				E195999D198A2AB100DA348B /* PBXTargetDependency */,
+				E195999F198A2AB100DA348B /* PBXTargetDependency */,
 			);
 			name = CodeQuickKitTests;
 			productName = CodeQuickKitTests;
@@ -259,6 +301,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E195999B198A2A8E00DA348B /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +349,31 @@
 			isa = PBXTargetDependency;
 			target = E169F35C1984783D005ED326 /* CodeQuickKit */;
 			targetProxy = E169F36A1984783E005ED326 /* PBXContainerItemProxy */;
+		};
+		E1959991198A2A5C00DA348B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E169F35C1984783D005ED326 /* CodeQuickKit */;
+			targetProxy = E1959990198A2A5C00DA348B /* PBXContainerItemProxy */;
+		};
+		E1959993198A2A5C00DA348B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E169F35C1984783D005ED326 /* CodeQuickKit */;
+			targetProxy = E1959992198A2A5C00DA348B /* PBXContainerItemProxy */;
+		};
+		E1959995198A2A5F00DA348B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E169F35C1984783D005ED326 /* CodeQuickKit */;
+			targetProxy = E1959994198A2A5F00DA348B /* PBXContainerItemProxy */;
+		};
+		E195999D198A2AB100DA348B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E169F35C1984783D005ED326 /* CodeQuickKit */;
+			targetProxy = E195999C198A2AB100DA348B /* PBXContainerItemProxy */;
+		};
+		E195999F198A2AB100DA348B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E169F35C1984783D005ED326 /* CodeQuickKit */;
+			targetProxy = E195999E198A2AB100DA348B /* PBXContainerItemProxy */;
 		};
 		E1D1B7EF1984F5B500982696 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -359,10 +427,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -427,7 +491,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = CodeQuickKit/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -443,7 +507,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = CodeQuickKit/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -456,10 +520,6 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = CodeQuickKitTests/Info.plist;
