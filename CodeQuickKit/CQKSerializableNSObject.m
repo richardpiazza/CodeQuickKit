@@ -260,6 +260,114 @@
     }];
 }
 
+- (NSDictionary *)dictionary
+{
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    
+    NSArray *properties = [self propertyNamesForClass];
+    for (NSString *propertyName in properties) {
+        if (![self respondsToSelector:NSSelectorFromString(propertyName)])
+            continue;
+        
+        id valueObject = [self valueForKey:propertyName];
+        if (valueObject == nil)
+            continue;
+        
+        Class propertyClass = [self classForPropertyName:propertyName];
+        NSString *serializedKey = [self serializedKeyForPropertyName:propertyName];
+        
+        @try {
+            if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]])
+                [dictionary setObject:[(CQKSerializableNSObject *)valueObject dictionary] forKey:serializedKey];
+            else if ([propertyClass isSubclassOfClass:[NSArray class]])
+                [dictionary setObject:[self serializedArrayForPropertyName:propertyName withArray:valueObject] forKey:serializedKey];
+            else {
+                id serializedObject = [self serializedObjectForPropertyName:propertyName withData:valueObject];
+                if (serializedObject != nil)
+                    [dictionary setObject:serializedObject forKey:serializedKey];
+            }
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@ %s\nFailed to set Value: %@ For Key: %@ (%@)\nException: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, valueObject, propertyName, serializedKey, exception);
+        }
+        @finally {
+            
+        }
+    }
+    
+    return dictionary;
+}
+
+- (id <CQKSerializableNSObjectProtocol>)initWithData:(NSData *)data;
+{
+    self = [self init];
+    if (self != nil) {
+        [self updateWithData:data];
+    }
+    return self;
+}
+
+- (void)updateWithData:(NSData *)data
+{
+    NSError *error = nil;
+    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    if (dictionary == nil || error != nil) {
+        NSLog(@"%@ %s Failed with Data: %@; Error: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, data, error);
+        return;
+    }
+    
+    [self updateWithDictionary:dictionary];
+}
+
+- (NSData *)data
+{
+    NSDictionary *dictionary = self.dictionary;
+    if (dictionary == nil)
+        return nil;
+    
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+    if (data == nil || error != nil) {
+        NSLog(@"%@ %s Failed with dictionary: %@; Error: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, dictionary, error);
+        return nil;
+    }
+    
+    return data;
+}
+
+- (id)initWithJSON:(NSString *)json
+{
+    self = [self init];
+    if (self != nil) {
+        [self updateWithJSON:json];
+    }
+    return self;
+}
+
+- (void)updateWithJSON:(NSString *)json
+{
+    if (json == nil || [json isEqualToString:@""])
+        return;
+    
+    NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
+    if (data == nil)
+        return;
+    
+    [self updateWithData:data];
+}
+
+- (NSString *)json
+{
+    NSData *data = self.data;
+    if (data == nil)
+        return nil;
+    
+    NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSString *jsonFormatted = [CQKSerializableNSObject jsonStringRemovingPrettyFormatting:json];
+    return jsonFormatted;
+}
+
+#pragma mark -
 - (BOOL)respondsToSetterForPropertyName:(NSString *)propertyName
 {
     if (propertyName == nil || [propertyName isEqualToString:@""])
@@ -305,44 +413,6 @@
         [self setValue:valueObject forKey:propertyName];
 }
 
-- (NSDictionary *)dictionary
-{
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    
-    NSArray *properties = [self propertyNamesForClass];
-    for (NSString *propertyName in properties) {
-        if (![self respondsToSelector:NSSelectorFromString(propertyName)])
-            continue;
-        
-        id valueObject = [self valueForKey:propertyName];
-        if (valueObject == nil)
-            continue;
-        
-        Class propertyClass = [self classForPropertyName:propertyName];
-        NSString *serializedKey = [self serializedKeyForPropertyName:propertyName];
-        
-        @try {
-            if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]])
-                [dictionary setObject:[(CQKSerializableNSObject *)valueObject dictionary] forKey:serializedKey];
-            else if ([propertyClass isSubclassOfClass:[NSArray class]])
-                [dictionary setObject:[self serializedArrayForPropertyName:propertyName withArray:valueObject] forKey:serializedKey];
-            else {
-                id serializedObject = [self serializedObjectForPropertyName:propertyName withData:valueObject];
-                if (serializedObject != nil)
-                    [dictionary setObject:serializedObject forKey:serializedKey];
-            }
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@ %s\nFailed to set Value: %@ For Key: %@ (%@)\nException: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, valueObject, propertyName, serializedKey, exception);
-        }
-        @finally {
-            
-        }
-    }
-    
-    return dictionary;
-}
-
 - (NSArray *)serializedArrayForPropertyName:(NSString *)propertyName withArray:(NSArray *)array
 {
     NSMutableArray *serialiazedArray = [NSMutableArray array];
@@ -359,49 +429,6 @@
     }
     
     return serialiazedArray;
-}
-
-- (id)initWithJSON:(NSString *)json
-{
-    self = [self init];
-    if (self != nil) {
-        [self updateWithJSON:json];
-    }
-    return self;
-}
-
-- (void)updateWithJSON:(NSString *)json
-{
-    if (json == nil || [json isEqualToString:@""])
-        return;
-    
-    NSData *jsonData = [json dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *error = nil;
-    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-    if (dictionary == nil || error != nil) {
-        NSLog(@"%@ %s Failed with JSON: %@; Error: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, json, error);
-        return;
-    }
-    
-    [self updateWithDictionary:dictionary];
-}
-
-- (NSString *)json
-{
-    NSDictionary *dictionary = self.dictionary;
-    if (dictionary == nil)
-        return nil;
-    
-    NSError *error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
-    if (jsonData == nil || error != nil) {
-        NSLog(@"%@ %s Failed with dictionary: %@; Error: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, dictionary, error);
-        return nil;
-    }
-    
-    NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    NSString *jsonFormatted = [CQKSerializableNSObject jsonStringRemovingPrettyFormatting:json];
-    return jsonFormatted;
 }
 
 #pragma mark - ObjC Runtime -

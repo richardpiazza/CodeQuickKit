@@ -124,25 +124,49 @@ typedef enum : NSUInteger {
 - (NSDictionary *)dictionary;
 
 /*!
+ @method    initWithData
+ @abstract  Initializes a subclass of
+ @param     data A NSData serialized dictionary representing the object.
+ @return    The initialized object.
+ */
+- (id <CQKSerializableNSObjectProtocol>)initWithData:(NSData *)data;
+
+/*!
+ @method    updateWithData
+ @abstract  Parses the NSData object through the NSJSONSerialization class resulting
+            in a NSDictionary which will be passed to the updateWithDictionary method.
+ @param     data A NSData serialized dictionary representing the object.
+ */
+- (void)updateWithData:(NSData *)data;
+
+/*!
+ @method        data
+ @abstract      Parses the dictionary representation of this object through the
+                NSJSONSerialization class.
+ @return        A UTF8 encoded data object.
+ */
+- (NSData *)data;
+
+/*!
  @method    initWithJSON:
- @abstract  Deserializes the JSON string and passes the resulting NSDictionary to the
-            initWithDictionary method.
+ @abstract  Passes a UTF8 json string to the updateWithJSON method.
+ @param     json a UTF8 encoded JSON string
  @return    The initialized object.
  */
 - (id <CQKSerializableNSObjectProtocol>)initWithJSON:(NSString *)json;
 
 /*!
  @method    updateWithJSON:
- @abstract  Deserializes the JSON string and passes the resulting NSDictionary to the
-            updateWithDictionary method.
+ @abstract  Creates a NSData object from a UTF8 encoded string and passes it to the
+            updateWithData method.
+ @param     json a UTF8 encoded JSON string
  */
 - (void)updateWithJSON:(NSString *)json;
 
 /*!
- @method        json
- @abstract      Parses the dictionary representation of this object through the
-                NSJSONSerialization class.
- @return        A Serialized JSON string.
+ @method    json
+ @abstract  Creates a UTF8 encoded string of the NSData object.
+ @return    A string representation of a JSON object.
  */
 - (NSString *)json;
 
