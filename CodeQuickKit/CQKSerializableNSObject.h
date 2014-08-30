@@ -185,15 +185,16 @@ typedef enum : NSUInteger {
 + (void)setSerializedKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle;
 
 /*!
- @method        setAutoRekeyUUIDProperty:
- @abstract      Overrides the default handling of a NSUUID property with the name of *uuid.
- @discussion    Since 'id' is a reserved keyword in Objective-C the property name *uuid is 
-                commonly used as the unique object identifier. By default CQKSerializableNSObjects
-                with a *uuid property with de/serialized like this:
-                (PropertyName) uuid = (I/i)d (SerializedKey)
- @param         rekey Allows for the disabling of the auto uuid to id keying.
+ @method        setSerializedIDPropertyName:
+ @discussion    Since 'id' is a reserved keyword in Objective-C, it cannot be used as a property name.
+                This method allows you to set a global change of a custom property name like 'uuid'
+                or 'uniqueId' to be used in place of 'id'. This allows for 'id' to be present in a 
+                serialized object but be represented by a non-reserved property.
+                e.g. (PropertyName) uuid = (I/i)d (SerializedKey)
+                e.g. (PropertyName) uniqueId = (I/i)d (SerializedKey)
+ @param         propertyName Property name to be used in place of a matching 'id' serialized key.
  */
-+ (void)setAutoRekeyUUIDProperty:(BOOL)rekey;
++ (void)setSerializedIDPropertyName:(NSString *)propertyName;
 
 /*!
  @method    setLogActivity:
@@ -201,8 +202,26 @@ typedef enum : NSUInteger {
  */
 + (void)setLogActivity:(BOOL)logActivity;
 
+/*!
+ @method    propertyNamesForClass:
+ @abstract  Retrieves all '\@property' objects of a class.
+ @param     objectClass The Class to retrieve properties.
+ @return    string List of property names.
+ */
++ (NSArray *)propertyNamesForClass:(Class)objectClass;
+
+/*!
+ @method    classForPropertyName:ofClass:
+ @abstract  Retrieved the Class for a specified propertyName of a specific class.
+ @param     propertyName An '\@property' on this class.
+ @param     objectClass The Class to inspect for the propertyName.
+ @return    Class for a given the given property with name; Defaults to NSNull.
+ */
++ (Class)classForPropertyName:(NSString *)propertyName ofClass:(Class)objectClass;
+
 @end
 
 extern NSString * const CQKSerializableNSObjectDateFormat;
 extern NSString * const CQKSerializableNSObjectUUIDPropertyName;
+extern NSString * const CQKSerializableNSObjectUniqueIdPropertyName;
 extern NSString * const CQKSerializableNSObjectIDSerializedKey;

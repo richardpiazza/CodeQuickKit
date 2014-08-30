@@ -13,7 +13,6 @@
 		E169F37C198478B5005ED326 /* CQKSerializableNSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E169F37A198478B5005ED326 /* CQKSerializableNSObject.m */; };
 		E169F37D198478B5005ED326 /* CQKSerializableNSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E169F37A198478B5005ED326 /* CQKSerializableNSObject.m */; };
 		E169F37F198478D4005ED326 /* CQKSerializableNSObjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E169F37E198478D4005ED326 /* CQKSerializableNSObjectTests.m */; };
-		E195999B198A2A8E00DA348B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E195999A198A2A8E00DA348B /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -301,7 +300,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E195999B198A2A8E00DA348B /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
