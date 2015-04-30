@@ -25,28 +25,22 @@
 #import "CQKSerializableNSObject.h"
 #import <objc/runtime.h>
 
-@interface CQKSerializableNSObjectFormatOptions : NSObject
-@property (nonatomic) CQKSerializableNSObjectKeyStyle propertyKeyStyle;
-@property (nonatomic) CQKSerializableNSObjectKeyStyle serializedKeyStyle;
-@property (nonatomic, strong) NSString *serializedIDPropertyName;
-@property (nonatomic) BOOL logActivity;
-@property (nonatomic, strong) NSDateFormatter *serializedNSDateFormatter;
-@end
+@implementation CQKSerializableNSObjectConfiguration
 
-@implementation CQKSerializableNSObjectFormatOptions
 - (id)init
 {
     self = [super init];
     if (self != nil) {
-        _propertyKeyStyle = CQKSerializableNSObjectKeyStyleCamelCase;
-        _serializedKeyStyle = CQKSerializableNSObjectKeyStyleTitleCase;
-        _serializedIDPropertyName = CQKSerializableNSObjectUUIDPropertyName;
-        _logActivity = NO;
-        _serializedNSDateFormatter = [[NSDateFormatter alloc] init];
-        [_serializedNSDateFormatter setDateFormat:CQKSerializableNSObjectDateFormat];
+        [self setPropertyKeyStyle:CQKSerializableNSObjectKeyStyleCamelCase];
+        [self setSerializedKeyStyle:CQKSerializableNSObjectKeyStyleTitleCase];
+        [self setSerializedIDPropertyName:nil];
+        [self setSerializedNSDateFormatter:[[NSDateFormatter alloc] init]];
+        [self.serializedNSDateFormatter setDateFormat:CQKSerializableNSObjectDateFormat];
+        [self setLogActivity:NO];
     }
     return self;
 }
+
 @end
 
 @interface CQKSerializableNSObject ()
@@ -63,55 +57,47 @@
 
 @implementation CQKSerializableNSObject
 
-+ (CQKSerializableNSObjectFormatOptions *)formatOptions
++ (CQKSerializableNSObjectConfiguration *)configuration
 {
-    static CQKSerializableNSObjectFormatOptions *_formatOptions;
+    static CQKSerializableNSObjectConfiguration *_configuration;
+    if (_configuration != nil) {
+        return _configuration;
+    }
+    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _formatOptions = [[CQKSerializableNSObjectFormatOptions alloc] init];
+        _configuration = [[CQKSerializableNSObjectConfiguration alloc] init];
     });
-    return _formatOptions;
-}
-
-+ (void)setPropertyKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle
-{
-    [[CQKSerializableNSObject formatOptions] setPropertyKeyStyle:keyStyle];
-}
-
-+ (void)setSerializedKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle
-{
-    [[CQKSerializableNSObject formatOptions] setSerializedKeyStyle:keyStyle];
-}
-
-+ (void)setSerializedIDPropertyName:(NSString *)propertyName
-{
-    [[CQKSerializableNSObject formatOptions] setSerializedIDPropertyName:propertyName];
-}
-
-+ (void)setLogActivity:(BOOL)logActivity
-{
-    [[CQKSerializableNSObject formatOptions] setLogActivity:logActivity];
+    
+    return _configuration;
 }
 
 + (NSString *)stringForPropertyName:(NSString *)propertyName withKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle
 {
-    if (propertyName == nil || [propertyName isEqualToString:@""])
+    if (propertyName == nil || [propertyName isEqualToString:@""]) {
         return nil;
+    }
     
-    if (propertyName.length == 1)
+    if (propertyName.length == 1) {
         return propertyName;
+    }
     
     switch (keyStyle) {
-        case CQKSerializableNSObjectKeyStyleCamelCase:
+        case CQKSerializableNSObjectKeyStyleCamelCase: {
             return [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[propertyName substringToIndex:1] lowercaseString]];
-        case CQKSerializableNSObjectKeyStyleTitleCase:
+        }
+        case CQKSerializableNSObjectKeyStyleTitleCase: {
             return [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[propertyName substringToIndex:1] uppercaseString]];
-        case CQKSerializableNSObjectKeyStyleUpperCase:
+        }
+        case CQKSerializableNSObjectKeyStyleUpperCase: {
             return propertyName.uppercaseString;
-        case CQKSerializableNSObjectKeyStyleLowerCase:
+        }
+        case CQKSerializableNSObjectKeyStyleLowerCase: {
             return propertyName.lowercaseString;
-        default:
+        }
+        default: {
             return propertyName;
+        }
     }
 }
 
@@ -134,11 +120,13 @@
         NSArray *classProperties = [self propertyNamesForClass];
         
         for (NSString *propertyName in classProperties) {
-            if (![self respondsToSetterForPropertyName:propertyName])
+            if (![self respondsToSetterForPropertyName:propertyName]) {
                 continue;
+            }
             
-            if (![decoder containsValueForKey:propertyName])
+            if (![decoder containsValueForKey:propertyName]) {
                 continue;
+            }
             
             [self setValue:[decoder decodeObjectForKey:propertyName] forKey:propertyName];
         }
@@ -152,12 +140,14 @@
     NSArray *classProperties = [self propertyNamesForClass];
     
     for (NSString *propertyName in classProperties) {
-        if (![self respondsToSelector:NSSelectorFromString(propertyName)])
+        if (![self respondsToSelector:NSSelectorFromString(propertyName)]) {
             continue;
+        }
         
         Class propertyClass = [self classForPropertyName:propertyName];
-        if (![propertyClass isSubclassOfClass:[NSObject class]])
+        if (![propertyClass isSubclassOfClass:[NSObject class]]) {
             continue;
+        }
         
         [encoder encodeObject:[self valueForKey:propertyName] forKey:propertyName];
     }
@@ -172,24 +162,39 @@
 #pragma mark - CQKSerializableNSObjectProtocol -
 - (NSString *)propertyNameForSerializedKey:(NSString *)serializedKey
 {
-    if ([serializedKey.lowercaseString isEqualToString:CQKSerializableNSObjectIDSerializedKey.lowercaseString]) {
-        if ([[CQKSerializableNSObject formatOptions] serializedIDPropertyName] != nil) {
-            return [[CQKSerializableNSObject formatOptions] serializedIDPropertyName];
+    if ([serializedKey.lowercaseString isEqualToString:CQKSerializableNSObjectIDPropertyName.lowercaseString]) {
+        if ([[CQKSerializableNSObject configuration] serializedIDPropertyName] != nil) {
+            return [[CQKSerializableNSObject configuration] serializedIDPropertyName];
+        } else {
+            NSArray *propertyNames = [CQKSerializableNSObject propertyNamesForClass:[self class]];
+            if ([propertyNames containsObject:CQKSerializableNSObjectUUIDPropertyName]) {
+                return CQKSerializableNSObjectUUIDPropertyName;
+            } else if ([propertyNames containsObject:CQKSerializableNSObjectUniqueIdPropertyName]) {
+                return CQKSerializableNSObjectUniqueIdPropertyName;
+            }
         }
+        
+        return nil;
     }
     
-    return [self.class stringForPropertyName:serializedKey withKeyStyle:[[CQKSerializableNSObject formatOptions] propertyKeyStyle]];
+    return [self.class stringForPropertyName:serializedKey withKeyStyle:[[CQKSerializableNSObject configuration] propertyKeyStyle]];
 }
 
 - (NSString *)serializedKeyForPropertyName:(NSString *)propertyName
 {
-    if ([[CQKSerializableNSObject formatOptions] serializedIDPropertyName] != nil) {
-        if ([propertyName isEqualToString:[[CQKSerializableNSObject formatOptions] serializedIDPropertyName]]) {
-            return [self.class stringForPropertyName:CQKSerializableNSObjectIDSerializedKey withKeyStyle:[[CQKSerializableNSObject formatOptions] serializedKeyStyle]];
+    if ([[CQKSerializableNSObject configuration] serializedIDPropertyName] != nil) {
+        if ([propertyName isEqualToString:[[CQKSerializableNSObject configuration] serializedIDPropertyName]]) {
+            return [self.class stringForPropertyName:CQKSerializableNSObjectIDPropertyName withKeyStyle:[[CQKSerializableNSObject configuration] serializedKeyStyle]];
+        }
+    } else {
+        if ([propertyName isEqualToString:CQKSerializableNSObjectUUIDPropertyName]) {
+            return [self.class stringForPropertyName:CQKSerializableNSObjectIDPropertyName withKeyStyle:[[CQKSerializableNSObject configuration] serializedKeyStyle]];
+        } else if ([propertyName isEqualToString:CQKSerializableNSObjectUniqueIdPropertyName]) {
+            return [self.class stringForPropertyName:CQKSerializableNSObjectIDPropertyName withKeyStyle:[[CQKSerializableNSObject configuration] serializedKeyStyle]];
         }
     }
     
-    return [self.class stringForPropertyName:propertyName withKeyStyle:[[CQKSerializableNSObject formatOptions] serializedKeyStyle]];
+    return [self.class stringForPropertyName:propertyName withKeyStyle:[[CQKSerializableNSObject configuration] serializedKeyStyle]];
 }
 
 - (id <NSObject>)initializedObjectForPropertyName:(NSString *)propertyName withData:(id)data
@@ -199,7 +204,7 @@
     if ([propertyClass isSubclassOfClass:[NSUUID class]]) {
         return [[NSUUID alloc] initWithUUIDString:(NSString *)data];
     } else if ([propertyClass isSubclassOfClass:[NSDate class]]) {
-        return [[[CQKSerializableNSObject formatOptions] serializedNSDateFormatter] dateFromString:(NSString *)data];
+        return [[[CQKSerializableNSObject configuration] serializedNSDateFormatter] dateFromString:(NSString *)data];
     } else if ([propertyClass isSubclassOfClass:[NSURL class]]) {
         return [NSURL URLWithString:(NSString *)data];
     }
@@ -212,7 +217,7 @@
     if ([[data class] isSubclassOfClass:[NSUUID class]]) {
         return [(NSUUID *)data UUIDString];
     } else if ([[data class] isSubclassOfClass:[NSDate class]]) {
-        return [[[CQKSerializableNSObject formatOptions] serializedNSDateFormatter] stringFromDate:(NSDate *)data];
+        return [[[CQKSerializableNSObject configuration] serializedNSDateFormatter] stringFromDate:(NSDate *)data];
     } else if ([[data class] isSubclassOfClass:[NSURL class]]) {
         return [(NSURL *)data absoluteString];
     }
@@ -232,27 +237,33 @@
 
 - (void)updateWithDictionary:(NSDictionary *)dictionary
 {
-    if (dictionary == nil || ![[dictionary class] isSubclassOfClass:[NSDictionary class]])
+    if (dictionary == nil || ![[dictionary class] isSubclassOfClass:[NSDictionary class]]) {
         return;
+    }
     
     [dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         NSString *propertyName = [self propertyNameForSerializedKey:key];
-        if (propertyName == nil)
+        if (propertyName == nil) {
             return;
+        }
         
-        if (![self respondsToSetterForPropertyName:propertyName])
+        if (![self respondsToSetterForPropertyName:propertyName]) {
             return;
+        }
         
         @try {
-            if ([[obj class] isSubclassOfClass:[NSDictionary class]])
+            if ([[obj class] isSubclassOfClass:[NSDictionary class]]) {
                 [self setValueForPropertyName:propertyName withDictionary:obj];
-            else if ([[obj class] isSubclassOfClass:[NSArray class]])
+            } else if ([[obj class] isSubclassOfClass:[NSArray class]]) {
                 [self setValueForPropertyName:propertyName withArray:obj];
-            else if (![[obj class] isSubclassOfClass:[NSNull class]])
+            } else if (![[obj class] isSubclassOfClass:[NSNull class]]) {
                 [self setValueForPropertyName:propertyName withObject:obj];
+            }
         }
         @catch (NSException *exception) {
-            NSLog(@"%@ %s\nFailed to set Value: %@ For Key: %@ (%@)\nException: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, obj, key, propertyName, exception);
+            if ([[CQKSerializableNSObject configuration] logActivity]) {
+                NSLog(@"%@ %s\nFailed to set Value: %@ For Key: %@ (%@)\nException: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, obj, key, propertyName, exception);
+            }
         }
         @finally {
             
@@ -266,29 +277,34 @@
     
     NSArray *properties = [self propertyNamesForClass];
     for (NSString *propertyName in properties) {
-        if (![self respondsToSelector:NSSelectorFromString(propertyName)])
+        if (![self respondsToSelector:NSSelectorFromString(propertyName)]) {
             continue;
+        }
         
         id valueObject = [self valueForKey:propertyName];
-        if (valueObject == nil)
+        if (valueObject == nil) {
             continue;
+        }
         
         Class propertyClass = [self classForPropertyName:propertyName];
         NSString *serializedKey = [self serializedKeyForPropertyName:propertyName];
         
         @try {
-            if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]])
+            if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]]) {
                 [dictionary setObject:[(CQKSerializableNSObject *)valueObject dictionary] forKey:serializedKey];
-            else if ([propertyClass isSubclassOfClass:[NSArray class]])
+            } else if ([propertyClass isSubclassOfClass:[NSArray class]]) {
                 [dictionary setObject:[self serializedArrayForPropertyName:propertyName withArray:valueObject] forKey:serializedKey];
-            else {
+            } else {
                 id serializedObject = [self serializedObjectForPropertyName:propertyName withData:valueObject];
-                if (serializedObject != nil)
+                if (serializedObject != nil) {
                     [dictionary setObject:serializedObject forKey:serializedKey];
+                }
             }
         }
         @catch (NSException *exception) {
-            NSLog(@"%@ %s\nFailed to set Value: %@ For Key: %@ (%@)\nException: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, valueObject, propertyName, serializedKey, exception);
+            if ([[CQKSerializableNSObject configuration] logActivity]) {
+                NSLog(@"%@ %s\nFailed to set Value: %@ For Key: %@ (%@)\nException: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, valueObject, propertyName, serializedKey, exception);
+            }
         }
         @finally {
             
@@ -312,7 +328,9 @@
     NSError *error = nil;
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     if (dictionary == nil || error != nil) {
-        NSLog(@"%@ %s Failed with Data: %@; Error: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, data, error);
+        if ([[CQKSerializableNSObject configuration] logActivity]) {
+            NSLog(@"%@ %s Failed with Data: %@; Error: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, data, error);
+        }
         return;
     }
     
@@ -322,13 +340,16 @@
 - (NSData *)data
 {
     NSDictionary *dictionary = self.dictionary;
-    if (dictionary == nil)
+    if (dictionary == nil) {
         return nil;
+    }
     
     NSError *error = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
     if (data == nil || error != nil) {
-        NSLog(@"%@ %s Failed with dictionary: %@; Error: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, dictionary, error);
+        if ([[CQKSerializableNSObject configuration] logActivity]) {
+            NSLog(@"%@ %s Failed with dictionary: %@; Error: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, dictionary, error);
+        }
         return nil;
     }
     
@@ -346,12 +367,14 @@
 
 - (void)updateWithJSON:(NSString *)json
 {
-    if (json == nil || [json isEqualToString:@""])
+    if (json == nil || [json isEqualToString:@""]) {
         return;
+    }
     
     NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
-    if (data == nil)
+    if (data == nil) {
         return;
+    }
     
     [self updateWithData:data];
 }
@@ -359,8 +382,9 @@
 - (NSString *)json
 {
     NSData *data = self.data;
-    if (data == nil)
+    if (data == nil) {
         return nil;
+    }
     
     NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSString *jsonFormatted = [CQKSerializableNSObject jsonStringRemovingPrettyFormatting:json];
@@ -370,8 +394,9 @@
 #pragma mark -
 - (BOOL)respondsToSetterForPropertyName:(NSString *)propertyName
 {
-    if (propertyName == nil || [propertyName isEqualToString:@""])
+    if (propertyName == nil || [propertyName isEqualToString:@""]) {
         return NO;
+    }
     
     NSString *setter = [NSString stringWithFormat:@"set%@:", [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[propertyName substringToIndex:1].uppercaseString]];
     return [self respondsToSelector:NSSelectorFromString(setter)];
@@ -381,12 +406,13 @@
 {
     Class propertyClass = [self classForPropertyName:propertyName];
     
-    if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]])
+    if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]]) {
         [self setValue:[[propertyClass alloc] initWithDictionary:dictionary] forKey:propertyName];
-    else if ([propertyClass isSubclassOfClass:[NSMutableDictionary class]])
+    } else if ([propertyClass isSubclassOfClass:[NSMutableDictionary class]]) {
         [self setValue:[dictionary mutableCopy] forKey:propertyName];
-    else
+    } else {
         [self setValue:dictionary forKey:propertyName];
+    }
 }
 
 - (void)setValueForPropertyName:(NSString *)propertyName withArray:(NSArray *)array
@@ -395,22 +421,25 @@
     
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         id valueObject = [self initializedObjectForPropertyName:propertyName withData:obj];
-        if (valueObject != nil)
+        if (valueObject != nil) {
             [value addObject:valueObject];
+        }
     }];
     
     Class propertyClass = [self classForPropertyName:propertyName];
-    if ([propertyClass isSubclassOfClass:[NSMutableArray class]])
+    if ([propertyClass isSubclassOfClass:[NSMutableArray class]]) {
         [self setValue:value forKey:propertyName];
-    else
+    } else {
         [self setValue:[NSArray arrayWithArray:value] forKey:propertyName];
+    }
 }
 
 - (void)setValueForPropertyName:(NSString *)propertyName withObject:(id)object
 {
     id valueObject = [self initializedObjectForPropertyName:propertyName withData:object];
-    if (valueObject != nil)
+    if (valueObject != nil) {
         [self setValue:valueObject forKey:propertyName];
+    }
 }
 
 - (NSArray *)serializedArrayForPropertyName:(NSString *)propertyName withArray:(NSArray *)array
@@ -424,8 +453,9 @@
         }
         
         id valueObject = [self serializedObjectForPropertyName:propertyName withData:obj];
-        if (valueObject != nil)
+        if (valueObject != nil) {
             [serialiazedArray addObject:valueObject];
+        }
     }
     
     return serialiazedArray;
@@ -466,19 +496,22 @@
 
 + (Class)classForPropertyName:(NSString *)propertyName ofClass:(Class)objectClass
 {
-    if (propertyName == nil || [propertyName isEqualToString:@""])
+    if (propertyName == nil || [propertyName isEqualToString:@""]) {
         return [NSNull class];
+    }
     
     objc_property_t runtimeProperty = class_getProperty(objectClass, propertyName.UTF8String);
-    if (runtimeProperty == nil)
+    if (runtimeProperty == nil) {
         return [NSNull class];
+    }
     
     const char *runtimeAttributes = property_getAttributes(runtimeProperty);
     NSString *propertyAttributesString = [NSString stringWithUTF8String:runtimeAttributes];
     NSArray *propertyAttributesCollection = [propertyAttributesString componentsSeparatedByString:@","];
     NSString *propertyClassAttribute = [propertyAttributesCollection objectAtIndex:0];
-    if ([propertyClassAttribute length] == 2)
+    if ([propertyClassAttribute length] == 2) {
         return [NSObject class];
+    }
     
     NSString *propertyClass = [propertyClassAttribute substringFromIndex:1];
     NSString *class = [propertyClass substringWithRange:NSMakeRange(2, propertyClass.length - 3)];
@@ -495,4 +528,4 @@
 NSString * const CQKSerializableNSObjectDateFormat = @"yyyy-MM-dd'T'HH:mm:ss";
 NSString * const CQKSerializableNSObjectUUIDPropertyName = @"uuid";
 NSString * const CQKSerializableNSObjectUniqueIdPropertyName = @"uniqueId";
-NSString * const CQKSerializableNSObjectIDSerializedKey = @"Id";
+NSString * const CQKSerializableNSObjectIDPropertyName = @"id";

@@ -37,6 +37,34 @@ typedef enum : NSUInteger {
 } CQKSerializableNSObjectKeyStyle;
 
 /*!
+ @abstract      CQKSerializableNSObjectConfiguration
+ @discussion    Options controlling the serialization and logging of the
+                CQKSerializableNSObject class.
+ */
+@interface CQKSerializableNSObjectConfiguration : NSObject
+/*! @abstract   Allows for the overriding of the objects property key casing style. The default is CamelCase. */
+@property (nonatomic, assign) CQKSerializableNSObjectKeyStyle propertyKeyStyle;
+/*! @abstract   Allows for the overriding of the objects serialized key casing style. The default is TitleCase. */
+@property (nonatomic, assign) CQKSerializableNSObjectKeyStyle serializedKeyStyle;
+/*!
+ @abstract      serializedIDPropertyName
+ @discussion    Since 'id' is a reserved keyword in Objective-C, it cannot be used as a property name.
+                This method allows you to set a global change of a custom property name like 'uuid'
+                or 'uniqueId' to be used in place of 'id'. This allows for 'id' to be present in a
+                serialized object but be represented by a non-reserved property.
+                By default this is nil. When nil, a deserialized UUID will attempt to use the property
+                'uuid' and a deserialized integer will attempt to use the property 'uniqueId'.
+                e.g. (PropertyName) uuid = (I/i)d (SerializedKey)
+                e.g. (PropertyName) uniqueId = (I/i)d (SerializedKey)
+ */
+@property (nonatomic, strong) NSString *serializedIDPropertyName;
+/*! @abstract   Number formatter used for NSDate de/serialization. Default is CQKSerializableNSObjectDateFormat. */
+@property (nonatomic, strong) NSDateFormatter *serializedNSDateFormatter;
+/*! @abstract   Logs failures and errors to the console. Default is NO. */
+@property (nonatomic, assign) BOOL logActivity;
+@end
+
+/*!
  @abstract      CQKSerializableNSObjectProtocol
  @discussion    Defines methods that can be overridden on CQKSerializableNSObject
                 subclasses to customize the de/seriailization process. All of these methods have
@@ -95,6 +123,8 @@ typedef enum : NSUInteger {
                 objects to a dictionary/json string.
  */
 @interface CQKSerializableNSObject : NSObject <NSCoding, NSCopying, CQKSerializableNSObjectProtocol>
+
++ (CQKSerializableNSObjectConfiguration *)configuration;
 
 /*!
  @method    initWithDictionary:
@@ -171,38 +201,6 @@ typedef enum : NSUInteger {
 - (NSString *)json;
 
 /*!
- @method    setPropertyKeyStyle:
- @abstract  Allows for the overriding of the objects property key casing style.
-            The default is CamelCase.
- */
-+ (void)setPropertyKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle;
-
-/*!
- @method    setSerializedKeyStyle:
- @abstract  Allows for the overriding of the objects serialized key casing style.
-            The default is TitleCase.
- */
-+ (void)setSerializedKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle;
-
-/*!
- @method        setSerializedIDPropertyName:
- @discussion    Since 'id' is a reserved keyword in Objective-C, it cannot be used as a property name.
-                This method allows you to set a global change of a custom property name like 'uuid'
-                or 'uniqueId' to be used in place of 'id'. This allows for 'id' to be present in a 
-                serialized object but be represented by a non-reserved property.
-                e.g. (PropertyName) uuid = (I/i)d (SerializedKey)
-                e.g. (PropertyName) uniqueId = (I/i)d (SerializedKey)
- @param         propertyName Property name to be used in place of a matching 'id' serialized key.
- */
-+ (void)setSerializedIDPropertyName:(NSString *)propertyName;
-
-/*!
- @method    setLogActivity:
- @abstract  Logs failures and errors to the console. Default is NO.
- */
-+ (void)setLogActivity:(BOOL)logActivity;
-
-/*!
  @method    propertyNamesForClass:
  @abstract  Retrieves all '\@property' objects of a class.
  @param     objectClass The Class to retrieve properties.
@@ -224,4 +222,4 @@ typedef enum : NSUInteger {
 extern NSString * const CQKSerializableNSObjectDateFormat;
 extern NSString * const CQKSerializableNSObjectUUIDPropertyName;
 extern NSString * const CQKSerializableNSObjectUniqueIdPropertyName;
-extern NSString * const CQKSerializableNSObjectIDSerializedKey;
+extern NSString * const CQKSerializableNSObjectIDPropertyName;
