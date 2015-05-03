@@ -29,8 +29,9 @@
 + (UIStoryboard *)mainStoryboard
 {
     NSBundle *bundle = [NSBundle mainBundle];
-    if ([bundle.infoDictionary count] == 0)
+    if ([bundle.infoDictionary count] == 0) {
         bundle = [NSBundle bundleForClass:[self class]];
+    }
     
     UIStoryboard *main;
     @try {
@@ -59,8 +60,9 @@
 - (id)initFromStoryboard:(UIStoryboard *)storyboard withIdentifier:(NSString *)identifier
 {
     NSBundle *bundle = [NSBundle mainBundle];
-    if ([bundle.infoDictionary count] == 0)
+    if ([bundle.infoDictionary count] == 0) {
         bundle = [NSBundle bundleForClass:[self class]];
+    }
     
     id instance;
     
@@ -105,8 +107,9 @@
 - (id)initFromStoryboard:(UIStoryboard *)storyboard withIdentifier:(NSString *)identifier
 {
     NSBundle *bundle = [NSBundle mainBundle];
-    if ([bundle.infoDictionary count] == 0)
+    if ([bundle.infoDictionary count] == 0) {
         bundle = [NSBundle bundleForClass:[self class]];
+    }
     
     id instance;
     

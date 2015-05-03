@@ -106,8 +106,9 @@
 
 + (NSNumber *)currencyFromString:(NSString *)string
 {
-    if (![string hasPrefix:[[NSNumberFormatter currencyFormatter] currencySymbol]])
+    if (![string hasPrefix:[[NSNumberFormatter currencyFormatter] currencySymbol]]) {
         string = [NSString stringWithFormat:@"%@%@", [[NSNumberFormatter currencyFormatter] currencySymbol], string];
+    }
     
     return [[NSNumberFormatter currencyFormatter] numberFromString:string];
 }
@@ -132,8 +133,9 @@
 
 + (NSNumber *)percentFromString:(NSString *)string
 {
-    if (![string hasSuffix:[[NSNumberFormatter percentFormatter] percentSymbol]])
+    if (![string hasSuffix:[[NSNumberFormatter percentFormatter] percentSymbol]]) {
         string = [NSString stringWithFormat:@"%@%@", string, [[NSNumberFormatter percentFormatter] percentSymbol]];
+    }
     
     return [[NSNumberFormatter percentFormatter] numberFromString:string];
 }
