@@ -25,12 +25,11 @@
 #import <Foundation/Foundation.h>
 
 /*!
- @abstract      Casing styles for CQKSerializableNSObject properties.
- @discussion    By default, CamelCase is used for the property style and
-                TitleCase is used for the serialization style.
+ @abstract  Casing styles for CQKSerializableNSObject properties. (Default .MatchCase)
  */
 typedef enum : NSUInteger {
-    CQKSerializableNSObjectKeyStyleTitleCase = 0,
+    CQKSerializableNSObjectKeyStyleMatchCase = 0,
+    CQKSerializableNSObjectKeyStyleTitleCase,
     CQKSerializableNSObjectKeyStyleCamelCase,
     CQKSerializableNSObjectKeyStyleUpperCase,
     CQKSerializableNSObjectKeyStyleLowerCase
@@ -42,9 +41,9 @@ typedef enum : NSUInteger {
                 CQKSerializableNSObject class.
  */
 @interface CQKSerializableNSObjectConfiguration : NSObject
-/*! @abstract   Allows for the overriding of the objects property key casing style. The default is CamelCase. */
+/*! @abstract   Allows for the overriding of the objects property key casing style. */
 @property (nonatomic, assign) CQKSerializableNSObjectKeyStyle propertyKeyStyle;
-/*! @abstract   Allows for the overriding of the objects serialized key casing style. The default is TitleCase. */
+/*! @abstract   Allows for the overriding of the objects serialized key casing style. */
 @property (nonatomic, assign) CQKSerializableNSObjectKeyStyle serializedKeyStyle;
 /*!
  @abstract      serializedIDPropertyName

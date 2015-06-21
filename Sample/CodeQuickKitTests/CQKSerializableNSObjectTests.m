@@ -88,6 +88,9 @@ static NSString * const Serialized02 = @"{\"Address\":{\"Street\":\"100 William 
 
 + (void)setUp
 {
+    [[CQKSerializableNSObject configuration] setPropertyKeyStyle:CQKSerializableNSObjectKeyStyleCamelCase];
+    [[CQKSerializableNSObject configuration] setSerializedKeyStyle:CQKSerializableNSObjectKeyStyleTitleCase];
+    
     personId = [[NSUUID alloc] initWithUUIDString:@"BEA9C47F-B002-4E84-91AD-582D0D19541D"];
     personDateOfBirth = [[NSCalendar currentCalendar] dateWithEra:1 year:1982 month:11 day:5 hour:16 minute:0 second:0 nanosecond:0];
     addressZipcode = @(6000);

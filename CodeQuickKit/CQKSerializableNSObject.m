@@ -32,8 +32,8 @@
 {
     self = [super init];
     if (self != nil) {
-        [self setPropertyKeyStyle:CQKSerializableNSObjectKeyStyleCamelCase];
-        [self setSerializedKeyStyle:CQKSerializableNSObjectKeyStyleTitleCase];
+        [self setPropertyKeyStyle:CQKSerializableNSObjectKeyStyleMatchCase];
+        [self setSerializedKeyStyle:CQKSerializableNSObjectKeyStyleMatchCase];
         [self setSerializedIDPropertyName:nil];
         [self setSerializedNSDateFormatter:[[NSDateFormatter alloc] init]];
         [self.serializedNSDateFormatter setDateFormat:CQKSerializableNSObjectDateFormat];
@@ -83,6 +83,9 @@
     }
     
     switch (keyStyle) {
+        case CQKSerializableNSObjectKeyStyleMatchCase: {
+            return propertyName;
+        }
         case CQKSerializableNSObjectKeyStyleCamelCase: {
             return [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[propertyName substringToIndex:1] lowercaseString]];
         }
