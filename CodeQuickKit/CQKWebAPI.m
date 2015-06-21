@@ -23,6 +23,7 @@
  */
 
 #import "CQKWebAPI.h"
+#import "CQKLogger.h"
 
 @interface CQKWebAPI() <NSURLSessionTaskDelegate>
 @property (nonatomic, copy) NSURLSession *session;
@@ -146,15 +147,21 @@
 - (void)executeRequest:(NSMutableURLRequest *)request completion:(CQKWebAPICompletion)completion
 {
     if (request == nil) {
+        NSError *error = [CQKWebAPI invalidRequest];
         if (completion != nil) {
-            completion(0, nil, [CQKWebAPI invalidRequest]);
+            completion(0, nil, error);
+        } else {
+            [CQKLogger logError:error withFormat:@"Failed to execute request: %@", request];
         }
         return;
     }
     
     if (self.baseURL == nil) {
+        NSError *error = [CQKWebAPI invalidURL];
         if (completion != nil) {
-            completion(0, nil, [CQKWebAPI invalidURL]);
+            completion(0, nil, error);
+        } else {
+            [CQKLogger logError:error withFormat:@"Failed to execute request: %@", request];
         }
         return;
     }
@@ -169,6 +176,8 @@
                     } else {
                         completion(0, nil, error);
                     }
+                } else {
+                    [CQKLogger logError:error message:@"dataTaskWithRequest Failed"];
                 }
                 return;
             }
@@ -181,12 +190,14 @@
                     NSError *serializationError;
                     body = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&serializationError];
                     if (serializationError != nil) {
-                        NSLog(@"%@", serializationError);
+                        [CQKLogger logError:serializationError message:@"CQKWebAPI Serialization Failed"];
                     }
                 }
                 
                 if (completion != nil) {
                     completion((int)httpResponse.statusCode, body, error);
+                } else {
+                    [CQKLogger logError:error withFormat:@"Request complete: %d %@", (int)httpResponse.statusCode, body];
                 }
                 return;
             }
@@ -196,12 +207,16 @@
                 id body = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&serializationError];
                 if (completion != nil) {
                     completion((int)httpResponse.statusCode, body, serializationError);
+                } else {
+                    [CQKLogger logError:serializationError withFormat:@"Request complete: %d %@", (int)httpResponse.statusCode, body];
                 }
                 return;
             }
             
             if (completion != nil) {
                 completion((int)httpResponse.statusCode, responseData, error);
+            } else {
+                [CQKLogger logError:error withFormat:@"Request complete: %d %@", (int)httpResponse.statusCode, responseData];
             }
         });
     }] resume];

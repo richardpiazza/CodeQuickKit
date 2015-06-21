@@ -101,8 +101,9 @@
 {
     NSDictionary *userInfo = [notification userInfo];
     NSNumber *reasonForChange = [userInfo objectForKey:NSUbiquitousKeyValueStoreChangeReasonKey];
-    if (!reasonForChange)
+    if (!reasonForChange) {
         return;
+    }
     
     NSInteger reason = -1;
     reason = [reasonForChange integerValue];
@@ -120,10 +121,12 @@
                         if ([self.delegate ubiquityUserDefaults:self shouldReplaceExistingDictionary:defaultsKVDictionary withUbiquityDictionary:ubiquityKVDictionary]) {
                             [self defaultsSetDictionary:ubiquityKVDictionary forKey:key];
                         }
-                    } else
+                    } else {
                         [self defaultsSetDictionary:ubiquityKVDictionary forKey:key];
-                } else
+                    }
+                } else {
                     [self defaultsSetDictionary:ubiquityKVDictionary forKey:key];
+                }
             } else {
                 id ubiquityObject = [self ubiquityObjectForKey:key];
                 NSDictionary *defaultsKVDictionary = @{  CQKUbiquityUserDefaultsValueKey:ubiquityObject,
@@ -176,8 +179,9 @@
     [self defaultsSetDictionary:defaultsValue forKey:bundleKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    if (self.keyValueStore != nil)
+    if (self.keyValueStore != nil) {
         [self.keyValueStore setObject:defaultsValue forKey:bundleKey];
+    }
 }
 
 - (BOOL)boolForKey:(NSString *)key

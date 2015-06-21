@@ -24,6 +24,7 @@
 
 #import "CQKSerializableNSObject.h"
 #import <objc/runtime.h>
+#import "CQKLogger.h"
 
 @implementation CQKSerializableNSObjectConfiguration
 
@@ -36,7 +37,6 @@
         [self setSerializedIDPropertyName:nil];
         [self setSerializedNSDateFormatter:[[NSDateFormatter alloc] init]];
         [self.serializedNSDateFormatter setDateFormat:CQKSerializableNSObjectDateFormat];
-        [self setLogActivity:NO];
     }
     return self;
 }
@@ -261,9 +261,8 @@
             }
         }
         @catch (NSException *exception) {
-            if ([[CQKSerializableNSObject configuration] logActivity]) {
-                NSLog(@"%@ %s\nFailed to set Value: %@ For Key: %@ (%@)\nException: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, obj, key, propertyName, exception);
-            }
+            NSString *message = [NSString stringWithFormat:@"Failed to set value '%@' for key '%@': %@", obj, key, exception.reason];
+            [CQKLogger log:CQKLoggerLevelError message:message error:nil class:[self class]];
         }
         @finally {
             
@@ -302,9 +301,8 @@
             }
         }
         @catch (NSException *exception) {
-            if ([[CQKSerializableNSObject configuration] logActivity]) {
-                NSLog(@"%@ %s\nFailed to set Value: %@ For Key: %@ (%@)\nException: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, valueObject, propertyName, serializedKey, exception);
-            }
+            NSString *message = [NSString stringWithFormat:@"Failed to set value '%@' for key '%@': %@", valueObject, serializedKey, exception.reason];
+            [CQKLogger log:CQKLoggerLevelError message:message error:nil class:[self class]];
         }
         @finally {
             
@@ -328,9 +326,8 @@
     NSError *error = nil;
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     if (dictionary == nil || error != nil) {
-        if ([[CQKSerializableNSObject configuration] logActivity]) {
-            NSLog(@"%@ %s Failed with Data: %@; Error: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, data, error);
-        }
+        NSString *message = [NSString stringWithFormat:@"Failed to update with data '%@'", data];
+        [CQKLogger log:CQKLoggerLevelError message:message error:error class:[self class]];
         return;
     }
     
@@ -347,9 +344,8 @@
     NSError *error = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
     if (data == nil || error != nil) {
-        if ([[CQKSerializableNSObject configuration] logActivity]) {
-            NSLog(@"%@ %s Failed with dictionary: %@; Error: %@", NSStringFromClass([self class]), __PRETTY_FUNCTION__, dictionary, error);
-        }
+        NSString *message = [NSString stringWithFormat:@"Failed with dictionary '%@'", dictionary];
+        [CQKLogger log:CQKLoggerLevelError message:message error:error class:[self class]];
         return nil;
     }
     

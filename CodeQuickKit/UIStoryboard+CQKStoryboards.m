@@ -23,6 +23,7 @@
  */
 
 #import "UIStoryboard+CQKStoryboards.h"
+#import "CQKLogger.h"
 
 @implementation UIStoryboard (CQKStoryboards)
 
@@ -38,7 +39,7 @@
         main = [UIStoryboard storyboardWithName:@"Main" bundle:bundle];
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        [CQKLogger logError:nil withFormat:@"mainStoryboard exception: %@", exception.reason];
         return nil;
     }
     @finally {
@@ -72,7 +73,7 @@
             instance = [self initWithNibName:identifier bundle:bundle];
         }
         @catch (NSException *exception) {
-            NSLog(@"%@", exception);
+            [CQKLogger logError:nil withFormat:@"initFromStoryboard exception: %@", exception.reason];
             return nil;
         }
         @finally {
@@ -85,7 +86,7 @@
         instance = [storyboard instantiateViewControllerWithIdentifier:identifier];
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        [CQKLogger logError:nil withFormat:@"initFromStoryboard exception: %@", exception.reason];
         return nil;
     }
     @finally {
@@ -119,7 +120,7 @@
             instance = [self initWithNibName:identifier bundle:bundle];
         }
         @catch (NSException *exception) {
-            NSLog(@"%@", exception);
+            [CQKLogger logError:nil withFormat:@"initFromStoryboard exception: %@", exception.reason];
             return nil;
         }
         @finally {
@@ -132,7 +133,7 @@
         instance = [storyboard instantiateViewControllerWithIdentifier:identifier];
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        [CQKLogger logError:nil withFormat:@"initFromStorybard exception: %@", exception.reason];
         return nil;
     }
     @finally {
