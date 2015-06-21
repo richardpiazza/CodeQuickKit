@@ -148,6 +148,37 @@ static NSMutableArray *agents;
     [self logError:error message:message];
 }
 
++ (void)logException:(NSException *)exception
+{
+    [self logException:exception message:nil];
+}
+
++ (void)logException:(NSException *)exception message:(NSString *)message
+{
+    NSError *error = nil;
+    if (exception != nil) {
+        NSString *description = (exception.name != nil) ? exception.name : @"Unknown Exception";
+        NSString *reason = (exception.reason != nil) ? exception.reason : @"Unknown Reason";
+        NSDictionary *info = @{NSLocalizedDescriptionKey:description,
+                               NSLocalizedFailureReasonErrorKey:reason};
+        error = [NSError errorWithDomain:NSStringFromClass([self class]) code:0 userInfo:info];
+    }
+    
+    [self log:CQKLoggerLevelException message:message error:error class:[self class]];
+}
+
++ (void)logException:(NSException *)exception withFormat:(NSString *)format, ...
+{
+    NSString *message = nil;
+    
+    va_list args;
+    va_start(args, format);
+    message = [[NSString alloc] initWithFormat:format arguments:args];
+    va_end(args);
+    
+    [self logException:exception message:message];
+}
+
 + (void)addAgent:(id<CQKLoggerAgent>)agent
 {
     if (agent == nil) {
@@ -177,6 +208,7 @@ static NSMutableArray *agents;
 + (NSString *)stringForLoggerLevel:(CQKLoggerLevel)level
 {
     switch (level) {
+        case CQKLoggerLevelException: return CQKLoggerLevelExceptionValue;
         case CQKLoggerLevelError: return CQKLoggerLevelErrorValue;
         case CQKLoggerLevelWarn: return CQKLoggerLevelWarnValue;
         case CQKLoggerLevelInfo: return CQKLoggerLevelInfoValue;
@@ -190,3 +222,4 @@ NSString * const CQKLoggerLevelDebugValue = @"Debig";
 NSString * const CQKLoggerLevelInfoValue = @"Info";
 NSString * const CQKLoggerLevelWarnValue = @"Warn";
 NSString * const CQKLoggerLevelErrorValue = @"Error";
+NSString * const CQKLoggerLevelExceptionValue = @"Exception";

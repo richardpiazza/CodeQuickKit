@@ -1,7 +1,7 @@
-/*  
- *  CodeQuickKit.h
+/*
+ *  NSFileManager+CQKSandbox.h
  *
- *  Copyright (c) 2014 Richard Piazza
+ *  Copyright (c) 2015 Richard Piazza
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +22,14 @@
  *  SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-//! Project version number for CodeQuickKit.
-FOUNDATION_EXPORT double CodeQuickKitVersionNumber;
+@interface NSFileManager (CQKSandbox)
 
-//! Project version string for CodeQuickKit.
-FOUNDATION_EXPORT const unsigned char CodeQuickKitVersionString[];
+- (NSURL *)sandboxDirectory;
+- (NSURL *)sandboxDocumentsDirectory;
 
-// In this header, you should import all the public headers of your framework using statements like #import <CodeQuickKit/PublicHeader.h>
-#import <CodeQuickKit/CQKLogger.h>
-#import <CodeQuickKit/NSFileManager+CQKSandbox.h>
-#import <CodeQuickKit/NSNumberFormatter+CQKNumberFormatters.h>
-#import <CodeQuickKit/NSData+CQKCrypto.h>
-#import <CodeQuickKit/UIStoryboard+CQKStoryboards.h>
-#import <CodeQuickKit/CQKSerializableNSObject.h>
-#import <CodeQuickKit/CQKWebAPI.h>
+- (NSArray *)sandboxDocumentsWithExtension:(NSString *)extension error:(NSError *__autoreleasing *)error;
+- (NSArray *)sandboxDocumentsAtPath:(NSString *)path withExtension:(NSString *)extension error:(NSError *__autoreleasing *)error;
+
+@end

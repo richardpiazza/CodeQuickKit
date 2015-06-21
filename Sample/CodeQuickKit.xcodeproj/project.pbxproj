@@ -15,6 +15,8 @@
 		E169F37F198478D4005ED326 /* CQKSerializableNSObjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E169F37E198478D4005ED326 /* CQKSerializableNSObjectTests.m */; };
 		E16C36061B3656EB00EB3735 /* CQKLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E16C36041B3656EB00EB3735 /* CQKLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16C36071B3656EB00EB3735 /* CQKLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C36051B3656EB00EB3735 /* CQKLogger.m */; };
+		E16C360C1B369D1900EB3735 /* NSFileManager+CQKSandbox.h in Headers */ = {isa = PBXBuildFile; fileRef = E16C360A1B369D1900EB3735 /* NSFileManager+CQKSandbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E16C360D1B369D1900EB3735 /* NSFileManager+CQKSandbox.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C360B1B369D1900EB3735 /* NSFileManager+CQKSandbox.m */; };
 		E17D943A1AF5F29F0038E976 /* CQKUbiquityUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E17D94381AF5F29F0038E976 /* CQKUbiquityUserDefaults.h */; };
 		E17D943B1AF5F29F0038E976 /* CQKUbiquityUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E17D94391AF5F29F0038E976 /* CQKUbiquityUserDefaults.m */; };
 		E1822CCC1A29C3E7003A66AB /* UIStoryboard+CQKStoryboards.h in Headers */ = {isa = PBXBuildFile; fileRef = E1822CCA1A29C3E7003A66AB /* UIStoryboard+CQKStoryboards.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -132,6 +134,8 @@
 		E169F37E198478D4005ED326 /* CQKSerializableNSObjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKSerializableNSObjectTests.m; sourceTree = "<group>"; };
 		E16C36041B3656EB00EB3735 /* CQKLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQKLogger.h; sourceTree = "<group>"; };
 		E16C36051B3656EB00EB3735 /* CQKLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKLogger.m; sourceTree = "<group>"; };
+		E16C360A1B369D1900EB3735 /* NSFileManager+CQKSandbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+CQKSandbox.h"; sourceTree = "<group>"; };
+		E16C360B1B369D1900EB3735 /* NSFileManager+CQKSandbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+CQKSandbox.m"; sourceTree = "<group>"; };
 		E17D94381AF5F29F0038E976 /* CQKUbiquityUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQKUbiquityUserDefaults.h; sourceTree = "<group>"; };
 		E17D94391AF5F29F0038E976 /* CQKUbiquityUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKUbiquityUserDefaults.m; sourceTree = "<group>"; };
 		E1822CCA1A29C3E7003A66AB /* UIStoryboard+CQKStoryboards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIStoryboard+CQKStoryboards.h"; sourceTree = "<group>"; };
@@ -196,6 +200,8 @@
 				E17D94391AF5F29F0038E976 /* CQKUbiquityUserDefaults.m */,
 				E1E8A2021B351EEF007AD83D /* CQKWebAPI.h */,
 				E1E8A2031B351EEF007AD83D /* CQKWebAPI.m */,
+				E16C360A1B369D1900EB3735 /* NSFileManager+CQKSandbox.h */,
+				E16C360B1B369D1900EB3735 /* NSFileManager+CQKSandbox.m */,
 				E1C8446F19B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.h */,
 				E1C8447019B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.m */,
 				E1E8A2061B35251A007AD83D /* NSData+CQKCrypto.h */,
@@ -242,6 +248,7 @@
 			files = (
 				E16C36061B3656EB00EB3735 /* CQKLogger.h in Headers */,
 				E1E8A2041B351EEF007AD83D /* CQKWebAPI.h in Headers */,
+				E16C360C1B369D1900EB3735 /* NSFileManager+CQKSandbox.h in Headers */,
 				E1822CCC1A29C3E7003A66AB /* UIStoryboard+CQKStoryboards.h in Headers */,
 				E169F3631984783E005ED326 /* CodeQuickKit.h in Headers */,
 				E1E8A2081B35251A007AD83D /* NSData+CQKCrypto.h in Headers */,
@@ -364,6 +371,7 @@
 			files = (
 				E1C8447219B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.m in Sources */,
 				E1E8A2051B351EEF007AD83D /* CQKWebAPI.m in Sources */,
+				E16C360D1B369D1900EB3735 /* NSFileManager+CQKSandbox.m in Sources */,
 				E1822CCD1A29C3E7003A66AB /* UIStoryboard+CQKStoryboards.m in Sources */,
 				E16C36071B3656EB00EB3735 /* CQKLogger.m in Sources */,
 				E17D943B1AF5F29F0038E976 /* CQKUbiquityUserDefaults.m in Sources */,

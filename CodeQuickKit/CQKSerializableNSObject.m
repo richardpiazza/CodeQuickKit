@@ -342,14 +342,21 @@
     }
     
     NSError *error = nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
-    if (data == nil || error != nil) {
-        NSString *message = [NSString stringWithFormat:@"Failed with dictionary '%@'", dictionary];
-        [CQKLogger log:CQKLoggerLevelError message:message error:error class:[self class]];
-        return nil;
-    }
+    NSData *data = nil;
     
-    return data;
+    @try {
+        data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+        if (data == nil || error != nil) {
+            NSString *message = [NSString stringWithFormat:@"Failed with dictionary '%@'", dictionary];
+            [CQKLogger log:CQKLoggerLevelError message:message error:error class:[self class]];
+        }
+    }
+    @catch (NSException *exception) {
+        [CQKLogger logException:exception withFormat:@"Failed to serialized dictionary %@ for class %@", dictionary, [self class]];
+    }
+    @finally {
+        return data;
+    }
 }
 
 - (id)initWithJSON:(NSString *)json

@@ -28,7 +28,8 @@ typedef enum : NSUInteger {
     CQKLoggerLevelDebug = 0,
     CQKLoggerLevelInfo,
     CQKLoggerLevelWarn,
-    CQKLoggerLevelError
+    CQKLoggerLevelError,
+    CQKLoggerLevelException
 } CQKLoggerLevel;
 
 @protocol CQKLoggerAgent <NSObject>
@@ -59,6 +60,10 @@ typedef enum : NSUInteger {
 + (void)logError:(NSError *)error message:(NSString *)message;
 + (void)logError:(NSError *)error withFormat:(NSString *)format, ...;
 
++ (void)logException:(NSException *)exception;
++ (void)logException:(NSException *)exception message:(NSString *)message;
++ (void)logException:(NSException *)exception withFormat:(NSString *)format, ...;
+
 + (void)addAgent:(id<CQKLoggerAgent>)agent;
 + (void)removeAgent:(id<CQKLoggerAgent>)agent;
 
@@ -70,4 +75,5 @@ extern NSString * const CQKLoggerLevelDebugValue;
 extern NSString * const CQKLoggerLevelInfoValue;
 extern NSString * const CQKLoggerLevelWarnValue;
 extern NSString * const CQKLoggerLevelErrorValue;
+extern NSString * const CQKLoggerLevelExceptionValue;
 
