@@ -30,6 +30,8 @@ typedef void (^CQKAlertsCredentialCompletion)(NSString *selectedAction, BOOL was
 
 @interface UIAlertController (CQKAlerts)
 
++ (void)promptPresentedFromViewController:(UIViewController *)viewController withMessage:(NSString *)message action:(NSString *)action;
+
 + (void)alertPresentedFromViewController:(UIViewController *)viewController
                                withTitle:(NSString *)title
                                  message:(NSString *)message

@@ -39,20 +39,48 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
     }
     
     [_alertController dismissViewControllerAnimated:YES completion:nil];
-    _alertController = nil;
     
     if (_defaultCompletion != nil) {
         _defaultCompletion(_cancelAction, YES);
-        _defaultCompletion = nil;
     } else if (_textCompletion != nil) {
         _textCompletion(_cancelAction, YES, nil);
-        _textCompletion = nil;
     } else if (_credentialCompletion != nil) {
         _credentialCompletion(_cancelAction, YES, nil);
-        _credentialCompletion = nil;
     }
     
+    [self resetAlertController];
+}
+
++ (void)resetAlertController
+{
+    _defaultCompletion = nil;
+    _textCompletion = nil;
+    _credentialCompletion = nil;
     _cancelAction = nil;
+    _alertController = nil;
+}
+
++ (void)promptPresentedFromViewController:(UIViewController *)viewController withMessage:(NSString *)message action:(NSString *)action
+{
+    [self dismissAlertController];
+    
+    _alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    if (action == nil) {
+        action = @"OK";
+    }
+    
+    _cancelAction = action;
+    UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:action style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self resetAlertController];
+    }];
+    [_alertController addAction:cancelAlertAction];
+    
+    if (viewController == nil) {
+        viewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    }
+    
+    [viewController presentViewController:_alertController animated:YES completion:nil];
 }
 
 + (void)alertPresentedFromViewController:(UIViewController *)viewController
@@ -65,10 +93,6 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
 {
     [self dismissAlertController];
     
-    if (viewController == nil) {
-        viewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    }
-    
     _alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     
     if (cancelAction != nil) {
@@ -79,6 +103,7 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
             if (completion != nil) {
                 completion(cancelAction, YES);
             }
+            [self resetAlertController];
         }];
         [_alertController addAction:cancelAlertAction];
     }
@@ -88,6 +113,7 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
             if (completion != nil) {
                 completion(destructiveAction, NO);
             }
+            [self resetAlertController];
         }];
         [_alertController addAction:destructiveAlertAction];
     }
@@ -102,9 +128,14 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
                 if (completion != nil) {
                     completion(title, NO);
                 }
+                [self resetAlertController];
             }];
             [_alertController addAction:action];
         }
+    }
+    
+    if (viewController == nil) {
+        viewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
     }
     
     [viewController presentViewController:_alertController animated:YES completion:nil];
@@ -120,7 +151,47 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
 {
     [self dismissAlertController];
     
+    _alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     
+    if (cancelAction != nil) {
+        _cancelAction = cancelAction;
+        _textCompletion = completion;
+        
+        UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:cancelAction style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            if (completion != nil) {
+                completion(cancelAction, YES, nil);
+            }
+            [self resetAlertController];
+        }];
+        [_alertController addAction:cancelAlertAction];
+    }
+    
+    if (otherActions != nil) {
+        for (id title in otherActions) {
+            if (![[title class] isSubclassOfClass:[NSString class]]) {
+                continue;
+            }
+            
+            UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                if (completion != nil) {
+                    UITextField *textField = [_alertController.textFields firstObject];
+                    completion(title, NO, textField.text);
+                }
+                [self resetAlertController];
+            }];
+            [_alertController addAction:action];
+        }
+    }
+    
+    [_alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        [textField setText:initialText];
+    }];
+    
+    if (viewController == nil) {
+        viewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    }
+    
+    [viewController presentViewController:_alertController animated:YES completion:nil];
 }
 
 + (void)secureAlertPresentedFromViewController:(UIViewController *)viewController
@@ -133,7 +204,48 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
 {
     [self dismissAlertController];
     
+    _alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     
+    if (cancelAction != nil) {
+        _cancelAction = cancelAction;
+        _textCompletion = completion;
+        
+        UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:cancelAction style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            if (completion != nil) {
+                completion(cancelAction, YES, nil);
+            }
+            [self resetAlertController];
+        }];
+        [_alertController addAction:cancelAlertAction];
+    }
+    
+    if (otherActions != nil) {
+        for (id title in otherActions) {
+            if (![[title class] isSubclassOfClass:[NSString class]]) {
+                continue;
+            }
+            
+            UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                if (completion != nil) {
+                    UITextField *textField = [_alertController.textFields firstObject];
+                    completion(title, NO, textField.text);
+                }
+                [self resetAlertController];
+            }];
+            [_alertController addAction:action];
+        }
+    }
+    
+    [_alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        [textField setText:initialText];
+        [textField setSecureTextEntry:YES];
+    }];
+    
+    if (viewController == nil) {
+        viewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    }
+    
+    [viewController presentViewController:_alertController animated:YES completion:nil];
 }
 
 + (void)credentialAlertPresentedFromViewController:(UIViewController *)viewController
@@ -146,7 +258,56 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
 {
     [self dismissAlertController];
     
+    _alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     
+    if (cancelAction != nil) {
+        _cancelAction = cancelAction;
+        _credentialCompletion = completion;
+        
+        UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:cancelAction style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            if (completion != nil) {
+                completion(cancelAction, YES, nil);
+            }
+            [self resetAlertController];
+        }];
+        [_alertController addAction:cancelAlertAction];
+    }
+    
+    if (otherActions != nil) {
+        for (id title in otherActions) {
+            if (![[title class] isSubclassOfClass:[NSString class]]) {
+                continue;
+            }
+            
+            UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                if (completion != nil) {
+                    UITextField *username = [_alertController.textFields firstObject];
+                    UITextField *password = [_alertController.textFields lastObject];
+                    NSURLCredential *credentials = [NSURLCredential credentialWithUser:username.text password:password.text persistence:NSURLCredentialPersistenceNone];
+                    completion(title, NO, credentials);
+                }
+                [self resetAlertController];
+            }];
+            [_alertController addAction:action];
+        }
+    }
+    
+    [_alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        [textField setText:initialCredentials.user];
+        [textField setPlaceholder:@"Username"];
+    }];
+    
+    [_alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        [textField setText:initialCredentials.password];
+        [textField setPlaceholder:@"Password"];
+        [textField setSecureTextEntry:YES];
+    }];
+    
+    if (viewController == nil) {
+        viewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    }
+    
+    [viewController presentViewController:_alertController animated:YES completion:nil];
 }
 
 + (void)sheetPresentedFromViewController:(UIViewController *)viewController
@@ -160,7 +321,58 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
 {
     [self dismissAlertController];
     
+    _alertController = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
+    if (cancelAction != nil) {
+        _cancelAction = cancelAction;
+        _defaultCompletion = completion;
+        
+        UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:cancelAction style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            if (completion != nil) {
+                completion(cancelAction, YES);
+            }
+            [self resetAlertController];
+        }];
+        
+        [_alertController addAction:cancelAlertAction];
+    }
+    
+    if (destructiveAction != nil) {
+        UIAlertAction *destructiveAlertAction = [UIAlertAction actionWithTitle:destructiveAction style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+            if (completion != nil) {
+                completion(destructiveAction, NO);
+            }
+            [self resetAlertController];
+        }];
+        
+        [_alertController addAction:destructiveAlertAction];
+    }
+    
+    if (otherActions != nil) {
+        for (id title in otherActions) {
+            if (![[title class] isSubclassOfClass:[NSString class]]) {
+                continue;
+            }
+            
+            UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                if (completion != nil) {
+                    completion(title, NO);
+                }
+                [self resetAlertController];
+            }];
+            [_alertController addAction:action];
+        }
+    }
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [_alertController.popoverPresentationController setSourceView:sourceView];
+    }
+    
+    if (viewController == nil) {
+        viewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    }
+    
+    [viewController presentViewController:_alertController animated:YES completion:nil];
 }
 
 @end
