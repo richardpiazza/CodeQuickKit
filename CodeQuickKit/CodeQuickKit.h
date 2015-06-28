@@ -37,5 +37,6 @@ FOUNDATION_EXPORT const unsigned char CodeQuickKitVersionString[];
 #import <CodeQuickKit/NSFileManager+CQKSandbox.h>
 #import <CodeQuickKit/NSNumberFormatter+CQKNumberFormatters.h>
 #import <CodeQuickKit/NSData+CQKCrypto.h>
+#import <CodeQuickKit/NSDate+CQKDates.h>
 #import <CodeQuickKit/UIAlertController+CQKAlerts.h>
 #import <CodeQuickKit/UIStoryboard+CQKStoryboards.h>

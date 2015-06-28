@@ -1,5 +1,5 @@
 /*
- *  NSData+CQKCrypto.m
+ *  NSDate+CQKDates.h
  *
  *  Copyright (c) 2015 Richard Piazza
  *
@@ -22,15 +22,14 @@
  *  SOFTWARE.
  */
 
-#import "NSData+CQKCrypto.h"
+#import <Foundation/Foundation.h>
 
-@implementation NSData (CQKCrypto)
+@interface NSDate (CQKDates)
 
-- (NSData *)md5Hash
-{
-    unsigned char buffer[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(self.bytes, (unsigned int)self.length, buffer);
-    return [NSData dataWithBytes:buffer length:CC_MD5_DIGEST_LENGTH];
-}
+- (BOOL)isBefore:(NSDate *)date;
+- (BOOL)isAfter:(NSDate *)date;
+- (BOOL)isSame:(NSDate *)date;
+
+- (NSDate *)dateByAddingDays:(NSInteger)days;
 
 @end

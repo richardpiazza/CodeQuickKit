@@ -30,6 +30,8 @@
 		E1E8A2051B351EEF007AD83D /* CQKWebAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E8A2031B351EEF007AD83D /* CQKWebAPI.m */; };
 		E1E8A2081B35251A007AD83D /* NSData+CQKCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E1E8A2061B35251A007AD83D /* NSData+CQKCrypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1E8A2091B35251A007AD83D /* NSData+CQKCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E8A2071B35251A007AD83D /* NSData+CQKCrypto.m */; };
+		E1FC5CDA1B3CFFB7004D955B /* NSDate+CQKDates.h in Headers */ = {isa = PBXBuildFile; fileRef = E1FC5CD81B3CFFB7004D955B /* NSDate+CQKDates.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1FC5CDB1B3CFFB7004D955B /* NSDate+CQKDates.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FC5CD91B3CFFB7004D955B /* NSDate+CQKDates.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,6 +154,8 @@
 		E1E8A2031B351EEF007AD83D /* CQKWebAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKWebAPI.m; sourceTree = "<group>"; };
 		E1E8A2061B35251A007AD83D /* NSData+CQKCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CQKCrypto.h"; sourceTree = "<group>"; };
 		E1E8A2071B35251A007AD83D /* NSData+CQKCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CQKCrypto.m"; sourceTree = "<group>"; };
+		E1FC5CD81B3CFFB7004D955B /* NSDate+CQKDates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+CQKDates.h"; sourceTree = "<group>"; };
+		E1FC5CD91B3CFFB7004D955B /* NSDate+CQKDates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CQKDates.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +214,8 @@
 				E1C8447019B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.m */,
 				E1E8A2061B35251A007AD83D /* NSData+CQKCrypto.h */,
 				E1E8A2071B35251A007AD83D /* NSData+CQKCrypto.m */,
+				E1FC5CD81B3CFFB7004D955B /* NSDate+CQKDates.h */,
+				E1FC5CD91B3CFFB7004D955B /* NSDate+CQKDates.m */,
 				E1B9EB311B381FFB000F5737 /* UIAlertController+CQKAlerts.h */,
 				E1B9EB321B381FFB000F5737 /* UIAlertController+CQKAlerts.m */,
 				E1822CCA1A29C3E7003A66AB /* UIStoryboard+CQKStoryboards.h */,
@@ -256,6 +262,7 @@
 				E1E8A2041B351EEF007AD83D /* CQKWebAPI.h in Headers */,
 				E16C360C1B369D1900EB3735 /* NSFileManager+CQKSandbox.h in Headers */,
 				E1822CCC1A29C3E7003A66AB /* UIStoryboard+CQKStoryboards.h in Headers */,
+				E1FC5CDA1B3CFFB7004D955B /* NSDate+CQKDates.h in Headers */,
 				E1B9EB331B381FFB000F5737 /* UIAlertController+CQKAlerts.h in Headers */,
 				E169F3631984783E005ED326 /* CodeQuickKit.h in Headers */,
 				E1E8A2081B35251A007AD83D /* NSData+CQKCrypto.h in Headers */,
@@ -382,6 +389,7 @@
 				E1B9EB341B381FFB000F5737 /* UIAlertController+CQKAlerts.m in Sources */,
 				E1822CCD1A29C3E7003A66AB /* UIStoryboard+CQKStoryboards.m in Sources */,
 				E16C36071B3656EB00EB3735 /* CQKLogger.m in Sources */,
+				E1FC5CDB1B3CFFB7004D955B /* NSDate+CQKDates.m in Sources */,
 				E17D943B1AF5F29F0038E976 /* CQKUbiquityUserDefaults.m in Sources */,
 				E169F37C198478B5005ED326 /* CQKSerializableNSObject.m in Sources */,
 				E1E8A2091B35251A007AD83D /* NSData+CQKCrypto.m in Sources */,

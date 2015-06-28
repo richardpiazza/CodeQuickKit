@@ -41,6 +41,11 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL logToConsole;
 @end
 
+/*!
+ @abstract  CQKLogger
+            Provides an extensible logging class. Add a logging agent
+            to recieve all notifications from the CodeQuickKit
+ */
 @interface CQKLogger : NSObject
 
 + (CQKLoggerConfiguration *)configuration;

@@ -218,7 +218,7 @@ static NSMutableArray *agents;
 
 @end
 
-NSString * const CQKLoggerLevelDebugValue = @"Debig";
+NSString * const CQKLoggerLevelDebugValue = @"Debug";
 NSString * const CQKLoggerLevelInfoValue = @"Info";
 NSString * const CQKLoggerLevelWarnValue = @"Warn";
 NSString * const CQKLoggerLevelErrorValue = @"Error";
