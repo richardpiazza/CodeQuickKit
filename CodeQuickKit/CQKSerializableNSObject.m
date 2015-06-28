@@ -412,7 +412,12 @@
 {
     Class propertyClass = [self classForPropertyName:propertyName];
     
-    if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]]) {
+    if (propertyClass == NULL || [propertyClass isSubclassOfClass:[NSNull class]]) {
+        id valueObject = [self initializedObjectForPropertyName:propertyName withData:dictionary];
+        if (valueObject != nil) {
+            [self setValue:valueObject forKey:propertyName];
+        }
+    } else if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]]) {
         [self setValue:[[propertyClass alloc] initWithDictionary:dictionary] forKey:propertyName];
     } else if ([propertyClass isSubclassOfClass:[NSMutableDictionary class]]) {
         [self setValue:[dictionary mutableCopy] forKey:propertyName];
