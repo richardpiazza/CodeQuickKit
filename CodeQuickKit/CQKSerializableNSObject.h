@@ -59,6 +59,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *serializedIDPropertyName;
 /*! @abstract   Number formatter used for NSDate de/serialization. Default is CQKSerializableNSObjectDateFormat. */
 @property (nonatomic, strong) NSDateFormatter *serializedNSDateFormatter;
+@property (nonatomic, assign) BOOL verboseLogging;
 @end
 
 /*!

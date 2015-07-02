@@ -37,6 +37,7 @@
         [self setSerializedIDPropertyName:nil];
         [self setSerializedNSDateFormatter:[[NSDateFormatter alloc] init]];
         [self.serializedNSDateFormatter setDateFormat:CQKSerializableNSObjectDateFormat];
+        [self setVerboseLogging:NO];
     }
     return self;
 }
@@ -135,6 +136,7 @@
         }
         
     }
+    
     return self;
 }
 
@@ -176,8 +178,6 @@
                 return CQKSerializableNSObjectUniqueIdPropertyName;
             }
         }
-        
-        return nil;
     }
     
     return [self.class stringForPropertyName:serializedKey withKeyStyle:[[CQKSerializableNSObject configuration] propertyKeyStyle]];
@@ -251,6 +251,10 @@
         }
         
         if (![self respondsToSetterForPropertyName:propertyName]) {
+            if ([[CQKSerializableNSObject configuration] verboseLogging]) {
+                NSString *message = [NSString stringWithFormat:@"%s[%@] Responds to setter = NO", __PRETTY_FUNCTION__, propertyName];
+                [CQKLogger log:CQKLoggerLevelDebug message:message error:nil callingClass:[self class]];
+            }
             return;
         }
         
@@ -265,7 +269,7 @@
         }
         @catch (NSException *exception) {
             NSString *message = [NSString stringWithFormat:@"Failed to set value '%@' for key '%@': %@", obj, key, exception.reason];
-            [CQKLogger log:CQKLoggerLevelError message:message error:nil class:[self class]];
+            [CQKLogger log:CQKLoggerLevelException message:message error:nil callingClass:[self class]];
         }
         @finally {
             
@@ -280,11 +284,19 @@
     NSArray *properties = [self propertyNamesForClass];
     for (NSString *propertyName in properties) {
         if (![self respondsToSelector:NSSelectorFromString(propertyName)]) {
+            if ([[CQKSerializableNSObject configuration] verboseLogging]) {
+                NSString *message = [NSString stringWithFormat:@"%s[%@] Responds to selector = NO", __PRETTY_FUNCTION__, propertyName];
+                [CQKLogger log:CQKLoggerLevelDebug message:message error:nil callingClass:[self class]];
+            }
             continue;
         }
         
         id valueObject = [self valueForKey:propertyName];
         if (valueObject == nil) {
+            if ([[CQKSerializableNSObject configuration] verboseLogging]) {
+                NSString *message = [NSString stringWithFormat:@"%s[%@] value = nil", __PRETTY_FUNCTION__, propertyName];
+                [CQKLogger log:CQKLoggerLevelDebug message:message error:nil callingClass:[self class]];
+            }
             continue;
         }
         
@@ -305,7 +317,7 @@
         }
         @catch (NSException *exception) {
             NSString *message = [NSString stringWithFormat:@"Failed to set value '%@' for key '%@': %@", valueObject, serializedKey, exception.reason];
-            [CQKLogger log:CQKLoggerLevelError message:message error:nil class:[self class]];
+            [CQKLogger log:CQKLoggerLevelException message:message error:nil callingClass:[self class]];
         }
         @finally {
             
@@ -330,7 +342,7 @@
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     if (dictionary == nil || error != nil) {
         NSString *message = [NSString stringWithFormat:@"Failed to update with data '%@'", data];
-        [CQKLogger log:CQKLoggerLevelError message:message error:error class:[self class]];
+        [CQKLogger log:CQKLoggerLevelError message:message error:error callingClass:[self class]];
         return;
     }
     
@@ -351,11 +363,12 @@
         data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
         if (data == nil || error != nil) {
             NSString *message = [NSString stringWithFormat:@"Failed with dictionary '%@'", dictionary];
-            [CQKLogger log:CQKLoggerLevelError message:message error:error class:[self class]];
+            [CQKLogger log:CQKLoggerLevelError message:message error:error callingClass:[self class]];
         }
     }
     @catch (NSException *exception) {
-        [CQKLogger logException:exception withFormat:@"Failed to serialized dictionary %@ for class %@", dictionary, [self class]];
+        NSString *message = [NSString stringWithFormat:@"Failed to serialize dictionary %@", dictionary];
+        [CQKLogger log:CQKLoggerLevelException message:message error:nil callingClass:[self class]];
     }
     @finally {
         return data;
@@ -422,7 +435,10 @@
     } else if ([propertyClass isSubclassOfClass:[NSMutableDictionary class]]) {
         [self setValue:[dictionary mutableCopy] forKey:propertyName];
     } else {
-        [self setValue:dictionary forKey:propertyName];
+        id valueObject = [self initializedObjectForPropertyName:propertyName withData:dictionary];
+        if (valueObject != nil) {
+            [self setValue:valueObject forKey:propertyName];
+        }
     }
 }
 
@@ -502,7 +518,8 @@
 
 - (NSArray *)propertyNamesForClass
 {
-    return [CQKSerializableNSObject propertyNamesForClass:self.class];
+    NSArray *propertyNames = [CQKSerializableNSObject propertyNamesForClass:self.class];
+    return propertyNames;
 }
 
 + (Class)classForPropertyName:(NSString *)propertyName ofClass:(Class)objectClass
@@ -521,6 +538,23 @@
     NSArray *propertyAttributesCollection = [propertyAttributesString componentsSeparatedByString:@","];
     NSString *propertyClassAttribute = [propertyAttributesCollection objectAtIndex:0];
     if ([propertyClassAttribute length] == 2) {
+        // MAYBE A SWIFT CLASS?
+        NSString *type = [propertyClassAttribute substringFromIndex:1];
+        if ([type isEqualToString:@"q"]) {
+            return [NSNumber class]; //Int
+        } else if ([type isEqualToString:@"f"]) {
+            return [NSNumber class]; //Float
+        } else if ([type isEqualToString:@"B"]) {
+            return [NSNumber class]; //Boolean
+        } else if ([type isEqualToString:@"@"]) {
+            return [NSObject class];
+        }
+        
+        if ([[CQKSerializableNSObject configuration] verboseLogging]) {
+            NSString *message = [NSString stringWithFormat:@"%s[%@,%@]", __PRETTY_FUNCTION__, propertyName, propertyAttributesCollection];
+            [CQKLogger log:CQKLoggerLevelDebug message:message error:nil callingClass:[self class]];
+        }
+        
         return [NSObject class];
     }
     
@@ -531,7 +565,8 @@
 
 - (Class)classForPropertyName:(NSString *)propertyName
 {
-    return [CQKSerializableNSObject classForPropertyName:propertyName ofClass:self.class];
+    Class aClass = [CQKSerializableNSObject classForPropertyName:propertyName ofClass:self.class];
+    return aClass;
 }
 
 @end

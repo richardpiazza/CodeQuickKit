@@ -60,6 +60,38 @@
 }
 @end
 
+@interface Commit : CQKSerializableNSObject
+@property (nonatomic, strong) NSString *xCSCommitMessage;
+@end
+
+@implementation Commit
+
+@end
+
+@interface CommitResult : CQKSerializableNSObject
+@property (nonatomic, strong) NSMutableDictionary *commits;
+@end
+
+@implementation CommitResult
+
+@end
+
+@interface CommitResponse : CQKSerializableNSObject
+@property (nonatomic, strong) NSNumber *count;
+@property (nonatomic, strong) NSMutableArray *results;
+@end
+
+@implementation CommitResponse
+- (id<NSObject>)initializedObjectForPropertyName:(NSString *)propertyName withData:(id)data
+{
+    if ([propertyName isEqualToString:@"results"]) {
+        return [[CommitResult alloc] initWithDictionary:data];
+    }
+    
+    return [super initializedObjectForPropertyName:propertyName withData:data];
+}
+@end
+
 /*!
  @abstract      CQKSerializableNSObjectTests
  @discussion    When testing CQKSerializableNSObject classes, it is important to note
@@ -83,6 +115,7 @@ static NSString * const favoriteUrlGithub = @"http://www.github.com";
 static NSString * const favoriteUrlSocial = @"http://plus.google.com";
 static NSString * const Serialized01 = @"{\"Name\":\"Richard\",\"DateOfBirth\":\"1982-11-05T16:00:00\",\"Phone\":\"555-555-5555\",\"Address\":{\"Country\":\"Australia\",\"Street\":\"100 William Street\",\"City\":\"Perth\",\"State\":\"WA\",\"Zipcode\":6000},\"FavoriteURLs\":[\"http://www.apple.com\",\"http://www.github.com\",\"http://plus.google.com\"],\"Id\":\"BEA9C47F-B002-4E84-91AD-582D0D19541D\"}";
 static NSString * const Serialized02 = @"{\"Address\":{\"Street\":\"100 William Street\",\"Zipcode\":6000,\"City\":\"Perth\",\"State\":\"WA\",\"Country\":\"Australia\"},\"Name\":\"Richard\",\"Phone\":\"555-555-5555\",\"DateOfBirth\":\"1982-11-05T16:00:00\",\"FavoriteURLs\":[\"http://www.apple.com\",\"http://www.github.com\",\"http://plus.google.com\"],\"Id\":\"BEA9C47F-B002-4E84-91AD-582D0D19541D\"}";
+static NSString * const DictionaryWithDictionaryList = @"{\"count\":1,\"results\":[{\"commits\":{\"6139C8319FDE4527BFD4EA6334BA1CE5BC0DE9DF\":[{\"XCSCommitMessage\":\"Corrected Test Build\"}]}}]}";
 
 @implementation CQKSerializableNSObjectTests
 
@@ -150,6 +183,12 @@ static NSString * const Serialized02 = @"{\"Address\":{\"Street\":\"100 William 
         BOOL s03 = [[url absoluteString] isEqualToString:favoriteUrlSocial];
         XCTAssertTrue(s01 || s02 || s03);
     }];
+}
+
+- (void)testCommitDeserialization
+{
+    CommitResponse *response = [[CommitResponse alloc] initWithJSON:DictionaryWithDictionaryList];
+    XCTAssertNotNil(response);
 }
 
 @end

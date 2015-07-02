@@ -34,11 +34,12 @@ typedef enum : NSUInteger {
 
 @protocol CQKLoggerAgent <NSObject>
 @required
-- (void)log:(CQKLoggerLevel)level message:(NSString *)message error:(NSError *)error class:(__unsafe_unretained Class)callingClass;
+- (void)log:(CQKLoggerLevel)level message:(NSString *)message error:(NSError *)error callingClass:(__unsafe_unretained Class)callingClass;
 @end
 
 @interface CQKLoggerConfiguration : NSObject
-@property (nonatomic, assign) BOOL logToConsole;
+/*! @abstract   Sets the minimum level that will automatically log to console; default is .Debug */
+@property (nonatomic, assign) CQKLoggerLevel minimumConsoleLevel;
 @end
 
 /*!
@@ -50,7 +51,7 @@ typedef enum : NSUInteger {
 
 + (CQKLoggerConfiguration *)configuration;
 
-+ (void)log:(CQKLoggerLevel)level message:(NSString *)message error:(NSError *)error class:(__unsafe_unretained Class)callingClass;
++ (void)log:(CQKLoggerLevel)level message:(NSString *)message error:(NSError *)error callingClass:(__unsafe_unretained Class)callingClass;
 
 + (void)logDebug:(NSString *)message;
 + (void)logDebugWithFormat:(NSString *)format, ...;
