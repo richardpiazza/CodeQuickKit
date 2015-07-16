@@ -44,6 +44,7 @@
         [self.rfc1123DateFormatter  setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
         [self.rfc1123DateFormatter  setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
         [self setSession:[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil]];
+        [self setVerboseLogging:NO];
     }
     return self;
 }
@@ -227,15 +228,23 @@
 {
     if (challenge.previousFailureCount < 1) {
         NSURLCredential *credentials = [[NSURLCredential alloc] initWithUser:self.username password:self.password persistence:NSURLCredentialPersistenceForSession];
+        
+        if (self.verboseLogging) {
+            NSString *message = [NSString stringWithFormat:@"Providing Credentials (%@): %@", [task.originalRequest URL], credentials];
+            [CQKLogger log:CQKLoggerLevelInfo message:message error:challenge.error callingClass:[self class]];
+        }
+        
         if (completionHandler != nil) {
             completionHandler(NSURLSessionAuthChallengeUseCredential, credentials);
         }
         return;
     }
     
-    // Authentication Failed
-    [self setUsername:nil];
-    [self setPassword:nil];
+    if (self.verboseLogging) {
+        NSString *message = [NSString stringWithFormat:@"Canceled Authentication Challenge: %@", challenge.failureResponse];
+        [CQKLogger log:CQKLoggerLevelInfo message:message error:challenge.error callingClass:[self class]];
+    }
+    
     if (completionHandler != nil) {
         completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge, nil);
     }
