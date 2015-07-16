@@ -26,6 +26,21 @@
 
 @implementation NSDate (CQKDates)
 
++ (NSDate *)yesturday
+{
+    return [[NSDate date] dateByAddingDays:-1];
+}
+
++ (NSDate *)twoDaysAgo
+{
+    return [[NSDate date] dateByAddingDays:-2];
+}
+
++ (NSDate *)lastWeek
+{
+    return [[NSDate date] dateByAddingDays:-7];
+}
+
 - (BOOL)isBefore:(NSDate *)date
 {
     return ([self compare:date] == NSOrderedAscending);
@@ -39,6 +54,11 @@
 - (BOOL)isSame:(NSDate *)date
 {
     return ([self compare:date] == NSOrderedSame);
+}
+
+- (NSDate *)dateByAddingHours:(NSInteger)hours
+{
+    return [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitHour value:hours toDate:self options:0];
 }
 
 - (NSDate *)dateByAddingDays:(NSInteger)days

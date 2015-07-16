@@ -26,10 +26,23 @@
 
 @interface NSDate (CQKDates)
 
+/*! @abstract Provides the current datetime minus 24 hours. */
++ (NSDate *)yesturday;
+/*! @abstract Provides the current datetime minus 48 hours. */
++ (NSDate *)twoDaysAgo;
+/*! @abstract Provides the current datetime minus 7 days. */
++ (NSDate *)lastWeek;
+
+/*! @abstract Determines if the instance date is before the reference date. */
 - (BOOL)isBefore:(NSDate *)date;
+/*! @abstract Determines if the instance date is after the reference date. */
 - (BOOL)isAfter:(NSDate *)date;
+/*! @abstract Determines if the instance date is equal to the reference date. */
 - (BOOL)isSame:(NSDate *)date;
 
+/*! @abstract Uses NSCalendar to return the instance date mutated by the specified number of hours. */
+- (NSDate *)dateByAddingHours:(NSInteger)hours;
+/*! @abstract Uses NSCalendar to return the instance date mutated by the specified number of days. */
 - (NSDate *)dateByAddingDays:(NSInteger)days;
 
 @end
