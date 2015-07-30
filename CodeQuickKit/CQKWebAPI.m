@@ -24,6 +24,7 @@
 
 #import "CQKWebAPI.h"
 #import "CQKLogger.h"
+#import "NSData+CQKCrypto.h"
 
 @interface CQKWebAPI() <NSURLSessionTaskDelegate>
 @property (nonatomic, copy) NSURLSession *session;

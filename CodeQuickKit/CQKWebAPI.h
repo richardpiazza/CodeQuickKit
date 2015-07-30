@@ -23,7 +23,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "NSData+CQKCrypto.h"
 
 typedef void (^CQKWebAPICompletion)(int statusCode, id responseObject, NSError *error);
 

@@ -23,6 +23,7 @@
  */
 
 #import "NSData+CQKCrypto.h"
+#import <CommonCrypto/CommonDigest.h>
 
 @implementation NSData (CQKCrypto)
 
