@@ -43,17 +43,22 @@
 
 - (BOOL)isBefore:(NSDate *)date
 {
-    return ([self compare:date] == NSOrderedAscending);
+    return ([[NSCalendar currentCalendar] compareDate:self toDate:date toUnitGranularity:NSCalendarUnitSecond] == NSOrderedAscending);
 }
 
 - (BOOL)isAfter:(NSDate *)date
 {
-    return ([self compare:date] == NSOrderedDescending);
+    return ([[NSCalendar currentCalendar] compareDate:self toDate:date toUnitGranularity:NSCalendarUnitSecond] == NSOrderedDescending);
 }
 
 - (BOOL)isSame:(NSDate *)date
 {
-    return ([self compare:date] == NSOrderedSame);
+    return ([[NSCalendar currentCalendar] compareDate:self toDate:date toUnitGranularity:NSCalendarUnitSecond] == NSOrderedSame);
+}
+
+- (NSDate *)dateByAddingMinutes:(NSInteger)minutes
+{
+    return [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitMinute value:minutes toDate:self options:0];
 }
 
 - (NSDate *)dateByAddingHours:(NSInteger)hours
