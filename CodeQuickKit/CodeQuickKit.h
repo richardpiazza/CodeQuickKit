@@ -31,6 +31,7 @@ FOUNDATION_EXPORT double CodeQuickKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char CodeQuickKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <CodeQuickKit/PublicHeader.h>
+#import <CodeQuickKit/CQKCoreDataStack.h>
 #import <CodeQuickKit/CQKLogger.h>
 #import <CodeQuickKit/CQKSerializable.h>
 #import <CodeQuickKit/CQKSerializableNSManagedObject.h>
@@ -41,6 +42,5 @@ FOUNDATION_EXPORT const unsigned char CodeQuickKitVersionString[];
 #import <CodeQuickKit/NSData+CQKCrypto.h>
 #import <CodeQuickKit/NSDate+CQKDates.h>
 #import <CodeQuickKit/NSObject+CQKRuntime.h>
-#import <CodeQuickKit/NSManagedObjectContext+CQKInMemoryContext.h>
 #import <CodeQuickKit/UIAlertController+CQKAlerts.h>
 #import <CodeQuickKit/UIStoryboard+CQKStoryboards.h>

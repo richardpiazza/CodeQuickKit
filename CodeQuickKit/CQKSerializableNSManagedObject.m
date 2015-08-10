@@ -138,11 +138,14 @@
                 }
                 
                 Class relationshipAttributeClass = [self classOfEntityForRelationshipWithAttributeName:attributeName];
-                NSManagedObject *object = [[relationshipAttributeClass alloc] initIntoManagedObjectContext:self.managedObjectContext withDictionary:data];
-                if (object != nil) {
-                    NSSet *relationshipSet = [self valueForKey:attributeName];
-                    [self setValue:[relationshipSet setByAddingObject:object] forKey:attributeName];
-                }
+                
+                [(NSArray *)data enumerateObjectsUsingBlock:^(NSDictionary* relationshipObj, NSUInteger idx, BOOL *stop) {
+                    NSManagedObject *object = [[relationshipAttributeClass alloc] initIntoManagedObjectContext:self.managedObjectContext withDictionary:relationshipObj];
+                    if (object != nil) {
+                        NSSet *relationshipSet = [self valueForKey:attributeName];
+                        [self setValue:[relationshipSet setByAddingObject:object] forKey:attributeName];
+                    }
+                }];
             } else {
                 [self setValue:data forKey:attributeName];
             }
