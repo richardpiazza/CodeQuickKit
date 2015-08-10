@@ -1,7 +1,7 @@
-/*  
- *  CodeQuickKit.h
+/*
+ *  NSManagedObjectContext+CQKInMemoryContext.h
  *
- *  Copyright (c) 2014 Richard Piazza
+ *  Copyright (c) 2015 Richard Piazza
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -22,25 +22,24 @@
  *  SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-//! Project version number for CodeQuickKit.
-FOUNDATION_EXPORT double CodeQuickKitVersionNumber;
+/*! @abstract Provides an implementation of in memory core data stack (Usefull for testing). */
+@interface NSManagedObjectContext (CQKInMemoryContext)
 
-//! Project version string for CodeQuickKit.
-FOUNDATION_EXPORT const unsigned char CodeQuickKitVersionString[];
+@property (nonatomic, strong) NSPersistentStore *persistentStore;
+@property (nonatomic, strong) NSManagedObjectModel *managedObjectModel;
 
-// In this header, you should import all the public headers of your framework using statements like #import <CodeQuickKit/PublicHeader.h>
-#import <CodeQuickKit/CQKLogger.h>
-#import <CodeQuickKit/CQKSerializable.h>
-#import <CodeQuickKit/CQKSerializableNSManagedObject.h>
-#import <CodeQuickKit/CQKSerializableNSObject.h>
-#import <CodeQuickKit/CQKWebAPI.h>
-#import <CodeQuickKit/NSFileManager+CQKSandbox.h>
-#import <CodeQuickKit/NSNumberFormatter+CQKNumberFormatters.h>
-#import <CodeQuickKit/NSData+CQKCrypto.h>
-#import <CodeQuickKit/NSDate+CQKDates.h>
-#import <CodeQuickKit/NSObject+CQKRuntime.h>
-#import <CodeQuickKit/NSManagedObjectContext+CQKInMemoryContext.h>
-#import <CodeQuickKit/UIAlertController+CQKAlerts.h>
-#import <CodeQuickKit/UIStoryboard+CQKStoryboards.h>
++ (NSManagedObjectContext *)inMemoryContext;
++ (void)setInMemoryContext:(NSManagedObjectContext *)context;
+
+/*! @abstract Constructs an NSManagedObjectModel with the provided NSEntityDescriptions; passed to initWithModel:. */
+- (instancetype)initWithEntities:(NSArray *)entities;
+/*! @abstract Initializes a complete in-memory Core Data stack. */
+- (instancetype)initWithModel:(NSManagedObjectModel *)model;
+
+/*! @abstract Removes the persistent store from the coordinator and nils stack objects. */
+- (void)invalidate;
+
+@end
