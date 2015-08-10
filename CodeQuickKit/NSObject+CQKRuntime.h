@@ -1,7 +1,7 @@
-/*  
- *  CodeQuickKit.h
+/*
+ *  NSObject+CQKRuntime.h
  *
- *  Copyright (c) 2014 Richard Piazza
+ *  Copyright (c) 2015 Richard Piazza
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -22,25 +22,25 @@
  *  SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-//! Project version number for CodeQuickKit.
-FOUNDATION_EXPORT double CodeQuickKitVersionNumber;
+@interface NSObject (CQKRuntime)
 
-//! Project version string for CodeQuickKit.
-FOUNDATION_EXPORT const unsigned char CodeQuickKitVersionString[];
+/*!
+ @method    propertyNamesForClass:
+ @abstract  Retrieves all '\@property' objects of a class.
+ @param     objectClass The Class to retrieve properties.
+ @return    string List of property names.
+ */
++ (NSArray *)propertyNamesForClass:(Class)objectClass;
 
-// In this header, you should import all the public headers of your framework using statements like #import <CodeQuickKit/PublicHeader.h>
-#import <CodeQuickKit/CQKLogger.h>
-#import <CodeQuickKit/CQKSerializable.h>
-#import <CodeQuickKit/CQKSerializableNSManagedObject.h>
-#import <CodeQuickKit/CQKSerializableNSObject.h>
-#import <CodeQuickKit/CQKWebAPI.h>
-#import <CodeQuickKit/NSFileManager+CQKSandbox.h>
-#import <CodeQuickKit/NSNumberFormatter+CQKNumberFormatters.h>
-#import <CodeQuickKit/NSData+CQKCrypto.h>
-#import <CodeQuickKit/NSDate+CQKDates.h>
-#import <CodeQuickKit/NSObject+CQKRuntime.h>
-#import <CodeQuickKit/UIAlertController+CQKAlerts.h>
-#import <CodeQuickKit/UIStoryboard+CQKStoryboards.h>
-#import <CodeQuickKit/CodeQuickKit-Swift.h>
+/*!
+ @method    classForPropertyName:ofClass:
+ @abstract  Retrieved the Class for a specified propertyName of a specific class.
+ @param     propertyName An '\@property' on this class.
+ @param     objectClass The Class to inspect for the propertyName.
+ @return    Class for a given the given property with name; Defaults to NSNull.
+ */
++ (Class)classForPropertyName:(NSString *)propertyName ofClass:(Class)objectClass;
+
+@end

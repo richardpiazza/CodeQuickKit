@@ -25,7 +25,8 @@
 #import <Foundation/Foundation.h>
 
 typedef enum : NSUInteger {
-    CQKLoggerLevelDebug = 0,
+    CQKLoggerLevelVerbose = 0,
+    CQKLoggerLevelDebug,
     CQKLoggerLevelInfo,
     CQKLoggerLevelWarn,
     CQKLoggerLevelError,

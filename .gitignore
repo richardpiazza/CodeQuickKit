@@ -8,3 +8,16 @@
 
 
 *.xcuserstate
+
+*xcuserdata*
+*xcuserstate*
+*xcworkspace*
+*DS_Store*
+.DS_Store
+*.swp
+*~.nib
+
+build/
+pkg/
+
+Sample/CodeQuickKit.xcodeproj/project.xcworkspace/xcshareddata/CodeQuickKit.xccheckout

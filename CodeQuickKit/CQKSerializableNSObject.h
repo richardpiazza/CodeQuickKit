@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "CQKSerializable.h"
 
 /*!
  @abstract  Casing styles for CQKSerializableNSObject properties. (Default .MatchCase)
@@ -59,16 +60,17 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *serializedIDPropertyName;
 /*! @abstract   Number formatter used for NSDate de/serialization. Default is CQKSerializableNSObjectDateFormat. */
 @property (nonatomic, strong) NSDateFormatter *serializedNSDateFormatter;
-@property (nonatomic, assign) BOOL verboseLogging;
 @end
 
 /*!
- @abstract      CQKSerializableNSObjectProtocol
- @discussion    Defines methods that can be overridden on CQKSerializableNSObject
-                subclasses to customize the de/seriailization process. All of these methods have
-                a default implementation in this class.
+ @abstract      CQKSerializableNSObject
+ @discussion    Leverages the ObjC runtime to automatically de/serialize all \@property
+                objects to a dictionary/json string.
  */
-@protocol CQKSerializableNSObjectProtocol <NSObject>
+@interface CQKSerializableNSObject : NSObject <NSCoding, NSCopying, CQKSerializable>
+
++ (CQKSerializableNSObjectConfiguration *)configuration;
+
 /*!
  @method        propertyNameForSerializedKey:
  @abstract      Translates a serialized name key/casing to property name key/casing.
@@ -91,9 +93,9 @@ typedef enum : NSUInteger {
  @method        initializedObjectForPropertyName:withData:
  @abstract      Overrides the default initialization behavior for a given property.
  @discussion    Many serialized object types can be nativly deserialized to their
-                corresponding NSObject types. Objects that are a subclass of 
-                CQKSerializableNSObject will automatically be initialized.
-                Every element of an NSArray will be passed to this method.
+ corresponding NSObject types. Objects that are a subclass of
+ CQKSerializableNSObject will automatically be initialized.
+ Every element of an NSArray will be passed to this method.
  @param         propertyName The instance property name being processed.
  @param         data The data to be used to initialize the property.
  @return        The initialized object
@@ -104,116 +106,15 @@ typedef enum : NSUInteger {
  @method        serializedObjectForPropertyname:withData:
  @abstract      Overrides the default serialization behavior for a given property.
  @discussion    Several NSObject subclasses can nativley be serialized with the
-                NSJSONSerialization class. This method provieds the opportunity to
-                translate non supported formats to a supported one. Object that are
-                a subclass of CQKSerializableNSObject will automatically have their
-                NSDictionary representation returned.
+ NSJSONSerialization class. This method provieds the opportunity to
+ translate non supported formats to a supported one. Object that are
+ a subclass of CQKSerializableNSObject will automatically have their
+ NSDictionary representation returned.
  @param         propertyName The instance property name being processed.
  @param         data The property value to be serialized.
  @return        The serialized object.
  */
 - (id <NSObject>)serializedObjectForPropertyName:(NSString *)propertyName withData:(id)data;
-@end
-
-/*!
- @abstract      CQKSerializableNSObject
- @discussion    Leverages the ObjC runtime to automatically de/serialize all \@property
-                objects to a dictionary/json string.
- */
-@interface CQKSerializableNSObject : NSObject <NSCoding, NSCopying, CQKSerializableNSObjectProtocol>
-
-+ (CQKSerializableNSObjectConfiguration *)configuration;
-
-/*!
- @method    initWithDictionary:
- @abstract  Initializes a subclass of CQKSerializableNSObject.
- @param     dictionary The dictionary representation of the object.
- @return    The initialized object.
- */
-- (id <CQKSerializableNSObjectProtocol>)initWithDictionary:(NSDictionary *)dictionary;
-
-/*!
- @method    updateWithDictionary:
- @abstract  Sets/Updates properties with new/updated values.
- @param     dictionary The dictionary representation of the object.
- */
-- (void)updateWithDictionary:(NSDictionary *)dictionary;
-
-/*!
- @method        dictionary
- @abstract      Uses the CQKSerializableNSObjectProtocol methods to create a dictionary
-                representation of the object.
- @discussion    All values in the dictionary will be presented as one of four types:
-                NSString, NSNumber, NSArray, NSDictionary
-                Properties that are a subclass of CQKSerializableNSObject are automatically
-                presented as a NSDictionary object.
- @return        A NSDictionary representation of the object.
- */
-- (NSDictionary *)dictionary;
-
-/*!
- @method    initWithData
- @abstract  Initializes a subclass of
- @param     data A NSData serialized dictionary representing the object.
- @return    The initialized object.
- */
-- (id <CQKSerializableNSObjectProtocol>)initWithData:(NSData *)data;
-
-/*!
- @method    updateWithData
- @abstract  Parses the NSData object through the NSJSONSerialization class resulting
-            in a NSDictionary which will be passed to the updateWithDictionary method.
- @param     data A NSData serialized dictionary representing the object.
- */
-- (void)updateWithData:(NSData *)data;
-
-/*!
- @method        data
- @abstract      Parses the dictionary representation of this object through the
-                NSJSONSerialization class.
- @return        A UTF8 encoded data object.
- */
-- (NSData *)data;
-
-/*!
- @method    initWithJSON:
- @abstract  Passes a UTF8 json string to the updateWithJSON method.
- @param     json a UTF8 encoded JSON string
- @return    The initialized object.
- */
-- (id <CQKSerializableNSObjectProtocol>)initWithJSON:(NSString *)json;
-
-/*!
- @method    updateWithJSON:
- @abstract  Creates a NSData object from a UTF8 encoded string and passes it to the
-            updateWithData method.
- @param     json a UTF8 encoded JSON string
- */
-- (void)updateWithJSON:(NSString *)json;
-
-/*!
- @method    json
- @abstract  Creates a UTF8 encoded string of the NSData object.
- @return    A string representation of a JSON object.
- */
-- (NSString *)json;
-
-/*!
- @method    propertyNamesForClass:
- @abstract  Retrieves all '\@property' objects of a class.
- @param     objectClass The Class to retrieve properties.
- @return    string List of property names.
- */
-+ (NSArray *)propertyNamesForClass:(Class)objectClass;
-
-/*!
- @method    classForPropertyName:ofClass:
- @abstract  Retrieved the Class for a specified propertyName of a specific class.
- @param     propertyName An '\@property' on this class.
- @param     objectClass The Class to inspect for the propertyName.
- @return    Class for a given the given property with name; Defaults to NSNull.
- */
-+ (Class)classForPropertyName:(NSString *)propertyName ofClass:(Class)objectClass;
 
 @end
 
