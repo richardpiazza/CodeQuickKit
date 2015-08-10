@@ -219,7 +219,7 @@
             }];
         }
         
-        [dictionary setObject:serializableSet forKey:attributeName];
+        [dictionary setObject:serializedEntities forKey:attributeName];
     }];
     
     return dictionary;
