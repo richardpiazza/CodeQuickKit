@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E12AD1301B796F0000C9663F /* NSBundle+CQKBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = E12AD12E1B796F0000C9663F /* NSBundle+CQKBundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E12AD1311B796F0000C9663F /* NSBundle+CQKBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = E12AD12F1B796F0000C9663F /* NSBundle+CQKBundle.m */; };
 		E169F3631984783E005ED326 /* CodeQuickKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E169F3621984783E005ED326 /* CodeQuickKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E169F3691984783E005ED326 /* CodeQuickKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E169F35D1984783E005ED326 /* CodeQuickKit.framework */; };
 		E169F37B198478B5005ED326 /* CQKSerializableNSObject.h in Headers */ = {isa = PBXBuildFile; fileRef = E169F379198478B5005ED326 /* CQKSerializableNSObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -139,6 +141,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E12AD12E1B796F0000C9663F /* NSBundle+CQKBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+CQKBundle.h"; sourceTree = "<group>"; };
+		E12AD12F1B796F0000C9663F /* NSBundle+CQKBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+CQKBundle.m"; sourceTree = "<group>"; };
 		E169F35D1984783E005ED326 /* CodeQuickKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CodeQuickKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E169F3621984783E005ED326 /* CodeQuickKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodeQuickKit.h; sourceTree = "<group>"; };
 		E169F3681984783E005ED326 /* CodeQuickKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodeQuickKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -235,6 +239,8 @@
 				E17D94391AF5F29F0038E976 /* CQKUbiquityUserDefaults.m */,
 				E1E8A2021B351EEF007AD83D /* CQKWebAPI.h */,
 				E1E8A2031B351EEF007AD83D /* CQKWebAPI.m */,
+				E12AD12E1B796F0000C9663F /* NSBundle+CQKBundle.h */,
+				E12AD12F1B796F0000C9663F /* NSBundle+CQKBundle.m */,
 				E16C360A1B369D1900EB3735 /* NSFileManager+CQKSandbox.h */,
 				E16C360B1B369D1900EB3735 /* NSFileManager+CQKSandbox.m */,
 				E1C8446F19B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.h */,
@@ -306,6 +312,7 @@
 				E1822CCC1A29C3E7003A66AB /* UIStoryboard+CQKStoryboards.h in Headers */,
 				E1FC5CDA1B3CFFB7004D955B /* NSDate+CQKDates.h in Headers */,
 				E1B9EB331B381FFB000F5737 /* UIAlertController+CQKAlerts.h in Headers */,
+				E12AD1301B796F0000C9663F /* NSBundle+CQKBundle.h in Headers */,
 				E169F3631984783E005ED326 /* CodeQuickKit.h in Headers */,
 				E1AD0A621B78745500EE46DB /* CQKSerializable.h in Headers */,
 				E1E8A2081B35251A007AD83D /* NSData+CQKCrypto.h in Headers */,
@@ -438,6 +445,7 @@
 				E1FC5CDB1B3CFFB7004D955B /* NSDate+CQKDates.m in Sources */,
 				E17D943B1AF5F29F0038E976 /* CQKUbiquityUserDefaults.m in Sources */,
 				E169F37C198478B5005ED326 /* CQKSerializableNSObject.m in Sources */,
+				E12AD1311B796F0000C9663F /* NSBundle+CQKBundle.m in Sources */,
 				E1E8A2091B35251A007AD83D /* NSData+CQKCrypto.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

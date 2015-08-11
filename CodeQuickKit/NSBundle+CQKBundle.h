@@ -1,7 +1,7 @@
-/*  
- *  CodeQuickKit.h
+/*
+ *  NSBundle+CQKBundle.h
  *
- *  Copyright (c) 2014 Richard Piazza
+ *  Copyright (c) 2015 Richard Piazza
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -22,26 +22,24 @@
  *  SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-//! Project version number for CodeQuickKit.
-FOUNDATION_EXPORT double CodeQuickKitVersionNumber;
+/*! Provides first level access to typical bundle keys. */
+@interface NSBundle (CQKBundle)
 
-//! Project version string for CodeQuickKit.
-FOUNDATION_EXPORT const unsigned char CodeQuickKitVersionString[];
+@property (nonatomic, readonly) NSString *bundleName;
+@property (nonatomic, readonly) NSString *executableName;
+@property (nonatomic, readonly) NSString *appVersion;
+@property (nonatomic, readonly) NSString *buildNumber;
 
-// In this header, you should import all the public headers of your framework using statements like #import <CodeQuickKit/PublicHeader.h>
-#import <CodeQuickKit/CQKCoreDataStack.h>
-#import <CodeQuickKit/CQKLogger.h>
-#import <CodeQuickKit/CQKSerializable.h>
-#import <CodeQuickKit/CQKSerializableNSManagedObject.h>
-#import <CodeQuickKit/CQKSerializableNSObject.h>
-#import <CodeQuickKit/CQKWebAPI.h>
-#import <CodeQuickKit/NSBundle+CQKBundle.h>
-#import <CodeQuickKit/NSFileManager+CQKSandbox.h>
-#import <CodeQuickKit/NSNumberFormatter+CQKNumberFormatters.h>
-#import <CodeQuickKit/NSData+CQKCrypto.h>
-#import <CodeQuickKit/NSDate+CQKDates.h>
-#import <CodeQuickKit/NSObject+CQKRuntime.h>
-#import <CodeQuickKit/UIAlertController+CQKAlerts.h>
-#import <CodeQuickKit/UIStoryboard+CQKStoryboards.h>
+- (NSString *)bundleDescription;
+- (NSDictionary *)bundleDescriptionDictionary;
+- (NSData *)bundleDescriptionData;
+
+@end
+
+extern NSString * const CQKBundleNameBundleKey;
+extern NSString * const CQKExecutableNameBundleKey;
+extern NSString * const CQKAppVersionBundleKey;
+extern NSString * const CQKBuildNumberBundleKey;
+extern NSString * const CQKBundleIdentifierBundleKey;
