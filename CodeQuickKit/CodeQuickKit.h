@@ -36,6 +36,7 @@ FOUNDATION_EXPORT const unsigned char CodeQuickKitVersionString[];
 #import <CodeQuickKit/CQKSerializable.h>
 #import <CodeQuickKit/CQKSerializableNSManagedObject.h>
 #import <CodeQuickKit/CQKSerializableNSObject.h>
+#import <CodeQuickKit/CQKUbiquityNSFileManager.h>
 #import <CodeQuickKit/CQKWebAPI.h>
 #import <CodeQuickKit/NSBundle+CQKBundle.h>
 #import <CodeQuickKit/NSFileManager+CQKSandbox.h>

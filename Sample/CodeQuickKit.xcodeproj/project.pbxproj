@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		E12AD1301B796F0000C9663F /* NSBundle+CQKBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = E12AD12E1B796F0000C9663F /* NSBundle+CQKBundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E12AD1311B796F0000C9663F /* NSBundle+CQKBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = E12AD12F1B796F0000C9663F /* NSBundle+CQKBundle.m */; };
-		E12AD1381B79850100C9663F /* CQKUbiquityNSFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E12AD1361B79850100C9663F /* CQKUbiquityNSFileManager.h */; };
+		E12AD1381B79850100C9663F /* CQKUbiquityNSFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E12AD1361B79850100C9663F /* CQKUbiquityNSFileManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E12AD1391B79850100C9663F /* CQKUbiquityNSFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E12AD1371B79850100C9663F /* CQKUbiquityNSFileManager.m */; };
 		E169F3631984783E005ED326 /* CodeQuickKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E169F3621984783E005ED326 /* CodeQuickKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E169F3691984783E005ED326 /* CodeQuickKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E169F35D1984783E005ED326 /* CodeQuickKit.framework */; };
