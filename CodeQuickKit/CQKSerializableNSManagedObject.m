@@ -99,6 +99,19 @@
     return [NSNull class];
 }
 
+- (NSManagedObject *)initializedEntityOfClass:(Class)entityClass forAttributeName:(NSString *)attributeName withDictionary:(NSDictionary *)dictionary
+{
+    if (entityClass == [NSNull class]) {
+        return nil;
+    }
+    
+    if (![entityClass conformsToProtocol:NSProtocolFromString(@"CQKSerializable")]) {
+        return nil;
+    }
+    
+    return [[entityClass alloc] initIntoManagedObjectContext:self.managedObjectContext withDictionary:dictionary];
+}
+
 #pragma mark - CQKSerializable -
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary
 {
@@ -122,15 +135,9 @@
         
         @try {
             if ([dataClass isSubclassOfClass:[NSDictionary class]]) {
-                if ([attributeClass conformsToProtocol:NSProtocolFromString(@"CQKSerializable")]) {
-                    NSManagedObject *object = [[attributeClass alloc] initIntoManagedObjectContext:self.managedObjectContext withDictionary:data];
-                    if (object != nil) {
-                        [self setValue:object forKey:attributeName];
-                    }
-                } else if ([attributeClass isSubclassOfClass:[NSMutableDictionary class]]) {
-                    [self setValue:[NSMutableDictionary dictionaryWithDictionary:data] forKey:attributeName];
-                } else {
-                    [self setValue:data forKey:attributeName];
+                NSManagedObject *object = [self initializedEntityOfClass:attributeClass forAttributeName:attributeName withDictionary:data];
+                if (object != nil) {
+                    [self setValue:object forKey:attributeName];
                 }
             } else if ([dataClass isSubclassOfClass:[NSArray class]]) {
                 if (![attributeClass isSubclassOfClass:[NSSet class]]) {
@@ -140,7 +147,7 @@
                 Class relationshipAttributeClass = [self classOfEntityForRelationshipWithAttributeName:attributeName];
                 
                 [(NSArray *)data enumerateObjectsUsingBlock:^(NSDictionary* relationshipObj, NSUInteger idx, BOOL *stop) {
-                    NSManagedObject *object = [[relationshipAttributeClass alloc] initIntoManagedObjectContext:self.managedObjectContext withDictionary:relationshipObj];
+                    NSManagedObject *object = [self initializedEntityOfClass:relationshipAttributeClass forAttributeName:attributeName withDictionary:relationshipObj];
                     if (object != nil) {
                         NSSet *relationshipSet = [self valueForKey:attributeName];
                         [self setValue:[relationshipSet setByAddingObject:object] forKey:attributeName];

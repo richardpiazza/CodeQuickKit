@@ -58,4 +58,10 @@
  */
 - (Class)classOfEntityForRelationshipWithAttributeName:(NSString *)attributeName;
 
+/*!
+ @abstract      Allows for the overriding of managed object initialization.
+ @discussion    By default, if the class conforms to `CQKSerializable`, initIntoManagedObjectContext:withDictionary: is called.
+ */
+- (NSManagedObject *)initializedEntityOfClass:(Class)entityClass forAttributeName:(NSString *)attributeName withDictionary:(NSDictionary *)dictionary;
+
 @end
