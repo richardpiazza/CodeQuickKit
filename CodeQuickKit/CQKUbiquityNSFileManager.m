@@ -174,7 +174,7 @@ static NSString * const CQKUbiquityNSFileManagerDocumentsDirectoryKey = @"Docume
         NSDate *modifiedDate = [self.ubiquityContainerDocumentTimestamps objectForKey:url];
         if (modifiedDate == nil) {
             [modifiedDocuments addObject:documentURL];
-            [self.ubiquityContainerDocumentTimestamps setObject:modifiedDate forKey:url];
+            [self.ubiquityContainerDocumentTimestamps setObject:date forKey:url];
             return;
         }
         
