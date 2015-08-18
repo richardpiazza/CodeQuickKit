@@ -174,6 +174,7 @@
 - (void)updateWithDictionary:(NSDictionary *)dictionary
 {
     if (dictionary == nil || ![[dictionary class] isSubclassOfClass:[NSDictionary class]]) {
+        [CQKLogger log:CQKLoggerLevelWarn message:@"Could not updateWithDictinary:, dictionary is nil." error:nil callingClass:self.class];
         return;
     }
     
@@ -280,6 +281,7 @@
 {
     NSDictionary *dictionary = self.dictionary;
     if (dictionary == nil) {
+        [CQKLogger log:CQKLoggerLevelWarn message:@"Could not return NSData *data, self.dictionary is nil." error:nil callingClass:self.class];
         return nil;
     }
     
@@ -314,11 +316,13 @@
 - (void)updateWithJSON:(NSString *)json
 {
     if (json == nil || [json isEqualToString:@""]) {
+        [CQKLogger log:CQKLoggerLevelWarn message:@"Could not updateWithJson:, json is nil." error:nil callingClass:self.class];
         return;
     }
     
     NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
     if (data == nil) {
+        [CQKLogger log:CQKLoggerLevelWarn message:@"Could not updateWithJson:, encode json failed." error:nil callingClass:self.class];
         return;
     }
     
@@ -329,6 +333,7 @@
 {
     NSData *data = self.data;
     if (data == nil) {
+        [CQKLogger log:CQKLoggerLevelWarn message:@"Could not return NSString *json, self.data is nil." error:nil callingClass:self.class];
         return nil;
     }
     
