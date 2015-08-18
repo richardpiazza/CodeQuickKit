@@ -45,7 +45,6 @@
         [self.rfc1123DateFormatter  setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
         [self.rfc1123DateFormatter  setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
         [self setSession:[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil]];
-        [self setVerboseLogging:NO];
     }
     return self;
 }
@@ -153,7 +152,8 @@
         if (completion != nil) {
             completion(0, nil, error);
         } else {
-            [CQKLogger logError:error withFormat:@"Failed to execute request: %@", request];
+            NSString *message = [NSString stringWithFormat:@"Failed to execute request: %@", request];
+            [CQKLogger log:CQKLoggerLevelInfo message:message error:nil callingClass:self.class];
         }
         return;
     }
@@ -163,7 +163,8 @@
         if (completion != nil) {
             completion(0, nil, error);
         } else {
-            [CQKLogger logError:error withFormat:@"Failed to execute request: %@", request];
+            NSString *message = [NSString stringWithFormat:@"Failed to execute request: %@", request];
+            [CQKLogger log:CQKLoggerLevelInfo message:message error:nil callingClass:self.class];
         }
         return;
     }
@@ -179,7 +180,7 @@
                         completion(0, nil, error);
                     }
                 } else {
-                    [CQKLogger logError:error message:@"dataTaskWithRequest Failed"];
+                    [CQKLogger log:CQKLoggerLevelError message:@"dataTaskWithRequest Failed" error:error callingClass:self.class];
                 }
                 return;
             }
@@ -192,14 +193,15 @@
                     NSError *serializationError;
                     body = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&serializationError];
                     if (serializationError != nil) {
-                        [CQKLogger logError:serializationError message:@"CQKWebAPI Serialization Failed"];
+                        [CQKLogger log:CQKLoggerLevelError message:@"Serialization Failed" error:serializationError callingClass:self.class];
                     }
                 }
                 
                 if (completion != nil) {
                     completion((int)httpResponse.statusCode, body, error);
                 } else {
-                    [CQKLogger logError:error withFormat:@"Request complete: %d %@", (int)httpResponse.statusCode, body];
+                    NSString *message = [NSString stringWithFormat:@"Request complete: %d %@", (int)httpResponse.statusCode, body];
+                    [CQKLogger log:CQKLoggerLevelInfo message:message error:nil callingClass:self.class];
                 }
                 return;
             }
@@ -210,7 +212,8 @@
                 if (completion != nil) {
                     completion((int)httpResponse.statusCode, body, serializationError);
                 } else {
-                    [CQKLogger logError:serializationError withFormat:@"Request complete: %d %@", (int)httpResponse.statusCode, body];
+                    NSString *message = [NSString stringWithFormat:@"Request complete: %d %@", (int)httpResponse.statusCode, body];
+                    [CQKLogger log:CQKLoggerLevelInfo message:message error:nil callingClass:self.class];
                 }
                 return;
             }
@@ -218,7 +221,8 @@
             if (completion != nil) {
                 completion((int)httpResponse.statusCode, responseData, error);
             } else {
-                [CQKLogger logError:error withFormat:@"Request complete: %d %@", (int)httpResponse.statusCode, responseData];
+                NSString *message = [NSString stringWithFormat:@"Request complete: %d %@", (int)httpResponse.statusCode, responseData];
+                [CQKLogger log:CQKLoggerLevelInfo message:message error:nil callingClass:self.class];
             }
         });
     }] resume];
@@ -230,10 +234,8 @@
     if (challenge.previousFailureCount < 1) {
         NSURLCredential *credentials = [[NSURLCredential alloc] initWithUser:self.username password:self.password persistence:NSURLCredentialPersistenceForSession];
         
-        if (self.verboseLogging) {
-            NSString *message = [NSString stringWithFormat:@"Providing Credentials (%@): %@", [task.originalRequest URL], credentials];
-            [CQKLogger log:CQKLoggerLevelInfo message:message error:challenge.error callingClass:[self class]];
-        }
+        NSString *message = [NSString stringWithFormat:@"Providing Credentials (%@): %@", [task.originalRequest URL], credentials];
+        [CQKLogger log:CQKLoggerLevelVerbose message:message error:challenge.error callingClass:self.class];
         
         if (completionHandler != nil) {
             completionHandler(NSURLSessionAuthChallengeUseCredential, credentials);
@@ -241,10 +243,8 @@
         return;
     }
     
-    if (self.verboseLogging) {
-        NSString *message = [NSString stringWithFormat:@"Canceled Authentication Challenge: %@", challenge.failureResponse];
-        [CQKLogger log:CQKLoggerLevelInfo message:message error:challenge.error callingClass:[self class]];
-    }
+    NSString *message = [NSString stringWithFormat:@"Canceled Authentication Challenge: %@", challenge.failureResponse];
+    [CQKLogger log:CQKLoggerLevelVerbose message:message error:challenge.error callingClass:self.class];
     
     if (completionHandler != nil) {
         completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge, nil);
