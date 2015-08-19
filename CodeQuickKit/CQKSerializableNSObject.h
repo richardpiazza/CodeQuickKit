@@ -93,9 +93,9 @@ typedef enum : NSUInteger {
  @method        initializedObjectForPropertyName:withData:
  @abstract      Overrides the default initialization behavior for a given property.
  @discussion    Many serialized object types can be nativly deserialized to their
- corresponding NSObject types. Objects that are a subclass of
- CQKSerializableNSObject will automatically be initialized.
- Every element of an NSArray will be passed to this method.
+                corresponding NSObject types. Objects that are a subclass of
+                CQKSerializableNSObject will automatically be initialized.
+                Every element of an NSArray will be passed to this method.
  @param         propertyName The instance property name being processed.
  @param         data The data to be used to initialize the property.
  @return        The initialized object
@@ -106,10 +106,10 @@ typedef enum : NSUInteger {
  @method        serializedObjectForPropertyname:withData:
  @abstract      Overrides the default serialization behavior for a given property.
  @discussion    Several NSObject subclasses can nativley be serialized with the
- NSJSONSerialization class. This method provieds the opportunity to
- translate non supported formats to a supported one. Object that are
- a subclass of CQKSerializableNSObject will automatically have their
- NSDictionary representation returned.
+                NSJSONSerialization class. This method provieds the opportunity to
+                translate non supported formats to a supported one. Object that are
+                a subclass of CQKSerializableNSObject will automatically have their
+                NSDictionary representation returned.
  @param         propertyName The instance property name being processed.
  @param         data The property value to be serialized.
  @return        The serialized object.
