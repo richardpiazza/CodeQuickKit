@@ -35,6 +35,7 @@ typedef void (^CQKWebAPICompletion)(int statusCode, id responseObject, NSError *
 @property (nonatomic, copy, readonly) NSURL *baseURL;
 @property (nonatomic, copy, readonly) NSString *username;
 @property (nonatomic, copy, readonly) NSString *password;
+@property (nonatomic, assign) BOOL ignoreSSL;
 
 - (instancetype)initWithBaseURL:(NSURL *)baseURL username:(NSString *)username password:(NSString *)password;
 

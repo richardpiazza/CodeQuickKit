@@ -232,7 +232,13 @@
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler
 {
     if (challenge.previousFailureCount < 1) {
-        NSURLCredential *credentials = [[NSURLCredential alloc] initWithUser:self.username password:self.password persistence:NSURLCredentialPersistenceForSession];
+        NSURLCredential *credentials;
+        
+        if (challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust && self.ignoreSSL) {
+            credentials = [[NSURLCredential alloc] initWithTrust:challenge.protectionSpace.serverTrust];
+        } else {
+            credentials = [[NSURLCredential alloc] initWithUser:self.username password:self.password persistence:NSURLCredentialPersistenceForSession];
+        }
         
         NSString *message = [NSString stringWithFormat:@"Providing Credentials (%@): %@", [task.originalRequest URL], credentials];
         [CQKLogger log:CQKLoggerLevelVerbose message:message error:challenge.error callingClass:self.class];
