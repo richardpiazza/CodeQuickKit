@@ -30,18 +30,24 @@ class XcodeBuildWrapper
 		return getSDKWithName("macosx")
 	end
 	
-	def self.packageFrameworkSchemes(frameworkSchemes)
-		if (frameworkSchemes == nil)
-			raise "#{__method__} Failed; frameworkSchemes is nil."
+	def self.packageSchemeTarget(scheme, target, platform)
+		if (scheme == nil)
+			raise "#{__method__} Failed; scheme is nil."
+		end
+		if (target == nil)
+			raise "#{__method__} Failed; target is nil."
+		end
+		if (platform == nil)
+			raise "#{__method__} Failed; platform is nil."
 		end
 		
-		Dir.chdir('iOS') do
+		Dir.chdir(platform) do
 			if (!system("rm -r pkg/*"))
 				#ignore
 			end
 			
-			frameworkSchemes.each do |scheme|
-				framework_name = scheme + ".framework"
+			if (platform == "iOS")
+				framework_name = target + ".framework"
 				simulator_framework = "build/Release-iphonesimulator/#{framework_name}"
 				simulator_headers = "#{simulator_framework}/Headers"
 				iphone_framework = "build/Release-iphoneos/#{framework_name}"
@@ -56,15 +62,15 @@ class XcodeBuildWrapper
 					raise "#{__method__} failed for scheme #{scheme} - Unable to create headers directory"
 				end
 				
-				if (!system("xcodebuild ARCHS='armv7 armv7s arm64' -target '#{scheme}' -destination=build -configuration Release -sdk #{iOSSDK} clean build RUN_CLANG_STATIC_ANALYZER=NO"))
+				if (!system("xcodebuild ARCHS='armv7 armv7s arm64' -target '#{target}' -destination=build -configuration Release -sdk #{iOSSDK} clean build RUN_CLANG_STATIC_ANALYZER=NO"))
 					raise "#{__method__} failed for scheme #{scheme} - iOS Build Failed"
 				end
 				
-				if (!system("xcodebuild ARCHS='i386 x86_64' -target '#{scheme}' -destination=build -configuration Release -sdk #{simulatorSDK} clean build RUN_CLANG_STATIC_ANALYZER=NO"))
+				if (!system("xcodebuild ARCHS='i386 x86_64' -target '#{target}' -destination=build -configuration Release -sdk #{simulatorSDK} clean build RUN_CLANG_STATIC_ANALYZER=NO"))
 					raise "#{__method__} failed for scheme #{scheme} - Simulator Build Failed"
 				end
 				
-				if (!system("lipo -create '#{iphone_framework}/#{scheme}' '#{simulator_framework}/#{scheme}' -output '#{universal_framework}/#{scheme}'"))
+				if (!system("lipo -create '#{iphone_framework}/#{target}' '#{simulator_framework}/#{target}' -output '#{universal_framework}/#{target}'"))
 					raise "#{__method__} failed for scheme #{scheme} - Unable to build fat binary"
 				end
 				
@@ -91,22 +97,8 @@ class XcodeBuildWrapper
 				if (!system("zip -r 'pkg/frameworks.zip' #{universal_framework}"))
 					raise "#{__method__} failed for scheme #{scheme} - Unable to compress framework"
 				end
-			end
-		end
-	end
-	
-	def self.packageOSXFrameworkSchemes(frameworkSchemes)
-		if (frameworkSchemes == nil)
-			raise "#{__method__} Failed; frameworkSchemes is nil."
-		end
-		
-		Dir.chdir('OSX') do
-			if (!system("rm -r pkg/*"))
-				#ignore
-			end
-			
-			frameworkSchemes.each do |scheme|
-				framework_name = scheme + ".framework"
+			elsif (platform == "OSX")
+				framework_name = target + ".framework"
 				architecture_framework = "build/Release/#{framework_name}"
 				architecture_headers = "#{architecture_framework}/Headers"
 				universal_framework = "pkg/#{framework_name}"
@@ -118,11 +110,11 @@ class XcodeBuildWrapper
 					raise "#{__method__} failed for scheme #{scheme} - Unable to create headers directory"
 				end
 				
-				if (!system("xcodebuild -target '#{scheme}' -destination=build -configuration Release -sdk #{osxSDK} clean build RUN_CLANG_STATIC_ANALYZER=NO"))
+				if (!system("xcodebuild -target '#{target}' -destination=build -configuration Release -sdk #{osxSDK} clean build RUN_CLANG_STATIC_ANALYZER=NO"))
 					raise "#{__method__} failed for scheme #{scheme} - Simulator Build Failed"
 				end
 				
-				if (!system("lipo -create '#{architecture_framework}/#{scheme}' -output '#{universal_framework}/#{scheme}'"))
+				if (!system("lipo -create '#{architecture_framework}/#{target}' -output '#{universal_framework}/#{target}'"))
 					raise "#{__method__} failed for scheme #{scheme} - Unable to build fat binary"
 				end
 				
@@ -149,6 +141,8 @@ class XcodeBuildWrapper
 				if (!system("zip -r 'pkg/frameworks.zip' #{universal_framework}"))
 					raise "#{__method__} failed for scheme #{scheme} - Unable to compress framework"
 				end
+			else
+				raise "#{__method__} failed for scheme #{scheme} - Unknown platform #{platform}"
 			end
 		end
 	end
@@ -159,10 +153,9 @@ task :default do
 end
 
 namespace :xcode do
-	desc "Uses 'xcodebuild' and 'lipo' to create signed, universal Cocoa Touch frameworks"
+	desc "Uses 'xcodebuild' and 'lipo' to create signed, universal Cocoa frameworks"
 	task :packageFramework do
-		schemes = ["CodeQuickKit"]
-		XcodeBuildWrapper.packageFrameworkSchemes(schemes)
-		XcodeBuildWrapper.packageOSXFrameworkSchemes(schemes)
+		XcodeBuildWrapper.packageSchemeTarget("CodeQuickKitiOS", "CodeQuickKit", "iOS")
+		XcodeBuildWrapper.packageSchemeTarget("CodeQuickKitOSX", "CodeQuickKit", "OSX")
 	end
 end

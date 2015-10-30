@@ -285,7 +285,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E1D644901BE358A9006860FD /* Build configuration list for PBXProject "CodeQuickKit" */;
+			buildConfigurationList = E1D644901BE358A9006860FD /* Build configuration list for PBXProject "CodeQuickKitiOS" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -510,7 +510,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E1D644901BE358A9006860FD /* Build configuration list for PBXProject "CodeQuickKit" */ = {
+		E1D644901BE358A9006860FD /* Build configuration list for PBXProject "CodeQuickKitiOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1D644A81BE358A9006860FD /* Debug */,

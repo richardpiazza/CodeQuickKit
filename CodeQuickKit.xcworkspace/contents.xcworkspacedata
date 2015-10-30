@@ -99,9 +99,9 @@
       </FileRef>
    </Group>
    <FileRef
-      location = "group:/Users/richardpiazza/Documents/CodeQuickKit/OSX/CodeQuickKit.xcodeproj">
+      location = "group:/Users/richardpiazza/Documents/CodeQuickKit/OSX/CodeQuickKitOSX.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/richardpiazza/Documents/CodeQuickKit/iOS/CodeQuickKit.xcodeproj">
+      location = "group:/Users/richardpiazza/Documents/CodeQuickKit/iOS/CodeQuickKitiOS.xcodeproj">
    </FileRef>
 </Workspace>
