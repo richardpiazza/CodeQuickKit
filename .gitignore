@@ -8,9 +8,9 @@
 
 
 *.xcuserstate
-
-*xcuserdata*
 *xcuserstate*
+xcshareddata/
+xcuserdata/
 *DS_Store*
 .DS_Store
 *.swp
@@ -18,5 +18,3 @@
 
 build/
 pkg/
-
-Sample/CodeQuickKit.xcodeproj/project.xcworkspace/xcshareddata/CodeQuickKit.xccheckout

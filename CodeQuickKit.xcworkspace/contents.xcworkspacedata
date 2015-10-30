@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "group:CodeQuickKit"
+      name = "CodeQuickKit">
+      <FileRef
+         location = "group:CQKCoreDataStack.h">
+      </FileRef>
+      <FileRef
+         location = "group:CQKCoreDataStack.m">
+      </FileRef>
+      <FileRef
+         location = "group:CQKLogger.h">
+      </FileRef>
+      <FileRef
+         location = "group:CQKLogger.m">
+      </FileRef>
+      <FileRef
+         location = "group:CQKSerializable.h">
+      </FileRef>
+      <FileRef
+         location = "group:CQKSerializableNSManagedObject.h">
+      </FileRef>
+      <FileRef
+         location = "group:CQKSerializableNSManagedObject.m">
+      </FileRef>
+      <FileRef
+         location = "group:CQKSerializableNSObject.h">
+      </FileRef>
+      <FileRef
+         location = "group:CQKSerializableNSObject.m">
+      </FileRef>
+      <FileRef
+         location = "group:CQKUbiquityNSFileManager.h">
+      </FileRef>
+      <FileRef
+         location = "group:CQKUbiquityNSFileManager.m">
+      </FileRef>
+      <FileRef
+         location = "group:CQKUbiquityUserDefaults.h">
+      </FileRef>
+      <FileRef
+         location = "group:CQKUbiquityUserDefaults.m">
+      </FileRef>
+      <FileRef
+         location = "group:CQKWebAPI.h">
+      </FileRef>
+      <FileRef
+         location = "group:CQKWebAPI.m">
+      </FileRef>
+      <FileRef
+         location = "group:NSBundle+CQKBundle.h">
+      </FileRef>
+      <FileRef
+         location = "group:NSBundle+CQKBundle.m">
+      </FileRef>
+      <FileRef
+         location = "group:NSData+CQKCrypto.h">
+      </FileRef>
+      <FileRef
+         location = "group:NSData+CQKCrypto.m">
+      </FileRef>
+      <FileRef
+         location = "group:NSDate+CQKDates.h">
+      </FileRef>
+      <FileRef
+         location = "group:NSDate+CQKDates.m">
+      </FileRef>
+      <FileRef
+         location = "group:NSFileManager+CQKSandbox.h">
+      </FileRef>
+      <FileRef
+         location = "group:NSFileManager+CQKSandbox.m">
+      </FileRef>
+      <FileRef
+         location = "group:NSNumberFormatter+CQKNumberFormatters.h">
+      </FileRef>
+      <FileRef
+         location = "group:NSNumberFormatter+CQKNumberFormatters.m">
+      </FileRef>
+      <FileRef
+         location = "group:NSObject+CQKRuntime.h">
+      </FileRef>
+      <FileRef
+         location = "group:NSObject+CQKRuntime.m">
+      </FileRef>
+      <FileRef
+         location = "group:UIAlertController+CQKAlerts.h">
+      </FileRef>
+      <FileRef
+         location = "group:UIAlertController+CQKAlerts.m">
+      </FileRef>
+      <FileRef
+         location = "group:UIStoryboard+CQKStoryboards.h">
+      </FileRef>
+      <FileRef
+         location = "group:UIStoryboard+CQKStoryboards.m">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:/Users/richardpiazza/Documents/CodeQuickKit/OSX/CodeQuickKit.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/richardpiazza/Documents/CodeQuickKit/iOS/CodeQuickKit.xcodeproj">
+   </FileRef>
+</Workspace>
