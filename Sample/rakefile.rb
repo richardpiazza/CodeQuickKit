@@ -26,12 +26,16 @@ class XcodeBuildWrapper
 		return getSDKWithName("iphonesimulator")
 	end
 	
+	def self.getOSXSDK()
+		return getSDKWithName("macosx")
+	end
+	
 	def self.packageFrameworkSchemes(frameworkSchemes)
 		if (frameworkSchemes == nil)
 			raise "#{__method__} Failed; frameworkSchemes is nil."
 		end
 		
-		if (!system("rm -r pkg/*"))
+		if (!system("rm -r pkg/ios/*"))
 			#ignore
 		end
 		
@@ -41,7 +45,7 @@ class XcodeBuildWrapper
 			simulator_headers = "#{simulator_framework}/Headers"
 			iphone_framework = "build/Release-iphoneos/#{framework_name}"
 			iphone_headers = "#{iphone_framework}/Headers"
-			universal_framework = "pkg/#{framework_name}"
+			universal_framework = "pkg/ios/#{framework_name}"
 			universal_headers = "#{universal_framework}/Headers"
 			
 			iOSSDK = getiPhoneOSSDK()
@@ -83,7 +87,63 @@ class XcodeBuildWrapper
 				end
 			end
 			
-			if (!system("zip -r 'pkg/frameworks.zip' #{universal_framework}"))
+			if (!system("zip -r 'pkg/ios/frameworks.zip' #{universal_framework}"))
+				raise "#{__method__} failed for scheme #{scheme} - Unable to compress framework"
+			end
+		end
+	end
+	
+	def self.packageOSXFrameworkSchemes(frameworkSchemes)
+		if (frameworkSchemes == nil)
+			raise "#{__method__} Failed; frameworkSchemes is nil."
+		end
+		
+		if (!system("rm -r pkg/osx/*"))
+			#ignore
+		end
+		
+		frameworkSchemes.each do |scheme|
+			framework_name = scheme + ".framework"
+			architecture_framework = "build/Release/#{framework_name}"
+			architecture_headers = "#{architecture_framework}/Headers"
+			universal_framework = "pkg/osx/#{framework_name}"
+			universal_headers = "#{universal_framework}/Headers"
+			
+			osxSDK = getOSXSDK()
+			
+			if (!system("mkdir -p #{universal_headers}"))
+				raise "#{__method__} failed for scheme #{scheme} - Unable to create headers directory"
+			end
+			
+			if (!system("xcodebuild -target '#{scheme}' -destination=build -configuration Release -sdk #{osxSDK} clean build RUN_CLANG_STATIC_ANALYZER=NO"))
+				raise "#{__method__} failed for scheme #{scheme} - Simulator Build Failed"
+			end
+			
+			if (!system("lipo -create '#{architecture_framework}/#{scheme}' -output '#{universal_framework}/#{scheme}'"))
+				raise "#{__method__} failed for scheme #{scheme} - Unable to build fat binary"
+			end
+			
+			if (!system("cp #{architecture_framework}/Resources/*.plist #{universal_framework}/"))
+				raise "#{__method__} failed for scheme #{scheme} - Failed to copy Plist"
+			end
+			
+			if (!system("cp #{architecture_framework}/Resources/*.png #{universal_framework}/"))
+				#ignore
+			end
+			if (!system("cp #{architecture_framework}/Resources/*.ttf #{universal_framework}/"))
+				#ignore
+			end
+			if (!system("cp -r #{architecture_framework}/Resources/*.bundle #{universal_framework}/"))
+				#ignore
+			end
+			
+			if (File.directory?("#{architecture_headers}/"))
+				if (!system("cp -r #{architecture_headers}/ #{universal_headers}/"))
+					raise "#{__method__} failed for scheme #{scheme} - Unable to copy headers"
+				end
+			end
+			
+			if (!system("zip -r 'pkg/osx/frameworks.zip' #{universal_framework}"))
 				raise "#{__method__} failed for scheme #{scheme} - Unable to compress framework"
 			end
 		end
@@ -99,5 +159,7 @@ namespace :xcode do
 	task :packageFramework do
 		schemes = ["CodeQuickKit"]
 		XcodeBuildWrapper.packageFrameworkSchemes(schemes)
+		osxSchemes = ["CodeQuickKitOSX"]
+		XcodeBuildWrapper.packageOSXFrameworkSchemes(osxSchemes)
 	end
 end

@@ -1,6 +1,6 @@
 # CodeQuickKit
 
-An iOS Library simplifying some everyday tasks.
+An OS X / iOS Library for simplifying some everyday tasks.
 
 ### CQKCoreDataStack
 
@@ -67,8 +67,10 @@ Leverages the Objc runtime to determine the properties/class for a particular cl
 
 ### UIAlertController+CQKAlerts
 
+# iOS Only
 A singleton-backed implementation of UIAlertController that provideds block-based callbacks. (Yes, I know the new UIAlertController class has block support. But building an alert still takes a lot of code.)
 
 ### UIStoryboard+CQKStoryboards
 
+# iOS Only
 Categories and methods for the classes `UIStoryboard`, `UIViewController`, and `UITableViewController` that make it easier to work with Storyboards from code.

@@ -40,6 +40,35 @@
 		E1C8447119B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C8446F19B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C8447219B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C8447019B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.m */; };
 		E1C8447419B31DAA004F8742 /* CQKNSNumberFormattersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C8447319B31DAA004F8742 /* CQKNSNumberFormattersTests.m */; };
+		E1D644371BE3497C006860FD /* CodeQuickKitOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D644361BE3497C006860FD /* CodeQuickKitOSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D6444C1BE34A36006860FD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D6444B1BE34A36006860FD /* CoreData.framework */; };
+		E1D6444D1BE34B9C006860FD /* CQKCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = E1AD0A641B7894F300EE46DB /* CQKCoreDataStack.m */; };
+		E1D6444E1BE34B9C006860FD /* CQKLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C36051B3656EB00EB3735 /* CQKLogger.m */; };
+		E1D6444F1BE34B9C006860FD /* CQKSerializableNSManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E1AD0A5E1B784E9B00EE46DB /* CQKSerializableNSManagedObject.m */; };
+		E1D644501BE34B9C006860FD /* CQKSerializableNSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E169F37A198478B5005ED326 /* CQKSerializableNSObject.m */; };
+		E1D644511BE34B9C006860FD /* CQKUbiquityNSFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E12AD1371B79850100C9663F /* CQKUbiquityNSFileManager.m */; };
+		E1D644521BE34B9C006860FD /* CQKUbiquityUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E17D94391AF5F29F0038E976 /* CQKUbiquityUserDefaults.m */; };
+		E1D644531BE34B9C006860FD /* CQKWebAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E8A2031B351EEF007AD83D /* CQKWebAPI.m */; };
+		E1D644541BE34B9C006860FD /* NSBundle+CQKBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = E12AD12F1B796F0000C9663F /* NSBundle+CQKBundle.m */; };
+		E1D644551BE34B9C006860FD /* NSFileManager+CQKSandbox.m in Sources */ = {isa = PBXBuildFile; fileRef = E16C360B1B369D1900EB3735 /* NSFileManager+CQKSandbox.m */; };
+		E1D644561BE34B9C006860FD /* NSNumberFormatter+CQKNumberFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C8447019B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.m */; };
+		E1D644571BE34B9C006860FD /* NSData+CQKCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E8A2071B35251A007AD83D /* NSData+CQKCrypto.m */; };
+		E1D644581BE34B9C006860FD /* NSDate+CQKDates.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FC5CD91B3CFFB7004D955B /* NSDate+CQKDates.m */; };
+		E1D644591BE34B9C006860FD /* NSObject+CQKRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = E1AD0A571B784B9900EE46DB /* NSObject+CQKRuntime.m */; };
+		E1D6445A1BE3546B006860FD /* CQKCoreDataStack.h in Headers */ = {isa = PBXBuildFile; fileRef = E1AD0A631B7894F300EE46DB /* CQKCoreDataStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D6445B1BE3546B006860FD /* CQKLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E16C36041B3656EB00EB3735 /* CQKLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D6445C1BE3546B006860FD /* CQKSerializable.h in Headers */ = {isa = PBXBuildFile; fileRef = E1AD0A611B78745500EE46DB /* CQKSerializable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D6445D1BE3546B006860FD /* CQKSerializableNSManagedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = E1AD0A5D1B784E9B00EE46DB /* CQKSerializableNSManagedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D6445E1BE3546B006860FD /* CQKSerializableNSObject.h in Headers */ = {isa = PBXBuildFile; fileRef = E169F379198478B5005ED326 /* CQKSerializableNSObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D6445F1BE3546B006860FD /* CQKUbiquityNSFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E12AD1361B79850100C9663F /* CQKUbiquityNSFileManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D644601BE3546B006860FD /* CQKUbiquityUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E17D94381AF5F29F0038E976 /* CQKUbiquityUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D644611BE3546B006860FD /* CQKWebAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = E1E8A2021B351EEF007AD83D /* CQKWebAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D644621BE3546B006860FD /* NSBundle+CQKBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = E12AD12E1B796F0000C9663F /* NSBundle+CQKBundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D644631BE3546B006860FD /* NSFileManager+CQKSandbox.h in Headers */ = {isa = PBXBuildFile; fileRef = E16C360A1B369D1900EB3735 /* NSFileManager+CQKSandbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D644641BE3546B006860FD /* NSNumberFormatter+CQKNumberFormatters.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C8446F19B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D644651BE3546B006860FD /* NSData+CQKCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E1E8A2061B35251A007AD83D /* NSData+CQKCrypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D644661BE3546B006860FD /* NSDate+CQKDates.h in Headers */ = {isa = PBXBuildFile; fileRef = E1FC5CD81B3CFFB7004D955B /* NSDate+CQKDates.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D644671BE3546B006860FD /* NSObject+CQKRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = E1AD0A561B784B9900EE46DB /* NSObject+CQKRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1E8A2041B351EEF007AD83D /* CQKWebAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = E1E8A2021B351EEF007AD83D /* CQKWebAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1E8A2051B351EEF007AD83D /* CQKWebAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E8A2031B351EEF007AD83D /* CQKWebAPI.m */; };
 		E1E8A2081B35251A007AD83D /* NSData+CQKCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E1E8A2061B35251A007AD83D /* NSData+CQKCrypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -178,6 +207,10 @@
 		E1C8446F19B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumberFormatter+CQKNumberFormatters.h"; sourceTree = "<group>"; };
 		E1C8447019B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumberFormatter+CQKNumberFormatters.m"; sourceTree = "<group>"; };
 		E1C8447319B31DAA004F8742 /* CQKNSNumberFormattersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKNSNumberFormattersTests.m; sourceTree = "<group>"; };
+		E1D644341BE3497C006860FD /* CodeQuickKitOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CodeQuickKitOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1D644361BE3497C006860FD /* CodeQuickKitOSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodeQuickKitOSX.h; sourceTree = "<group>"; };
+		E1D644381BE3497C006860FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1D6444B1BE34A36006860FD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
 		E1E8A2021B351EEF007AD83D /* CQKWebAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQKWebAPI.h; sourceTree = "<group>"; };
 		E1E8A2031B351EEF007AD83D /* CQKWebAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKWebAPI.m; sourceTree = "<group>"; };
 		E1E8A2061B35251A007AD83D /* NSData+CQKCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CQKCrypto.h"; sourceTree = "<group>"; };
@@ -203,6 +236,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E1D644301BE3497C006860FD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1D6444C1BE34A36006860FD /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -211,6 +252,7 @@
 			children = (
 				E1AD0A5C1B784E7100EE46DB /* Frameworks */,
 				E169F35F1984783E005ED326 /* CodeQuickKit */,
+				E1D644351BE3497C006860FD /* CodeQuickKitOSX */,
 				E169F36C1984783E005ED326 /* CodeQuickKitTests */,
 				E1959996198A2A8E00DA348B /* Sample */,
 				E169F35E1984783E005ED326 /* Products */,
@@ -222,6 +264,7 @@
 			children = (
 				E169F35D1984783E005ED326 /* CodeQuickKit.framework */,
 				E169F3681984783E005ED326 /* CodeQuickKitTests.xctest */,
+				E1D644341BE3497C006860FD /* CodeQuickKitOSX.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -297,9 +340,19 @@
 		E1AD0A5C1B784E7100EE46DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E1D6444B1BE34A36006860FD /* CoreData.framework */,
 				E1AD0A5A1B784E4F00EE46DB /* CoreData.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E1D644351BE3497C006860FD /* CodeQuickKitOSX */ = {
+			isa = PBXGroup;
+			children = (
+				E1D644361BE3497C006860FD /* CodeQuickKitOSX.h */,
+				E1D644381BE3497C006860FD /* Info.plist */,
+			);
+			path = CodeQuickKitOSX;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,6 +379,28 @@
 				E17D943A1AF5F29F0038E976 /* CQKUbiquityUserDefaults.h in Headers */,
 				E169F37B198478B5005ED326 /* CQKSerializableNSObject.h in Headers */,
 				E1C8447119B2EC8E004F8742 /* NSNumberFormatter+CQKNumberFormatters.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1D644311BE3497C006860FD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1D644371BE3497C006860FD /* CodeQuickKitOSX.h in Headers */,
+				E1D6445A1BE3546B006860FD /* CQKCoreDataStack.h in Headers */,
+				E1D6445B1BE3546B006860FD /* CQKLogger.h in Headers */,
+				E1D6445C1BE3546B006860FD /* CQKSerializable.h in Headers */,
+				E1D6445D1BE3546B006860FD /* CQKSerializableNSManagedObject.h in Headers */,
+				E1D6445E1BE3546B006860FD /* CQKSerializableNSObject.h in Headers */,
+				E1D6445F1BE3546B006860FD /* CQKUbiquityNSFileManager.h in Headers */,
+				E1D644601BE3546B006860FD /* CQKUbiquityUserDefaults.h in Headers */,
+				E1D644611BE3546B006860FD /* CQKWebAPI.h in Headers */,
+				E1D644621BE3546B006860FD /* NSBundle+CQKBundle.h in Headers */,
+				E1D644631BE3546B006860FD /* NSFileManager+CQKSandbox.h in Headers */,
+				E1D644641BE3546B006860FD /* NSNumberFormatter+CQKNumberFormatters.h in Headers */,
+				E1D644651BE3546B006860FD /* NSData+CQKCrypto.h in Headers */,
+				E1D644661BE3546B006860FD /* NSDate+CQKDates.h in Headers */,
+				E1D644671BE3546B006860FD /* NSObject+CQKRuntime.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +455,24 @@
 			productReference = E169F3681984783E005ED326 /* CodeQuickKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		E1D644331BE3497C006860FD /* CodeQuickKitOSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1D644491BE3497C006860FD /* Build configuration list for PBXNativeTarget "CodeQuickKitOSX" */;
+			buildPhases = (
+				E1D6442F1BE3497C006860FD /* Sources */,
+				E1D644301BE3497C006860FD /* Frameworks */,
+				E1D644311BE3497C006860FD /* Headers */,
+				E1D644321BE3497C006860FD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CodeQuickKitOSX;
+			productName = CodeQuickKitOSX;
+			productReference = E1D644341BE3497C006860FD /* CodeQuickKitOSX.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -398,6 +491,10 @@
 						CreatedOnToolsVersion = 6.0;
 						TestTargetID = E169F35C1984783D005ED326;
 					};
+					E1D644331BE3497C006860FD = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = EX6YK9HKXA;
+					};
 				};
 			};
 			buildConfigurationList = E169F3571984783D005ED326 /* Build configuration list for PBXProject "CodeQuickKit" */;
@@ -414,6 +511,7 @@
 			targets = (
 				E169F35C1984783D005ED326 /* CodeQuickKit */,
 				E169F3671984783E005ED326 /* CodeQuickKitTests */,
+				E1D644331BE3497C006860FD /* CodeQuickKitOSX */,
 			);
 		};
 /* End PBXProject section */
@@ -427,6 +525,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E169F3661984783E005ED326 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1D644321BE3497C006860FD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -467,6 +572,26 @@
 				E1C8447419B31DAA004F8742 /* CQKNSNumberFormattersTests.m in Sources */,
 				E169F37F198478D4005ED326 /* CQKSerializableNSObjectTests.m in Sources */,
 				E169F37D198478B5005ED326 /* CQKSerializableNSObject.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1D6442F1BE3497C006860FD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1D6444D1BE34B9C006860FD /* CQKCoreDataStack.m in Sources */,
+				E1D6444E1BE34B9C006860FD /* CQKLogger.m in Sources */,
+				E1D6444F1BE34B9C006860FD /* CQKSerializableNSManagedObject.m in Sources */,
+				E1D644501BE34B9C006860FD /* CQKSerializableNSObject.m in Sources */,
+				E1D644511BE34B9C006860FD /* CQKUbiquityNSFileManager.m in Sources */,
+				E1D644521BE34B9C006860FD /* CQKUbiquityUserDefaults.m in Sources */,
+				E1D644531BE34B9C006860FD /* CQKWebAPI.m in Sources */,
+				E1D644541BE34B9C006860FD /* NSBundle+CQKBundle.m in Sources */,
+				E1D644551BE34B9C006860FD /* NSFileManager+CQKSandbox.m in Sources */,
+				E1D644561BE34B9C006860FD /* NSNumberFormatter+CQKNumberFormatters.m in Sources */,
+				E1D644571BE34B9C006860FD /* NSData+CQKCrypto.m in Sources */,
+				E1D644581BE34B9C006860FD /* NSDate+CQKDates.m in Sources */,
+				E1D644591BE34B9C006860FD /* NSObject+CQKRuntime.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,7 +701,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
+				SDKROOT = macosx;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -614,7 +739,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
+				SDKROOT = macosx;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -639,6 +764,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.richardpiazza.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -660,6 +786,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.richardpiazza.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -692,6 +819,57 @@
 			};
 			name = Release;
 		};
+		E1D644451BE3497C006860FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = CodeQuickKitOSX/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.richardpiazza.CodeQuickKitOSX;
+				PRODUCT_NAME = $TARGET_NAME;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		E1D644461BE3497C006860FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = CodeQuickKitOSX/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.richardpiazza.CodeQuickKitOSX;
+				PRODUCT_NAME = $TARGET_NAME;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -721,6 +899,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		E1D644491BE3497C006860FD /* Build configuration list for PBXNativeTarget "CodeQuickKitOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1D644451BE3497C006860FD /* Debug */,
+				E1D644461BE3497C006860FD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
