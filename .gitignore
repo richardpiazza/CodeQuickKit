@@ -6,11 +6,9 @@
 #
 # Pods/
 
-
+xcuserdata/
 *.xcuserstate
 *xcuserstate*
-xcshareddata/
-xcuserdata/
 *DS_Store*
 .DS_Store
 *.swp
