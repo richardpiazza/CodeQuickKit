@@ -146,13 +146,16 @@
                 
                 Class relationshipAttributeClass = [self classOfEntityForRelationshipWithAttributeName:attributeName];
                 
+                NSMutableSet *relationshipSet = [[self valueForKey:attributeName] mutableCopy];
+                
                 [(NSArray *)data enumerateObjectsUsingBlock:^(NSDictionary* relationshipObj, NSUInteger idx, BOOL *stop) {
                     NSManagedObject *object = [self initializedEntityOfClass:relationshipAttributeClass forAttributeName:attributeName withDictionary:relationshipObj];
-                    if (object != nil) {
-                        NSSet *relationshipSet = [self valueForKey:attributeName];
-                        [self setValue:[relationshipSet setByAddingObject:object] forKey:attributeName];
+                    if (object != nil && relationshipSet != nil) {
+                        [relationshipSet addObject:object];
                     }
                 }];
+                
+                [self setValue:relationshipSet forKey:attributeName];
             } else {
                 [self setValue:data forKey:attributeName];
             }
