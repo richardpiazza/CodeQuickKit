@@ -313,7 +313,8 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
 }
 
 + (void)sheetPresentedFromViewController:(nullable __kindof UIViewController *)viewController
-                          withSourceView:(nullable __kindof UIView *)sourceView
+                       withBarButtonItem:(nullable __kindof UIBarButtonItem *)barButtonItem
+                            orSourceView:(nullable __kindof UIView *)sourceView
                                    title:(nullable NSString *)title
                                  message:(nullable NSString *)message
                             cancelAction:(nullable NSString *)cancelAction
@@ -372,8 +373,10 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
     
     [viewController presentViewController:_alertController animated:YES completion:nil];
     
-    if (viewController.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+    if (_alertController.popoverPresentationController != nil) {
+        [_alertController.popoverPresentationController setBarButtonItem:barButtonItem];
         [_alertController.popoverPresentationController setSourceView:sourceView];
+        [_alertController.popoverPresentationController setSourceRect:sourceView.frame];
     }
 }
 

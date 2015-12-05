@@ -73,7 +73,8 @@ typedef void (^CQKAlertsCredentialCompletion)(NSString * _Nonnull selectedAction
 
 /// A configurable `.ActionSheet` style alert presented from the `viewController` or `sourceView` on Regular horizontal size classes
 + (void)sheetPresentedFromViewController:(nullable __kindof UIViewController *)viewController
-                          withSourceView:(nullable __kindof UIView *)sourceView
+                       withBarButtonItem:(nullable __kindof UIBarButtonItem *)barButtonItem
+                            orSourceView:(nullable __kindof UIView *)sourceView
                                    title:(nullable NSString *)title
                                  message:(nullable NSString *)message
                             cancelAction:(nullable NSString *)cancelAction
