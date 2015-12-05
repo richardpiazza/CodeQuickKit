@@ -24,53 +24,61 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^CQKAlertsDefaultCompletion)(NSString *selectedAction, BOOL wasCanceled);
-typedef void (^CQKAlertsTextCompletion)(NSString *selectedAction, BOOL wasCanceled, NSString *enteredText);
-typedef void (^CQKAlertsCredentialCompletion)(NSString *selectedAction, BOOL wasCanceled, NSURLCredential *enteredCredentials);
+typedef void (^CQKAlertsDefaultCompletion)(NSString * _Nonnull selectedAction, BOOL wasCanceled);
+typedef void (^CQKAlertsTextCompletion)(NSString * _Nonnull selectedAction, BOOL wasCanceled, NSString * _Nullable enteredText);
+typedef void (^CQKAlertsCredentialCompletion)(NSString * _Nonnull selectedAction, BOOL wasCanceled, NSURLCredential * _Nullable enteredCredentials);
 
 @interface UIAlertController (CQKAlerts)
 
-+ (void)promptPresentedFromViewController:(UIViewController *)viewController withMessage:(NSString *)message action:(NSString *)action;
+/// A basic message and single button `.Default` alert
++ (void)promptPresentedFromViewController:(nullable __kindof UIViewController *)viewController
+                              withMessage:(nullable NSString *)message
+                                   action:(nullable NSString *)action;
 
-+ (void)alertPresentedFromViewController:(UIViewController *)viewController
-                               withTitle:(NSString *)title
-                                 message:(NSString *)message
-                            cancelAction:(NSString *)cancelAction
-                       destructiveAction:(NSString *)destructiveAction
-                            otherActions:(NSArray *)otherActions
-                              completion:(CQKAlertsDefaultCompletion)completion;
+/// A configurable `.Default` alert
++ (void)alertPresentedFromViewController:(nullable __kindof UIViewController *)viewController
+                               withTitle:(nullable NSString *)title
+                                 message:(nullable NSString *)message
+                            cancelAction:(nullable NSString *)cancelAction
+                       destructiveAction:(nullable NSString *)destructiveAction
+                            otherActions:(nullable NSArray<NSString *> *)otherActions
+                              completion:(nullable CQKAlertsDefaultCompletion)completion;
 
-+ (void)textAlertPresentedFromViewController:(UIViewController *)viewController
-                                   withTitle:(NSString *)title
-                                     message:(NSString *)message
-                                 initialText:(NSString *)initialText
-                                cancelAction:(NSString *)cancelAction
-                                otherActions:(NSArray *)otherActions
-                                  completion:(CQKAlertsTextCompletion)completion;
+/// A configurable `.Default` style alert with a single `UITextField`
++ (void)textAlertPresentedFromViewController:(nullable __kindof UIViewController *)viewController
+                                   withTitle:(nullable NSString *)title
+                                     message:(nullable NSString *)message
+                                 initialText:(nullable NSString *)initialText
+                                cancelAction:(nullable NSString *)cancelAction
+                                otherActions:(nullable NSArray<NSString *> *)otherActions
+                                  completion:(nullable CQKAlertsTextCompletion)completion;
 
-+ (void)secureAlertPresentedFromViewController:(UIViewController *)viewController
-                                     withTitle:(NSString *)title
-                                       message:(NSString *)message
-                                   initialText:(NSString *)initialText
-                                  cancelAction:(NSString *)cancelAction
-                                  otherActions:(NSArray *)otherActions
-                                    completion:(CQKAlertsTextCompletion)completion;
+/// A configurable `.Default` style alert with a single secure `UITextField`
++ (void)secureAlertPresentedFromViewController:(nullable __kindof UIViewController *)viewController
+                                     withTitle:(nullable NSString *)title
+                                       message:(nullable NSString *)message
+                                   initialText:(nullable NSString *)initialText
+                                  cancelAction:(nullable NSString *)cancelAction
+                                  otherActions:(nullable NSArray<NSString *> *)otherActions
+                                    completion:(nullable CQKAlertsTextCompletion)completion;
 
-+ (void)credentialAlertPresentedFromViewController:(UIViewController *)viewController
-                                         withTitle:(NSString *)title
-                                           message:(NSString *)message
-                                initialCredentials:(NSURLCredential *)initialCredentials
-                                      cancelAction:(NSString *)cancelAction
-                                      otherActions:(NSArray *)otherActions
-                                         compltion:(CQKAlertsCredentialCompletion)completion;
+/// A configurable `.Default` style alert with two `UITextField`s, the second of which is secure
++ (void)credentialAlertPresentedFromViewController:(nullable __kindof UIViewController *)viewController
+                                         withTitle:(nullable NSString *)title
+                                           message:(nullable NSString *)message
+                                initialCredentials:(nullable NSURLCredential *)initialCredentials
+                                      cancelAction:(nullable NSString *)cancelAction
+                                      otherActions:(nullable NSArray<NSString *> *)otherActions
+                                         compltion:(nullable CQKAlertsCredentialCompletion)completion;
 
-+ (void)sheetPresentedFromViewController:(UIViewController *)viewController
-                          withSourceView:(UIView *)sourceView
-                                   title:(NSString *)title
-                                 message:(NSString *)message
-                            cancelAction:(NSString *)cancelAction
-                       destructiveAction:(NSString *)destructiveAction
-                            otherActions:(NSArray *)otherActions
-                              completion:(CQKAlertsDefaultCompletion)completion;
+/// A configurable `.ActionSheet` style alert presented from the `viewController` or `sourceView` on Regular horizontal size classes
++ (void)sheetPresentedFromViewController:(nullable __kindof UIViewController *)viewController
+                          withSourceView:(nullable __kindof UIView *)sourceView
+                                   title:(nullable NSString *)title
+                                 message:(nullable NSString *)message
+                            cancelAction:(nullable NSString *)cancelAction
+                       destructiveAction:(nullable NSString *)destructiveAction
+                            otherActions:(nullable NSArray<NSString *> *)otherActions
+                              completion:(nullable CQKAlertsDefaultCompletion)completion;
 
 @end

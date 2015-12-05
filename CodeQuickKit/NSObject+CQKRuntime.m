@@ -29,7 +29,7 @@
 
 @implementation NSObject (CQKRuntime)
 
-+ (NSArray *)propertyNamesForClass:(Class)objectClass
++ (nonnull NSArray<NSString *> *)propertyNamesForClass:(nonnull Class)objectClass
 {
     NSMutableArray *properties = [NSMutableArray array];
     
@@ -44,7 +44,9 @@
         objc_property_t runtimeProperty = runtimeProperties[i];
         const char *runtimeName = property_getName(runtimeProperty);
         NSString *propertyName = [NSString stringWithUTF8String:runtimeName];
-        [properties addObject:propertyName];
+        if (propertyName != nil) {
+            [properties addObject:propertyName];
+        }
     }
     free(runtimeProperties);
     
@@ -56,13 +58,13 @@
     return properties;
 }
 
-+ (Class)classForPropertyName:(NSString *)propertyName ofClass:(Class)objectClass
++ (nonnull Class)classForPropertyName:(nonnull NSString *)propertyName ofClass:(nonnull Class)objectClass
 {
-    if (propertyName == nil || [propertyName isEqualToString:@""]) {
-        NSString *message = @"Could not determine property name class: propertyName is nil";
-        [CQKLogger log:CQKLoggerLevelDebug message:message error:nil callingClass:self.class];
-        return [NSNull class];
-    }
+//    if (propertyName == nil || [propertyName isEqualToString:@""]) {
+//        NSString *message = @"Could not determine property name class: propertyName is nil";
+//        [CQKLogger log:CQKLoggerLevelDebug message:message error:nil callingClass:self.class];
+//        return [NSNull class];
+//    }
     
     objc_property_t runtimeProperty = class_getProperty(objectClass, propertyName.UTF8String);
     if (runtimeProperty == nil) {

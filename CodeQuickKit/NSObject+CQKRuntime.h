@@ -32,7 +32,7 @@
  @param     objectClass The Class to retrieve properties.
  @return    string List of property names.
  */
-+ (NSArray *)propertyNamesForClass:(Class)objectClass;
++ (nonnull NSArray<NSString *> *)propertyNamesForClass:(nonnull Class)objectClass;
 
 /*!
  @method    classForPropertyName:ofClass:
@@ -41,6 +41,6 @@
  @param     objectClass The Class to inspect for the propertyName.
  @return    Class for a given the given property with name; Defaults to NSNull.
  */
-+ (Class)classForPropertyName:(NSString *)propertyName ofClass:(Class)objectClass;
++ (nonnull Class)classForPropertyName:(nonnull NSString *)propertyName ofClass:(nonnull Class)objectClass;
 
 @end

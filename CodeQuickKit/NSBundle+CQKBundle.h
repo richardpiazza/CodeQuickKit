@@ -28,6 +28,7 @@
 @interface NSBundle (CQKBundle)
 
 @property (nonatomic, readonly) NSString *bundleName;
+@property (nonatomic, readonly) NSString *bundleDisplayName;
 @property (nonatomic, readonly) NSString *executableName;
 @property (nonatomic, readonly) NSString *appVersion;
 @property (nonatomic, readonly) NSString *buildNumber;
@@ -39,6 +40,7 @@
 @end
 
 extern NSString * const CQKBundleNameBundleKey;
+extern NSString * const CQKBundleDisplayNameBundleKey;
 extern NSString * const CQKExecutableNameBundleKey;
 extern NSString * const CQKAppVersionBundleKey;
 extern NSString * const CQKBuildNumberBundleKey;

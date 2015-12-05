@@ -60,7 +60,9 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
     _alertController = nil;
 }
 
-+ (void)promptPresentedFromViewController:(UIViewController *)viewController withMessage:(NSString *)message action:(NSString *)action
++ (void)promptPresentedFromViewController:(nullable __kindof UIViewController *)viewController
+                              withMessage:(nullable NSString *)message
+                                   action:(nullable NSString *)action
 {
     [self dismissAlertController];
     
@@ -83,13 +85,13 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
     [viewController presentViewController:_alertController animated:YES completion:nil];
 }
 
-+ (void)alertPresentedFromViewController:(UIViewController *)viewController
-                               withTitle:(NSString *)title
-                                 message:(NSString *)message
-                            cancelAction:(NSString *)cancelAction
-                       destructiveAction:(NSString *)destructiveAction
-                            otherActions:(NSArray *)otherActions
-                              completion:(CQKAlertsDefaultCompletion)completion
++ (void)alertPresentedFromViewController:(nullable __kindof UIViewController *)viewController
+                               withTitle:(nullable NSString *)title
+                                 message:(nullable NSString *)message
+                            cancelAction:(nullable NSString *)cancelAction
+                       destructiveAction:(nullable NSString *)destructiveAction
+                            otherActions:(nullable NSArray<NSString *> *)otherActions
+                              completion:(nullable CQKAlertsDefaultCompletion)completion
 {
     [self dismissAlertController];
     
@@ -141,13 +143,13 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
     [viewController presentViewController:_alertController animated:YES completion:nil];
 }
 
-+ (void)textAlertPresentedFromViewController:(UIViewController *)viewController
-                                   withTitle:(NSString *)title
-                                     message:(NSString *)message
-                                 initialText:(NSString *)initialText
-                                cancelAction:(NSString *)cancelAction
-                                otherActions:(NSArray *)otherActions
-                                  completion:(CQKAlertsTextCompletion)completion
++ (void)textAlertPresentedFromViewController:(nullable __kindof UIViewController *)viewController
+                                   withTitle:(nullable NSString *)title
+                                     message:(nullable NSString *)message
+                                 initialText:(nullable NSString *)initialText
+                                cancelAction:(nullable NSString *)cancelAction
+                                otherActions:(nullable NSArray<NSString *> *)otherActions
+                                  completion:(nullable CQKAlertsTextCompletion)completion
 {
     [self dismissAlertController];
     
@@ -194,13 +196,13 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
     [viewController presentViewController:_alertController animated:YES completion:nil];
 }
 
-+ (void)secureAlertPresentedFromViewController:(UIViewController *)viewController
-                                     withTitle:(NSString *)title
-                                       message:(NSString *)message
-                                   initialText:(NSString *)initialText
-                                  cancelAction:(NSString *)cancelAction
-                                  otherActions:(NSArray *)otherActions
-                                    completion:(CQKAlertsTextCompletion)completion
++ (void)secureAlertPresentedFromViewController:(nullable __kindof UIViewController *)viewController
+                                     withTitle:(nullable NSString *)title
+                                       message:(nullable NSString *)message
+                                   initialText:(nullable NSString *)initialText
+                                  cancelAction:(nullable NSString *)cancelAction
+                                  otherActions:(nullable NSArray<NSString *> *)otherActions
+                                    completion:(nullable CQKAlertsTextCompletion)completion
 {
     [self dismissAlertController];
     
@@ -248,13 +250,13 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
     [viewController presentViewController:_alertController animated:YES completion:nil];
 }
 
-+ (void)credentialAlertPresentedFromViewController:(UIViewController *)viewController
-                                         withTitle:(NSString *)title
-                                           message:(NSString *)message
-                                initialCredentials:(NSURLCredential *)initialCredentials
-                                      cancelAction:(NSString *)cancelAction
-                                      otherActions:(NSArray *)otherActions
-                                         compltion:(CQKAlertsCredentialCompletion)completion
++ (void)credentialAlertPresentedFromViewController:(nullable __kindof UIViewController *)viewController
+                                         withTitle:(nullable NSString *)title
+                                           message:(nullable NSString *)message
+                                initialCredentials:(nullable NSURLCredential *)initialCredentials
+                                      cancelAction:(nullable NSString *)cancelAction
+                                      otherActions:(nullable NSArray<NSString *> *)otherActions
+                                         compltion:(nullable CQKAlertsCredentialCompletion)completion
 {
     [self dismissAlertController];
     
@@ -310,14 +312,14 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
     [viewController presentViewController:_alertController animated:YES completion:nil];
 }
 
-+ (void)sheetPresentedFromViewController:(UIViewController *)viewController
-                          withSourceView:(UIView *)sourceView
-                                   title:(NSString *)title
-                                 message:(NSString *)message
-                            cancelAction:(NSString *)cancelAction
-                       destructiveAction:(NSString *)destructiveAction
-                            otherActions:(NSArray *)otherActions
-                              completion:(CQKAlertsDefaultCompletion)completion
++ (void)sheetPresentedFromViewController:(nullable __kindof UIViewController *)viewController
+                          withSourceView:(nullable __kindof UIView *)sourceView
+                                   title:(nullable NSString *)title
+                                 message:(nullable NSString *)message
+                            cancelAction:(nullable NSString *)cancelAction
+                       destructiveAction:(nullable NSString *)destructiveAction
+                            otherActions:(nullable NSArray<NSString *> *)otherActions
+                              completion:(nullable CQKAlertsDefaultCompletion)completion
 {
     [self dismissAlertController];
     
@@ -364,15 +366,15 @@ static CQKAlertsCredentialCompletion _credentialCompletion;
         }
     }
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [_alertController.popoverPresentationController setSourceView:sourceView];
-    }
-    
     if (viewController == nil) {
         viewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
     }
     
     [viewController presentViewController:_alertController animated:YES completion:nil];
+    
+    if (viewController.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        [_alertController.popoverPresentationController setSourceView:sourceView];
+    }
 }
 
 @end

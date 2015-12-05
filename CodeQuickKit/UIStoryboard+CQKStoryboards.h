@@ -30,6 +30,9 @@
  @return    The main storyboard
  */
 + (UIStoryboard *)mainStoryboard;
+
+/// Uses the `NSStringFromClass() macro to generate the identifer string
+- (__kindof UIViewController *)instantiateViewControllerForClass:(Class)viewControllerClass;
 @end
 
 @interface UIViewController (CQKStoryboards)
@@ -40,7 +43,7 @@
  @param     storyboard The storyboard that contains the view controller layout.
  @return    The initialized UIViewController subclass.
  */
-- (id)initFromStoryboard:(UIStoryboard *)storyboard;
+- (__kindof UIViewController *)initFromStoryboard:(UIStoryboard *)storyboard;
 
 /*!
  @method    initFromStoryboard:
@@ -49,7 +52,7 @@
  @param     identifier The storyboard identifier supplied in the interface file.
  @return    The initialized UIViewController subclass.
  */
-- (id)initFromStoryboard:(UIStoryboard *)storyboard withIdentifier:(NSString *)identifier;
+- (__kindof UIViewController *)initFromStoryboard:(UIStoryboard *)storyboard withIdentifier:(NSString *)identifier;
 @end
 
 @interface UITableViewController (CQKStoryboards)
@@ -60,7 +63,7 @@
  @param     storyboard The storyboard that contains the view controller layout.
  @return    The initialized UIViewController subclass.
  */
-- (id)initFromStoryboard:(UIStoryboard *)storyboard;
+- (__kindof UITableViewController *)initFromStoryboard:(UIStoryboard *)storyboard;
 
 /*!
  @method    initFromStoryboard:
@@ -69,5 +72,5 @@
  @param     identifier The storyboard identifier supplied in the interface file.
  @return    The initialized UIViewController subclass.
  */
-- (id)initFromStoryboard:(UIStoryboard *)storyboard withIdentifier:(NSString *)identifier;
+- (__kindof UITableViewController *)initFromStoryboard:(UIStoryboard *)storyboard withIdentifier:(NSString *)identifier;
 @end

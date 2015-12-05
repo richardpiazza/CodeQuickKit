@@ -32,6 +32,11 @@
     return [self objectForInfoDictionaryKey:CQKBundleNameBundleKey];
 }
 
+- (NSString *)bundleDisplayName
+{
+    return [self objectForInfoDictionaryKey:CQKBundleDisplayNameBundleKey];
+}
+
 - (NSString *)executableName
 {
     return [self objectForInfoDictionaryKey:CQKExecutableNameBundleKey];
@@ -55,6 +60,7 @@
 - (NSDictionary *)bundleDescriptionDictionary
 {
     return @{CQKBundleNameBundleKey: (self.bundleName != nil) ? self.bundleName : @"",
+             CQKBundleDisplayNameBundleKey : (self.bundleDisplayName != nil) ? self.bundleDisplayName : @"",
              CQKExecutableNameBundleKey: (self.executableName != nil) ? self.executableName : @"",
              CQKBundleIdentifierBundleKey: (self.bundleIdentifier != nil) ? self.bundleIdentifier : @"",
              CQKAppVersionBundleKey: (self.appVersion != nil) ? self.appVersion : @"",
@@ -79,6 +85,7 @@
 @end
 
 NSString * const CQKBundleNameBundleKey = @"CFBundleName";
+NSString * const CQKBundleDisplayNameBundleKey = @"CFBundleDisplayName";
 NSString * const CQKExecutableNameBundleKey = @"CFBundleExecutable";
 NSString * const CQKAppVersionBundleKey = @"CFBundleShortVersionString";
 NSString * const CQKBuildNumberBundleKey = @"CFBundleVersion";

@@ -212,12 +212,14 @@ static NSMutableArray *agents;
         case CQKLoggerLevelError: return CQKLoggerLevelErrorValue;
         case CQKLoggerLevelWarn: return CQKLoggerLevelWarnValue;
         case CQKLoggerLevelInfo: return CQKLoggerLevelInfoValue;
-        default: return CQKLoggerLevelDebugValue;
+        case CQKLoggerLevelDebug: return CQKLoggerLevelDebugValue;
+        default: return CQKLoggerLevelVerboseValue;
     }
 }
 
 @end
 
+NSString * const CQKLoggerLevelVerboseValue = @"Verbose";
 NSString * const CQKLoggerLevelDebugValue = @"Debug";
 NSString * const CQKLoggerLevelInfoValue = @"Info";
 NSString * const CQKLoggerLevelWarnValue = @"Warn";

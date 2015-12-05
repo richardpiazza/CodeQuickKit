@@ -78,6 +78,7 @@ typedef enum : NSUInteger {
 
 @end
 
+extern NSString * const CQKLoggerLevelVerboseValue;
 extern NSString * const CQKLoggerLevelDebugValue;
 extern NSString * const CQKLoggerLevelInfoValue;
 extern NSString * const CQKLoggerLevelWarnValue;

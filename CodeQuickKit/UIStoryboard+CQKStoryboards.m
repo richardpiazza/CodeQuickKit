@@ -23,6 +23,7 @@
  */
 
 #import "UIStoryboard+CQKStoryboards.h"
+#import "NSBundle+CQKBundle.h"
 #import "CQKLogger.h"
 
 @implementation UIStoryboard (CQKStoryboards)
@@ -48,98 +49,176 @@
     return main;
 }
 
+- (__kindof UIViewController *)instantiateViewControllerForClass:(Class)viewControllerClass
+{
+    [CQKLogger log:CQKLoggerLevelVerbose message:[NSString stringWithFormat:@"instantiateViewControllerForClass:%@", viewControllerClass] error:nil callingClass:[self class]];
+    
+    if ([viewControllerClass isSubclassOfClass:[NSNull class]]) {
+        return nil;
+    }
+    
+    NSString *identifier = NSStringFromClass(viewControllerClass);
+    
+    @try {
+        return [self instantiateViewControllerWithIdentifier:identifier];
+    }
+    @catch (NSException *exception) {
+        [CQKLogger logException:exception message:@"instantiateViewControllerForClass:"];
+    }
+    @finally {}
+    
+    NSBundle *bundle = [NSBundle mainBundle];
+    if ([bundle.infoDictionary count] == 0) {
+        bundle = [NSBundle bundleForClass:[self class]];
+    }
+    NSString *bundlePrefix = [NSString stringWithFormat:@"%@.", bundle.bundleDisplayName];
+    
+    if ([identifier hasPrefix:bundlePrefix]) {
+        @try {
+            return [self instantiateViewControllerWithIdentifier:[identifier substringFromIndex:bundle.bundleDisplayName.length]];
+        }
+        @catch (NSException *exception) {
+            [CQKLogger logException:exception message:@"instantiateViewControllerForClass:"];
+        }
+        @finally {
+        }
+    }
+    
+    return nil;
+}
+
 @end
 
 @implementation UIViewController (CQKStoryboards)
 
-- (id)initFromStoryboard:(UIStoryboard *)storyboard
+- (__kindof UIViewController *)initFromStoryboard:(UIStoryboard *)storyboard
 {
     NSString *class = NSStringFromClass([self class]);
     return [self initFromStoryboard:storyboard withIdentifier:class];
 }
 
-- (id)initFromStoryboard:(UIStoryboard *)storyboard withIdentifier:(NSString *)identifier
+- (__kindof UIViewController *)initFromStoryboard:(UIStoryboard *)storyboard withIdentifier:(NSString *)identifier
 {
-    NSBundle *bundle = [NSBundle mainBundle];
-    if ([bundle.infoDictionary count] == 0) {
-        bundle = [NSBundle bundleForClass:[self class]];
-    }
-    
-    id instance;
+    [CQKLogger log:CQKLoggerLevelVerbose message:[NSString stringWithFormat:@"initFromStoryboard:%@ withIdentifier:%@", storyboard, identifier] error:nil callingClass:[self class]];
     
     if (storyboard == nil) {
-        
-        @try {
-            instance = [self initWithNibName:identifier bundle:bundle];
-        }
-        @catch (NSException *exception) {
-            [CQKLogger logError:nil withFormat:@"initFromStoryboard exception: %@", exception.reason];
-            return nil;
-        }
-        @finally {
-        }
-        
-        return instance;
+        storyboard = [UIStoryboard mainStoryboard];
     }
     
     @try {
-        instance = [storyboard instantiateViewControllerWithIdentifier:identifier];
+        id instance = [storyboard instantiateViewControllerWithIdentifier:identifier];
+        [CQKLogger log:CQKLoggerLevelVerbose message:[NSString stringWithFormat:@"initialized %@ with identifier: %@", instance, identifier] error:nil callingClass:[self class]];
+        return instance;
     }
     @catch (NSException *exception) {
-        [CQKLogger logError:nil withFormat:@"initFromStoryboard exception: %@", exception.reason];
-        return nil;
+        [CQKLogger logException:exception message:@"initFromStoryboard:"];
     }
     @finally {
     }
     
-    return instance;
+    NSBundle *bundle = [NSBundle mainBundle];
+    if ([bundle.infoDictionary count] == 0) {
+        bundle = [NSBundle bundleForClass:[self class]];
+    }
+    NSString *bundlePrefix = [NSString stringWithFormat:@"%@.", bundle.bundleDisplayName];
+    
+    if ([identifier hasPrefix:bundlePrefix]) {
+        [CQKLogger log:CQKLoggerLevelVerbose message:@"initFromStoryboard:withIdentifier: Detected Module Prefix" error:nil callingClass:[self class]];
+        NSString *sansBundleIdentifier = [identifier substringFromIndex:bundlePrefix.length];
+        @try {
+            id instance = [storyboard instantiateViewControllerWithIdentifier:sansBundleIdentifier];
+            [CQKLogger log:CQKLoggerLevelVerbose message:[NSString stringWithFormat:@"initialized %@ with identifier: %@", instance, sansBundleIdentifier] error:nil callingClass:[self class]];
+            return instance;
+        }
+        @catch (NSException *exception) {
+            [CQKLogger logException:exception message:@"initFromStoryboard:"];
+        }
+        @finally {
+        }
+    }
+    
+    [CQKLogger log:CQKLoggerLevelVerbose message:@"initFromStoryboard:withIdentifier: Falling Back To Nib" error:nil callingClass:[self class]];
+    
+    @try {
+        id instance = [self initWithNibName:identifier bundle:bundle];
+        [CQKLogger log:CQKLoggerLevelVerbose message:[NSString stringWithFormat:@"initialized %@ from nib: %@", instance, identifier] error:nil callingClass:[self class]];
+        return instance;
+    }
+    @catch (NSException *exception) {
+        [CQKLogger logException:exception message:@"initFromStoryboard:"];
+    }
+    @finally {
+    }
+    
+    [CQKLogger log:CQKLoggerLevelVerbose message:@"initFromStoryboard:withIdentifier: Returning NIL" error:nil callingClass:[self class]];
+    return nil;
 }
 
 @end
 
 @implementation UITableViewController (CQKStoryboards)
 
-- (id)initFromStoryboard:(UIStoryboard *)storyboard
+- (__kindof UITableViewController *)initFromStoryboard:(UIStoryboard *)storyboard
 {
     NSString *class = NSStringFromClass([self class]);
     return [self initFromStoryboard:storyboard withIdentifier:class];
 }
 
-- (id)initFromStoryboard:(UIStoryboard *)storyboard withIdentifier:(NSString *)identifier
+- (__kindof UITableViewController *)initFromStoryboard:(UIStoryboard *)storyboard withIdentifier:(NSString *)identifier
 {
-    NSBundle *bundle = [NSBundle mainBundle];
-    if ([bundle.infoDictionary count] == 0) {
-        bundle = [NSBundle bundleForClass:[self class]];
-    }
-    
-    id instance;
+    [CQKLogger log:CQKLoggerLevelVerbose message:[NSString stringWithFormat:@"initFromStoryboard:%@ withIdentifier:%@", storyboard, identifier] error:nil callingClass:[self class]];
     
     if (storyboard == nil) {
-        
-        @try {
-            instance = [self initWithNibName:identifier bundle:bundle];
-        }
-        @catch (NSException *exception) {
-            [CQKLogger logError:nil withFormat:@"initFromStoryboard exception: %@", exception.reason];
-            return nil;
-        }
-        @finally {
-        }
-        
-        return instance;
+        storyboard = [UIStoryboard mainStoryboard];
     }
     
     @try {
-        instance = [storyboard instantiateViewControllerWithIdentifier:identifier];
+        id instance = [storyboard instantiateViewControllerWithIdentifier:identifier];
+        [CQKLogger log:CQKLoggerLevelVerbose message:[NSString stringWithFormat:@"initialized %@ with identifier: %@", instance, identifier] error:nil callingClass:[self class]];
+        return instance;
     }
     @catch (NSException *exception) {
-        [CQKLogger logError:nil withFormat:@"initFromStorybard exception: %@", exception.reason];
-        return nil;
+        [CQKLogger logException:exception message:@"initFromStoryboard:"];
     }
     @finally {
     }
     
-    return instance;
+    NSBundle *bundle = [NSBundle mainBundle];
+    if ([bundle.infoDictionary count] == 0) {
+        bundle = [NSBundle bundleForClass:[self class]];
+    }
+    NSString *bundlePrefix = [NSString stringWithFormat:@"%@.", bundle.bundleDisplayName];
+    
+    if ([identifier hasPrefix:bundlePrefix]) {
+        [CQKLogger log:CQKLoggerLevelVerbose message:@"initFromStoryboard:withIdentifier: Detected Module Prefix" error:nil callingClass:[self class]];
+        NSString *sansBundleIdentifier = [identifier substringFromIndex:bundlePrefix.length];
+        @try {
+            id instance = [storyboard instantiateViewControllerWithIdentifier:sansBundleIdentifier];
+            [CQKLogger log:CQKLoggerLevelVerbose message:[NSString stringWithFormat:@"initialized %@ with identifier: %@", instance, sansBundleIdentifier] error:nil callingClass:[self class]];
+            return instance;
+        }
+        @catch (NSException *exception) {
+            [CQKLogger logException:exception message:@"initFromStoryboard:"];
+        }
+        @finally {
+        }
+    }
+    
+    [CQKLogger log:CQKLoggerLevelVerbose message:@"initFromStoryboard:withIdentifier: Falling Back To Nib" error:nil callingClass:[self class]];
+    
+    @try {
+        id instance = [self initWithNibName:identifier bundle:bundle];
+        [CQKLogger log:CQKLoggerLevelVerbose message:[NSString stringWithFormat:@"initialized %@ from nib: %@", instance, identifier] error:nil callingClass:[self class]];
+        return instance;
+    }
+    @catch (NSException *exception) {
+        [CQKLogger logException:exception message:@"initFromStoryboard:"];
+    }
+    @finally {
+    }
+    
+    [CQKLogger log:CQKLoggerLevelVerbose message:@"initFromStoryboard:withIdentifier: Returning NIL" error:nil callingClass:[self class]];
+    return nil;
 }
 
 @end
