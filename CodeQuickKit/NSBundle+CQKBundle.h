@@ -32,6 +32,8 @@
 @property (nonatomic, readonly) NSString *executableName;
 @property (nonatomic, readonly) NSString *appVersion;
 @property (nonatomic, readonly) NSString *buildNumber;
+@property (nonatomic, readonly) NSString *launchScreenStoryboard;
+@property (nonatomic, readonly) NSString *mainStoryboard;
 
 - (NSString *)bundleDescription;
 - (NSDictionary *)bundleDescriptionDictionary;
@@ -45,3 +47,5 @@ extern NSString * const CQKExecutableNameBundleKey;
 extern NSString * const CQKAppVersionBundleKey;
 extern NSString * const CQKBuildNumberBundleKey;
 extern NSString * const CQKBundleIdentifierBundleKey;
+extern NSString * const CQKLaunchScreenBundleKey;
+extern NSString * const CQKMainStoryboardBundleKey;

@@ -35,18 +35,15 @@
         bundle = [NSBundle bundleForClass:[self class]];
     }
     
-    UIStoryboard *main;
     @try {
-        main = [UIStoryboard storyboardWithName:@"Main" bundle:bundle];
+        return [UIStoryboard storyboardWithName:bundle.mainStoryboard bundle:bundle];
     }
     @catch (NSException *exception) {
         [CQKLogger logError:nil withFormat:@"mainStoryboard exception: %@", exception.reason];
-        return nil;
     }
-    @finally {
-    }
+    @finally {}
     
-    return main;
+    return nil;
 }
 
 - (__kindof UIViewController *)instantiateViewControllerForClass:(Class)viewControllerClass
@@ -74,8 +71,9 @@
     NSString *bundlePrefix = [NSString stringWithFormat:@"%@.", bundle.bundleDisplayName];
     
     if ([identifier hasPrefix:bundlePrefix]) {
+        NSString *sansBundleIdentifier = [identifier substringFromIndex:bundlePrefix.length];
         @try {
-            return [self instantiateViewControllerWithIdentifier:[identifier substringFromIndex:bundle.bundleDisplayName.length]];
+            return [self instantiateViewControllerWithIdentifier:sansBundleIdentifier];
         }
         @catch (NSException *exception) {
             [CQKLogger logException:exception message:@"instantiateViewControllerForClass:"];

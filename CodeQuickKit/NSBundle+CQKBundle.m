@@ -57,6 +57,16 @@
     return [NSString stringWithFormat:@"Bundle Description: %@", self.bundleDescriptionDictionary];
 }
 
+- (NSString *)launchScreenStoryboard
+{
+    return [self objectForInfoDictionaryKey:CQKLaunchScreenBundleKey];
+}
+
+- (NSString *)mainStoryboard
+{
+    return [self objectForInfoDictionaryKey:CQKMainStoryboardBundleKey];
+}
+
 - (NSDictionary *)bundleDescriptionDictionary
 {
     return @{CQKBundleNameBundleKey: (self.bundleName != nil) ? self.bundleName : @"",
@@ -64,7 +74,9 @@
              CQKExecutableNameBundleKey: (self.executableName != nil) ? self.executableName : @"",
              CQKBundleIdentifierBundleKey: (self.bundleIdentifier != nil) ? self.bundleIdentifier : @"",
              CQKAppVersionBundleKey: (self.appVersion != nil) ? self.appVersion : @"",
-             CQKBuildNumberBundleKey: (self.buildNumber != nil) ? self.buildNumber : @""};
+             CQKBuildNumberBundleKey: (self.buildNumber != nil) ? self.buildNumber : @"",
+             CQKLaunchScreenBundleKey: (self.launchScreenStoryboard != nil) ? self.launchScreenStoryboard : @"",
+             CQKMainStoryboardBundleKey: (self.mainStoryboard != nil) ? self.mainStoryboard : @""};
 }
 
 - (NSData *)bundleDescriptionData
@@ -90,3 +102,5 @@ NSString * const CQKExecutableNameBundleKey = @"CFBundleExecutable";
 NSString * const CQKAppVersionBundleKey = @"CFBundleShortVersionString";
 NSString * const CQKBuildNumberBundleKey = @"CFBundleVersion";
 NSString * const CQKBundleIdentifierBundleKey = @"CFBundleIdentifier";
+NSString * const CQKLaunchScreenBundleKey = @"UILaunchStoryboardName";
+NSString * const CQKMainStoryboardBundleKey = @"UIMainStoryboardFile";
