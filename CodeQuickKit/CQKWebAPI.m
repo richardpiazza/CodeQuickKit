@@ -153,7 +153,7 @@
             completion(0, nil, error);
         } else {
             NSString *message = [NSString stringWithFormat:@"Failed to execute request: %@", request];
-            [CQKLogger log:CQKLoggerLevelInfo message:message error:nil callingClass:self.class];
+            [CQKLogger log:CQKLoggerLevelInfo message:message error:error callingClass:self.class];
         }
         return;
     }
@@ -164,7 +164,7 @@
             completion(0, nil, error);
         } else {
             NSString *message = [NSString stringWithFormat:@"Failed to execute request: %@", request];
-            [CQKLogger log:CQKLoggerLevelInfo message:message error:nil callingClass:self.class];
+            [CQKLogger log:CQKLoggerLevelInfo message:message error:error callingClass:self.class];
         }
         return;
     }

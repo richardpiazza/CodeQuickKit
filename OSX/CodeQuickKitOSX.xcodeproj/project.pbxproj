@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		E1D644BE1BE35950006860FD /* CodeQuickKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D644BD1BE35950006860FD /* CodeQuickKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D644C51BE35950006860FD /* CodeQuickKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D644BA1BE35950006860FD /* CodeQuickKit.framework */; };
-		E1D644CA1BE35950006860FD /* OSXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D644C91BE35950006860FD /* OSXTests.m */; };
 		E1D644DD1BE35AD1006860FD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D644DC1BE35AD1006860FD /* CoreData.framework */; };
 		E1D645861BE35CC4006860FD /* CQKCoreDataStack.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D645671BE35CC4006860FD /* CQKCoreDataStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D645871BE35CC4006860FD /* CQKCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D645681BE35CC4006860FD /* CQKCoreDataStack.m */; };
@@ -22,7 +21,7 @@
 		E1D6458E1BE35CC4006860FD /* CQKSerializableNSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D6456F1BE35CC4006860FD /* CQKSerializableNSObject.m */; };
 		E1D6458F1BE35CC4006860FD /* CQKUbiquityNSFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D645701BE35CC4006860FD /* CQKUbiquityNSFileManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D645901BE35CC4006860FD /* CQKUbiquityNSFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D645711BE35CC4006860FD /* CQKUbiquityNSFileManager.m */; };
-		E1D645911BE35CC4006860FD /* CQKUbiquityUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D645721BE35CC4006860FD /* CQKUbiquityUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D645911BE35CC4006860FD /* CQKUbiquityUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D645721BE35CC4006860FD /* CQKUbiquityUserDefaults.h */; };
 		E1D645921BE35CC4006860FD /* CQKUbiquityUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D645731BE35CC4006860FD /* CQKUbiquityUserDefaults.m */; };
 		E1D645931BE35CC4006860FD /* CQKWebAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D645741BE35CC4006860FD /* CQKWebAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D645941BE35CC4006860FD /* CQKWebAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D645751BE35CC4006860FD /* CQKWebAPI.m */; };
@@ -38,6 +37,9 @@
 		E1D6459E1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D6457F1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.m */; };
 		E1D6459F1BE35CC4006860FD /* NSObject+CQKRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D645801BE35CC4006860FD /* NSObject+CQKRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D645A01BE35CC4006860FD /* NSObject+CQKRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D645811BE35CC4006860FD /* NSObject+CQKRuntime.m */; };
+		E1D820C71C1922F6004EDD17 /* CQKMockableWebAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D820C51C1922F6004EDD17 /* CQKMockableWebAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D820C81C1922F6004EDD17 /* CQKMockableWebAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D820C61C1922F6004EDD17 /* CQKMockableWebAPI.m */; };
+		E1D820CE1C19265B004EDD17 /* CQKMockableWebAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D820CD1C19265B004EDD17 /* CQKMockableWebAPITests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +57,6 @@
 		E1D644BD1BE35950006860FD /* CodeQuickKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodeQuickKit.h; sourceTree = "<group>"; };
 		E1D644BF1BE35950006860FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1D644C41BE35950006860FD /* CodeQuickKit.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodeQuickKit.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E1D644C91BE35950006860FD /* OSXTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OSXTests.m; sourceTree = "<group>"; };
 		E1D644CB1BE35950006860FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1D644DC1BE35AD1006860FD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E1D645671BE35CC4006860FD /* CQKCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQKCoreDataStack.h; sourceTree = "<group>"; };
@@ -85,6 +86,9 @@
 		E1D6457F1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumberFormatter+CQKNumberFormatters.m"; sourceTree = "<group>"; };
 		E1D645801BE35CC4006860FD /* NSObject+CQKRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+CQKRuntime.h"; sourceTree = "<group>"; };
 		E1D645811BE35CC4006860FD /* NSObject+CQKRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+CQKRuntime.m"; sourceTree = "<group>"; };
+		E1D820C51C1922F6004EDD17 /* CQKMockableWebAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQKMockableWebAPI.h; sourceTree = "<group>"; };
+		E1D820C61C1922F6004EDD17 /* CQKMockableWebAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKMockableWebAPI.m; sourceTree = "<group>"; };
+		E1D820CD1C19265B004EDD17 /* CQKMockableWebAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKMockableWebAPITests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,8 +143,8 @@
 		E1D644C81BE35950006860FD /* OSXTests */ = {
 			isa = PBXGroup;
 			children = (
-				E1D644C91BE35950006860FD /* OSXTests.m */,
 				E1D644CB1BE35950006860FD /* Info.plist */,
+				E1D820CD1C19265B004EDD17 /* CQKMockableWebAPITests.m */,
 			);
 			path = OSXTests;
 			sourceTree = "<group>";
@@ -152,6 +156,8 @@
 				E1D645681BE35CC4006860FD /* CQKCoreDataStack.m */,
 				E1D645691BE35CC4006860FD /* CQKLogger.h */,
 				E1D6456A1BE35CC4006860FD /* CQKLogger.m */,
+				E1D820C51C1922F6004EDD17 /* CQKMockableWebAPI.h */,
+				E1D820C61C1922F6004EDD17 /* CQKMockableWebAPI.m */,
 				E1D6456B1BE35CC4006860FD /* CQKSerializable.h */,
 				E1D6456C1BE35CC4006860FD /* CQKSerializableNSManagedObject.h */,
 				E1D6456D1BE35CC4006860FD /* CQKSerializableNSManagedObject.m */,
@@ -201,6 +207,7 @@
 				E1D6459B1BE35CC4006860FD /* NSFileManager+CQKSandbox.h in Headers */,
 				E1D645931BE35CC4006860FD /* CQKWebAPI.h in Headers */,
 				E1D644BE1BE35950006860FD /* CodeQuickKit.h in Headers */,
+				E1D820C71C1922F6004EDD17 /* CQKMockableWebAPI.h in Headers */,
 				E1D6458D1BE35CC4006860FD /* CQKSerializableNSObject.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,6 +316,7 @@
 				E1D6458C1BE35CC4006860FD /* CQKSerializableNSManagedObject.m in Sources */,
 				E1D645871BE35CC4006860FD /* CQKCoreDataStack.m in Sources */,
 				E1D645941BE35CC4006860FD /* CQKWebAPI.m in Sources */,
+				E1D820C81C1922F6004EDD17 /* CQKMockableWebAPI.m in Sources */,
 				E1D645981BE35CC4006860FD /* NSData+CQKCrypto.m in Sources */,
 				E1D6459A1BE35CC4006860FD /* NSDate+CQKDates.m in Sources */,
 				E1D6458E1BE35CC4006860FD /* CQKSerializableNSObject.m in Sources */,
@@ -322,7 +330,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1D644CA1BE35950006860FD /* OSXTests.m in Sources */,
+				E1D820CE1C19265B004EDD17 /* CQKMockableWebAPITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

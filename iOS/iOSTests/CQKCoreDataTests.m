@@ -24,7 +24,8 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import <CodeQuickKit/CodeQuickKit.h>
+#import "CQKSerializableNSManagedObject.h"
+#import "CQKCoreDataStack.h"
 
 @class CQKCDPerson;
 
