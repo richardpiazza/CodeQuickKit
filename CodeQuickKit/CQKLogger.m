@@ -48,7 +48,7 @@ static NSMutableArray *agents;
     }
 }
 
-+ (CQKLoggerConfiguration *)configuration
++ (nonnull CQKLoggerConfiguration *)configuration
 {
     static CQKLoggerConfiguration *_configuration;
     static dispatch_once_t onceToken;
@@ -58,7 +58,7 @@ static NSMutableArray *agents;
     return _configuration;
 }
 
-+ (void)log:(CQKLoggerLevel)level message:(NSString *)message error:(NSError *)error callingClass:(__unsafe_unretained Class)callingClass
++ (void)log:(CQKLoggerLevel)level message:(nullable NSString *)message error:(nullable NSError *)error callingClass:(nullable __unsafe_unretained Class)callingClass
 {
     if (level >= [[CQKLogger configuration] minimumConsoleLevel]) {
         NSString *levelString = [CQKLogger stringForLoggerLevel:level];
@@ -75,12 +75,29 @@ static NSMutableArray *agents;
     }
 }
 
-+ (void)logDebug:(NSString *)message
++ (void)logVerbose:(nullable NSString *)message
 {
     [self log:CQKLoggerLevelDebug message:message error:nil callingClass:[self class]];
 }
 
-+ (void)logDebugWithFormat:(NSString *)format, ...
++ (void)logVerboseWithFormat:(nullable NSString *)format, ...
+{
+    NSString *message = nil;
+    
+    va_list args;
+    va_start(args, format);
+    message = [[NSString alloc] initWithFormat:format arguments:args];
+    va_end(args);
+    
+    [self logVerbose:message];
+}
+
++ (void)logDebug:(nullable NSString *)message
+{
+    [self log:CQKLoggerLevelDebug message:message error:nil callingClass:[self class]];
+}
+
++ (void)logDebugWithFormat:(nullable NSString *)format, ...
 {
     NSString *message = nil;
     
@@ -92,12 +109,12 @@ static NSMutableArray *agents;
     [self logDebug:message];
 }
 
-+ (void)logInfo:(NSString *)message
++ (void)logInfo:(nullable NSString *)message
 {
     [self log:CQKLoggerLevelInfo message:message error:nil callingClass:[self class]];
 }
 
-+ (void)logInfoWithFormat:(NSString *)format, ...
++ (void)logInfoWithFormat:(nullable NSString *)format, ...
 {
     NSString *message = nil;
     
@@ -109,12 +126,12 @@ static NSMutableArray *agents;
     [self logInfo:message];
 }
 
-+ (void)logWarn:(NSString *)message
++ (void)logWarn:(nullable NSString *)message
 {
     [self log:CQKLoggerLevelWarn message:message error:nil callingClass:[self class]];
 }
 
-+ (void)logWarnWithFormat:(NSString *)format, ...
++ (void)logWarnWithFormat:(nullable NSString *)format, ...
 {
     NSString *message = nil;
     
@@ -126,17 +143,17 @@ static NSMutableArray *agents;
     [self logWarn:message];
 }
 
-+ (void)logError:(NSError *)error
++ (void)logError:(nullable NSError *)error
 {
     [self logError:error message:nil];
 }
 
-+ (void)logError:(NSError *)error message:(NSString *)message
++ (void)logError:(nullable NSError *)error message:(nullable NSString *)message
 {
     [self log:CQKLoggerLevelError message:message error:error callingClass:[self class]];
 }
 
-+ (void)logError:(NSError *)error withFormat:(NSString *)format, ...
++ (void)logError:(nullable NSError *)error withFormat:(nullable NSString *)format, ...
 {
     NSString *message = nil;
     
@@ -148,12 +165,12 @@ static NSMutableArray *agents;
     [self logError:error message:message];
 }
 
-+ (void)logException:(NSException *)exception
++ (void)logException:(nullable NSException *)exception
 {
     [self logException:exception message:nil];
 }
 
-+ (void)logException:(NSException *)exception message:(NSString *)message
++ (void)logException:(nullable NSException *)exception message:(nullable NSString *)message
 {
     NSError *error = nil;
     if (exception != nil) {
@@ -167,7 +184,7 @@ static NSMutableArray *agents;
     [self log:CQKLoggerLevelException message:message error:error callingClass:[self class]];
 }
 
-+ (void)logException:(NSException *)exception withFormat:(NSString *)format, ...
++ (void)logException:(nullable NSException *)exception withFormat:(nullable NSString *)format, ...
 {
     NSString *message = nil;
     
@@ -179,12 +196,8 @@ static NSMutableArray *agents;
     [self logException:exception message:message];
 }
 
-+ (void)addAgent:(id<CQKLoggerAgent>)agent
++ (void)addAgent:(nonnull id<CQKLoggerAgent>)agent
 {
-    if (agent == nil) {
-        return;
-    }
-    
     if ([agents containsObject:agent]) {
         return;
     }
@@ -192,12 +205,8 @@ static NSMutableArray *agents;
     [agents addObject:agent];
 }
 
-+ (void)removeAgent:(id<CQKLoggerAgent>)agent
++ (void)removeAgent:(nonnull id<CQKLoggerAgent>)agent
 {
-    if (agent == nil) {
-        return;
-    }
-    
     if (![agents containsObject:agent]) {
         return;
     }
@@ -205,7 +214,7 @@ static NSMutableArray *agents;
     [agents removeObject:agent];
 }
 
-+ (NSString *)stringForLoggerLevel:(CQKLoggerLevel)level
++ (nonnull NSString *)stringForLoggerLevel:(CQKLoggerLevel)level
 {
     switch (level) {
         case CQKLoggerLevelException: return CQKLoggerLevelExceptionValue;
@@ -219,9 +228,9 @@ static NSMutableArray *agents;
 
 @end
 
-NSString * const CQKLoggerLevelVerboseValue = @"Verbose";
-NSString * const CQKLoggerLevelDebugValue = @"Debug";
-NSString * const CQKLoggerLevelInfoValue = @"Info";
-NSString * const CQKLoggerLevelWarnValue = @"Warn";
-NSString * const CQKLoggerLevelErrorValue = @"Error";
-NSString * const CQKLoggerLevelExceptionValue = @"Exception";
+NSString * const _Nonnull CQKLoggerLevelVerboseValue = @"Verbose";
+NSString * const _Nonnull CQKLoggerLevelDebugValue = @"Debug";
+NSString * const _Nonnull CQKLoggerLevelInfoValue = @"Info";
+NSString * const _Nonnull CQKLoggerLevelWarnValue = @"Warn";
+NSString * const _Nonnull CQKLoggerLevelErrorValue = @"Error";
+NSString * const _Nonnull CQKLoggerLevelExceptionValue = @"Exception";

@@ -58,10 +58,6 @@
 + (CQKSerializableNSObjectConfiguration *)configuration
 {
     static CQKSerializableNSObjectConfiguration *_configuration;
-    if (_configuration != nil) {
-        return _configuration;
-    }
-    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _configuration = [[CQKSerializableNSObjectConfiguration alloc] init];
@@ -162,7 +158,7 @@
 }
 
 #pragma mark - CQKSerializable -
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
+- (nonnull instancetype)initWithDictionary:(nullable NSDictionary *)dictionary
 {
     self = [self init];
     if (self != nil) {
@@ -171,7 +167,7 @@
     return self;
 }
 
-- (void)updateWithDictionary:(NSDictionary *)dictionary
+- (void)updateWithDictionary:(nullable NSDictionary *)dictionary
 {
     if (dictionary == nil || ![[dictionary class] isSubclassOfClass:[NSDictionary class]]) {
         [CQKLogger log:CQKLoggerLevelWarn message:@"Could not updateWithDictinary:, dictionary is nil." error:nil callingClass:self.class];
@@ -209,7 +205,7 @@
     }];
 }
 
-- (NSDictionary *)dictionary
+- (nonnull NSDictionary *)dictionary
 {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     
@@ -255,7 +251,7 @@
     return dictionary;
 }
 
-- (instancetype)initWithData:(NSData *)data;
+- (nonnull instancetype)initWithData:(nullable NSData *)data;
 {
     self = [self init];
     if (self != nil) {
@@ -264,8 +260,12 @@
     return self;
 }
 
-- (void)updateWithData:(NSData *)data
+- (void)updateWithData:(nullable NSData *)data
 {
+    if (data == nil) {
+        return;
+    }
+    
     NSError *error = nil;
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     if (dictionary == nil || error != nil) {
@@ -277,13 +277,9 @@
     [self updateWithDictionary:dictionary];
 }
 
-- (NSData *)data
+- (nullable NSData *)data
 {
     NSDictionary *dictionary = self.dictionary;
-    if (dictionary == nil) {
-        [CQKLogger log:CQKLoggerLevelWarn message:@"Could not return NSData *data, self.dictionary is nil." error:nil callingClass:self.class];
-        return nil;
-    }
     
     NSError *error = nil;
     NSData *data = nil;
@@ -304,7 +300,7 @@
     }
 }
 
-- (instancetype)initWithJSON:(NSString *)json
+- (nonnull instancetype)initWithJSON:(nullable NSString *)json
 {
     self = [self init];
     if (self != nil) {
@@ -313,7 +309,7 @@
     return self;
 }
 
-- (void)updateWithJSON:(NSString *)json
+- (void)updateWithJSON:(nullable NSString *)json
 {
     if (json == nil || [json isEqualToString:@""]) {
         [CQKLogger log:CQKLoggerLevelWarn message:@"Could not updateWithJson:, json is nil." error:nil callingClass:self.class];
@@ -329,7 +325,7 @@
     [self updateWithData:data];
 }
 
-- (NSString *)json
+- (nullable NSString *)json
 {
     NSData *data = self.data;
     if (data == nil) {
@@ -343,7 +339,7 @@
 }
 
 #pragma mark -
-- (NSString *)propertyNameForSerializedKey:(NSString *)serializedKey
+- (nullable NSString *)propertyNameForSerializedKey:(nullable NSString *)serializedKey
 {
     if ([serializedKey.lowercaseString isEqualToString:CQKSerializableNSObjectIDPropertyName.lowercaseString]) {
         if ([[CQKSerializableNSObject configuration] serializedIDPropertyName] != nil) {
@@ -361,7 +357,7 @@
     return [self.class stringForPropertyName:serializedKey withKeyStyle:[[CQKSerializableNSObject configuration] propertyKeyStyle]];
 }
 
-- (NSString *)serializedKeyForPropertyName:(NSString *)propertyName
+- (nullable NSString *)serializedKeyForPropertyName:(nullable NSString *)propertyName
 {
     if ([[CQKSerializableNSObject configuration] serializedIDPropertyName] != nil) {
         if ([propertyName isEqualToString:[[CQKSerializableNSObject configuration] serializedIDPropertyName]]) {
@@ -378,7 +374,7 @@
     return [self.class stringForPropertyName:propertyName withKeyStyle:[[CQKSerializableNSObject configuration] serializedKeyStyle]];
 }
 
-- (id <NSObject>)initializedObjectForPropertyName:(NSString *)propertyName withData:(id)data
+- (nullable id <NSObject>)initializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data
 {
     Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
     
@@ -393,7 +389,7 @@
     return data;
 }
 
-- (id <NSObject>)serializedObjectForPropertyName:(NSString *)propertyName withData:(id)data
+- (nullable id <NSObject>)serializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data
 {
     if ([[data class] isSubclassOfClass:[NSUUID class]]) {
         return [(NSUUID *)data UUIDString];
@@ -485,7 +481,7 @@
 
 @end
 
-NSString * const CQKSerializableNSObjectDateFormat = @"yyyy-MM-dd'T'HH:mm:ss";
-NSString * const CQKSerializableNSObjectUUIDPropertyName = @"uuid";
-NSString * const CQKSerializableNSObjectUniqueIdPropertyName = @"uniqueId";
-NSString * const CQKSerializableNSObjectIDPropertyName = @"id";
+NSString * const _Nonnull CQKSerializableNSObjectDateFormat = @"yyyy-MM-dd'T'HH:mm:ss";
+NSString * const _Nonnull CQKSerializableNSObjectUUIDPropertyName = @"uuid";
+NSString * const _Nonnull CQKSerializableNSObjectUniqueIdPropertyName = @"uniqueId";
+NSString * const _Nonnull CQKSerializableNSObjectIDPropertyName = @"id";

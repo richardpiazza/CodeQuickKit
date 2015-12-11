@@ -22,28 +22,28 @@
  *  SOFTWARE.
  */
 
-/*! @abstract A protocol specifying methods for interacting with Dictionary/JSON representations of NSObjects. */
+/// A protocol specifying methods for interacting with Dictionary/JSON representations of NSObjects.
 @protocol CQKSerializable <NSObject>
 
-/*! @abstract Initialize an instance of the class and pass the referenced dictionary to updateWithDictionary:. */
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
-/*! @abstract Updates the instance with values in the dictionary. */
-- (void)updateWithDictionary:(NSDictionary *)dictionary;
-/*! @abstract Returns a dictionary representation of the instance. */
-- (NSDictionary *)dictionary;
+/// Initialize an instance of the class and pass the referenced dictionary to updateWithDictionary:.
+- (nonnull instancetype)initWithDictionary:(nullable NSDictionary *)dictionary;
+/// Updates the instance with values in the dictionary.
+- (void)updateWithDictionary:(nullable NSDictionary *)dictionary;
+/// Returns a dictionary representation of the instance.
+- (nonnull NSDictionary *)dictionary;
 
-/*! @abstract Initialize an instance of the class and pass the referenced data to updateWithData:. */
-- (instancetype)initWithData:(NSData *)data;
-/*! @abstract Passes the NSData instance of NSDictionary to updateWithDictionary:. */
-- (void)updateWithData:(NSData *)data;
-/*! @abstract Returns the dictionary representation of the instance as an NSData object. */
-- (NSData *)data;
+/// Initialize an instance of the class and pass the referenced data to updateWithData:.
+- (nonnull instancetype)initWithData:(nullable NSData *)data;
+/// Passes the NSData instance of NSDictionary to updateWithDictionary:.
+- (void)updateWithData:(nullable NSData *)data;
+/// Returns the dictionary representation of the instance as an NSData object.
+- (nullable NSData *)data;
 
-/*! @abstract Initialize an instance of the class and pass the referenced json to updateWithJSON:. */
-- (instancetype)initWithJSON:(NSString *)json;
-/*! @abstract Deserialize the JSON formatted string and pass the NSDictionary to updateWithDictionary:. */
-- (void)updateWithJSON:(NSString *)json;
-/*! @abstract Returns the dictionary representation of the instance as a JSON formatted string. */
-- (NSString *)json;
+/// Initialize an instance of the class and pass the referenced json to updateWithJSON:.
+- (nonnull instancetype)initWithJSON:(nullable NSString *)json;
+/// Deserialize the JSON formatted string and pass the NSDictionary to updateWithDictionary:.
+- (void)updateWithJSON:(nullable NSString *)json;
+/// Returns the dictionary representation of the instance as a JSON formatted string.
+- (nullable NSString *)json;
 
 @end

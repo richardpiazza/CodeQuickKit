@@ -35,7 +35,7 @@ typedef enum : NSUInteger {
 
 @protocol CQKLoggerAgent <NSObject>
 @required
-- (void)log:(CQKLoggerLevel)level message:(NSString *)message error:(NSError *)error callingClass:(__unsafe_unretained Class)callingClass;
+- (void)log:(CQKLoggerLevel)level message:(NSString * _Nullable)message error:(NSError * _Nullable)error callingClass:(__unsafe_unretained Class _Nullable)callingClass;
 @end
 
 @interface CQKLoggerConfiguration : NSObject
@@ -50,38 +50,41 @@ typedef enum : NSUInteger {
  */
 @interface CQKLogger : NSObject
 
-+ (CQKLoggerConfiguration *)configuration;
++ (nonnull CQKLoggerConfiguration *)configuration;
 
-+ (void)log:(CQKLoggerLevel)level message:(NSString *)message error:(NSError *)error callingClass:(__unsafe_unretained Class)callingClass;
++ (void)log:(CQKLoggerLevel)level message:(nullable NSString *)message error:(nullable NSError *)error callingClass:(nullable __unsafe_unretained Class)callingClass;
 
-+ (void)logDebug:(NSString *)message;
-+ (void)logDebugWithFormat:(NSString *)format, ...;
++ (void)logVerbose:(nullable NSString *)message;
++ (void)logVerboseWithFormat:(nullable NSString *)format, ...;
 
-+ (void)logInfo:(NSString *)message;
-+ (void)logInfoWithFormat:(NSString *)format, ...;
++ (void)logDebug:(nullable NSString *)message;
++ (void)logDebugWithFormat:(nullable NSString *)format, ...;
 
-+ (void)logWarn:(NSString *)message;
-+ (void)logWarnWithFormat:(NSString *)format, ...;
++ (void)logInfo:(nullable NSString *)message;
++ (void)logInfoWithFormat:(nullable NSString *)format, ...;
 
-+ (void)logError:(NSError *)error;
-+ (void)logError:(NSError *)error message:(NSString *)message;
-+ (void)logError:(NSError *)error withFormat:(NSString *)format, ...;
++ (void)logWarn:(nullable NSString *)message;
++ (void)logWarnWithFormat:(nullable NSString *)format, ...;
 
-+ (void)logException:(NSException *)exception;
-+ (void)logException:(NSException *)exception message:(NSString *)message;
-+ (void)logException:(NSException *)exception withFormat:(NSString *)format, ...;
++ (void)logError:(nullable NSError *)error;
++ (void)logError:(nullable NSError *)error message:(nullable NSString *)message;
++ (void)logError:(nullable NSError *)error withFormat:(nullable NSString *)format, ...;
 
-+ (void)addAgent:(id<CQKLoggerAgent>)agent;
-+ (void)removeAgent:(id<CQKLoggerAgent>)agent;
++ (void)logException:(nullable NSException *)exception;
++ (void)logException:(nullable NSException *)exception message:(nullable NSString *)message;
++ (void)logException:(nullable NSException *)exception withFormat:(nullable NSString *)format, ...;
 
-+ (NSString *)stringForLoggerLevel:(CQKLoggerLevel)level;
++ (void)addAgent:(nonnull id<CQKLoggerAgent>)agent;
++ (void)removeAgent:(nonnull id<CQKLoggerAgent>)agent;
+
++ (nonnull NSString *)stringForLoggerLevel:(CQKLoggerLevel)level;
 
 @end
 
-extern NSString * const CQKLoggerLevelVerboseValue;
-extern NSString * const CQKLoggerLevelDebugValue;
-extern NSString * const CQKLoggerLevelInfoValue;
-extern NSString * const CQKLoggerLevelWarnValue;
-extern NSString * const CQKLoggerLevelErrorValue;
-extern NSString * const CQKLoggerLevelExceptionValue;
+extern NSString * const _Nonnull CQKLoggerLevelVerboseValue;
+extern NSString * const _Nonnull CQKLoggerLevelDebugValue;
+extern NSString * const _Nonnull CQKLoggerLevelInfoValue;
+extern NSString * const _Nonnull CQKLoggerLevelWarnValue;
+extern NSString * const _Nonnull CQKLoggerLevelErrorValue;
+extern NSString * const _Nonnull CQKLoggerLevelExceptionValue;
 

@@ -57,9 +57,9 @@ typedef enum : NSUInteger {
                 e.g. (PropertyName) uuid = (I/i)d (SerializedKey)
                 e.g. (PropertyName) uniqueId = (I/i)d (SerializedKey)
  */
-@property (nonatomic, strong) NSString *serializedIDPropertyName;
+@property (nonatomic, strong) NSString * _Nullable serializedIDPropertyName;
 /*! @abstract   Number formatter used for NSDate de/serialization. Default is CQKSerializableNSObjectDateFormat. */
-@property (nonatomic, strong) NSDateFormatter *serializedNSDateFormatter;
+@property (nonatomic, strong) NSDateFormatter * _Nonnull serializedNSDateFormatter;
 @end
 
 /*!
@@ -69,7 +69,7 @@ typedef enum : NSUInteger {
  */
 @interface CQKSerializableNSObject : NSObject <NSCoding, NSCopying, CQKSerializable>
 
-+ (CQKSerializableNSObjectConfiguration *)configuration;
++ (nonnull CQKSerializableNSObjectConfiguration *)configuration;
 
 /*!
  @method        propertyNameForSerializedKey:
@@ -78,7 +78,7 @@ typedef enum : NSUInteger {
  @return        The property name with the property key casing style applied.
  @return        A nil return will skip the deserialization for this key.
  */
-- (NSString *)propertyNameForSerializedKey:(NSString *)serializedKey;
+- (nullable NSString *)propertyNameForSerializedKey:(nullable NSString *)serializedKey;
 
 /*!
  @method        serializedKeyForPropertyName:
@@ -87,7 +87,7 @@ typedef enum : NSUInteger {
  @return        The key name with the serialized key casing style applied.
  @return        A nil return will skip the serialization for this key.
  */
-- (NSString *)serializedKeyForPropertyName:(NSString *)propertyName;
+- (nullable NSString *)serializedKeyForPropertyName:(nullable NSString *)propertyName;
 
 /*!
  @method        initializedObjectForPropertyName:withData:
@@ -100,7 +100,7 @@ typedef enum : NSUInteger {
  @param         data The data to be used to initialize the property.
  @return        The initialized object
  */
-- (id <NSObject>)initializedObjectForPropertyName:(NSString *)propertyName withData:(id)data;
+- (nullable id <NSObject>)initializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data;
 
 /*!
  @method        serializedObjectForPropertyname:withData:
@@ -114,11 +114,11 @@ typedef enum : NSUInteger {
  @param         data The property value to be serialized.
  @return        The serialized object.
  */
-- (id <NSObject>)serializedObjectForPropertyName:(NSString *)propertyName withData:(id)data;
+- (nullable id <NSObject>)serializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data;
 
 @end
 
-extern NSString * const CQKSerializableNSObjectDateFormat;
-extern NSString * const CQKSerializableNSObjectUUIDPropertyName;
-extern NSString * const CQKSerializableNSObjectUniqueIdPropertyName;
-extern NSString * const CQKSerializableNSObjectIDPropertyName;
+extern NSString * const _Nonnull CQKSerializableNSObjectDateFormat;
+extern NSString * const _Nonnull CQKSerializableNSObjectUUIDPropertyName;
+extern NSString * const _Nonnull CQKSerializableNSObjectUniqueIdPropertyName;
+extern NSString * const _Nonnull CQKSerializableNSObjectIDPropertyName;
