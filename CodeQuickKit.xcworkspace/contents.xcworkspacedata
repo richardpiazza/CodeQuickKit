@@ -17,12 +17,6 @@
          location = "group:CQKLogger.m">
       </FileRef>
       <FileRef
-         location = "group:CQKMockableWebAPI.h">
-      </FileRef>
-      <FileRef
-         location = "group:CQKMockableWebAPI.m">
-      </FileRef>
-      <FileRef
          location = "group:CQKSerializable.h">
       </FileRef>
       <FileRef

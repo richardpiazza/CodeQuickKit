@@ -23,12 +23,15 @@
  */
 
 #import <Foundation/Foundation.h>
+@class CQKWebAPIInjectedResponse;
 
 typedef void (^CQKWebAPICompletion)(int statusCode, id responseObject, NSError *error);
 
-/*!
- @abstract  A wrapper for NSURLSession for communication with JSON Web API's
- */
+/// A wrapper for NSURLSession for communication with JSON Web API's
+/// Features:
+/// - automatic deserialization of a JSON response
+/// - basic auth authentication challenges
+/// - mockability with injected responses
 @interface CQKWebAPI : NSObject
 
 @property (nonatomic, copy, readonly) NSURLSession *session;
@@ -36,6 +39,7 @@ typedef void (^CQKWebAPICompletion)(int statusCode, id responseObject, NSError *
 @property (nonatomic, copy, readonly) NSString *username;
 @property (nonatomic, copy, readonly) NSString *password;
 @property (nonatomic, assign) BOOL ignoreSSL;
+@property (nonatomic, strong, readonly) NSMutableDictionary<NSString *, CQKWebAPIInjectedResponse *> *injectedResponses;
 
 - (instancetype)initWithBaseURL:(NSURL *)baseURL username:(NSString *)username password:(NSString *)password;
 
@@ -47,14 +51,15 @@ typedef void (^CQKWebAPICompletion)(int statusCode, id responseObject, NSError *
 - (void)performRequestForPath:(NSString *)path withMethod:(NSString *)method data:(NSData *)data completion:(CQKWebAPICompletion)completion;
 - (void)performRequestForURL:(NSURL *)url withMethod:(NSString *)method data:(NSData *)data completion:(CQKWebAPICompletion)completion;
 
+/// Convenience method that constructs a full URL from the baseURL and provided path.
 - (NSMutableURLRequest *)requestForPath:(NSString *)path withMethod:(NSString *)method data:(NSData *)data;
+/// Constructs the request, setting the method and headers as well as the body data when present.
 - (NSMutableURLRequest *)requestForURL:(NSURL *)url withMethod:(NSString *)method data:(NSData *)data;
 
-/*!
- @abstract      Transforms requestForURL:withMethod:data: request into multipart/form-data
- @discussion    The image uploaded will have the content-type 'image/png' with the filename 'image.png'
- */
+/// Convenience method that constructs a full URL from the baseURL and provided path.
 - (NSMutableURLRequest *)requestForPath:(NSString *)path withMethod:(NSString *)method imageData:(NSData *)imageData;
+/// Transforms requestForURL:withMethod:data: request into multipart/form-data
+/// The image uploaded will have the content-type 'image/png' with the filename 'image.png'
 - (NSMutableURLRequest *)requestForURL:(NSURL *)url withMethod:(NSString *)method imageData:(NSData *)imageData;
 
 - (void)executeRequest:(NSMutableURLRequest *)request completion:(CQKWebAPICompletion)completion;
@@ -62,6 +67,13 @@ typedef void (^CQKWebAPICompletion)(int statusCode, id responseObject, NSError *
 + (NSError *)invalidURL;
 + (NSError *)invalidRequest;
 
+@end
+
+@interface CQKWebAPIInjectedResponse : NSObject
+@property (nonatomic, assign) int statusCode;
+@property (nonatomic, copy) id responseObject;
+@property (nonatomic, copy) NSError *error;
+@property (nonatomic, assign) unsigned long long timeout;
 @end
 
 #pragma mark - Standard HTTP Request Methods -

@@ -37,9 +37,7 @@
 		E1D6459E1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D6457F1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.m */; };
 		E1D6459F1BE35CC4006860FD /* NSObject+CQKRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D645801BE35CC4006860FD /* NSObject+CQKRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D645A01BE35CC4006860FD /* NSObject+CQKRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D645811BE35CC4006860FD /* NSObject+CQKRuntime.m */; };
-		E1D820C71C1922F6004EDD17 /* CQKMockableWebAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D820C51C1922F6004EDD17 /* CQKMockableWebAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E1D820C81C1922F6004EDD17 /* CQKMockableWebAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D820C61C1922F6004EDD17 /* CQKMockableWebAPI.m */; };
-		E1D820CE1C19265B004EDD17 /* CQKMockableWebAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D820CD1C19265B004EDD17 /* CQKMockableWebAPITests.m */; };
+		E1D820CE1C19265B004EDD17 /* CQKWebAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D820CD1C19265B004EDD17 /* CQKWebAPITests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,9 +84,7 @@
 		E1D6457F1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumberFormatter+CQKNumberFormatters.m"; sourceTree = "<group>"; };
 		E1D645801BE35CC4006860FD /* NSObject+CQKRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+CQKRuntime.h"; sourceTree = "<group>"; };
 		E1D645811BE35CC4006860FD /* NSObject+CQKRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+CQKRuntime.m"; sourceTree = "<group>"; };
-		E1D820C51C1922F6004EDD17 /* CQKMockableWebAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQKMockableWebAPI.h; sourceTree = "<group>"; };
-		E1D820C61C1922F6004EDD17 /* CQKMockableWebAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKMockableWebAPI.m; sourceTree = "<group>"; };
-		E1D820CD1C19265B004EDD17 /* CQKMockableWebAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKMockableWebAPITests.m; sourceTree = "<group>"; };
+		E1D820CD1C19265B004EDD17 /* CQKWebAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKWebAPITests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,7 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				E1D644CB1BE35950006860FD /* Info.plist */,
-				E1D820CD1C19265B004EDD17 /* CQKMockableWebAPITests.m */,
+				E1D820CD1C19265B004EDD17 /* CQKWebAPITests.m */,
 			);
 			path = OSXTests;
 			sourceTree = "<group>";
@@ -156,8 +152,6 @@
 				E1D645681BE35CC4006860FD /* CQKCoreDataStack.m */,
 				E1D645691BE35CC4006860FD /* CQKLogger.h */,
 				E1D6456A1BE35CC4006860FD /* CQKLogger.m */,
-				E1D820C51C1922F6004EDD17 /* CQKMockableWebAPI.h */,
-				E1D820C61C1922F6004EDD17 /* CQKMockableWebAPI.m */,
 				E1D6456B1BE35CC4006860FD /* CQKSerializable.h */,
 				E1D6456C1BE35CC4006860FD /* CQKSerializableNSManagedObject.h */,
 				E1D6456D1BE35CC4006860FD /* CQKSerializableNSManagedObject.m */,
@@ -207,7 +201,6 @@
 				E1D6459B1BE35CC4006860FD /* NSFileManager+CQKSandbox.h in Headers */,
 				E1D645931BE35CC4006860FD /* CQKWebAPI.h in Headers */,
 				E1D644BE1BE35950006860FD /* CodeQuickKit.h in Headers */,
-				E1D820C71C1922F6004EDD17 /* CQKMockableWebAPI.h in Headers */,
 				E1D6458D1BE35CC4006860FD /* CQKSerializableNSObject.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,7 +309,6 @@
 				E1D6458C1BE35CC4006860FD /* CQKSerializableNSManagedObject.m in Sources */,
 				E1D645871BE35CC4006860FD /* CQKCoreDataStack.m in Sources */,
 				E1D645941BE35CC4006860FD /* CQKWebAPI.m in Sources */,
-				E1D820C81C1922F6004EDD17 /* CQKMockableWebAPI.m in Sources */,
 				E1D645981BE35CC4006860FD /* NSData+CQKCrypto.m in Sources */,
 				E1D6459A1BE35CC4006860FD /* NSDate+CQKDates.m in Sources */,
 				E1D6458E1BE35CC4006860FD /* CQKSerializableNSObject.m in Sources */,
@@ -330,7 +322,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1D820CE1C19265B004EDD17 /* CQKMockableWebAPITests.m in Sources */,
+				E1D820CE1C19265B004EDD17 /* CQKWebAPITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

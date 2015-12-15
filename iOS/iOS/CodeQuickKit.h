@@ -17,7 +17,6 @@ FOUNDATION_EXPORT const unsigned char iOSVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <iOS/PublicHeader.h>
 #import <CodeQuickKit/CQKCoreDataStack.h>
 #import <CodeQuickKit/CQKLogger.h>
-#import <CodeQuickKit/CQKMockableWebAPI.h>
 #import <CodeQuickKit/CQKSerializable.h>
 #import <CodeQuickKit/CQKSerializableNSManagedObject.h>
 #import <CodeQuickKit/CQKSerializableNSObject.h>

@@ -7,26 +7,26 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "CQKMockableWebAPI.h"
+#import "CQKWebAPI.h"
 
-@interface CQKMockableWebAPITests : XCTestCase
-@property (nonatomic, strong) CQKMockableWebAPI *webAPI;
+@interface CQKWebAPITests : XCTestCase
+@property (nonatomic, strong) CQKWebAPI *webAPI;
 @end
 
-@implementation CQKMockableWebAPITests
+@implementation CQKWebAPITests
 
 - (void)setUp {
     [super setUp];
     
-    [self setWebAPI:[[CQKMockableWebAPI alloc] initWithBaseURL:[NSURL URLWithString:@"http://www.example.com/api"] username:nil password:nil]];
+    [self setWebAPI:[[CQKWebAPI alloc] initWithBaseURL:[NSURL URLWithString:@"http://www.example.com/api"] username:nil password:nil]];
     
-    CQKMockableWebAPIResponse *response = [[CQKMockableWebAPIResponse alloc] init];
+    CQKWebAPIInjectedResponse *response = [[CQKWebAPIInjectedResponse alloc] init];
     [response setStatusCode:200];
     [response setResponseObject:@{@"name":@"Mock Me"}];
     [response setTimeout:2];
     NSURL *url = [NSURL URLWithString:@"http://www.example.com/api/test"];
     
-    [[self.webAPI responses] setValue:response forKey:url.absoluteString];
+    [[self.webAPI injectedResponses] setValue:response forKey:url.absoluteString];
 }
 
 - (void)tearDown {

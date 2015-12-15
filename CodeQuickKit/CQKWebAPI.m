@@ -26,12 +26,27 @@
 #import "CQKLogger.h"
 #import "NSData+CQKCrypto.h"
 
+@implementation CQKWebAPIInjectedResponse
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self != nil) {
+        self.statusCode = 0;
+        self.timeout = 0;
+    }
+    return self;
+}
+
+@end
+
 @interface CQKWebAPI() <NSURLSessionTaskDelegate>
 @property (nonatomic, copy) NSURLSession *session;
 @property (nonatomic, copy) NSURL *baseURL;
 @property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *password;
 @property (nonatomic, strong) NSDateFormatter *rfc1123DateFormatter;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, CQKWebAPIInjectedResponse *> *injectedResponses;
 @end
 
 @implementation CQKWebAPI
@@ -44,6 +59,7 @@
         [self.rfc1123DateFormatter  setDateFormat:@"EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"];
         [self.rfc1123DateFormatter  setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
         [self.rfc1123DateFormatter  setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+        [self setInjectedResponses:[NSMutableDictionary dictionary]];
         [self setSession:[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil]];
     }
     return self;
@@ -165,6 +181,18 @@
         } else {
             NSString *message = [NSString stringWithFormat:@"Failed to execute request: %@", request];
             [CQKLogger log:CQKLoggerLevelInfo message:message error:error callingClass:self.class];
+        }
+        return;
+    }
+    
+    CQKWebAPIInjectedResponse *injectedResponse = [self.injectedResponses objectForKey:[request.URL absoluteString]];
+    if (injectedResponse != nil) {
+        if (completion != nil) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(injectedResponse.timeout * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                completion(injectedResponse.statusCode, injectedResponse.responseObject, injectedResponse.error);
+            });
+        } else {
+            [CQKLogger log:CQKLoggerLevelWarn message:@"Injected response found but completion is nil" error:nil callingClass:self.class];
         }
         return;
     }

@@ -45,8 +45,6 @@
 		E1D645E11BE35CD8006860FD /* UIAlertController+CQKAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D645C21BE35CD7006860FD /* UIAlertController+CQKAlerts.m */; };
 		E1D645E21BE35CD8006860FD /* UIStoryboard+CQKStoryboards.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D645C31BE35CD7006860FD /* UIStoryboard+CQKStoryboards.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D645E31BE35CD8006860FD /* UIStoryboard+CQKStoryboards.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D645C41BE35CD7006860FD /* UIStoryboard+CQKStoryboards.m */; };
-		E1D820CB1C1923D5004EDD17 /* CQKMockableWebAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D820C91C1923D5004EDD17 /* CQKMockableWebAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E1D820CC1C1923D5004EDD17 /* CQKMockableWebAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D820CA1C1923D5004EDD17 /* CQKMockableWebAPI.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,8 +99,6 @@
 		E1D645C21BE35CD7006860FD /* UIAlertController+CQKAlerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+CQKAlerts.m"; sourceTree = "<group>"; };
 		E1D645C31BE35CD7006860FD /* UIStoryboard+CQKStoryboards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIStoryboard+CQKStoryboards.h"; sourceTree = "<group>"; };
 		E1D645C41BE35CD7006860FD /* UIStoryboard+CQKStoryboards.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIStoryboard+CQKStoryboards.m"; sourceTree = "<group>"; };
-		E1D820C91C1923D5004EDD17 /* CQKMockableWebAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQKMockableWebAPI.h; sourceTree = "<group>"; };
-		E1D820CA1C1923D5004EDD17 /* CQKMockableWebAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKMockableWebAPI.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,8 +169,6 @@
 				E1D645A71BE35CD7006860FD /* CQKCoreDataStack.m */,
 				E1D645A81BE35CD7006860FD /* CQKLogger.h */,
 				E1D645A91BE35CD7006860FD /* CQKLogger.m */,
-				E1D820C91C1923D5004EDD17 /* CQKMockableWebAPI.h */,
-				E1D820CA1C1923D5004EDD17 /* CQKMockableWebAPI.m */,
 				E1D645AA1BE35CD7006860FD /* CQKSerializable.h */,
 				E1D645AB1BE35CD7006860FD /* CQKSerializableNSManagedObject.h */,
 				E1D645AC1BE35CD7006860FD /* CQKSerializableNSManagedObject.m */,
@@ -222,7 +216,6 @@
 				E1D645CA1BE35CD7006860FD /* CQKSerializableNSManagedObject.h in Headers */,
 				E1D645D41BE35CD7006860FD /* NSBundle+CQKBundle.h in Headers */,
 				E1D645D61BE35CD7006860FD /* NSData+CQKCrypto.h in Headers */,
-				E1D820CB1C1923D5004EDD17 /* CQKMockableWebAPI.h in Headers */,
 				E1D645D81BE35CD8006860FD /* NSDate+CQKDates.h in Headers */,
 				E1D645C51BE35CD7006860FD /* CQKCoreDataStack.h in Headers */,
 				E1D645E21BE35CD8006860FD /* UIStoryboard+CQKStoryboards.h in Headers */,
@@ -335,7 +328,6 @@
 				E1D645D11BE35CD7006860FD /* CQKUbiquityUserDefaults.m in Sources */,
 				E1D645E31BE35CD8006860FD /* UIStoryboard+CQKStoryboards.m in Sources */,
 				E1D645CF1BE35CD7006860FD /* CQKUbiquityNSFileManager.m in Sources */,
-				E1D820CC1C1923D5004EDD17 /* CQKMockableWebAPI.m in Sources */,
 				E1D645DF1BE35CD8006860FD /* NSObject+CQKRuntime.m in Sources */,
 				E1D645E11BE35CD8006860FD /* UIAlertController+CQKAlerts.m in Sources */,
 				E1D645DD1BE35CD8006860FD /* NSNumberFormatter+CQKNumberFormatters.m in Sources */,
