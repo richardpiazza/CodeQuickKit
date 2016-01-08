@@ -98,10 +98,32 @@
          location = "group:UIStoryboard+CQKStoryboards.m">
       </FileRef>
    </Group>
+   <Group
+      location = "group:../CodeQuickKit-Swift"
+      name = "CodeQuickKit-Swift">
+      <FileRef
+         location = "group:CodeQuickKit-Swift/Downloader.swift">
+      </FileRef>
+      <FileRef
+         location = "group:CodeQuickKit-Swift/NSBundle.swift">
+      </FileRef>
+      <FileRef
+         location = "group:CodeQuickKit-Swift/NSObject.swift">
+      </FileRef>
+      <FileRef
+         location = "group:CodeQuickKit-Swift/Serializable.swift">
+      </FileRef>
+      <FileRef
+         location = "group:CodeQuickKit-Swift/String.swift">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:/Users/richardpiazza/Documents/CodeQuickKit/OSX/CodeQuickKitOSX.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:/Users/richardpiazza/Documents/CodeQuickKit/iOS/CodeQuickKitiOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/richardpiazza/Documents/CodeQuickKit/iOS-Swift/CodeQuickKitiOS-Swift.xcodeproj">
    </FileRef>
 </Workspace>
