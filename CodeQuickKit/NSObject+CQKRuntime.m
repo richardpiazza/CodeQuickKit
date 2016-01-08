@@ -60,12 +60,6 @@
 
 + (nonnull Class)classForPropertyName:(nonnull NSString *)propertyName ofClass:(nonnull Class)objectClass
 {
-//    if (propertyName == nil || [propertyName isEqualToString:@""]) {
-//        NSString *message = @"Could not determine property name class: propertyName is nil";
-//        [CQKLogger log:CQKLoggerLevelDebug message:message error:nil callingClass:self.class];
-//        return [NSNull class];
-//    }
-    
     objc_property_t runtimeProperty = class_getProperty(objectClass, propertyName.UTF8String);
     if (runtimeProperty == nil) {
         NSString *message = [NSString stringWithFormat:@"Could not determine property name class: class_getProperty failed for property: %@", propertyName];
@@ -82,6 +76,8 @@
         NSString *type = [propertyClassAttribute substringFromIndex:1];
         if ([type isEqualToString:@"q"]) {
             return [NSNumber class]; //Int
+        } else if ([type isEqualToString:@"d"]) {
+            return [NSNumber class]; //Double
         } else if ([type isEqualToString:@"f"]) {
             return [NSNumber class]; //Float
         } else if ([type isEqualToString:@"B"]) {

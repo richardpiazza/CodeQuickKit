@@ -47,6 +47,8 @@
 @property (nonatomic, copy) NSString *password;
 @property (nonatomic, strong) NSDateFormatter *rfc1123DateFormatter;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, CQKWebAPIInjectedResponse *> *injectedResponses;
+- (void)performRequestForPath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems withMethod:(NSString *)method data:(NSData *)data completion:(CQKWebAPICompletion)completion;
+- (void)performRequestForURL:(NSURL *)url withMethod:(NSString *)method data:(NSData *)data completion:(CQKWebAPICompletion)completion;
 @end
 
 @implementation CQKWebAPI
@@ -78,28 +80,52 @@
 
 - (void)getPath:(NSString *)path completion:(CQKWebAPICompletion)completion
 {
-    [self performRequestForPath:path withMethod:CQKWebAPIRequestMethodGet data:nil completion:completion];
+    [self performRequestForPath:path queryItems:nil withMethod:CQKWebAPIRequestMethodGet data:nil completion:completion];
+}
+
+- (void)getPath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems completion:(CQKWebAPICompletion)completion
+{
+    [self performRequestForPath:path queryItems:queryItems withMethod:CQKWebAPIRequestMethodGet data:nil completion:completion];
 }
 
 - (void)putData:(NSData *)data toPath:(NSString *)path completion:(CQKWebAPICompletion)completion
 {
-    [self performRequestForPath:path withMethod:CQKWebAPIRequestMethodPut data:data completion:completion];
+    [self performRequestForPath:path queryItems:nil withMethod:CQKWebAPIRequestMethodPut data:data completion:completion];
+}
+
+- (void)putData:(NSData *)data toPath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems completion:(CQKWebAPICompletion)completion
+{
+    [self performRequestForPath:path queryItems:queryItems withMethod:CQKWebAPIRequestMethodPut data:data completion:completion];
 }
 
 - (void)postData:(NSData *)data toPath:(NSString *)path completion:(CQKWebAPICompletion)completion
 {
-    [self performRequestForPath:path withMethod:CQKWebAPIRequestMethodPost data:data completion:completion];
+    [self performRequestForPath:path queryItems:nil withMethod:CQKWebAPIRequestMethodPost data:data completion:completion];
+}
+
+- (void)postData:(NSData *)data toPath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems completion:(CQKWebAPICompletion)completion
+{
+    [self performRequestForPath:path queryItems:queryItems withMethod:CQKWebAPIRequestMethodPost data:data completion:completion];
 }
 
 - (void)deletePath:(NSString *)path completion:(CQKWebAPICompletion)completion
 {
-    [self performRequestForPath:path withMethod:CQKWebAPIRequestMethodDelete data:nil completion:completion];
+    [self performRequestForPath:path queryItems:nil withMethod:CQKWebAPIRequestMethodDelete data:nil completion:completion];
 }
 
-- (void)performRequestForPath:(NSString *)path withMethod:(NSString *)method data:(NSData *)data completion:(CQKWebAPICompletion)completion
+- (void)deletePath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems completion:(CQKWebAPICompletion)completion
+{
+    [self performRequestForPath:path queryItems:queryItems withMethod:CQKWebAPIRequestMethodDelete data:nil completion:completion];
+}
+
+- (void)performRequestForPath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems withMethod:(NSString *)method data:(NSData *)data completion:(CQKWebAPICompletion)completion
 {
     NSURL *url = [self.baseURL URLByAppendingPathComponent:path];
-    [self performRequestForURL:url withMethod:method data:data completion:completion];
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithString:url.absoluteString];
+    if (queryItems != nil) {
+        [urlComponents setQueryItems:queryItems];
+    }
+    [self performRequestForURL:urlComponents.URL withMethod:method data:data completion:completion];
 }
 
 - (void)performRequestForURL:(NSURL *)url withMethod:(NSString *)method data:(NSData *)data completion:(CQKWebAPICompletion)completion
@@ -108,10 +134,14 @@
     [self executeRequest:request completion:completion];
 }
 
-- (NSMutableURLRequest *)requestForPath:(NSString *)path withMethod:(NSString *)method data:(NSData *)data
+- (NSMutableURLRequest *)requestForPath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems withMethod:(NSString *)method data:(NSData *)data
 {
     NSURL *url = [self.baseURL URLByAppendingPathComponent:path];
-    return [self requestForURL:url withMethod:method data:data];
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithString:url.absoluteString];
+    if (queryItems != nil) {
+        [urlComponents setQueryItems:queryItems];
+    }
+    return [self requestForURL:urlComponents.URL withMethod:method data:data];
 }
 
 - (NSMutableURLRequest *)requestForURL:(NSURL *)url withMethod:(NSString *)method data:(NSData *)data
@@ -130,10 +160,14 @@
     return request;
 }
 
-- (NSMutableURLRequest *)requestForPath:(NSString *)path withMethod:(NSString *)method imageData:(NSData *)imageData
+- (NSMutableURLRequest *)requestForPath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems withMethod:(NSString *)method imageData:(NSData *)imageData
 {
     NSURL *url = [self.baseURL URLByAppendingPathComponent:path];
-    return [self requestForURL:url withMethod:method imageData:imageData];
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithString:url.absoluteString];
+    if (queryItems != nil) {
+        [urlComponents setQueryItems:queryItems];
+    }
+    return [self requestForURL:urlComponents.URL withMethod:method imageData:imageData];
 }
 
 - (NSMutableURLRequest *)requestForURL:(NSURL *)url withMethod:(NSString *)method imageData:(NSData *)imageData

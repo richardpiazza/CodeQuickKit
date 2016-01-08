@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E1CB24EE1C3E67D200253BE6 /* NSObject+CQKRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = E1CB24EC1C3E67D200253BE6 /* NSObject+CQKRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1CB24EF1C3E67D200253BE6 /* NSObject+CQKRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = E1CB24ED1C3E67D200253BE6 /* NSObject+CQKRuntime.m */; };
 		E1D644BE1BE35950006860FD /* CodeQuickKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D644BD1BE35950006860FD /* CodeQuickKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D644C51BE35950006860FD /* CodeQuickKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D644BA1BE35950006860FD /* CodeQuickKit.framework */; };
 		E1D644DD1BE35AD1006860FD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D644DC1BE35AD1006860FD /* CoreData.framework */; };
@@ -21,7 +23,7 @@
 		E1D6458E1BE35CC4006860FD /* CQKSerializableNSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D6456F1BE35CC4006860FD /* CQKSerializableNSObject.m */; };
 		E1D6458F1BE35CC4006860FD /* CQKUbiquityNSFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D645701BE35CC4006860FD /* CQKUbiquityNSFileManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D645901BE35CC4006860FD /* CQKUbiquityNSFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D645711BE35CC4006860FD /* CQKUbiquityNSFileManager.m */; };
-		E1D645911BE35CC4006860FD /* CQKUbiquityUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D645721BE35CC4006860FD /* CQKUbiquityUserDefaults.h */; };
+		E1D645911BE35CC4006860FD /* CQKUbiquityUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D645721BE35CC4006860FD /* CQKUbiquityUserDefaults.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E1D645921BE35CC4006860FD /* CQKUbiquityUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D645731BE35CC4006860FD /* CQKUbiquityUserDefaults.m */; };
 		E1D645931BE35CC4006860FD /* CQKWebAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D645741BE35CC4006860FD /* CQKWebAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D645941BE35CC4006860FD /* CQKWebAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D645751BE35CC4006860FD /* CQKWebAPI.m */; };
@@ -35,8 +37,6 @@
 		E1D6459C1BE35CC4006860FD /* NSFileManager+CQKSandbox.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D6457D1BE35CC4006860FD /* NSFileManager+CQKSandbox.m */; };
 		E1D6459D1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D6457E1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D6459E1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D6457F1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.m */; };
-		E1D6459F1BE35CC4006860FD /* NSObject+CQKRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D645801BE35CC4006860FD /* NSObject+CQKRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E1D645A01BE35CC4006860FD /* NSObject+CQKRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D645811BE35CC4006860FD /* NSObject+CQKRuntime.m */; };
 		E1D820CE1C19265B004EDD17 /* CQKWebAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D820CD1C19265B004EDD17 /* CQKWebAPITests.m */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +51,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E1CB24EC1C3E67D200253BE6 /* NSObject+CQKRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+CQKRuntime.h"; sourceTree = "<group>"; };
+		E1CB24ED1C3E67D200253BE6 /* NSObject+CQKRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+CQKRuntime.m"; sourceTree = "<group>"; };
 		E1D644BA1BE35950006860FD /* CodeQuickKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CodeQuickKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1D644BD1BE35950006860FD /* CodeQuickKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodeQuickKit.h; sourceTree = "<group>"; };
 		E1D644BF1BE35950006860FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,8 +84,6 @@
 		E1D6457D1BE35CC4006860FD /* NSFileManager+CQKSandbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+CQKSandbox.m"; sourceTree = "<group>"; };
 		E1D6457E1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumberFormatter+CQKNumberFormatters.h"; sourceTree = "<group>"; };
 		E1D6457F1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumberFormatter+CQKNumberFormatters.m"; sourceTree = "<group>"; };
-		E1D645801BE35CC4006860FD /* NSObject+CQKRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+CQKRuntime.h"; sourceTree = "<group>"; };
-		E1D645811BE35CC4006860FD /* NSObject+CQKRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+CQKRuntime.m"; sourceTree = "<group>"; };
 		E1D820CD1C19265B004EDD17 /* CQKWebAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKWebAPITests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -173,8 +173,8 @@
 				E1D6457D1BE35CC4006860FD /* NSFileManager+CQKSandbox.m */,
 				E1D6457E1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.h */,
 				E1D6457F1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.m */,
-				E1D645801BE35CC4006860FD /* NSObject+CQKRuntime.h */,
-				E1D645811BE35CC4006860FD /* NSObject+CQKRuntime.m */,
+				E1CB24EC1C3E67D200253BE6 /* NSObject+CQKRuntime.h */,
+				E1CB24ED1C3E67D200253BE6 /* NSObject+CQKRuntime.m */,
 			);
 			name = CodeQuickKit;
 			path = ../CodeQuickKit;
@@ -188,7 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1D6458F1BE35CC4006860FD /* CQKUbiquityNSFileManager.h in Headers */,
-				E1D6459F1BE35CC4006860FD /* NSObject+CQKRuntime.h in Headers */,
+				E1CB24EE1C3E67D200253BE6 /* NSObject+CQKRuntime.h in Headers */,
 				E1D6459D1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.h in Headers */,
 				E1D645911BE35CC4006860FD /* CQKUbiquityUserDefaults.h in Headers */,
 				E1D6458B1BE35CC4006860FD /* CQKSerializableNSManagedObject.h in Headers */,
@@ -250,6 +250,7 @@
 		E1D644B11BE35950006860FD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Richard Piazza";
 				TargetAttributes = {
@@ -304,10 +305,10 @@
 			files = (
 				E1D645921BE35CC4006860FD /* CQKUbiquityUserDefaults.m in Sources */,
 				E1D645901BE35CC4006860FD /* CQKUbiquityNSFileManager.m in Sources */,
-				E1D645A01BE35CC4006860FD /* NSObject+CQKRuntime.m in Sources */,
 				E1D6459E1BE35CC4006860FD /* NSNumberFormatter+CQKNumberFormatters.m in Sources */,
 				E1D6458C1BE35CC4006860FD /* CQKSerializableNSManagedObject.m in Sources */,
 				E1D645871BE35CC4006860FD /* CQKCoreDataStack.m in Sources */,
+				E1CB24EF1C3E67D200253BE6 /* NSObject+CQKRuntime.m in Sources */,
 				E1D645941BE35CC4006860FD /* CQKWebAPI.m in Sources */,
 				E1D645981BE35CC4006860FD /* NSData+CQKCrypto.m in Sources */,
 				E1D6459A1BE35CC4006860FD /* NSDate+CQKDates.m in Sources */,
@@ -425,6 +426,7 @@
 		E1D644CF1BE35950006860FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -438,12 +440,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.richardpiazza.codequickkit;
 				PRODUCT_NAME = CodeQuickKit;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		E1D644D01BE35950006860FD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;

@@ -44,20 +44,21 @@ typedef void (^CQKWebAPICompletion)(int statusCode, id responseObject, NSError *
 - (instancetype)initWithBaseURL:(NSURL *)baseURL username:(NSString *)username password:(NSString *)password;
 
 - (void)getPath:(NSString *)path completion:(CQKWebAPICompletion)completion;
+- (void)getPath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems completion:(CQKWebAPICompletion)completion;
 - (void)putData:(NSData *)data toPath:(NSString *)path completion:(CQKWebAPICompletion)completion;
+- (void)putData:(NSData *)data toPath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems completion:(CQKWebAPICompletion)completion;
 - (void)postData:(NSData *)data toPath:(NSString *)path completion:(CQKWebAPICompletion)completion;
+- (void)postData:(NSData *)data toPath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems completion:(CQKWebAPICompletion)completion;
 - (void)deletePath:(NSString *)path completion:(CQKWebAPICompletion)completion;
-
-- (void)performRequestForPath:(NSString *)path withMethod:(NSString *)method data:(NSData *)data completion:(CQKWebAPICompletion)completion;
-- (void)performRequestForURL:(NSURL *)url withMethod:(NSString *)method data:(NSData *)data completion:(CQKWebAPICompletion)completion;
+- (void)deletePath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems completion:(CQKWebAPICompletion)completion;
 
 /// Convenience method that constructs a full URL from the baseURL and provided path.
-- (NSMutableURLRequest *)requestForPath:(NSString *)path withMethod:(NSString *)method data:(NSData *)data;
+- (NSMutableURLRequest *)requestForPath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems withMethod:(NSString *)method data:(NSData *)data;
 /// Constructs the request, setting the method and headers as well as the body data when present.
 - (NSMutableURLRequest *)requestForURL:(NSURL *)url withMethod:(NSString *)method data:(NSData *)data;
 
 /// Convenience method that constructs a full URL from the baseURL and provided path.
-- (NSMutableURLRequest *)requestForPath:(NSString *)path withMethod:(NSString *)method imageData:(NSData *)imageData;
+- (NSMutableURLRequest *)requestForPath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems withMethod:(NSString *)method imageData:(NSData *)imageData;
 /// Transforms requestForURL:withMethod:data: request into multipart/form-data
 /// The image uploaded will have the content-type 'image/png' with the filename 'image.png'
 - (NSMutableURLRequest *)requestForURL:(NSURL *)url withMethod:(NSString *)method imageData:(NSData *)imageData;
