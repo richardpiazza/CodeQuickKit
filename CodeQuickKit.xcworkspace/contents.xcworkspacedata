@@ -105,10 +105,22 @@
          location = "group:CodeQuickKit-Swift/Downloader.swift">
       </FileRef>
       <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/Logger.swift">
+      </FileRef>
+      <FileRef
          location = "group:CodeQuickKit-Swift/NSBundle.swift">
       </FileRef>
       <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/NSDate.swift">
+      </FileRef>
+      <FileRef
          location = "group:../CodeQuickKit/CodeQuickKit-Swift/NSDateFormatter.swift">
+      </FileRef>
+      <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/NSFileManager.swift">
+      </FileRef>
+      <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/NSNumberFormatter.swift">
       </FileRef>
       <FileRef
          location = "group:CodeQuickKit-Swift/NSObject.swift">
@@ -118,6 +130,12 @@
       </FileRef>
       <FileRef
          location = "group:CodeQuickKit-Swift/String.swift">
+      </FileRef>
+      <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/UIAlertController.swift">
+      </FileRef>
+      <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/UIStoryboard.swift">
       </FileRef>
       <FileRef
          location = "group:../CodeQuickKit/CodeQuickKit-Swift/WebAPI.swift">
