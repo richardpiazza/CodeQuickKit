@@ -30,11 +30,6 @@ import UIKit
 public typealias DownloaderDataCompletion = (statusCode: Int, responseData: NSData?, error: NSError?) -> Void
 public typealias DownloaderImageCompletion = (statusCode: Int, responseImage: UIImage?, error: NSError?) -> Void
 
-public enum DownloaderError: ErrorType {
-    case InvalidBaseURL
-    case RequestFailed(localizedMessage: String)
-}
-
 /// A wrapper for NSURLSession similar to CQKWebAPI for general purpose
 /// downloading of data and images.
 public class Downloader {
@@ -49,13 +44,21 @@ public class Downloader {
         return NSURLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
     }()
     private var cache: NSURLCache = NSURLCache(memoryCapacity: Downloader.twentyFiveMB, diskCapacity: Downloader.twoHundredMB, diskPath: "Downloader")
-    var baseURL: NSURL?
-    var timeout: NSTimeInterval = 20
+    public var baseURL: NSURL?
+    public var timeout: NSTimeInterval = 20
     
     private lazy var invalidBaseURL: NSError = {
         let userInfo: [String : AnyObject] = [NSLocalizedDescriptionKey:"Invalid Base URL", NSLocalizedFailureReasonErrorKey:"You can not use a `path` method without specifiying a baseURL."]
         return NSError(domain: "Downloader", code: 0, userInfo: userInfo)
     }()
+    
+    public init() {
+    }
+    
+    public convenience init(baseURL: NSURL) {
+        self.init()
+        self.baseURL = baseURL
+    }
     
     private func urlForPath(path: String) -> NSURL? {
         guard let baseURL = self.baseURL else {
@@ -65,7 +68,7 @@ public class Downloader {
         return baseURL.URLByAppendingPathComponent(path)
     }
     
-    func getDataAtPath(path: String, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderDataCompletion) {
+    public func getDataAtPath(path: String, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderDataCompletion) {
         guard let url = self.urlForPath(path) else {
             completion(statusCode: 0, responseData: nil, error: invalidBaseURL)
             return
@@ -74,7 +77,7 @@ public class Downloader {
         self.getDataAtURL(url, cachePolicy: cachePolicy, completion: completion)
     }
     
-    func getDataAtURL(url: NSURL, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderDataCompletion) {
+    public func getDataAtURL(url: NSURL, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderDataCompletion) {
         let request = NSMutableURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: timeout)
         request.HTTPMethod = "GET"
         
@@ -91,7 +94,7 @@ public class Downloader {
         }.resume()
     }
     
-    func getImageAtPath(path: String, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderImageCompletion) {
+    public func getImageAtPath(path: String, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderImageCompletion) {
         guard let url = self.urlForPath(path) else {
             completion(statusCode: 0, responseImage: nil, error: invalidBaseURL)
             return
@@ -100,7 +103,7 @@ public class Downloader {
         self.getImageAtURL(url, cachePolicy: cachePolicy, completion: completion)
     }
     
-    func getImageAtURL(url: NSURL, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderImageCompletion) {
+    public func getImageAtURL(url: NSURL, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderImageCompletion) {
         self.getDataAtURL(url, cachePolicy: cachePolicy) { (statusCode, responseData, error) -> Void in
             var image: UIImage?
             if responseData != nil {

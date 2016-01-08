@@ -26,7 +26,7 @@
 
 import Foundation
 
-extension NSObject {
+public extension NSObject {
     /// Lists all property names for an object of the provided class.
     static func propertyNamesForClass(objectClass: AnyClass) -> [String] {
         var properties: [String] = [String]()
@@ -132,7 +132,7 @@ extension NSObject {
         } else if (propertyClass as? NSURL.Type) != nil {
             return NSURL(string: (data as! String))
         } else if (propertyClass as? NSDate.Type) != nil {
-            return SerializableConfiguration.sharedConfiguration.dateFormatter.dateFromString((data as! String))
+            return NSDateFormatter.rfc1123DateFormatter.dateFromString((data as! String))
         }
         
         return data

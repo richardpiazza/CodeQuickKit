@@ -30,7 +30,7 @@ public protocol Serializable {
     func serializedValue() -> AnyObject?
 }
 
-extension Serializable {
+public extension Serializable {
     public func serializedValue() -> AnyObject? {
         let mirror = Mirror(reflecting: self)
         guard mirror.children.count > 0 else {
@@ -88,19 +88,19 @@ extension Float: Serializable {}
 extension Int: Serializable {}
 extension Bool: Serializable {}
 extension NSObject: Serializable {}
-extension NSURL {
+public extension NSURL {
     func serializedValue() -> AnyObject? {
         return self.absoluteString
     }
 }
-extension NSUUID {
+public extension NSUUID {
     func serializedValue() -> AnyObject? {
         return self.UUIDString
     }
 }
-extension NSDate {
+public extension NSDate {
     func serializedValue() -> AnyObject? {
-        return SerializableConfiguration.sharedConfiguration.dateFormatter.stringFromDate(self)
+        return NSDateFormatter.rfc1123DateFormatter.stringFromDate(self)
     }
 }
 
@@ -118,15 +118,6 @@ public class SerializableConfiguration {
     static let sharedConfiguration: SerializableConfiguration = SerializableConfiguration()
     
     var propertyKeyStyle: SerializableKeyStyle = .MatchCase
-    
     var serializedKeyStyle: SerializableKeyStyle = .MatchCase
-    
     var keyRedirects: [SerializableKeyRedirect] = [SerializableKeyRedirect]()
-    
-    /// An `NSDateFormatter` that is preconfigured with RFC1123 format.
-    lazy var dateFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
-        return formatter
-    }()
 }

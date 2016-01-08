@@ -12,6 +12,8 @@
 		E1AB6A6E1C3F3BC500E30D63 /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AB6A691C3F3BC500E30D63 /* NSObject.swift */; };
 		E1AB6A6F1C3F3BC500E30D63 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AB6A6A1C3F3BC500E30D63 /* Serializable.swift */; };
 		E1AB6A701C3F3BC500E30D63 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AB6A6B1C3F3BC500E30D63 /* String.swift */; };
+		E1AB6A721C3F445300E30D63 /* WebAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AB6A711C3F445300E30D63 /* WebAPI.swift */; };
+		E1AB6A741C3F463200E30D63 /* NSDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AB6A731C3F463200E30D63 /* NSDateFormatter.swift */; };
 		E1CB250C1C3F321C00253BE6 /* CodeQuickKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CB25011C3F321C00253BE6 /* CodeQuickKit.framework */; };
 		E1CB252B1C3F32E700253BE6 /* CodeQuickKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E1CB25261C3F32E700253BE6 /* CodeQuickKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -32,6 +34,8 @@
 		E1AB6A691C3F3BC500E30D63 /* NSObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
 		E1AB6A6A1C3F3BC500E30D63 /* Serializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serializable.swift; sourceTree = "<group>"; };
 		E1AB6A6B1C3F3BC500E30D63 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		E1AB6A711C3F445300E30D63 /* WebAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPI.swift; sourceTree = "<group>"; };
+		E1AB6A731C3F463200E30D63 /* NSDateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateFormatter.swift; sourceTree = "<group>"; };
 		E1CB25011C3F321C00253BE6 /* CodeQuickKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CodeQuickKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1CB250B1C3F321C00253BE6 /* CodeQuickKitiOS-Swift.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CodeQuickKitiOS-Swift.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1CB25261C3F32E700253BE6 /* CodeQuickKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeQuickKit.h; sourceTree = "<group>"; };
@@ -63,9 +67,11 @@
 			children = (
 				E1AB6A671C3F3BC500E30D63 /* Downloader.swift */,
 				E1AB6A681C3F3BC500E30D63 /* NSBundle.swift */,
+				E1AB6A731C3F463200E30D63 /* NSDateFormatter.swift */,
 				E1AB6A691C3F3BC500E30D63 /* NSObject.swift */,
 				E1AB6A6A1C3F3BC500E30D63 /* Serializable.swift */,
 				E1AB6A6B1C3F3BC500E30D63 /* String.swift */,
+				E1AB6A711C3F445300E30D63 /* WebAPI.swift */,
 			);
 			name = "CodeQuickKit-Swift";
 			path = "../CodeQuickKit-Swift";
@@ -216,6 +222,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1AB6A701C3F3BC500E30D63 /* String.swift in Sources */,
+				E1AB6A721C3F445300E30D63 /* WebAPI.swift in Sources */,
+				E1AB6A741C3F463200E30D63 /* NSDateFormatter.swift in Sources */,
 				E1AB6A6D1C3F3BC500E30D63 /* NSBundle.swift in Sources */,
 				E1AB6A6F1C3F3BC500E30D63 /* Serializable.swift in Sources */,
 				E1AB6A6E1C3F3BC500E30D63 /* NSObject.swift in Sources */,

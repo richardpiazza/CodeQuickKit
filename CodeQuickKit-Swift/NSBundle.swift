@@ -26,7 +26,7 @@
 
 import Foundation
 
-extension NSBundle {
+public extension NSBundle {
     @nonobjc static let BundleNameKey = "CFBundleName"
     @nonobjc static let BundleDisplayNameKey = "CFBundleDisplayName"
     @nonobjc static let BundleExecutableNameKey = "CFBundleExecutable"
