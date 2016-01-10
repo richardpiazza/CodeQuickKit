@@ -110,7 +110,7 @@
 		E1D644B01BE35950006860FD = {
 			isa = PBXGroup;
 			children = (
-				E1D645661BE35CC4006860FD /* CodeQuickKit */,
+				E1D645661BE35CC4006860FD /* CodeQuickKit-ObjC */,
 				E1D644DC1BE35AD1006860FD /* CoreData.framework */,
 				E1D644BC1BE35950006860FD /* OSX */,
 				E1D644C81BE35950006860FD /* OSXTests */,
@@ -145,7 +145,7 @@
 			path = OSXTests;
 			sourceTree = "<group>";
 		};
-		E1D645661BE35CC4006860FD /* CodeQuickKit */ = {
+		E1D645661BE35CC4006860FD /* CodeQuickKit-ObjC */ = {
 			isa = PBXGroup;
 			children = (
 				E1D645671BE35CC4006860FD /* CQKCoreDataStack.h */,
@@ -176,8 +176,8 @@
 				E1CB24EC1C3E67D200253BE6 /* NSObject+CQKRuntime.h */,
 				E1CB24ED1C3E67D200253BE6 /* NSObject+CQKRuntime.m */,
 			);
-			name = CodeQuickKit;
-			path = ../CodeQuickKit;
+			name = "CodeQuickKit-ObjC";
+			path = "../CodeQuickKit-ObjC";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

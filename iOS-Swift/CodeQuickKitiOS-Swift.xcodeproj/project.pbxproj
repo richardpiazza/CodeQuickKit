@@ -10,6 +10,7 @@
 		E118C7D41C3F749D00530169 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118C7D31C3F749D00530169 /* Logger.swift */; };
 		E118C7D61C3F90D700530169 /* NSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118C7D51C3F90D700530169 /* NSDate.swift */; };
 		E118C7D81C3F93B100530169 /* NSFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118C7D71C3F93B100530169 /* NSFileManager.swift */; };
+		E18D265A1C406D2900145F5E /* NSManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18D26591C406D2900145F5E /* NSManagedObject.swift */; };
 		E1AB6A6C1C3F3BC500E30D63 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AB6A671C3F3BC500E30D63 /* Downloader.swift */; };
 		E1AB6A6D1C3F3BC500E30D63 /* NSBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AB6A681C3F3BC500E30D63 /* NSBundle.swift */; };
 		E1AB6A6E1C3F3BC500E30D63 /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AB6A691C3F3BC500E30D63 /* NSObject.swift */; };
@@ -38,6 +39,7 @@
 		E118C7D31C3F749D00530169 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		E118C7D51C3F90D700530169 /* NSDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDate.swift; sourceTree = "<group>"; };
 		E118C7D71C3F93B100530169 /* NSFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFileManager.swift; sourceTree = "<group>"; };
+		E18D26591C406D2900145F5E /* NSManagedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSManagedObject.swift; sourceTree = "<group>"; };
 		E1AB6A671C3F3BC500E30D63 /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		E1AB6A681C3F3BC500E30D63 /* NSBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSBundle.swift; sourceTree = "<group>"; };
 		E1AB6A691C3F3BC500E30D63 /* NSObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				E118C7D51C3F90D700530169 /* NSDate.swift */,
 				E1AB6A731C3F463200E30D63 /* NSDateFormatter.swift */,
 				E118C7D71C3F93B100530169 /* NSFileManager.swift */,
+				E18D26591C406D2900145F5E /* NSManagedObject.swift */,
 				E1BD22421C3F9A22000479CC /* NSNumberFormatter.swift */,
 				E1AB6A691C3F3BC500E30D63 /* NSObject.swift */,
 				E1AB6A6A1C3F3BC500E30D63 /* Serializable.swift */,
@@ -242,6 +245,7 @@
 				E1BD22451C3FA01E000479CC /* UIStoryboard.swift in Sources */,
 				E1AB6A701C3F3BC500E30D63 /* String.swift in Sources */,
 				E1AB6A721C3F445300E30D63 /* WebAPI.swift in Sources */,
+				E18D265A1C406D2900145F5E /* NSManagedObject.swift in Sources */,
 				E1AB6A741C3F463200E30D63 /* NSDateFormatter.swift in Sources */,
 				E1AB6A6D1C3F3BC500E30D63 /* NSBundle.swift in Sources */,
 				E118C7D81C3F93B100530169 /* NSFileManager.swift in Sources */,

@@ -3,6 +3,7 @@
 // Serializable.swift
 //
 // Copyright (c) 2016 Richard Piazza
+// https://github.com/richardpiazza/CodeQuickKit
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -87,6 +88,23 @@ extension Double: Serializable {}
 extension Float: Serializable {}
 extension Int: Serializable {}
 extension Bool: Serializable {}
+extension Array: Serializable {
+    public func serializedValue() -> AnyObject? {
+        var results: [AnyObject] = [AnyObject]()
+        for item in self {
+            guard let any = item as? Serializable else {
+                continue
+            }
+            
+            guard let serializedValue = any.serializedValue() else {
+                continue
+            }
+            
+            results.append(serializedValue)
+        }
+        return results
+    }
+}
 extension NSObject: Serializable {}
 public extension NSURL {
     func serializedValue() -> AnyObject? {
@@ -103,6 +121,18 @@ public extension NSDate {
         return NSDateFormatter.rfc1123DateFormatter.stringFromDate(self)
     }
 }
+public extension NSArray {
+    func serializedValue() -> AnyObject? {
+        var results: [AnyObject] = [AnyObject]()
+        for item in self {
+            guard let serializedValue = item.serializedValue() else {
+                continue
+            }
+            results.append(serializedValue)
+        }
+        return results
+    }
+}
 
 public enum SerializableKeyStyle {
     case MatchCase
@@ -117,7 +147,7 @@ public typealias SerializableKeyRedirect = (propertyName: String, serializedKey:
 public class SerializableConfiguration {
     static let sharedConfiguration: SerializableConfiguration = SerializableConfiguration()
     
-    var propertyKeyStyle: SerializableKeyStyle = .MatchCase
-    var serializedKeyStyle: SerializableKeyStyle = .MatchCase
-    var keyRedirects: [SerializableKeyRedirect] = [SerializableKeyRedirect]()
+    public var propertyKeyStyle: SerializableKeyStyle = .MatchCase
+    public var serializedKeyStyle: SerializableKeyStyle = .MatchCase
+    public var keyRedirects: [SerializableKeyRedirect] = [SerializableKeyRedirect]()
 }

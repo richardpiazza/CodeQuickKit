@@ -2,8 +2,8 @@
 <Workspace
    version = "1.0">
    <Group
-      location = "group:CodeQuickKit"
-      name = "CodeQuickKit">
+      location = "group:CodeQuickKit-ObjC"
+      name = "CodeQuickKit-ObjC">
       <FileRef
          location = "group:CQKCoreDataStack.h">
       </FileRef>
@@ -118,6 +118,9 @@
       </FileRef>
       <FileRef
          location = "group:../CodeQuickKit/CodeQuickKit-Swift/NSFileManager.swift">
+      </FileRef>
+      <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/NSManagedObject.swift">
       </FileRef>
       <FileRef
          location = "group:../CodeQuickKit/CodeQuickKit-Swift/NSNumberFormatter.swift">
