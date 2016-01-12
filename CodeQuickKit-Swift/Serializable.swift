@@ -83,57 +83,6 @@ public extension Serializable {
     }
 }
 
-extension String: Serializable {}
-extension Double: Serializable {}
-extension Float: Serializable {}
-extension Int: Serializable {}
-extension Bool: Serializable {}
-extension Array: Serializable {
-    public func serializedValue() -> AnyObject? {
-        var results: [AnyObject] = [AnyObject]()
-        for item in self {
-            guard let any = item as? Serializable else {
-                continue
-            }
-            
-            guard let serializedValue = any.serializedValue() else {
-                continue
-            }
-            
-            results.append(serializedValue)
-        }
-        return results
-    }
-}
-extension NSObject: Serializable {}
-public extension NSURL {
-    func serializedValue() -> AnyObject? {
-        return self.absoluteString
-    }
-}
-public extension NSUUID {
-    func serializedValue() -> AnyObject? {
-        return self.UUIDString
-    }
-}
-public extension NSDate {
-    func serializedValue() -> AnyObject? {
-        return NSDateFormatter.rfc1123DateFormatter.stringFromDate(self)
-    }
-}
-public extension NSArray {
-    func serializedValue() -> AnyObject? {
-        var results: [AnyObject] = [AnyObject]()
-        for item in self {
-            guard let serializedValue = item.serializedValue() else {
-                continue
-            }
-            results.append(serializedValue)
-        }
-        return results
-    }
-}
-
 public enum SerializableKeyStyle {
     case MatchCase
     case TitleCase

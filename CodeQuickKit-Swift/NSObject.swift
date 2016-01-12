@@ -27,6 +27,10 @@
 
 import Foundation
 
+// MARK: - Serializable
+extension NSObject: Serializable {}
+
+// MARK: - Objective-C Runtime
 public extension NSObject {
     /// Lists all property names for an object of the provided class.
     static func propertyNamesForClass(objectClass: AnyClass) -> [String] {
@@ -61,7 +65,7 @@ public extension NSObject {
     }
     
     /// Provides the class for a property with the given name.
-    /// Will return NSNull class if property name not found/valid.
+    /// Will return NSNull class if property name not found/valid or not an NSObject subclass.
     static func classForPropertyName(propertyName: String, ofClass objectClass: AnyClass) -> AnyClass {
         let runtimeProperty = class_getProperty(objectClass, (propertyName as NSString).UTF8String)
         guard runtimeProperty != nil else {
@@ -79,10 +83,10 @@ public extension NSObject {
         if (propertyClassAttribute as NSString).length == 2 {
             let type = (propertyClassAttribute as NSString).substringFromIndex(1)
             switch type {
-            case "q": return NSNumber.self //Int
-            case "d": return NSNumber.self //Double
-            case "f": return NSNumber.self //Float
-            case "B": return NSNumber.self //Bool
+            case "q": return NSNull.self //Int
+            case "d": return NSNull.self //Double
+            case "f": return NSNull.self //Float
+            case "B": return NSNull.self //Bool
             case "@": return NSObject.self
             default: return NSObject.self
             }
@@ -116,24 +120,39 @@ public extension NSObject {
         
         return NSSelectorFromString("set\(setter):")
     }
-    
+}
+
+public extension NSObject {
     public func propertyNameFor(serializedKey: String) -> String? {
+        let redirects = SerializableConfiguration.sharedConfiguration.keyRedirects.filter({$0.serializedKey == serializedKey})
+        if redirects.count > 0 {
+            return redirects[0].propertyName
+        }
+        
         return serializedKey.stringByApplyingKeyStyle(SerializableConfiguration.sharedConfiguration.propertyKeyStyle)
     }
     
     public func serializedKeyFor(propertyName: String) -> String? {
+        let redirects = SerializableConfiguration.sharedConfiguration.keyRedirects.filter({$0.propertyName == propertyName})
+        if redirects.count > 0 {
+            return redirects[0].serializedKey
+        }
+        
         return propertyName.stringByApplyingKeyStyle(SerializableConfiguration.sharedConfiguration.serializedKeyStyle)
     }
     
     public func initializedObjectFor(propertyName: String, data: AnyObject) -> AnyObject? {
         let propertyClass: AnyClass = self.classForPropertyName(propertyName)
+        if propertyClass is NSNull.Type {
+            return nil
+        }
         
-        if (propertyClass as? NSUUID.Type) != nil {
-            return NSUUID(UUIDString: (data as! String))
-        } else if (propertyClass as? NSURL.Type) != nil {
-            return NSURL(string: (data as! String))
-        } else if (propertyClass as? NSDate.Type) != nil {
-            return NSDateFormatter.rfc1123DateFormatter.dateFromString((data as! String))
+        if let value = data as? String, _ = propertyClass as? NSUUID.Type {
+            return NSUUID(UUIDString: value)
+        } else if let value = data as? String, _ = propertyClass as? NSURL.Type {
+            return NSURL(string: value)
+        } else if let value = data as? String, _ = propertyClass as? NSDate.Type {
+            return NSDateFormatter.rfc1123DateFormatter.dateFromString(value)
         }
         
         return data
@@ -157,10 +176,10 @@ public extension NSObject {
                 continue
             }
             
-            if (value as? [AnyObject]) != nil {
+            if let valueArray = value as? [AnyObject] {
                 var array = [AnyObject]()
                 
-                for item in (value as! [AnyObject]) {
+                for item in valueArray {
                     if let initializedValue = self.initializedObjectFor(propertyName, data: item) {
                         array.append(initializedValue)
                     }
@@ -170,8 +189,6 @@ public extension NSObject {
             } else {
                 if let initializedValue = self.initializedObjectFor(propertyName, data: value) {
                     self.performSelector(setter, withObject: initializedValue)
-                } else {
-                    self.performSelector(setter, withObject: value)
                 }
             }
         }

@@ -102,10 +102,28 @@
       location = "group:../CodeQuickKit-Swift"
       name = "CodeQuickKit-Swift">
       <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/Array.swift">
+      </FileRef>
+      <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/Bool.swift">
+      </FileRef>
+      <FileRef
          location = "group:CodeQuickKit-Swift/Downloader.swift">
       </FileRef>
       <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/Double.swift">
+      </FileRef>
+      <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/Float.swift">
+      </FileRef>
+      <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/Int.swift">
+      </FileRef>
+      <FileRef
          location = "group:../CodeQuickKit/CodeQuickKit-Swift/Logger.swift">
+      </FileRef>
+      <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/NSArray.swift">
       </FileRef>
       <FileRef
          location = "group:CodeQuickKit-Swift/NSBundle.swift">
@@ -127,6 +145,12 @@
       </FileRef>
       <FileRef
          location = "group:CodeQuickKit-Swift/NSObject.swift">
+      </FileRef>
+      <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/NSURL.swift">
+      </FileRef>
+      <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/NSUUID.swift">
       </FileRef>
       <FileRef
          location = "group:CodeQuickKit-Swift/Serializable.swift">
