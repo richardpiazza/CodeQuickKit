@@ -108,6 +108,9 @@
          location = "group:../CodeQuickKit/CodeQuickKit-Swift/Bool.swift">
       </FileRef>
       <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/Deserializable.swift">
+      </FileRef>
+      <FileRef
          location = "group:CodeQuickKit-Swift/Downloader.swift">
       </FileRef>
       <FileRef
@@ -154,6 +157,9 @@
       </FileRef>
       <FileRef
          location = "group:CodeQuickKit-Swift/Serializable.swift">
+      </FileRef>
+      <FileRef
+         location = "group:../CodeQuickKit/CodeQuickKit-Swift/Serializer.swift">
       </FileRef>
       <FileRef
          location = "group:CodeQuickKit-Swift/String.swift">

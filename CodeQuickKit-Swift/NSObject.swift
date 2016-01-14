@@ -27,9 +27,6 @@
 
 import Foundation
 
-// MARK: - Serializable
-extension NSObject: Serializable {}
-
 // MARK: - Objective-C Runtime
 public extension NSObject {
     /// Lists all property names for an object of the provided class.
@@ -101,15 +98,8 @@ public extension NSObject {
         return anyclass.self
     }
     
-    func propertyNames() -> [String] {
-        return NSObject.propertyNamesForClass(self.dynamicType)
-    }
-    
-    func classForPropertyName(propertyName: String) -> AnyClass {
-        return NSObject.classForPropertyName(propertyName, ofClass: self.dynamicType)
-    }
-    
-    func setterForPropertyName(propertyName: String) -> Selector? {
+    /// Returns a probably Obj-C setter for the specified property name.
+    static func setterForPropertyName(propertyName: String) -> Selector? {
         guard propertyName.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 else {
             return nil
         }
@@ -120,100 +110,18 @@ public extension NSObject {
         
         return NSSelectorFromString("set\(setter):")
     }
+    
+    func propertyNames() -> [String] {
+        return NSObject.propertyNamesForClass(self.dynamicType)
+    }
+    
+    func classForPropertyName(propertyName: String) -> AnyClass {
+        return NSObject.classForPropertyName(propertyName, ofClass: self.dynamicType)
+    }
 }
 
-public extension NSObject {
-    public func propertyNameFor(serializedKey: String) -> String? {
-        let redirects = SerializableConfiguration.sharedConfiguration.keyRedirects.filter({$0.serializedKey == serializedKey})
-        if redirects.count > 0 {
-            return redirects[0].propertyName
-        }
-        
-        return serializedKey.stringByApplyingKeyStyle(SerializableConfiguration.sharedConfiguration.propertyKeyStyle)
-    }
-    
-    public func serializedKeyFor(propertyName: String) -> String? {
-        let redirects = SerializableConfiguration.sharedConfiguration.keyRedirects.filter({$0.propertyName == propertyName})
-        if redirects.count > 0 {
-            return redirects[0].serializedKey
-        }
-        
-        return propertyName.stringByApplyingKeyStyle(SerializableConfiguration.sharedConfiguration.serializedKeyStyle)
-    }
-    
-    public func initializedObjectFor(propertyName: String, data: AnyObject) -> AnyObject? {
-        let propertyClass: AnyClass = self.classForPropertyName(propertyName)
-        if propertyClass is NSNull.Type {
-            return nil
-        }
-        
-        if let value = data as? String, _ = propertyClass as? NSUUID.Type {
-            return NSUUID(UUIDString: value)
-        } else if let value = data as? String, _ = propertyClass as? NSURL.Type {
-            return NSURL(string: value)
-        } else if let value = data as? String, _ = propertyClass as? NSDate.Type {
-            return NSDateFormatter.rfc1123DateFormatter.dateFromString(value)
-        }
-        
-        return data
-    }
-    
-    public func update(withDictionary dictionary: [String : AnyObject]?) {
-        guard let dictionary = dictionary else {
-            return
-        }
-        
-        for (key, value) in dictionary {
-            guard let propertyName = self.propertyNameFor(key) else {
-                continue
-            }
-            
-            guard let setter = self.setterForPropertyName(propertyName) else {
-                continue
-            }
-            
-            guard self.respondsToSelector(setter) else {
-                continue
-            }
-            
-            if let valueArray = value as? [AnyObject] {
-                var array = [AnyObject]()
-                
-                for item in valueArray {
-                    if let initializedValue = self.initializedObjectFor(propertyName, data: item) {
-                        array.append(initializedValue)
-                    }
-                }
-                
-                self.performSelector(setter, withObject: array)
-            } else {
-                if let initializedValue = self.initializedObjectFor(propertyName, data: value) {
-                    self.performSelector(setter, withObject: initializedValue)
-                }
-            }
-        }
-    }
-    
-    public func update(withData data: NSData?) {
-        guard let data = data else {
-            return
-        }
-        
-        do {
-            let object = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
-            if let dictionary = (object as? [String : AnyObject]) {
-                self.update(withDictionary: dictionary)
-            }
-        } catch {
-            print(error)
-        }
-    }
-    
-    public func update(withJSON json: String?) {
-        guard let json = json else {
-            return
-        }
-        
-        self.update(withData: json.dataUsingEncoding(NSUTF8StringEncoding))
-    }
-}
+// MARK: - Serializable
+extension NSObject: Serializable {}
+
+// MARK: - Deserializable
+extension NSObject: Deserializable {}

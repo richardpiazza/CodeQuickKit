@@ -32,6 +32,15 @@ public protocol Serializable {
 }
 
 public extension Serializable {
+    public func serializedKeyFor(propertyName: String) -> String? {
+        let redirects = Serializer.configuration.keyRedirects.filter({$0.propertyName == propertyName})
+        if redirects.count > 0 {
+            return redirects[0].serializedKey
+        }
+        
+        return propertyName.stringByApplyingKeyStyle(Serializer.configuration.serializedKeyStyle)
+    }
+    
     public func serializedValue() -> AnyObject? {
         let mirror = Mirror(reflecting: self)
         guard mirror.children.count > 0 else {
@@ -44,14 +53,18 @@ public extension Serializable {
                 continue
             }
             
+            guard let serializedKey = self.serializedKeyFor(key) else {
+                continue
+            }
+            
             if let url = value as? NSURL {
-                results[key] = url.serializedValue()
+                results[serializedKey] = url.serializedValue()
             } else if let date = value as? NSDate {
-                results[key] = date.serializedValue()
+                results[serializedKey] = date.serializedValue()
             } else if let uuid = value as? NSUUID {
-                results[key] = uuid.serializedValue()
+                results[serializedKey] = uuid.serializedValue()
             } else if let any = value as? Serializable {
-                results[key] = any.serializedValue()
+                results[serializedKey] = any.serializedValue()
             }
         }
         
@@ -81,22 +94,4 @@ public extension Serializable {
         
         return json.stringByRemovingPrettyJSONFormatting
     }
-}
-
-public enum SerializableKeyStyle {
-    case MatchCase
-    case TitleCase
-    case CamelCase
-    case UpperCase
-    case LowerCase
-}
-
-public typealias SerializableKeyRedirect = (propertyName: String, serializedKey: String)
-
-public class SerializableConfiguration {
-    static let sharedConfiguration: SerializableConfiguration = SerializableConfiguration()
-    
-    public var propertyKeyStyle: SerializableKeyStyle = .MatchCase
-    public var serializedKeyStyle: SerializableKeyStyle = .MatchCase
-    public var keyRedirects: [SerializableKeyRedirect] = [SerializableKeyRedirect]()
 }
