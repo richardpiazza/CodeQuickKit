@@ -29,7 +29,7 @@ import Foundation
 
 // MARK: - Serializable
 public extension NSURL {
-    func serializedValue() -> AnyObject? {
+    override func serializedValue() -> AnyObject? {
         return self.absoluteString
     }
 }

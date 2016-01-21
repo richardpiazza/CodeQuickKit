@@ -29,7 +29,7 @@ import Foundation
 
 // MARK: - Serializable
 public extension NSUUID {
-    func serializedValue() -> AnyObject? {
+    override func serializedValue() -> AnyObject? {
         return self.UUIDString
     }
 }

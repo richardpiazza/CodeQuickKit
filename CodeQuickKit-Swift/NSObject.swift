@@ -121,7 +121,60 @@ public extension NSObject {
 }
 
 // MARK: - Serializable
-extension NSObject: Serializable {}
+extension NSObject: Serializable {
+    public func serializedKeyFor(propertyName: String) -> String? {
+        let redirects = Serializer.configuration.keyRedirects.filter({$0.propertyName == propertyName})
+        if redirects.count > 0 {
+            return redirects[0].serializedKey
+        }
+        
+        return propertyName.stringByApplyingKeyStyle(Serializer.configuration.serializedKeyStyle)
+    }
+    
+    public func serializedObjectFor(propertyName: String, data: AnyObject) -> AnyObject? {
+        let propertyClass: AnyClass = NSObject.classForPropertyName(propertyName, ofClass: self.dynamicType)
+        if propertyClass is NSNull.Type {
+            return nil
+        }
+        
+        if let value = data as? NSUUID, _ = propertyClass as? NSUUID.Type {
+            return value.UUIDString
+        } else if let value = data as? NSURL, _ = propertyClass as? NSURL.Type {
+            return value.absoluteString
+        } else if let value = data as? NSDate, _ = propertyClass as? NSDate.Type {
+            return NSDateFormatter.rfc1123DateFormatter.stringFromDate(value)
+        }
+        
+        return data
+    }
+    
+    public func serializedValue() -> AnyObject? {
+        var results: [String : AnyObject] = [String : AnyObject]()
+        
+        let properties = self.propertyNames()
+        for (key) in properties {
+            guard let serializedKey = self.serializedKeyFor(key) else {
+                continue
+            }
+            
+            guard self.respondsToSelector(NSSelectorFromString(key)) else {
+                continue
+            }
+            
+            guard let value = self.valueForKey(key) else {
+                continue
+            }
+            
+            guard let serializedValue = self.serializedObjectFor(key, data: value) else {
+                continue
+            }
+            
+            results[serializedKey] = serializedValue
+        }
+        
+        return results
+    }
+}
 
 // MARK: - Deserializable
 extension NSObject: Deserializable {
@@ -185,28 +238,5 @@ extension NSObject: Deserializable {
                 }
             }
         }
-    }
-    
-    public func update(withData data: NSData?) {
-        guard let data = data else {
-            return
-        }
-        
-        do {
-            let object = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
-            if let dictionary = (object as? [String : AnyObject]) {
-                self.update(withDictionary: dictionary)
-            }
-        } catch {
-            print(error)
-        }
-    }
-    
-    public func update(withJSON json: String?) {
-        guard let json = json else {
-            return
-        }
-        
-        self.update(withData: json.dataUsingEncoding(NSUTF8StringEncoding))
     }
 }

@@ -32,17 +32,9 @@ public protocol Serializable {
 }
 
 public extension Serializable {
-    public func serializedKeyFor(propertyName: String) -> String? {
-        let redirects = Serializer.configuration.keyRedirects.filter({$0.propertyName == propertyName})
-        if redirects.count > 0 {
-            return redirects[0].serializedKey
-        }
-        
-        return propertyName.stringByApplyingKeyStyle(Serializer.configuration.serializedKeyStyle)
-    }
-    
     public func serializedValue() -> AnyObject? {
         let mirror = Mirror(reflecting: self)
+        
         guard mirror.children.count > 0 else {
             return self as? AnyObject
         }
@@ -53,18 +45,16 @@ public extension Serializable {
                 continue
             }
             
-            guard let serializedKey = self.serializedKeyFor(key) else {
-                continue
-            }
-            
             if let url = value as? NSURL {
-                results[serializedKey] = url.serializedValue()
+                results[key] = url.serializedValue()
             } else if let date = value as? NSDate {
-                results[serializedKey] = date.serializedValue()
+                results[key] = date.serializedValue()
             } else if let uuid = value as? NSUUID {
-                results[serializedKey] = uuid.serializedValue()
+                results[key] = uuid.serializedValue()
             } else if let any = value as? Serializable {
-                results[serializedKey] = any.serializedValue()
+                results[key] = any.serializedValue()
+            } else {
+                print("\(key): \(value)")
             }
         }
         

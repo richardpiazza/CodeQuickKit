@@ -29,7 +29,7 @@ import Foundation
 
 // MARK: - Serializable
 public extension NSArray {
-    func serializedValue() -> AnyObject? {
+    override func serializedValue() -> AnyObject? {
         var results: [AnyObject] = [AnyObject]()
         for item in self {
             guard let serializedValue = item.serializedValue() else {

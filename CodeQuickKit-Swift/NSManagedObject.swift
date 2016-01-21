@@ -69,7 +69,7 @@ public extension NSManagedObject {
 
 // MARK: - Serializable
 public extension NSManagedObject {
-    public func serializedValue() -> AnyObject? {
+    override public func serializedValue() -> AnyObject? {
         var results: [String : AnyObject] = [String : AnyObject]()
         
         let attributes = self.entity.attributesByName
