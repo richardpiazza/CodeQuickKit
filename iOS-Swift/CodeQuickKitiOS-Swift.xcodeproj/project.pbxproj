@@ -21,6 +21,7 @@
 		E1A644F11C44D619005F1823 /* NSUUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A644E91C44D619005F1823 /* NSUUID.swift */; };
 		E1A644F71C471CB7005F1823 /* Deserializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A644F61C471CB7005F1823 /* Deserializable.swift */; };
 		E1A644F91C472289005F1823 /* Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A644F81C472289005F1823 /* Serializer.swift */; };
+		E1A644FB1C478B6C005F1823 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A644FA1C478B6C005F1823 /* CoreDataStack.swift */; };
 		E1AB6A6C1C3F3BC500E30D63 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AB6A671C3F3BC500E30D63 /* Downloader.swift */; };
 		E1AB6A6D1C3F3BC500E30D63 /* NSBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AB6A681C3F3BC500E30D63 /* NSBundle.swift */; };
 		E1AB6A6E1C3F3BC500E30D63 /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AB6A691C3F3BC500E30D63 /* NSObject.swift */; };
@@ -60,6 +61,7 @@
 		E1A644E91C44D619005F1823 /* NSUUID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSUUID.swift; sourceTree = "<group>"; };
 		E1A644F61C471CB7005F1823 /* Deserializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deserializable.swift; sourceTree = "<group>"; };
 		E1A644F81C472289005F1823 /* Serializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serializer.swift; sourceTree = "<group>"; };
+		E1A644FA1C478B6C005F1823 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E1AB6A671C3F3BC500E30D63 /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		E1AB6A681C3F3BC500E30D63 /* NSBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSBundle.swift; sourceTree = "<group>"; };
 		E1AB6A691C3F3BC500E30D63 /* NSObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			children = (
 				E1A644E21C44D619005F1823 /* Array.swift */,
 				E1A644E31C44D619005F1823 /* Bool.swift */,
+				E1A644FA1C478B6C005F1823 /* CoreDataStack.swift */,
 				E1A644F61C471CB7005F1823 /* Deserializable.swift */,
 				E1A644E41C44D619005F1823 /* Double.swift */,
 				E1AB6A671C3F3BC500E30D63 /* Downloader.swift */,
@@ -292,6 +295,7 @@
 				E1AB6A6F1C3F3BC500E30D63 /* Serializable.swift in Sources */,
 				E1A644F71C471CB7005F1823 /* Deserializable.swift in Sources */,
 				E1AB6A6E1C3F3BC500E30D63 /* NSObject.swift in Sources */,
+				E1A644FB1C478B6C005F1823 /* CoreDataStack.swift in Sources */,
 				E1AB6A6C1C3F3BC500E30D63 /* Downloader.swift in Sources */,
 				E118C7D41C3F749D00530169 /* Logger.swift in Sources */,
 				E1BD22431C3F9A22000479CC /* NSNumberFormatter.swift in Sources */,

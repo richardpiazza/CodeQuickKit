@@ -45,6 +45,7 @@ public extension Deserializable {
         guard let any = self.dynamicType as? AnyClass else {
             return data
         }
+        
         let propertyClass: AnyClass = NSObject.classForPropertyName(propertyName, ofClass: any)
         if propertyClass is NSNull.Type {
             return nil

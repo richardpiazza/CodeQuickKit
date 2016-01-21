@@ -31,15 +31,9 @@ import CoreData
 public extension NSManagedObject {
     /// Attemps to initialize an NSManagedObject by using the class name.
     public convenience init?(managedObjectContext context: NSManagedObjectContext) {
-        var bundle = NSBundle.mainBundle()
-        if let dictionary = bundle.infoDictionary where dictionary.count != 0 {
-            bundle = NSBundle(forClass: self.dynamicType)
-        }
-        
         var entityName = NSStringFromClass(self.dynamicType)
-        if entityName.hasPrefix("\(bundle.bundleDisplayName).") {
-            let end = bundle.bundleDisplayName.endIndex.advancedBy(1)
-            entityName = entityName.substringFromIndex(end)
+        if let lastPeriodRange = entityName.rangeOfString(".", options: NSStringCompareOptions.BackwardsSearch, range: nil, locale: nil) {
+            entityName = entityName.substringFromIndex(lastPeriodRange.endIndex)
         }
         
         guard let entityDescription = NSEntityDescription.entityForName(entityName, inManagedObjectContext: context) else {
@@ -49,19 +43,15 @@ public extension NSManagedObject {
         self.init(entity: entityDescription, insertIntoManagedObjectContext: context)
     }
     
-    public func shouldSerializeRelationship(withAttributeName attributeName: String) -> Bool {
-        return true
-    }
-    
-    public func classOfEntityForRelationship(withAttributeName attributeName: String) -> AnyClass? {
-        var entityClass: AnyClass? = NSClassFromString(attributeName)
+    public func classOfEntityForRelationship(withRelationshipName relationshipName: String) -> AnyClass? {
+        var entityClass: AnyClass? = NSClassFromString(relationshipName)
         if entityClass != nil {
             return entityClass
         }
         
-        var singular = attributeName
-        if attributeName.lowercaseString.hasSuffix("s") {
-            singular = attributeName.substringToIndex(attributeName.endIndex.advancedBy(-1))
+        var singular = relationshipName
+        if relationshipName.lowercaseString.hasSuffix("s") {
+            singular = relationshipName.substringToIndex(relationshipName.endIndex.advancedBy(-1))
         }
         
         let firstIndex = Range<String.Index>(start: singular.startIndex, end: singular.startIndex.advancedBy(1))
@@ -75,25 +65,19 @@ public extension NSManagedObject {
         
         return nil
     }
-    
-    public func initializedEntity(ofClass entityClass: AnyClass, forAttributeName attributeName: String, withDictionary dictionary: [String : AnyObject]) -> NSManagedObject? {
-        guard let context = self.managedObjectContext else {
-            return nil
-        }
-        
-        guard let entity = NSManagedObject(managedObjectContext: context) else {
-            return nil
-        }
-        
-        entity.update(withDictionary: dictionary)
-        return entity
-    }
-    
+}
+
+// MARK: - Serializable
+public extension NSManagedObject {
     public func serializedValue() -> AnyObject? {
         var results: [String : AnyObject] = [String : AnyObject]()
         
         let attributes = self.entity.attributesByName
         for (key, _) in attributes {
+            guard let serializedKey = self.serializedKeyFor(key) else {
+                continue
+            }
+            
             guard let value = self.valueForKey(key) else {
                 continue
             }
@@ -102,12 +86,12 @@ public extension NSManagedObject {
                 continue
             }
             
-            results[key] = serializedValue
+            results[serializedKey] = serializedValue
         }
         
         let relationships = self.entity.relationshipsByName
         for (key, _) in relationships {
-            guard self.shouldSerializeRelationship(withAttributeName: key) else {
+            guard let serializedKey = self.serializedKeyFor(key) else {
                 continue
             }
             
@@ -119,7 +103,7 @@ public extension NSManagedObject {
                 continue
             }
             
-            results[key] = serializedValue
+            results[serializedKey] = serializedValue
         }
         
         return results
