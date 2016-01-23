@@ -24,28 +24,11 @@
 
 #import "CQKSerializableNSObject.h"
 #import "NSObject+CQKRuntime.h"
+#import "NSDateFormatter+CQKDateFormatter.h"
+#import "CQKSerializableConfiguration.h"
 #import "CQKLogger.h"
 
-@implementation CQKSerializableNSObjectConfiguration
-
-- (id)init
-{
-    self = [super init];
-    if (self != nil) {
-        [self setPropertyKeyStyle:CQKSerializableNSObjectKeyStyleMatchCase];
-        [self setSerializedKeyStyle:CQKSerializableNSObjectKeyStyleMatchCase];
-        [self setSerializedIDPropertyName:nil];
-        [self setSerializedNSDateFormatter:[[NSDateFormatter alloc] init]];
-        [self.serializedNSDateFormatter setDateFormat:CQKSerializableNSObjectDateFormat];
-    }
-    return self;
-}
-
-@end
-
 @interface CQKSerializableNSObject ()
-+ (NSString *)stringForPropertyName:(NSString *)propertyName withKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle;
-+ (NSString *)jsonStringRemovingPrettyFormatting:(NSString *)json;
 - (BOOL)respondsToSetterForPropertyName:(NSString *)propertyName;
 - (void)setValueForPropertyName:(NSString *)propertyName withDictionary:(NSDictionary *)dictionary;
 - (void)setValueForPropertyName:(NSString *)propertyName withArray:(NSArray *)array;
@@ -54,59 +37,6 @@
 @end
 
 @implementation CQKSerializableNSObject
-
-+ (CQKSerializableNSObjectConfiguration *)configuration
-{
-    static CQKSerializableNSObjectConfiguration *_configuration;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _configuration = [[CQKSerializableNSObjectConfiguration alloc] init];
-    });
-    
-    return _configuration;
-}
-
-+ (NSString *)stringForPropertyName:(NSString *)propertyName withKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle
-{
-    if (propertyName == nil || [propertyName isEqualToString:@""]) {
-        return nil;
-    }
-    
-    if (propertyName.length == 1) {
-        return propertyName;
-    }
-    
-    switch (keyStyle) {
-        case CQKSerializableNSObjectKeyStyleMatchCase: {
-            return propertyName;
-        }
-        case CQKSerializableNSObjectKeyStyleCamelCase: {
-            return [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[propertyName substringToIndex:1] lowercaseString]];
-        }
-        case CQKSerializableNSObjectKeyStyleTitleCase: {
-            return [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[propertyName substringToIndex:1] uppercaseString]];
-        }
-        case CQKSerializableNSObjectKeyStyleUpperCase: {
-            return propertyName.uppercaseString;
-        }
-        case CQKSerializableNSObjectKeyStyleLowerCase: {
-            return propertyName.lowercaseString;
-        }
-        default: {
-            return propertyName;
-        }
-    }
-}
-
-+ (NSString *)jsonStringRemovingPrettyFormatting:(NSString *)json
-{
-    NSMutableString *jsonString = [NSMutableString stringWithString:json];
-    [jsonString replaceOccurrencesOfString:@"\n" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, jsonString.length)];
-    [jsonString replaceOccurrencesOfString:@" : " withString:@":" options:NSCaseInsensitiveSearch range:NSMakeRange(0, jsonString.length)];
-    [jsonString replaceOccurrencesOfString:@"  " withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, jsonString.length)];
-    [jsonString replaceOccurrencesOfString:@"\\/" withString:@"/" options:NSCaseInsensitiveSearch range:NSMakeRange(0, jsonString.length)];
-    return jsonString;
-}
 
 #pragma mark - NSCoding -
 - (id)initWithCoder:(NSCoder *)decoder
@@ -334,44 +264,19 @@
     }
     
     NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSString *jsonFormatted = [CQKSerializableNSObject jsonStringRemovingPrettyFormatting:json];
+    NSString *jsonFormatted = [CQKSerializableConfiguration jsonStringRemovingPrettyFormatting:json];
     return jsonFormatted;
 }
 
 #pragma mark -
 - (nullable NSString *)propertyNameForSerializedKey:(nullable NSString *)serializedKey
 {
-    if ([serializedKey.lowercaseString isEqualToString:CQKSerializableNSObjectIDPropertyName.lowercaseString]) {
-        if ([[CQKSerializableNSObject configuration] serializedIDPropertyName] != nil) {
-            return [[CQKSerializableNSObject configuration] serializedIDPropertyName];
-        } else {
-            NSArray *propertyNames = [NSObject propertyNamesForClass:self.class];
-            if ([propertyNames containsObject:CQKSerializableNSObjectUUIDPropertyName]) {
-                return CQKSerializableNSObjectUUIDPropertyName;
-            } else if ([propertyNames containsObject:CQKSerializableNSObjectUniqueIdPropertyName]) {
-                return CQKSerializableNSObjectUniqueIdPropertyName;
-            }
-        }
-    }
-    
-    return [self.class stringForPropertyName:serializedKey withKeyStyle:[[CQKSerializableNSObject configuration] propertyKeyStyle]];
+    return [[CQKSerializableConfiguration sharedConfiguration] propertyNameForSerializedKey:serializedKey];
 }
 
 - (nullable NSString *)serializedKeyForPropertyName:(nullable NSString *)propertyName
 {
-    if ([[CQKSerializableNSObject configuration] serializedIDPropertyName] != nil) {
-        if ([propertyName isEqualToString:[[CQKSerializableNSObject configuration] serializedIDPropertyName]]) {
-            return [self.class stringForPropertyName:CQKSerializableNSObjectIDPropertyName withKeyStyle:[[CQKSerializableNSObject configuration] serializedKeyStyle]];
-        }
-    } else {
-        if ([propertyName isEqualToString:CQKSerializableNSObjectUUIDPropertyName]) {
-            return [self.class stringForPropertyName:CQKSerializableNSObjectIDPropertyName withKeyStyle:[[CQKSerializableNSObject configuration] serializedKeyStyle]];
-        } else if ([propertyName isEqualToString:CQKSerializableNSObjectUniqueIdPropertyName]) {
-            return [self.class stringForPropertyName:CQKSerializableNSObjectIDPropertyName withKeyStyle:[[CQKSerializableNSObject configuration] serializedKeyStyle]];
-        }
-    }
-    
-    return [self.class stringForPropertyName:propertyName withKeyStyle:[[CQKSerializableNSObject configuration] serializedKeyStyle]];
+    return [[CQKSerializableConfiguration sharedConfiguration] serializedKeyForPropertyName:propertyName];
 }
 
 - (nullable id <NSObject>)initializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data
@@ -381,7 +286,7 @@
     if ([propertyClass isSubclassOfClass:[NSUUID class]]) {
         return [[NSUUID alloc] initWithUUIDString:(NSString *)data];
     } else if ([propertyClass isSubclassOfClass:[NSDate class]]) {
-        return [[[CQKSerializableNSObject configuration] serializedNSDateFormatter] dateFromString:(NSString *)data];
+        return [[NSDateFormatter rfc1123DateFormatter] dateFromString:(NSString *)data];
     } else if ([propertyClass isSubclassOfClass:[NSURL class]]) {
         return [NSURL URLWithString:(NSString *)data];
     }
@@ -394,7 +299,7 @@
     if ([[data class] isSubclassOfClass:[NSUUID class]]) {
         return [(NSUUID *)data UUIDString];
     } else if ([[data class] isSubclassOfClass:[NSDate class]]) {
-        return [[[CQKSerializableNSObject configuration] serializedNSDateFormatter] stringFromDate:(NSDate *)data];
+        return [[NSDateFormatter rfc1123DateFormatter] stringFromDate:(NSDate *)data];
     } else if ([[data class] isSubclassOfClass:[NSURL class]]) {
         return [(NSURL *)data absoluteString];
     }
@@ -480,8 +385,3 @@
 }
 
 @end
-
-NSString * const _Nonnull CQKSerializableNSObjectDateFormat = @"yyyy-MM-dd'T'HH:mm:ss";
-NSString * const _Nonnull CQKSerializableNSObjectUUIDPropertyName = @"uuid";
-NSString * const _Nonnull CQKSerializableNSObjectUniqueIdPropertyName = @"uniqueId";
-NSString * const _Nonnull CQKSerializableNSObjectIDPropertyName = @"id";

@@ -28,8 +28,8 @@
 import Foundation
 
 // MARK: - Serializable
-public extension NSDate {
-    override func serializedValue() -> AnyObject? {
+extension NSDate: Serializable {
+    public func serializedValue() -> AnyObject? {
         return NSDateFormatter.rfc1123DateFormatter.stringFromDate(self)
     }
 }

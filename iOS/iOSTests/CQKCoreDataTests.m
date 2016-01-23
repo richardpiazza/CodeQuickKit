@@ -40,13 +40,13 @@
 @dynamic city;
 @dynamic person;
 
-- (BOOL)shouldSerializeRelationshipWithAttributeName:(NSString *)attributeName
+- (NSString *)serializedKeyForAttributeName:(NSString *)attributeName
 {
     if ([attributeName isEqualToString:@"person"]) {
-        return NO;
+        return nil;
     }
     
-    return [super shouldSerializeRelationshipWithAttributeName:attributeName];
+    return [super serializedKeyForAttributeName:attributeName];
 }
 
 @end

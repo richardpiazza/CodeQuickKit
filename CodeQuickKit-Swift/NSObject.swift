@@ -80,10 +80,10 @@ public extension NSObject {
         if (propertyClassAttribute as NSString).length == 2 {
             let type = (propertyClassAttribute as NSString).substringFromIndex(1)
             switch type {
-            case "q": return NSNull.self //Int
-            case "d": return NSNull.self //Double
-            case "f": return NSNull.self //Float
-            case "B": return NSNull.self //Bool
+            case "q": return NSNumber.self // Swift Int
+            case "d": return NSNumber.self // Swift Double
+            case "f": return NSNumber.self // Swift Float
+            case "B": return NSNumber.self // Swift Bool
             case "@": return NSObject.self
             default: return NSObject.self
             }
@@ -111,132 +111,13 @@ public extension NSObject {
         return NSSelectorFromString("set\(setter):")
     }
     
+    /// Convenience accessor to staitc NSObject.propertyNamesForClass
     func propertyNames() -> [String] {
         return NSObject.propertyNamesForClass(self.dynamicType)
     }
     
+    /// Convenience accessor to staitc classForPropertyName
     func classForPropertyName(propertyName: String) -> AnyClass {
         return NSObject.classForPropertyName(propertyName, ofClass: self.dynamicType)
-    }
-}
-
-// MARK: - Serializable
-extension NSObject: Serializable {
-    public func serializedKeyFor(propertyName: String) -> String? {
-        let redirects = Serializer.configuration.keyRedirects.filter({$0.propertyName == propertyName})
-        if redirects.count > 0 {
-            return redirects[0].serializedKey
-        }
-        
-        return propertyName.stringByApplyingKeyStyle(Serializer.configuration.serializedKeyStyle)
-    }
-    
-    public func serializedObjectFor(propertyName: String, data: AnyObject) -> AnyObject? {
-        let propertyClass: AnyClass = NSObject.classForPropertyName(propertyName, ofClass: self.dynamicType)
-        if propertyClass is NSNull.Type {
-            return nil
-        }
-        
-        if let value = data as? NSUUID, _ = propertyClass as? NSUUID.Type {
-            return value.UUIDString
-        } else if let value = data as? NSURL, _ = propertyClass as? NSURL.Type {
-            return value.absoluteString
-        } else if let value = data as? NSDate, _ = propertyClass as? NSDate.Type {
-            return NSDateFormatter.rfc1123DateFormatter.stringFromDate(value)
-        }
-        
-        return data
-    }
-    
-    public func serializedValue() -> AnyObject? {
-        var results: [String : AnyObject] = [String : AnyObject]()
-        
-        let properties = self.propertyNames()
-        for (key) in properties {
-            guard let serializedKey = self.serializedKeyFor(key) else {
-                continue
-            }
-            
-            guard self.respondsToSelector(NSSelectorFromString(key)) else {
-                continue
-            }
-            
-            guard let value = self.valueForKey(key) else {
-                continue
-            }
-            
-            guard let serializedValue = self.serializedObjectFor(key, data: value) else {
-                continue
-            }
-            
-            results[serializedKey] = serializedValue
-        }
-        
-        return results
-    }
-}
-
-// MARK: - Deserializable
-extension NSObject: Deserializable {
-    public func propertyNameFor(serializedKey: String) -> String? {
-        let redirects = Serializer.configuration.keyRedirects.filter({$0.serializedKey == serializedKey})
-        if redirects.count > 0 {
-            return redirects[0].propertyName
-        }
-        
-        return serializedKey.stringByApplyingKeyStyle(Serializer.configuration.propertyKeyStyle)
-    }
-    
-    public func initializedObjectFor(propertyName: String, data: AnyObject) -> AnyObject? {
-        let propertyClass: AnyClass = NSObject.classForPropertyName(propertyName, ofClass: self.dynamicType)
-        if propertyClass is NSNull.Type {
-            return nil
-        }
-        
-        if let value = data as? String, _ = propertyClass as? NSUUID.Type {
-            return NSUUID(UUIDString: value)
-        } else if let value = data as? String, _ = propertyClass as? NSURL.Type {
-            return NSURL(string: value)
-        } else if let value = data as? String, _ = propertyClass as? NSDate.Type {
-            return NSDateFormatter.rfc1123DateFormatter.dateFromString(value)
-        }
-        
-        return data
-    }
-    
-    public func update(withDictionary dictionary: [String : AnyObject]?) {
-        guard let dictionary = dictionary else {
-            return
-        }
-        
-        for (key, value) in dictionary {
-            guard let propertyName = self.propertyNameFor(key) else {
-                continue
-            }
-            
-            guard let setter = NSObject.setterForPropertyName(propertyName) else {
-                continue
-            }
-            
-            guard self.respondsToSelector(setter) else {
-                continue
-            }
-            
-            if let valueArray = value as? [AnyObject] {
-                var array = [AnyObject]()
-                
-                for item in valueArray {
-                    if let initializedValue = self.initializedObjectFor(propertyName, data: item) {
-                        array.append(initializedValue)
-                    }
-                }
-                
-                self.performSelector(setter, withObject: array)
-            } else {
-                if let initializedValue = self.initializedObjectFor(propertyName, data: value) {
-                    self.performSelector(setter, withObject: initializedValue)
-                }
-            }
-        }
     }
 }

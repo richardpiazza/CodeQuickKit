@@ -87,6 +87,9 @@ class XcodeBuildWrapper
 				if (!system("cp -r #{iphone_framework}/*.bundle #{universal_framework}/"))
 					#ignore
 				end
+				if (!system("cp -r #{iphone_framework}/*.sh #{universal_framework}/"))
+					#ignore
+				end
 				
 				if (File.directory?("#{iphone_headers}/"))
 					if (!system("cp -r #{iphone_headers}/ #{universal_headers}/"))
@@ -129,6 +132,9 @@ class XcodeBuildWrapper
 					#ignore
 				end
 				if (!system("cp -r #{architecture_framework}/Resources/*.bundle #{universal_framework}/"))
+					#ignore
+				end
+				if (!system("cp -r #{architecture_framework}/Resources/*.sh #{universal_framework}/"))
 					#ignore
 				end
 				

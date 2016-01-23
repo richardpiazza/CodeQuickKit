@@ -36,32 +36,35 @@
  @property      context The NSManagedObjectContext with the matching entity description.
  @return        A NSManagedObject subclass that has been inserted into the NSManagedObjectContext.
  */
-- (instancetype)initIntoManagedObjectContext:(NSManagedObjectContext *)context;
+- (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context;
 /*! @abstract  Calls the default initializer then passes the referenced dictionary to `CQKSerializable` updateWithDictionary:. */
-- (instancetype)initIntoManagedObjectContext:(NSManagedObjectContext *)context withDictionary:(NSDictionary *)dictionary;
+- (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context withDictionary:(nullable NSDictionary *)dictionary;
 /*! @abstract  Calls the default initializer then passes the referenced dictionary to `CQKSerializable` updateWithData:. */
-- (instancetype)initIntoManagedObjectContext:(NSManagedObjectContext *)context withData:(NSData *)data;
+- (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context withData:(nullable NSData *)data;
 /*! @abstract  Calls the default initializer then passes the referenced dictionary to `CQKSerializable` updateWithJSON:. */
-- (instancetype)initIntoManagedObjectContext:(NSManagedObjectContext *)context withJSON:(NSString *)json;
+- (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context withJSON:(nullable NSString *)json;
+
+- (nullable NSString *)attributeNameForSerializedKey:(nullable NSString *)serializedKey;
 
 /*!
- @abstract      Determines when a relationship should be serialized; Default: YES
+ @abstract
  @discussion    This should be overriden in subclasses to prevent serializing reverse relationships.
                 i.e. Given Person -> Address (One-to-many with reverse reference); When serializing a 'Person',
                 you want the related Addresses but don't want the 'Person' referenced on the 'Address'.
  */
-- (BOOL)shouldSerializeRelationshipWithAttributeName:(NSString *)attributeName;
+- (nullable NSString *)serializedKeyForAttributeName:(nullable NSString *)attributeName;
+
 /*!
  @abstract      Allows for the specifying/overriding of the class for a given relationship.
  @discussion    By default a singularized version of the provided attributeName will be used to identify the class.
                 If no class is specified, NSNull class will be returned.
  */
-- (Class)classOfEntityForRelationshipWithAttributeName:(NSString *)attributeName;
+- (nullable Class)classOfEntityForRelationshipWithAttributeName:(nullable NSString *)attributeName;
 
 /*!
  @abstract      Allows for the overriding of managed object initialization.
  @discussion    By default, if the class conforms to `CQKSerializable`, initIntoManagedObjectContext:withDictionary: is called.
  */
-- (NSManagedObject *)initializedEntityOfClass:(Class)entityClass forAttributeName:(NSString *)attributeName withDictionary:(NSDictionary *)dictionary;
+- (nullable __kindof NSManagedObject *)initializedEntityOfClass:(nullable Class)entityClass forAttributeName:(nullable NSString *)attributeName withDictionary:(nullable NSDictionary *)dictionary;
 
 @end

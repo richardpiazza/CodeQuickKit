@@ -24,7 +24,9 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import <CodeQuickKit/CQKSerializableConfiguration.h>
 #import <CodeQuickKit/CQKSerializableNSObject.h>
+#import <CodeQuickKit/NSDateFormatter+CQKDateFormatter.h>
 
 @interface CQKAddress : CQKSerializableNSObject
 @property (nonatomic, strong) NSString *street;
@@ -113,16 +115,17 @@ static NSString * const addressCountry = @"Australia";
 static NSString * const favoriteUrlApple = @"http://www.apple.com";
 static NSString * const favoriteUrlGithub = @"http://www.github.com";
 static NSString * const favoriteUrlSocial = @"http://plus.google.com";
-static NSString * const Serialized01 = @"{\"Name\":\"Richard\",\"DateOfBirth\":\"1982-11-05T16:00:00\",\"Phone\":\"555-555-5555\",\"Address\":{\"Country\":\"Australia\",\"Street\":\"100 William Street\",\"City\":\"Perth\",\"State\":\"WA\",\"Zipcode\":6000},\"FavoriteURLs\":[\"http://www.apple.com\",\"http://www.github.com\",\"http://plus.google.com\"],\"Id\":\"BEA9C47F-B002-4E84-91AD-582D0D19541D\"}";
-static NSString * const Serialized02 = @"{\"Address\":{\"Street\":\"100 William Street\",\"Zipcode\":6000,\"City\":\"Perth\",\"State\":\"WA\",\"Country\":\"Australia\"},\"Name\":\"Richard\",\"Phone\":\"555-555-5555\",\"DateOfBirth\":\"1982-11-05T16:00:00\",\"FavoriteURLs\":[\"http://www.apple.com\",\"http://www.github.com\",\"http://plus.google.com\"],\"Id\":\"BEA9C47F-B002-4E84-91AD-582D0D19541D\"}";
+static NSString * const Serialized01 = @"{\"Name\":\"Richard\",\"DateOfBirth\":\"Fri, 05 Nov 1982 08:00:00 GMT\",\"Phone\":\"555-555-5555\",\"Address\":{\"Country\":\"Australia\",\"Street\":\"100 William Street\",\"City\":\"Perth\",\"State\":\"WA\",\"Zipcode\":6000},\"FavoriteURLs\":[\"http://www.apple.com\",\"http://www.github.com\",\"http://plus.google.com\"],\"Id\":\"BEA9C47F-B002-4E84-91AD-582D0D19541D\"}";
+static NSString * const Serialized02 = @"{\"Address\":{\"Street\":\"100 William Street\",\"Zipcode\":6000,\"City\":\"Perth\",\"State\":\"WA\",\"Country\":\"Australia\"},\"Name\":\"Richard\",\"Phone\":\"555-555-5555\",\"DateOfBirth\":\"Fri, 05 Nov 1982 08:00:00 GMT\",\"FavoriteURLs\":[\"http://www.apple.com\",\"http://www.github.com\",\"http://plus.google.com\"],\"Id\":\"BEA9C47F-B002-4E84-91AD-582D0D19541D\"}";
 static NSString * const DictionaryWithDictionaryList = @"{\"count\":1,\"results\":[{\"commits\":{\"6139C8319FDE4527BFD4EA6334BA1CE5BC0DE9DF\":[{\"XCSCommitMessage\":\"Corrected Test Build\"}]}}]}";
 
 @implementation CQKSerializableNSObjectTests
 
 + (void)setUp
 {
-    [[CQKSerializableNSObject configuration] setPropertyKeyStyle:CQKSerializableNSObjectKeyStyleCamelCase];
-    [[CQKSerializableNSObject configuration] setSerializedKeyStyle:CQKSerializableNSObjectKeyStyleTitleCase];
+    [[CQKSerializableConfiguration sharedConfiguration] setPropertyKeyStyle:CQKSerializableNSObjectKeyStyleCamelCase];
+    [[CQKSerializableConfiguration sharedConfiguration] setSerializedKeyStyle:CQKSerializableNSObjectKeyStyleTitleCase];
+    [[[CQKSerializableConfiguration sharedConfiguration] keyRedirects] setObject:@"Id" forKey:@"uuid"];
     
     personId = [[NSUUID alloc] initWithUUIDString:@"BEA9C47F-B002-4E84-91AD-582D0D19541D"];
     personDateOfBirth = [[NSCalendar currentCalendar] dateWithEra:1 year:1982 month:11 day:5 hour:16 minute:0 second:0 nanosecond:0];

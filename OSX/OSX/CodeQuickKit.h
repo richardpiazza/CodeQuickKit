@@ -18,6 +18,7 @@ FOUNDATION_EXPORT const unsigned char OSXVersionString[];
 #import <CodeQuickKit/CQKCoreDataStack.h>
 #import <CodeQuickKit/CQKLogger.h>
 #import <CodeQuickKit/CQKSerializable.h>
+#import <CodeQuickKit/CQKSerializableConfiguration.h>
 #import <CodeQuickKit/CQKSerializableNSManagedObject.h>
 #import <CodeQuickKit/CQKSerializableNSObject.h>
 #import <CodeQuickKit/CQKUbiquityNSFileManager.h>
@@ -27,4 +28,5 @@ FOUNDATION_EXPORT const unsigned char OSXVersionString[];
 #import <CodeQuickKit/NSNumberFormatter+CQKNumberFormatters.h>
 #import <CodeQuickKit/NSData+CQKCrypto.h>
 #import <CodeQuickKit/NSDate+CQKDates.h>
+#import <CodeQuickKit/NSDateFormatter+CQKDateFormatter.h>
 #import <CodeQuickKit/NSObject+CQKRuntime.h>

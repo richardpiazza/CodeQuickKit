@@ -20,6 +20,12 @@
          location = "group:CQKSerializable.h">
       </FileRef>
       <FileRef
+         location = "group:CQKSerializableConfiguration.h">
+      </FileRef>
+      <FileRef
+         location = "group:CQKSerializableConfiguration.m">
+      </FileRef>
+      <FileRef
          location = "group:CQKSerializableNSManagedObject.h">
       </FileRef>
       <FileRef
@@ -66,6 +72,12 @@
       </FileRef>
       <FileRef
          location = "group:NSDate+CQKDates.m">
+      </FileRef>
+      <FileRef
+         location = "group:NSDateFormatter+CQKDateFormatter.h">
+      </FileRef>
+      <FileRef
+         location = "group:NSDateFormatter+CQKDateFormatter.m">
       </FileRef>
       <FileRef
          location = "group:NSFileManager+CQKSandbox.h">
