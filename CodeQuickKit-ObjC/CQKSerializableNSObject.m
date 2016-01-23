@@ -279,7 +279,7 @@
     return [[CQKSerializableConfiguration sharedConfiguration] serializedKeyForPropertyName:propertyName];
 }
 
-- (nullable id <NSObject>)initializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data
+- (nullable __kindof NSObject *)initializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data
 {
     Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
     
@@ -294,7 +294,7 @@
     return data;
 }
 
-- (nullable id <NSObject>)serializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data
+- (nullable  __kindof NSObject *)serializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data
 {
     if ([[data class] isSubclassOfClass:[NSUUID class]]) {
         return [(NSUUID *)data UUIDString];

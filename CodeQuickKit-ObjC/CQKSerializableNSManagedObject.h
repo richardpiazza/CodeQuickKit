@@ -65,6 +65,6 @@
  @abstract      Allows for the overriding of managed object initialization.
  @discussion    By default, if the class conforms to `CQKSerializable`, initIntoManagedObjectContext:withDictionary: is called.
  */
-- (nullable __kindof NSManagedObject *)initializedEntityOfClass:(nullable Class)entityClass forAttributeName:(nullable NSString *)attributeName withDictionary:(nullable NSDictionary *)dictionary;
+- (nullable __kindof NSManagedObject *)initializedEntityOfClass:(nullable Class)entityClass forAttributeName:(nullable NSString *)attributeName withDictionary:(nullable NSDictionary<NSString *, __kindof NSObject *> *)dictionary;
 
 @end

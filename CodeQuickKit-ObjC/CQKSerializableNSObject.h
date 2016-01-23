@@ -61,7 +61,7 @@
  @param         data The data to be used to initialize the property.
  @return        The initialized object
  */
-- (nullable id <NSObject>)initializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data;
+- (nullable __kindof NSObject *)initializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data;
 
 /*!
  @method        serializedObjectForPropertyname:withData:
@@ -75,6 +75,6 @@
  @param         data The property value to be serialized.
  @return        The serialized object.
  */
-- (nullable id <NSObject>)serializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data;
+- (nullable __kindof NSObject *)serializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data;
 
 @end
