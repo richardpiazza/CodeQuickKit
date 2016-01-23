@@ -119,19 +119,19 @@
 }
 
 #pragma mark - CQKSerializable -
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
+- (instancetype)initWithDictionary:(NSDictionary<NSString *,__kindof NSObject *> *)dictionary
 {
     [CQKLogger log:CQKLoggerLevelException message:@"initWithDictionary: returning nil; initIntoManagedObjectContext:withDictionary: should be used." error:nil callingClass:self.class];
     return nil;
 }
 
-- (void)updateWithDictionary:(NSDictionary *)dictionary
+- (void)updateWithDictionary:(NSDictionary<NSString *,__kindof NSObject *> *)dictionary
 {
     if (dictionary == nil || ![dictionary.class isSubclassOfClass:NSDictionary.class]) {
         return;
     }
     
-    [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, id data, BOOL *stop) {
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, __kindof NSObject * _Nonnull data, BOOL * _Nonnull stop) {
         NSString *attributeName = [self attributeNameForSerializedKey:key];
         if (attributeName == nil) {
             return;
@@ -181,7 +181,7 @@
     }];
 }
 
-- (NSDictionary *)dictionary
+- (NSDictionary<NSString *,NSObject *> *)dictionary
 {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     

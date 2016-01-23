@@ -26,11 +26,11 @@
 @protocol CQKSerializable <NSObject>
 
 /// Initialize an instance of the class and pass the referenced dictionary to updateWithDictionary:.
-- (nonnull instancetype)initWithDictionary:(nullable NSDictionary *)dictionary;
+- (nonnull instancetype)initWithDictionary:(nullable NSDictionary<NSString *, __kindof NSObject *> *)dictionary;
 /// Updates the instance with values in the dictionary.
-- (void)updateWithDictionary:(nullable NSDictionary *)dictionary;
+- (void)updateWithDictionary:(nullable NSDictionary<NSString *, __kindof NSObject *> *)dictionary;
 /// Returns a dictionary representation of the instance.
-- (nonnull NSDictionary *)dictionary;
+- (nonnull NSDictionary<NSString *, __kindof NSObject *> *)dictionary;
 
 /// Initialize an instance of the class and pass the referenced data to updateWithData:.
 - (nonnull instancetype)initWithData:(nullable NSData *)data;

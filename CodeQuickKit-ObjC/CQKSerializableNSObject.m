@@ -88,7 +88,7 @@
 }
 
 #pragma mark - CQKSerializable -
-- (nonnull instancetype)initWithDictionary:(nullable NSDictionary *)dictionary
+- (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *,__kindof NSObject *> *)dictionary
 {
     self = [self init];
     if (self != nil) {
@@ -97,14 +97,14 @@
     return self;
 }
 
-- (void)updateWithDictionary:(nullable NSDictionary *)dictionary
+- (void)updateWithDictionary:(NSDictionary<NSString *,__kindof NSObject *> *)dictionary
 {
     if (dictionary == nil || ![[dictionary class] isSubclassOfClass:[NSDictionary class]]) {
         [CQKLogger log:CQKLoggerLevelWarn message:@"Could not updateWithDictinary:, dictionary is nil." error:nil callingClass:self.class];
         return;
     }
     
-    [dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, __kindof NSObject * _Nonnull obj, BOOL * _Nonnull stop) {
         NSString *propertyName = [self propertyNameForSerializedKey:key];
         if (propertyName == nil) {
             return;
@@ -135,7 +135,7 @@
     }];
 }
 
-- (nonnull NSDictionary *)dictionary
+- (NSDictionary<NSString *,NSObject *> *)dictionary
 {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     
