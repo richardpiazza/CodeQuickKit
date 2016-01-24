@@ -27,24 +27,24 @@
 @interface NSDate (CQKDates)
 
 /*! @abstract Provides the current datetime minus 24 hours. */
-+ (NSDate *)yesturday;
++ (nullable NSDate *)yesturday;
 /*! @abstract Provides the current datetime minus 48 hours. */
-+ (NSDate *)twoDaysAgo;
++ (nullable NSDate *)twoDaysAgo;
 /*! @abstract Provides the current datetime minus 7 days. */
-+ (NSDate *)lastWeek;
++ (nullable NSDate *)lastWeek;
 
 /*! @abstract Determines if the instance date is before the reference date (second granularity). */
-- (BOOL)isBefore:(NSDate *)date;
+- (BOOL)isBefore:(nonnull NSDate *)date;
 /*! @abstract Determines if the instance date is after the reference date (second granularity). */
-- (BOOL)isAfter:(NSDate *)date;
+- (BOOL)isAfter:(nonnull NSDate *)date;
 /*! @abstract Determines if the instance date is equal to the reference date (second granularity). */
-- (BOOL)isSame:(NSDate *)date;
+- (BOOL)isSame:(nonnull NSDate *)date;
 
 /*! @abstract Uses NSCalendar to return the instance date mutated by the specified number of minutes. */
-- (NSDate *)dateByAddingMinutes:(NSInteger)minutes;
+- (nullable NSDate *)dateByAddingMinutes:(NSInteger)minutes;
 /*! @abstract Uses NSCalendar to return the instance date mutated by the specified number of hours. */
-- (NSDate *)dateByAddingHours:(NSInteger)hours;
+- (nullable NSDate *)dateByAddingHours:(NSInteger)hours;
 /*! @abstract Uses NSCalendar to return the instance date mutated by the specified number of days. */
-- (NSDate *)dateByAddingDays:(NSInteger)days;
+- (nullable NSDate *)dateByAddingDays:(NSInteger)days;
 
 @end

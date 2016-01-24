@@ -26,10 +26,10 @@
 
 @interface NSFileManager (CQKSandbox)
 
-- (NSURL *)sandboxDirectory;
-- (NSURL *)sandboxDocumentsDirectory;
+- (nonnull NSURL *)sandboxDirectory;
+- (nonnull NSURL *)sandboxDocumentsDirectory;
 
-- (NSArray *)sandboxDocumentsWithExtension:(NSString *)extension error:(NSError *__autoreleasing *)error;
-- (NSArray *)sandboxDocumentsAtPath:(NSString *)path withExtension:(NSString *)extension error:(NSError *__autoreleasing *)error;
+- (nonnull NSArray *)sandboxDocumentsWithExtension:(nullable NSString *)extension error:(NSError *_Nullable __autoreleasing * _Nullable)error;
+- (nonnull NSArray *)sandboxDocumentsAtPath:(nullable NSString *)path withExtension:(nullable NSString *)extension error:(NSError *_Nullable __autoreleasing * _Nullable)error;
 
 @end

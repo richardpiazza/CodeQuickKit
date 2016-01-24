@@ -69,7 +69,7 @@
         return propertyName;
     }
     
-    return [CQKSerializableConfiguration stringForPropertyName:serializedKey withKeyStyle:self.propertyKeyStyle];
+    return [CQKSerializableConfiguration stringForString:serializedKey withKeyStyle:self.propertyKeyStyle];
 }
 
 - (nullable NSString *)serializedKeyForPropertyName:(nullable NSString *)propertyName
@@ -90,37 +90,37 @@
         return serializedKey;
     }
     
-    return [CQKSerializableConfiguration stringForPropertyName:propertyName withKeyStyle:self.serializedKeyStyle];
+    return [CQKSerializableConfiguration stringForString:propertyName withKeyStyle:self.serializedKeyStyle];
 }
 
-+ (NSString *)stringForPropertyName:(NSString *)propertyName withKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle
++ (NSString *)stringForString:(NSString *)string withKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle
 {
-    if (propertyName == nil || [propertyName isEqualToString:@""]) {
+    if (string == nil || [string isEqualToString:@""]) {
         return nil;
     }
     
-    if (propertyName.length == 1) {
-        return propertyName;
+    if (string.length == 1) {
+        return string;
     }
     
     switch (keyStyle) {
         case CQKSerializableNSObjectKeyStyleMatchCase: {
-            return propertyName;
+            return string;
         }
         case CQKSerializableNSObjectKeyStyleCamelCase: {
-            return [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[propertyName substringToIndex:1] lowercaseString]];
+            return [string stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[string substringToIndex:1] lowercaseString]];
         }
         case CQKSerializableNSObjectKeyStyleTitleCase: {
-            return [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[propertyName substringToIndex:1] uppercaseString]];
+            return [string stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[string substringToIndex:1] uppercaseString]];
         }
         case CQKSerializableNSObjectKeyStyleUpperCase: {
-            return propertyName.uppercaseString;
+            return string.uppercaseString;
         }
         case CQKSerializableNSObjectKeyStyleLowerCase: {
-            return propertyName.lowercaseString;
+            return string.lowercaseString;
         }
         default: {
-            return propertyName;
+            return string;
         }
     }
 }

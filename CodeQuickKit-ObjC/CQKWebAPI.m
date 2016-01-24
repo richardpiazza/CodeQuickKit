@@ -25,6 +25,7 @@
 #import "CQKWebAPI.h"
 #import "CQKLogger.h"
 #import "NSData+CQKCrypto.h"
+#import "NSDateFormatter+CQKDateFormatter.h"
 
 @implementation CQKWebAPIInjectedResponse
 
@@ -45,7 +46,6 @@
 @property (nonatomic, copy) NSURL *baseURL;
 @property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *password;
-@property (nonatomic, strong) NSDateFormatter *rfc1123DateFormatter;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, CQKWebAPIInjectedResponse *> *injectedResponses;
 - (void)performRequestForPath:(NSString *)path queryItems:(NSArray<NSURLQueryItem *> *)queryItems withMethod:(NSString *)method data:(NSData *)data completion:(CQKWebAPICompletion)completion;
 - (void)performRequestForURL:(NSURL *)url withMethod:(NSString *)method data:(NSData *)data completion:(CQKWebAPICompletion)completion;
@@ -57,21 +57,25 @@
 {
     self = [super init];
     if (self != nil) {
-        [self setRfc1123DateFormatter:[[NSDateFormatter alloc] init]];
-        [self.rfc1123DateFormatter  setDateFormat:@"EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"];
-        [self.rfc1123DateFormatter  setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
-        [self.rfc1123DateFormatter  setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
         [self setInjectedResponses:[NSMutableDictionary dictionary]];
         [self setSession:[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil]];
     }
     return self;
 }
 
-- (instancetype)initWithBaseURL:(NSURL *)baseURL username:(NSString *)username password:(NSString *)password
+- (instancetype)initWithBaseURL:(NSURL *)baseURL
 {
     self = [self init];
     if (self != nil) {
         [self setBaseURL:baseURL];
+    }
+    return self;
+}
+
+- (instancetype)initWithBaseURL:(NSURL *)baseURL username:(NSString *)username password:(NSString *)password
+{
+    self = [self initWithBaseURL:baseURL];
+    if (self != nil) {
         [self setUsername:username];
         [self setPassword:password];
     }
@@ -148,7 +152,7 @@
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:method];
-    [request setValue:[self.rfc1123DateFormatter stringFromDate:[NSDate date]] forHTTPHeaderField:CQKWebAPIDateHeaderKey];
+    [request setValue:[[NSDateFormatter rfc1123DateFormatter] stringFromDate:[NSDate date]] forHTTPHeaderField:CQKWebAPIDateHeaderKey];
     [request setValue:CQKWebAPIApplicationJsonHeaderValue forHTTPHeaderField:CQKWebAPIAcceptHeaderKey];
     
     if (data != nil && [[data class] isSubclassOfClass:[NSData class]]) {

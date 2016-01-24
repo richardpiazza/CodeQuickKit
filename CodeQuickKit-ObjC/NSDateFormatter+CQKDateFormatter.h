@@ -26,7 +26,8 @@
 
 @interface NSDateFormatter (CQKDateFormatter)
 
-/*! @abstract An `NSDateFormatter` that is preconfigured with RFC1123 format. */
-+ (NSDateFormatter *)rfc1123DateFormatter;
+/*! @abstract An `NSDateFormatter` that is preconfigured with RFC1123 format. 
+                This formatter is used in both networking and serialization. */
++ (nonnull NSDateFormatter *)rfc1123DateFormatter;
 
 @end

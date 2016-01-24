@@ -22,9 +22,10 @@
  *  SOFTWARE.
  */
 
+typedef NSDictionary<NSString *, __kindof NSObject *> * _Nullable CQKSerializableNSDictionary;
+
 /// A protocol specifying methods for interacting with Dictionary/JSON representations of NSObjects.
 @protocol CQKSerializable <NSObject>
-
 /// Initialize an instance of the class and pass the referenced dictionary to updateWithDictionary:.
 - (nonnull instancetype)initWithDictionary:(nullable NSDictionary<NSString *, __kindof NSObject *> *)dictionary;
 /// Updates the instance with values in the dictionary.

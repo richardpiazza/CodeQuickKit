@@ -27,25 +27,25 @@
 /*! Provides first level access to typical bundle keys. */
 @interface NSBundle (CQKBundle)
 
-@property (nonatomic, readonly) NSString *bundleName;
-@property (nonatomic, readonly) NSString *bundleDisplayName;
-@property (nonatomic, readonly) NSString *executableName;
-@property (nonatomic, readonly) NSString *appVersion;
-@property (nonatomic, readonly) NSString *buildNumber;
-@property (nonatomic, readonly) NSString *launchScreenStoryboard;
-@property (nonatomic, readonly) NSString *mainStoryboard;
+@property (nonatomic, readonly) NSString * _Nullable bundleName;
+@property (nonatomic, readonly) NSString * _Nullable bundleDisplayName;
+@property (nonatomic, readonly) NSString * _Nullable executableName;
+@property (nonatomic, readonly) NSString * _Nullable appVersion;
+@property (nonatomic, readonly) NSString * _Nullable buildNumber;
+@property (nonatomic, readonly) NSString * _Nullable launchScreenStoryboard;
+@property (nonatomic, readonly) NSString * _Nullable mainStoryboard;
 
-- (NSString *)bundleDescription;
-- (NSDictionary *)bundleDescriptionDictionary;
-- (NSData *)bundleDescriptionData;
+- (nonnull NSString *)bundleDescription;
+- (nonnull NSDictionary *)bundleDescriptionDictionary;
+- (nullable NSData *)bundleDescriptionData;
 
 @end
 
-extern NSString * const CQKBundleNameBundleKey;
-extern NSString * const CQKBundleDisplayNameBundleKey;
-extern NSString * const CQKExecutableNameBundleKey;
-extern NSString * const CQKAppVersionBundleKey;
-extern NSString * const CQKBuildNumberBundleKey;
-extern NSString * const CQKBundleIdentifierBundleKey;
-extern NSString * const CQKLaunchScreenBundleKey;
-extern NSString * const CQKMainStoryboardBundleKey;
+extern NSString * _Nonnull const CQKBundleNameBundleKey;
+extern NSString * _Nonnull const CQKBundleDisplayNameBundleKey;
+extern NSString * _Nonnull const CQKExecutableNameBundleKey;
+extern NSString * _Nonnull const CQKAppVersionBundleKey;
+extern NSString * _Nonnull const CQKBuildNumberBundleKey;
+extern NSString * _Nonnull const CQKBundleIdentifierBundleKey;
+extern NSString * _Nonnull const CQKLaunchScreenBundleKey;
+extern NSString * _Nonnull const CQKMainStoryboardBundleKey;

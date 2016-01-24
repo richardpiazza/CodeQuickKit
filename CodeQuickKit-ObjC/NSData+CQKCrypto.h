@@ -26,6 +26,6 @@
 
 @interface NSData (CQKCrypto)
 
-- (NSData *)md5Hash;
+- (nonnull NSData *)md5Hash;
 
 @end

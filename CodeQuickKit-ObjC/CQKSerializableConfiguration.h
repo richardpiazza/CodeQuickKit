@@ -55,7 +55,7 @@ typedef enum : NSUInteger {
 - (nullable NSString *)propertyNameForSerializedKey:(nullable NSString *)serializedKey;
 - (nullable NSString *)serializedKeyForPropertyName:(nullable NSString *)propertyName;
 
-+ (nullable NSString *)stringForPropertyName:(nullable NSString *)propertyName withKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle;
++ (nullable NSString *)stringForString:(nullable NSString *)string withKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle;
 + (nullable NSString *)jsonStringRemovingPrettyFormatting:(nullable NSString *)json;
 
 @end

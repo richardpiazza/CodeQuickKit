@@ -36,35 +36,35 @@
  @discussion    Uses the NSNumberFormatterDecimalStyle with 
                 MaximumFractionDigits set to 0 (zero).
  */
-+ (NSNumberFormatter *)integerFormatter;
-+ (NSNumber *)integerFromString:(NSString *)string;
-+ (NSString *)integerStringFromNumber:(NSNumber *)number;
++ (nonnull NSNumberFormatter *)integerFormatter;
++ (nullable NSNumber *)integerFromString:(nullable NSString *)string;
++ (nullable NSString *)integerStringFromNumber:(nullable NSNumber *)number;
 
 /*!
  @abstract      An NSNumberFormatter for whole integers.
  @discussion    Uses the NSNumberFormatterDecimalStyle with
                 MaximumFractionDigits set to 1 (one).
  */
-+ (NSNumberFormatter *)singleDecimalFormatter;
-+ (NSNumber *)singleDecimalFromString:(NSString *)string;
-+ (NSString *)singleDecimalStringFromNumber:(NSNumber *)number;
++ (nonnull NSNumberFormatter *)singleDecimalFormatter;
++ (nullable NSNumber *)singleDecimalFromString:(nullable NSString *)string;
++ (nullable NSString *)singleDecimalStringFromNumber:(nullable NSNumber *)number;
 
 /*!
  @abstract      An NSNumberFormatter for whole integers.
  @discussion    Uses the NSNumberFormatterDecimalStyle with
                 MaximumFractionDigits set to 2 (two).
  */
-+ (NSNumberFormatter *)decimalFormatter;
-+ (NSNumber *)decimalFromString:(NSString *)string;
-+ (NSString *)decimalStringFromNumber:(NSNumber *)number;
++ (nonnull NSNumberFormatter *)decimalFormatter;
++ (nullable NSNumber *)decimalFromString:(nullable NSString *)string;
++ (nullable NSString *)decimalStringFromNumber:(nullable NSNumber *)number;
 
 /*!
  @abstract      An NSNumberFormatter for whole integers.
  @discussion    Uses the NSNumberFormatterCurrencyStyle.
  */
-+ (NSNumberFormatter *)currencyFormatter;
-+ (NSNumber *)currencyFromString:(NSString *)string;
-+ (NSString *)currencyStringFromNumber:(NSNumber *)number;
++ (nonnull NSNumberFormatter *)currencyFormatter;
++ (nullable NSNumber *)currencyFromString:(nullable NSString *)string;
++ (nullable NSString *)currencyStringFromNumber:(nullable NSNumber *)number;
 
 /*!
  @abstract      An NSNumberFormatter for whole integers.
@@ -72,8 +72,8 @@
                 MinimumFractionDigits set to 1 (one) and
                 MaximumFractionDigits set to 3 (three).
  */
-+ (NSNumberFormatter *)percentFormatter;
-+ (NSNumber *)percentFromString:(NSString *)string;
-+ (NSString *)percentStringFromNumber:(NSNumber *)number;
++ (nonnull NSNumberFormatter *)percentFormatter;
++ (nullable NSNumber *)percentFromString:(nullable NSString *)string;
++ (nullable NSString *)percentStringFromNumber:(nullable NSNumber *)number;
 
 @end

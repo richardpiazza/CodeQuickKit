@@ -38,12 +38,19 @@
  */
 - (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context;
 /*! @abstract  Calls the default initializer then passes the referenced dictionary to `CQKSerializable` updateWithDictionary:. */
-- (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context withDictionary:(nullable NSDictionary *)dictionary;
+- (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context withDictionary:(nullable NSDictionary<NSString *, __kindof NSObject *> *)dictionary;
 /*! @abstract  Calls the default initializer then passes the referenced dictionary to `CQKSerializable` updateWithData:. */
 - (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context withData:(nullable NSData *)data;
 /*! @abstract  Calls the default initializer then passes the referenced dictionary to `CQKSerializable` updateWithJSON:. */
 - (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context withJSON:(nullable NSString *)json;
 
+/*!
+ @method        attributeNameForSerializedKey:
+ @abstract      Translates a serialized name key/casing to attribute name key/casing.
+ @param         serializedKey The key name from the dictionary being processed.
+ @return        The property name with the property key casing style applied.
+ @return        A nil return will skip the deserialization for this key.
+ */
 - (nullable NSString *)attributeNameForSerializedKey:(nullable NSString *)serializedKey;
 
 /*!

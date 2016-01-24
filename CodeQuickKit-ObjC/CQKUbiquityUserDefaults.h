@@ -39,20 +39,20 @@
  */
 @interface CQKUbiquityUserDefaults : NSObject
 
-+ (CQKUbiquityUserDefaults *)ubiquityUserDefaults;
++ (nonnull CQKUbiquityUserDefaults *)ubiquityUserDefaults;
 
-@property (nonatomic, weak) id<CQKUbiquityUserDefaultsDelegate> delegate;
-@property (nonatomic, strong, readonly) NSUbiquitousKeyValueStore *keyValueStore;
+@property (nonatomic, weak) id<CQKUbiquityUserDefaultsDelegate> _Nullable delegate;
+@property (nonatomic, strong, readonly) NSUbiquitousKeyValueStore * _Nonnull keyValueStore;
 
 @end
 
 @protocol CQKUbiquityUserDefaultsDelegate <NSObject>
 @required
-- (BOOL)ubiquityUserDefaults:(CQKUbiquityUserDefaults *)ubiquityUserDefaults shouldReplaceExistingDictionary:(NSDictionary *)existingDictionary withUbiquityDictionary:(NSDictionary *)ubiquityDictionary;
+- (BOOL)ubiquityUserDefaults:(nonnull CQKUbiquityUserDefaults *)ubiquityUserDefaults shouldReplaceExistingDictionary:(nonnull NSDictionary *)existingDictionary withUbiquityDictionary:(nonnull NSDictionary *)ubiquityDictionary;
 @optional
-- (void)ubiquityUserDefaults:(CQKUbiquityUserDefaults *)ubiquityUserDefaults didSetDictionary:(NSDictionary *)dictionary forKey:(NSString *)key;
+- (void)ubiquityUserDefaults:(nonnull CQKUbiquityUserDefaults *)ubiquityUserDefaults didSetDictionary:(nonnull NSDictionary *)dictionary forKey:(nonnull NSString *)key;
 @end
 
-extern NSString * const CQKUbiquityUserDefaultsValueKey;
-extern NSString * const CQKUbiquityUserDefaultsTimestampKey;
-extern NSString * const CQKUbiquityUserDefaultsBuildKey;
+extern NSString * _Nonnull const CQKUbiquityUserDefaultsValueKey;
+extern NSString * _Nonnull const CQKUbiquityUserDefaultsTimestampKey;
+extern NSString * _Nonnull const CQKUbiquityUserDefaultsBuildKey;
