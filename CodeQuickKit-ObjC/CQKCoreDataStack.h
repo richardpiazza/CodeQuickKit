@@ -28,9 +28,9 @@
 @class CQKCoreDataStack;
 
 @protocol CQKCoreDataStackDelegate <NSObject>
-- (NSString *)persistentStoreTypeForCoreDataStack:(CQKCoreDataStack *)coreDataStack;
-- (NSURL *)persistentStoreURLForCoreDataStack:(CQKCoreDataStack *)coreDataStack;
-- (NSDictionary *)persistentStoreOptionsForCoreDataStack:(CQKCoreDataStack *)coreDataStack;
+- (nonnull NSString *)persistentStoreTypeForCoreDataStack:(nonnull CQKCoreDataStack *)coreDataStack;
+- (nonnull NSURL *)persistentStoreURLForCoreDataStack:(nonnull CQKCoreDataStack *)coreDataStack;
+- (nullable NSDictionary *)persistentStoreOptionsForCoreDataStack:(nonnull CQKCoreDataStack *)coreDataStack;
 @end
 
 /*!
@@ -39,20 +39,20 @@
  */
 @interface CQKCoreDataStack : NSObject
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong) NSPersistentStore *persistentStore;
-@property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (nonatomic, strong) NSManagedObjectModel *managedObjectModel;
-@property (nonatomic, weak) id<CQKCoreDataStackDelegate> delegate;
+@property (nonatomic, strong) NSManagedObjectContext * _Nullable managedObjectContext;
+@property (nonatomic, strong) NSPersistentStore * _Nullable persistentStore;
+@property (nonatomic, strong) NSPersistentStoreCoordinator * _Nullable persistentStoreCoordinator;
+@property (nonatomic, strong) NSManagedObjectModel * _Nullable managedObjectModel;
+@property (nonatomic, weak) id<CQKCoreDataStackDelegate>  _Nullable delegate;
 
 /*! @abstract Initializes a complete in-memory Core Data stack. */
-- (instancetype)initWithModel:(NSManagedObjectModel *)model delegate:(id<CQKCoreDataStackDelegate>)delegate;
+- (nonnull instancetype)initWithModel:(nullable NSManagedObjectModel *)model delegate:(nullable id<CQKCoreDataStackDelegate>)delegate;
 /*! @abstract Constructs an NSManagedObjectModel with the provided NSEntityDescriptions; passed to initWithModel:. */
-- (instancetype)initWithEntities:(NSArray *)entities delegate:(id<CQKCoreDataStackDelegate>)delegate;
+- (nonnull instancetype)initWithEntities:(nullable NSArray *)entities delegate:(nullable id<CQKCoreDataStackDelegate>)delegate;
 
 /*! @abstract Removes the persistent store from the coordinator and nils stack objects. */
 - (void)invalidate;
 
 @end
 
-extern NSString * const CQKCoreDataStackDefaultStoreName;
+extern NSString * _Nonnull const CQKCoreDataStackDefaultStoreName;

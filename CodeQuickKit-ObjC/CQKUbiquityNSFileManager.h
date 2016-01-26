@@ -33,27 +33,27 @@ typedef enum : NSUInteger {
 } CQKUbiquityState;
 
 @interface CQKUbiquityDocuments : NSObject
-@property (nonatomic, copy) NSArray *documentURLs;
-@property (nonatomic, copy) NSArray *modifiedDocumentURLs;
-@property (nonatomic, copy) NSArray *removedDocumentURLs;
-@property (nonatomic, copy) NSArray *addedDocumentURLs;
+@property (nonatomic, copy) NSArray * _Nonnull documentURLs;
+@property (nonatomic, copy) NSArray * _Nullable modifiedDocumentURLs;
+@property (nonatomic, copy) NSArray * _Nullable removedDocumentURLs;
+@property (nonatomic, copy) NSArray * _Nullable addedDocumentURLs;
 @end
 
-typedef void (^CQKUbiquityNSFileManagerInitializeCompletion)(CQKUbiquityNSFileManager *ubiquityFileManager, CQKUbiquityState ubiquityState);
-typedef void (^CQKUbiquityNSFileManagerDocumentsCompletion)(CQKUbiquityNSFileManager *ubiquityFileManager, CQKUbiquityDocuments *documents, NSError *error);
-typedef void (^CQKUbiquityNSFileManagerDocumentOperationCompletion)(CQKUbiquityNSFileManager *ubiquityFileManger, BOOL success, NSError *error);
+typedef void (^CQKUbiquityNSFileManagerInitializeCompletion)(CQKUbiquityNSFileManager * _Nonnull ubiquityFileManager, CQKUbiquityState ubiquityState);
+typedef void (^CQKUbiquityNSFileManagerDocumentsCompletion)(CQKUbiquityNSFileManager * _Nonnull ubiquityFileManager, CQKUbiquityDocuments * _Nullable documents, NSError * _Nullable error);
+typedef void (^CQKUbiquityNSFileManagerDocumentOperationCompletion)(CQKUbiquityNSFileManager * _Nonnull ubiquityFileManger, BOOL success, NSError * _Nullable error);
 
 @interface CQKUbiquityNSFileManager : NSFileManager
 
 /*! @abstract  Instance with a nil ubiquity container identifier. */
-+ (CQKUbiquityNSFileManager *)defaultManager;
++ (nonnull CQKUbiquityNSFileManager *)defaultManager;
 
-@property (nonatomic, copy, readonly) NSString *ubiquityContainerIdentifier;
-@property (nonatomic, copy, readonly) NSURL *ubiquityContainerDirectory;
-@property (nonatomic, copy, readonly) NSURL *ubiquityContainerDocumentsDirectory;
+@property (nonatomic, copy, readonly) NSString * _Nullable ubiquityContainerIdentifier;
+@property (nonatomic, copy, readonly) NSURL * _Nullable ubiquityContainerDirectory;
+@property (nonatomic, copy, readonly) NSURL * _Nullable ubiquityContainerDocumentsDirectory;
 
-- (instancetype)initWithUbiquityContainerIdentifier:(NSString *)identifier;
-- (void)initializeUbiquityContainerWithCompletion:(CQKUbiquityNSFileManagerInitializeCompletion)completion;
+- (nonnull instancetype)initWithUbiquityContainerIdentifier:(nullable NSString *)identifier;
+- (void)initializeUbiquityContainerWithCompletion:(nullable CQKUbiquityNSFileManagerInitializeCompletion)completion;
 - (CQKUbiquityState)ubiquityState;
 
 /*!
@@ -63,9 +63,9 @@ typedef void (^CQKUbiquityNSFileManagerDocumentOperationCompletion)(CQKUbiquityN
                 2. a call to endUbiquityDocuementsQuery
                 3. This instance is deallocated.
  */
-- (void)ubiquityDocumentsWithExtension:(NSString *)extension resultsHandler:(CQKUbiquityNSFileManagerDocumentsCompletion)resultsHandler;
+- (void)ubiquityDocumentsWithExtension:(nullable NSString *)extension resultsHandler:(nullable CQKUbiquityNSFileManagerDocumentsCompletion)resultsHandler;
 - (void)endUbiquityDocumentsQuery;
 
-+ (NSError *)invalidUbiquityState;
++ (nonnull NSError *)invalidUbiquityState;
 
 @end

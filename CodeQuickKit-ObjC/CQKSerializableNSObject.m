@@ -294,7 +294,7 @@
     return data;
 }
 
-- (nullable  __kindof NSObject *)serializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data
+- (nullable __kindof NSObject *)serializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data
 {
     if ([[data class] isSubclassOfClass:[NSUUID class]]) {
         return [(NSUUID *)data UUIDString];

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E127F7AE1C52F01900E3F63C /* removeInvalidArchitectures.sh in Resources */ = {isa = PBXBuildFile; fileRef = E127F7AD1C52F01900E3F63C /* removeInvalidArchitectures.sh */; };
 		E127F7B31C52F4CF00E3F63C /* NSDateFormatter+CQKDateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = E127F7B11C52F4CF00E3F63C /* NSDateFormatter+CQKDateFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E127F7B41C52F4CF00E3F63C /* NSDateFormatter+CQKDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = E127F7B21C52F4CF00E3F63C /* NSDateFormatter+CQKDateFormatter.m */; };
 		E127F7B71C52F5F900E3F63C /* CQKSerializableConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = E127F7B51C52F5F900E3F63C /* CQKSerializableConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -326,7 +325,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E127F7AE1C52F01900E3F63C /* removeInvalidArchitectures.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

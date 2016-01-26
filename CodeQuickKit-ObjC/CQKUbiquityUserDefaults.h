@@ -42,7 +42,7 @@
 + (nonnull CQKUbiquityUserDefaults *)ubiquityUserDefaults;
 
 @property (nonatomic, weak) id<CQKUbiquityUserDefaultsDelegate> _Nullable delegate;
-@property (nonatomic, strong, readonly) NSUbiquitousKeyValueStore * _Nonnull keyValueStore;
+@property (nonatomic, strong, readonly) NSUbiquitousKeyValueStore * _Nullable keyValueStore;
 
 @end
 
