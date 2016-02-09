@@ -24,6 +24,7 @@
 
 #import "CQKSerializableNSManagedObject.h"
 #import "NSObject+CQKRuntime.h"
+#import "NSBundle+CQKBundle.h"
 #import "CQKSerializableConfiguration.h"
 #import "CQKLogger.h"
 
@@ -101,6 +102,23 @@
     entityClass = NSClassFromString(singular);
     if (entityClass != nil) {
         return entityClass;
+    }
+    
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    if (bundle.bundleDisplayName != nil) {
+        NSString *moduleName = [NSString stringWithFormat:@"%@.%@", bundle.bundleDisplayName, singular];
+        entityClass = NSClassFromString(moduleName);
+        if (entityClass != nil) {
+            return entityClass;
+        }
+    }
+    
+    if (bundle.bundleName != nil) {
+        NSString *moduleName = [NSString stringWithFormat:@"%@.%@", bundle.bundleName, singular];
+        entityClass = NSClassFromString(moduleName);
+        if (entityClass != nil) {
+            return entityClass;
+        }
     }
     
     return [NSNull class];
