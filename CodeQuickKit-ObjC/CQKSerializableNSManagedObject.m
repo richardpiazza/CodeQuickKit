@@ -31,9 +31,10 @@
 
 - (instancetype)initIntoManagedObjectContext:(NSManagedObjectContext *)context
 {
-    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass(self.class) inManagedObjectContext:context];
+    NSString *entityName = self.classNameWithoutModule;
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
     if (entity == nil) {
-        NSString *message = [NSString stringWithFormat:@"Failed to create entity description for name: %@ in managed object context: %@", NSStringFromClass(self.class), context];
+        NSString *message = [NSString stringWithFormat:@"Failed to create entity description for name: %@ in managed object context: %@", entityName, context];
         [CQKLogger log:CQKLoggerLevelError message:message error:nil callingClass:self.class];
         return nil;
     }

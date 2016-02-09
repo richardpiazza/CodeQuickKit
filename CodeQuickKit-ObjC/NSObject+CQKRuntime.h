@@ -43,4 +43,10 @@
  */
 + (nonnull Class)classForPropertyName:(nonnull NSString *)propertyName ofClass:(nonnull Class)objectClass;
 
+/// Returns the last component from NSStringFromClass()
++ (nonnull NSString *)nameForClass:(nonnull Class)objectClass;
+
+/// Returns the last component from NSStringFromClass()
+- (nonnull NSString *)classNameWithoutModule;
+
 @end

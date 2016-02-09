@@ -97,4 +97,29 @@
     return NSClassFromString(class);
 }
 
++ (NSString *)nameForClass:(Class)objectClass
+{
+    NSString *classNameWithModule = NSStringFromClass(objectClass);
+    if (classNameWithModule.length == 0) {
+        return classNameWithModule;
+    }
+    
+    NSUInteger lastIndex = [classNameWithModule rangeOfString:@"." options:NSBackwardsSearch].location;
+    if (lastIndex == NSNotFound) {
+        return classNameWithModule;
+    }
+    
+    if (lastIndex > classNameWithModule.length) {
+        return classNameWithModule;
+    }
+    
+    NSString *classNameWithoutModule = [classNameWithModule substringFromIndex:lastIndex + 1];
+    return classNameWithoutModule;
+}
+
+- (NSString *)classNameWithoutModule
+{
+    return [NSObject nameForClass:self.class];
+}
+
 @end
