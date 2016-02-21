@@ -26,7 +26,7 @@
 }
 
 - (void)testExample {
-    NSString *className = [self className];
+    NSString *className = NSStringFromClass(self.class);
     NSString *classNameWithoutModule = [self classNameWithoutModule];
     XCTAssertTrue([classNameWithoutModule isEqualToString:@"NSObjectTests"]);
 }
