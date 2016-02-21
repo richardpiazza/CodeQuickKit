@@ -53,6 +53,6 @@
 
 /// Returns the class associated with the property name.
 /// Will attempt to append bundle name.
-+ (nonnull Class)singularizedClassForPropertyName:(nullable NSString *)propertyName;
++ (nonnull Class)singularizedClassForPropertyName:(nullable NSString *)propertyName inBundle:(nullable NSBundle *)bundle;
 
 @end

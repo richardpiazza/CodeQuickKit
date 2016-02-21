@@ -137,7 +137,7 @@
     return [self respondsToSelector:NSSelectorFromString(setter)];
 }
 
-+ (Class)singularizedClassForPropertyName:(NSString *)propertyName
++ (Class)singularizedClassForPropertyName:(NSString *)propertyName inBundle:(nullable NSBundle *)bundle
 {
     if (propertyName == nil) {
         return [NSNull class];
@@ -160,7 +160,10 @@
         return entityClass;
     }
     
-    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    if (bundle == nil) {
+        return [NSNull class];
+    }
+    
     if (bundle.bundleDisplayName != nil) {
         NSString *underscored = [bundle.bundleDisplayName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
         NSString *moduleName = [NSString stringWithFormat:@"%@.%@", underscored, singular];

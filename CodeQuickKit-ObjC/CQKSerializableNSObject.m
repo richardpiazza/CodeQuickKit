@@ -355,7 +355,7 @@
 
 - (Class)objectClassOfCollectionTypeForPropertyName:(NSString *)propertyName
 {
-    return [NSObject singularizedClassForPropertyName:propertyName];
+    return [NSObject singularizedClassForPropertyName:propertyName inBundle:[NSBundle bundleForClass:self.class]];
 }
 
 #pragma mark -
