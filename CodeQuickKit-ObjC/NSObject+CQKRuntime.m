@@ -23,6 +23,7 @@
  */
 
 #import "NSObject+CQKRuntime.h"
+#import "NSBundle+CQKBundle.h"
 #import "CQKSerializableNSObject.h"
 #import "CQKLogger.h"
 #import <objc/runtime.h>
@@ -58,8 +59,12 @@
     return properties;
 }
 
-+ (nonnull Class)classForPropertyName:(nonnull NSString *)propertyName ofClass:(nonnull Class)objectClass
++ (Class)classForPropertyName:(NSString *)propertyName ofClass:(Class)objectClass
 {
+    if (propertyName == nil || objectClass == nil) {
+        return [NSNull class];
+    }
+    
     objc_property_t runtimeProperty = class_getProperty(objectClass, propertyName.UTF8String);
     if (runtimeProperty == nil) {
         NSString *message = [NSString stringWithFormat:@"Could not determine property name class: class_getProperty failed for property: %@", propertyName];
@@ -130,6 +135,51 @@
     
     NSString *setter = [NSString stringWithFormat:@"set%@:", [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[propertyName substringToIndex:1].uppercaseString]];
     return [self respondsToSelector:NSSelectorFromString(setter)];
+}
+
++ (Class)singularizedClassForPropertyName:(NSString *)propertyName
+{
+    if (propertyName == nil) {
+        return [NSNull class];
+    }
+    
+    Class entityClass = NSClassFromString(propertyName);
+    if (entityClass != nil) {
+        return entityClass;
+    }
+    
+    NSMutableString *singular = [propertyName mutableCopy];
+    if ([singular.lowercaseString hasSuffix:@"s"]) {
+        [singular replaceCharactersInRange:NSMakeRange(singular.length - 1, 1) withString:@""];
+    }
+    
+    [singular replaceCharactersInRange:NSMakeRange(0, 1) withString:[singular substringToIndex:1].uppercaseString];
+    
+    entityClass = NSClassFromString(singular);
+    if (entityClass != nil) {
+        return entityClass;
+    }
+    
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    if (bundle.bundleDisplayName != nil) {
+        NSString *underscored = [bundle.bundleDisplayName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+        NSString *moduleName = [NSString stringWithFormat:@"%@.%@", underscored, singular];
+        entityClass = NSClassFromString(moduleName);
+        if (entityClass != nil) {
+            return entityClass;
+        }
+    }
+    
+    if (bundle.bundleName != nil) {
+        NSString *underscored = [bundle.bundleName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+        NSString *moduleName = [NSString stringWithFormat:@"%@.%@", underscored, singular];
+        entityClass = NSClassFromString(moduleName);
+        if (entityClass != nil) {
+            return entityClass;
+        }
+    }
+    
+    return [NSNull class];
 }
 
 @end

@@ -355,45 +355,7 @@
 
 - (Class)objectClassOfCollectionTypeForPropertyName:(NSString *)propertyName
 {
-    if (propertyName == nil || [propertyName isEqualToString:@""]) {
-        return [NSNull class];
-    }
-    
-    Class entityClass = NSClassFromString(propertyName);
-    if (entityClass != nil) {
-        return entityClass;
-    }
-    
-    NSMutableString *singular = [propertyName mutableCopy];
-    if ([singular.lowercaseString hasSuffix:@"s"]) {
-        [singular replaceCharactersInRange:NSMakeRange(singular.length - 1, 1) withString:@""];
-    }
-    
-    [singular replaceCharactersInRange:NSMakeRange(0, 1) withString:[singular substringToIndex:1].uppercaseString];
-    
-    entityClass = NSClassFromString(singular);
-    if (entityClass != nil) {
-        return entityClass;
-    }
-    
-    NSBundle *bundle = [NSBundle bundleForClass:self.class];
-    if (bundle.bundleDisplayName != nil) {
-        NSString *moduleName = [NSString stringWithFormat:@"%@.%@", bundle.bundleDisplayName, singular];
-        entityClass = NSClassFromString(moduleName);
-        if (entityClass != nil) {
-            return entityClass;
-        }
-    }
-    
-    if (bundle.bundleName != nil) {
-        NSString *moduleName = [NSString stringWithFormat:@"%@.%@", bundle.bundleName, singular];
-        entityClass = NSClassFromString(moduleName);
-        if (entityClass != nil) {
-            return entityClass;
-        }
-    }
-    
-    return [NSNull class];
+    return [NSObject singularizedClassForPropertyName:propertyName];
 }
 
 #pragma mark -

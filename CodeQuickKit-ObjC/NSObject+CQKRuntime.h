@@ -41,7 +41,7 @@
  @param     objectClass The Class to inspect for the propertyName.
  @return    Class for a given the given property with name; Defaults to NSNull.
  */
-+ (nonnull Class)classForPropertyName:(nonnull NSString *)propertyName ofClass:(nonnull Class)objectClass;
++ (nonnull Class)classForPropertyName:(nullable NSString *)propertyName ofClass:(nullable Class)objectClass;
 
 /// Returns the last component from NSStringFromClass()
 + (nonnull NSString *)nameForClass:(nonnull Class)objectClass;
@@ -50,5 +50,9 @@
 - (nonnull NSString *)classNameWithoutModule;
 
 - (BOOL)respondsToSetterForPropertyName:(nullable NSString *)propertyName;
+
+/// Returns the class associated with the property name.
+/// Will attempt to append bundle name.
++ (nonnull Class)singularizedClassForPropertyName:(nullable NSString *)propertyName;
 
 @end
