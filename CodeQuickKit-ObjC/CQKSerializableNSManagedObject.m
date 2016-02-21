@@ -77,49 +77,6 @@
     return self;
 }
 
-- (Class)classOfEntityForRelationshipWithAttributeName:(NSString *)attributeName
-{
-    if (attributeName == nil || [attributeName isEqualToString:@""]) {
-        return [NSNull class];
-    }
-    
-    Class entityClass = NSClassFromString(attributeName);
-    if (entityClass != nil) {
-        return entityClass;
-    }
-    
-    NSMutableString *singular = [attributeName mutableCopy];
-    if ([singular.lowercaseString hasSuffix:@"s"]) {
-        [singular replaceCharactersInRange:NSMakeRange(singular.length - 1, 1) withString:@""];
-    }
-    
-    [singular replaceCharactersInRange:NSMakeRange(0, 1) withString:[singular substringToIndex:1].uppercaseString];
-    
-    entityClass = NSClassFromString(singular);
-    if (entityClass != nil) {
-        return entityClass;
-    }
-    
-    NSBundle *bundle = [NSBundle bundleForClass:self.class];
-    if (bundle.bundleDisplayName != nil) {
-        NSString *moduleName = [NSString stringWithFormat:@"%@.%@", bundle.bundleDisplayName, singular];
-        entityClass = NSClassFromString(moduleName);
-        if (entityClass != nil) {
-            return entityClass;
-        }
-    }
-    
-    if (bundle.bundleName != nil) {
-        NSString *moduleName = [NSString stringWithFormat:@"%@.%@", bundle.bundleName, singular];
-        entityClass = NSClassFromString(moduleName);
-        if (entityClass != nil) {
-            return entityClass;
-        }
-    }
-    
-    return [NSNull class];
-}
-
 #pragma mark - CQKSerializable -
 - (instancetype)initWithDictionary:(NSDictionary<NSString *,__kindof NSObject *> *)dictionary
 {
@@ -331,7 +288,7 @@
     }
     
     if ([propertyClass isSubclassOfClass:[NSSet class]]) {
-        Class relationshipClass = [self classOfEntityForRelationshipWithAttributeName:propertyName];
+        Class relationshipClass = [self objectClassOfCollectionTypeForPropertyName:propertyName];
         if ([relationshipClass isSubclassOfClass:[NSNull class]]) {
             return nil;
         }
@@ -341,9 +298,7 @@
         }
         
         return [[relationshipClass alloc] initIntoManagedObjectContext:self.managedObjectContext withDictionary:data];
-    }
-    
-    if ([propertyClass isSubclassOfClass:[CQKSerializableNSManagedObject class]]) {
+    } else if ([propertyClass isSubclassOfClass:[CQKSerializableNSManagedObject class]]) {
         return [[propertyClass alloc] initIntoManagedObjectContext:self.managedObjectContext withDictionary:data];
     }
     
@@ -362,7 +317,7 @@
     }
     
     if ([[data class] isSubclassOfClass:[NSSet class]]) {
-        Class relationshipClass = [self classOfEntityForRelationshipWithAttributeName:propertyName];
+        Class relationshipClass = [self objectClassOfCollectionTypeForPropertyName:propertyName];
         if ([relationshipClass isSubclassOfClass:[NSNull class]]) {
             return nil;
         }
@@ -376,16 +331,57 @@
             [serializedArray addObject:cqkObject.dictionary];
         }
         return serializedArray;
-    }
-    
-    if ([[data class] isSubclassOfClass:[CQKSerializableNSManagedObject class]]) {
+    } else if ([[data class] isSubclassOfClass:[CQKSerializableNSManagedObject class]]) {
         return [(CQKSerializableNSManagedObject *)data dictionary];
     }
     
     return [[CQKSerializableConfiguration sharedConfiguration] serializedObjectForPropertyName:propertyName withData:data];
 }
 
-#pragma mark - 
+- (Class)objectClassOfCollectionTypeForPropertyName:(NSString *)propertyName
+{
+    if (propertyName == nil || [propertyName isEqualToString:@""]) {
+        return [NSNull class];
+    }
+    
+    Class entityClass = NSClassFromString(propertyName);
+    if (entityClass != nil) {
+        return entityClass;
+    }
+    
+    NSMutableString *singular = [propertyName mutableCopy];
+    if ([singular.lowercaseString hasSuffix:@"s"]) {
+        [singular replaceCharactersInRange:NSMakeRange(singular.length - 1, 1) withString:@""];
+    }
+    
+    [singular replaceCharactersInRange:NSMakeRange(0, 1) withString:[singular substringToIndex:1].uppercaseString];
+    
+    entityClass = NSClassFromString(singular);
+    if (entityClass != nil) {
+        return entityClass;
+    }
+    
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    if (bundle.bundleDisplayName != nil) {
+        NSString *moduleName = [NSString stringWithFormat:@"%@.%@", bundle.bundleDisplayName, singular];
+        entityClass = NSClassFromString(moduleName);
+        if (entityClass != nil) {
+            return entityClass;
+        }
+    }
+    
+    if (bundle.bundleName != nil) {
+        NSString *moduleName = [NSString stringWithFormat:@"%@.%@", bundle.bundleName, singular];
+        entityClass = NSClassFromString(moduleName);
+        if (entityClass != nil) {
+            return entityClass;
+        }
+    }
+    
+    return [NSNull class];
+}
+
+#pragma mark -
 - (void)setValueForPropertyName:(NSString *)propertyName withDictionary:(NSDictionary<NSString *,__kindof NSObject *> *)dictionary
 {
     if (propertyName == nil || dictionary == nil) {

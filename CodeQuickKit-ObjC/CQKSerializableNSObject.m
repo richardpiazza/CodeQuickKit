@@ -24,6 +24,7 @@
 
 #import "CQKSerializableNSObject.h"
 #import "NSObject+CQKRuntime.h"
+#import "NSBundle+CQKBundle.h"
 #import "NSDateFormatter+CQKDateFormatter.h"
 #import "CQKSerializableConfiguration.h"
 #import "CQKLogger.h"
@@ -31,6 +32,7 @@
 @interface CQKSerializableNSObject ()
 - (void)setValueForPropertyName:(NSString *)propertyName withDictionary:(NSDictionary *)dictionary;
 - (void)setValueForPropertyName:(NSString *)propertyName withArray:(NSArray *)array;
+- (void)setValueForPropertyName:(NSString *)propertyName withSet:(NSSet *)set;
 - (void)setValueForPropertyName:(NSString *)propertyName withObject:(id)object;
 @end
 
@@ -166,44 +168,6 @@
         }
     }];
     
-//    for (NSString *propertyName in properties) {
-//        if (![self respondsToSelector:NSSelectorFromString(propertyName)]) {
-//            NSString *message = [NSString stringWithFormat:@"%s[%@] Responds to selector = NO", __PRETTY_FUNCTION__, propertyName];
-//            [CQKLogger log:CQKLoggerLevelVerbose message:message error:nil callingClass:[self class]];
-//            continue;
-//        }
-//        
-//        id valueObject = [self valueForKey:propertyName];
-//        if (valueObject == nil) {
-//            NSString *message = [NSString stringWithFormat:@"%s[%@] value = nil", __PRETTY_FUNCTION__, propertyName];
-//            [CQKLogger log:CQKLoggerLevelVerbose message:message error:nil callingClass:[self class]];
-//            continue;
-//        }
-//        
-//        Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
-//        NSString *serializedKey = [self serializedKeyForPropertyName:propertyName];
-//        
-//        @try {
-//            if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]]) {
-//                [dictionary setObject:[(CQKSerializableNSObject *)valueObject dictionary] forKey:serializedKey];
-//            } else if ([propertyClass isSubclassOfClass:[NSArray class]]) {
-//                [dictionary setObject:[self serializedArrayForPropertyName:propertyName withArray:valueObject] forKey:serializedKey];
-//            } else {
-//                id serializedObject = [self serializedObjectForPropertyName:propertyName withData:valueObject];
-//                if (serializedObject != nil) {
-//                    [dictionary setObject:serializedObject forKey:serializedKey];
-//                }
-//            }
-//        }
-//        @catch (NSException *exception) {
-//            NSString *message = [NSString stringWithFormat:@"Failed to set value '%@' for key '%@': %@", valueObject, serializedKey, exception.reason];
-//            [CQKLogger log:CQKLoggerLevelException message:message error:nil callingClass:[self class]];
-//        }
-//        @finally {
-//            
-//        }
-//    }
-    
     return dictionary;
 }
 
@@ -316,7 +280,25 @@
         return nil;
     }
     
-    if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]]) {
+    if ([propertyClass isSubclassOfClass:[NSArray class]]) {
+        Class containingClass = [self objectClassOfCollectionTypeForPropertyName:propertyName];
+        if ([containingClass isSubclassOfClass:[NSNull class]]) {
+            return nil;
+        }
+        
+        if ([containingClass isSubclassOfClass:[CQKSerializableNSObject class]]) {
+            return [[containingClass alloc] initWithDictionary:data];
+        }
+    } else if ([propertyClass isSubclassOfClass:[NSSet class]]) {
+        Class containingClass = [self objectClassOfCollectionTypeForPropertyName:propertyName];
+        if ([containingClass isSubclassOfClass:[NSNull class]]) {
+            return nil;
+        }
+        
+        if ([containingClass isSubclassOfClass:[CQKSerializableNSObject class]]) {
+            return [[containingClass alloc] initWithDictionary:data];
+        }
+    } else if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]]) {
         return [[propertyClass alloc] initWithDictionary:data];
     } else if ([propertyClass isSubclassOfClass:[NSMutableDictionary class]]) {
         return [data mutableCopy];
@@ -351,13 +333,67 @@
             }
         }
         return serializedArray;
-    }
-    
-    if ([[data class] isSubclassOfClass:[CQKSerializableNSObject class]]) {
+    } else if ([[data class] isSubclassOfClass:[NSSet class]]) {
+        NSMutableSet *serializedSet = [NSMutableSet set];
+        for (id obj in (NSSet *)data) {
+            if ([[obj class] isSubclassOfClass:[CQKSerializableNSObject class]]) {
+                [serializedSet addObject:[(CQKSerializableNSObject *)obj dictionary]];
+            } else if ([[obj class] isSubclassOfClass:[NSObject class]]) {
+                NSObject *serializedObject = [self serializedObjectForPropertyName:propertyName withData:obj];
+                if (serializedObject != nil) {
+                    [serializedSet addObject:serializedObject];
+                }
+            }
+        }
+        return serializedSet;
+    } else if ([[data class] isSubclassOfClass:[CQKSerializableNSObject class]]) {
         return [(CQKSerializableNSObject *)data dictionary];
     }
     
     return [[CQKSerializableConfiguration sharedConfiguration] serializedObjectForPropertyName:propertyName withData:data];
+}
+
+- (Class)objectClassOfCollectionTypeForPropertyName:(NSString *)propertyName
+{
+    if (propertyName == nil || [propertyName isEqualToString:@""]) {
+        return [NSNull class];
+    }
+    
+    Class entityClass = NSClassFromString(propertyName);
+    if (entityClass != nil) {
+        return entityClass;
+    }
+    
+    NSMutableString *singular = [propertyName mutableCopy];
+    if ([singular.lowercaseString hasSuffix:@"s"]) {
+        [singular replaceCharactersInRange:NSMakeRange(singular.length - 1, 1) withString:@""];
+    }
+    
+    [singular replaceCharactersInRange:NSMakeRange(0, 1) withString:[singular substringToIndex:1].uppercaseString];
+    
+    entityClass = NSClassFromString(singular);
+    if (entityClass != nil) {
+        return entityClass;
+    }
+    
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    if (bundle.bundleDisplayName != nil) {
+        NSString *moduleName = [NSString stringWithFormat:@"%@.%@", bundle.bundleDisplayName, singular];
+        entityClass = NSClassFromString(moduleName);
+        if (entityClass != nil) {
+            return entityClass;
+        }
+    }
+    
+    if (bundle.bundleName != nil) {
+        NSString *moduleName = [NSString stringWithFormat:@"%@.%@", bundle.bundleName, singular];
+        entityClass = NSClassFromString(moduleName);
+        if (entityClass != nil) {
+            return entityClass;
+        }
+    }
+    
+    return [NSNull class];
 }
 
 #pragma mark -
@@ -398,6 +434,32 @@
         [self setValue:initializedArray forKey:propertyName];
     } else {
         [self setValue:[NSArray arrayWithArray:initializedArray] forKey:propertyName];
+    }
+}
+
+- (void)setValueForPropertyName:(NSString *)propertyName withSet:(NSSet *)set
+{
+    if (propertyName == nil || set == nil) {
+        return;
+    }
+    
+    Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
+    if (propertyClass == [NSNull class]) {
+        return;
+    }
+    
+    NSMutableSet *initializedSet = [NSMutableSet set];
+    [set enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSObject *initializedObject = [self initializedObjectForPropertyName:propertyName withData:obj];
+        if (initializedObject != nil) {
+            [initializedSet addObject:initializedObject];
+        }
+    }];
+    
+    if ([propertyClass isSubclassOfClass:[NSMutableSet class]]) {
+        [self setValue:initializedSet forKey:propertyName];
+    } else {
+        [self setValue:[NSSet setWithSet:initializedSet] forKey:propertyName];
     }
 }
 

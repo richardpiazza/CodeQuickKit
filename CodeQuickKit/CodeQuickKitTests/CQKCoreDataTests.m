@@ -63,13 +63,13 @@
 @dynamic name;
 @dynamic addresses;
 
-- (Class)classOfEntityForRelationshipWithAttributeName:(NSString *)attributeName
+- (Class)objectClassOfCollectionTypeForPropertyName:(NSString *)propertyName
 {
-    if ([attributeName isEqualToString:@"addresses"]) {
+    if ([propertyName isEqualToString:@"addresses"]) {
         return [CQKCDAddress class];
     }
     
-    return [super classOfEntityForRelationshipWithAttributeName:attributeName];
+    return [super objectClassOfCollectionTypeForPropertyName:propertyName];
 }
 
 @end

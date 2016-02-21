@@ -84,4 +84,12 @@ typedef NSDictionary<NSString *, __kindof NSObject *> * _Nullable CQKSerializabl
 /// When used in the context of `CQKSerializable` the `dictionary` representation is returned.
 - (nullable __kindof NSObject *)serializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable __kindof NSObject *)data;
 
+/// objectClassOfCollectionTypeForPropertyName:
+/// ===========================================
+/// Specifyes the type of objects contained within a collection.
+/// Aids in deserializing array instances into appropriate `NSObject` subclasses.
+/// By default a singularized version of the provided propertyName will be used to
+/// identify the return class.
+- (nullable Class)objectClassOfCollectionTypeForPropertyName:(nullable NSString *)propertyName;
+
 @end

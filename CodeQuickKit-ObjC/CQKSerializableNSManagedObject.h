@@ -40,11 +40,4 @@
 /*! @abstract  Calls the default initializer then passes the referenced dictionary to `CQKSerializable` updateWithJSON:. */
 - (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context withJSON:(nullable NSString *)json;
 
-/// classOfEntityForRelationshipWithAttributeName:
-/// ==============================================
-/// Allows for the specifying/overriding of the class for a given relationship.
-/// By default a singularized version of the provided attributeName will be used to identify the class.
-/// If no class is specified, NSNull class will be returned.
-- (nullable Class)classOfEntityForRelationshipWithAttributeName:(nullable NSString *)attributeName;
-
 @end
