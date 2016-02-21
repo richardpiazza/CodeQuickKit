@@ -48,3 +48,40 @@ typedef NSDictionary<NSString *, __kindof NSObject *> * _Nullable CQKSerializabl
 - (nullable NSString *)json;
 
 @end
+
+@protocol CQKSerializableCustomizable <NSObject>
+
+/// propertyNameForSerializedKey:
+/// =============================
+/// Maps a serialized key to a property name.
+/// Case translation is automatic based on `CQKSerializableConfiguration`.
+/// A nil return will skip the deserialization for this key.
+- (nullable NSString *)propertyNameForSerializedKey:(nullable NSString *)serializedKey;
+
+/// serializedKeyForPropertyName:
+/// =============================
+/// Maps a propety name to serialized key.
+/// Case translation is automatic based on `CQKSerializableConfiguration`.
+/// A nil return will skip the deserialization for this key.
+/// When used in the context of `CQKSerializableNSManagedObject` subclasses, a nil blocks recursive serialization.
+/// i.e. Given Person -> Address (One-to-many with reverse reference); When serializing a 'Person',
+/// you want the related Addresses but don't want the 'Person' referenced on the 'Address'.
+- (nullable NSString *)serializedKeyForPropertyName:(nullable NSString *)propertyName;
+
+/// initializedObjectForPropertyName:withData:
+/// ==========================================
+/// Overrides the default initialization behavior for a given property.
+/// Many serialized object types can be nativly deserialized to their corresponding `NSObject` type.
+/// Objects that conform to `CQKSerializable` will automatically by initialized.
+/// When used in the context of `CQKSerializableNSManagedObject`, `initIntoManagedObjectContext:withDictionary:`
+/// is called.
+- (nullable __kindof NSObject *)initializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable __kindof NSObject *)data;
+
+/// serializedObjectForPropertyName:withData:
+/// =========================================
+/// Overrides the default serialization behavior for a given property.
+/// Several NSObject subclasses can nativley be serialized with the NSJSONSerialization class.
+/// When used in the context of `CQKSerializable` the `dictionary` representation is returned.
+- (nullable __kindof NSObject *)serializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable __kindof NSObject *)data;
+
+@end

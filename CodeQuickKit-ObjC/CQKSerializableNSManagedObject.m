@@ -28,6 +28,12 @@
 #import "CQKSerializableConfiguration.h"
 #import "CQKLogger.h"
 
+@interface CQKSerializableNSManagedObject ()
+- (void)setValueForPropertyName:(nullable NSString *)propertyName withDictionary:(nullable NSDictionary<NSString *, __kindof NSObject *> *)dictionary;
+- (void)setValueForPropertyName:(nullable NSString *)propertyName withArray:(nullable NSArray<__kindof NSObject *> *)array;
+- (void)setValueForPropertyName:(nullable NSString *)propertyName withObject:(nullable __kindof NSObject *)object;
+@end
+
 @implementation CQKSerializableNSManagedObject
 
 - (instancetype)initIntoManagedObjectContext:(NSManagedObjectContext *)context
@@ -69,16 +75,6 @@
         [self updateWithJSON:json];
     }
     return self;
-}
-
-- (nullable NSString *)attributeNameForSerializedKey:(nullable NSString *)serializedKey
-{
-    return [[CQKSerializableConfiguration sharedConfiguration] propertyNameForSerializedKey:serializedKey];
-}
-
-- (nullable NSString *)serializedKeyForAttributeName:(nullable NSString *)attributeName
-{
-    return [[CQKSerializableConfiguration sharedConfiguration] serializedKeyForPropertyName:attributeName];
 }
 
 - (Class)classOfEntityForRelationshipWithAttributeName:(NSString *)attributeName
@@ -124,19 +120,6 @@
     return [NSNull class];
 }
 
-- (NSManagedObject *)initializedEntityOfClass:(Class)entityClass forAttributeName:(NSString *)attributeName withDictionary:(NSDictionary *)dictionary
-{
-    if (entityClass == [NSNull class]) {
-        return nil;
-    }
-    
-    if (![entityClass conformsToProtocol:NSProtocolFromString(@"CQKSerializable")]) {
-        return nil;
-    }
-    
-    return [[entityClass alloc] initIntoManagedObjectContext:self.managedObjectContext withDictionary:dictionary];
-}
-
 #pragma mark - CQKSerializable -
 - (instancetype)initWithDictionary:(NSDictionary<NSString *,__kindof NSObject *> *)dictionary
 {
@@ -147,55 +130,36 @@
 - (void)updateWithDictionary:(NSDictionary<NSString *,__kindof NSObject *> *)dictionary
 {
     if (dictionary == nil || ![dictionary.class isSubclassOfClass:NSDictionary.class]) {
+        [CQKLogger log:CQKLoggerLevelWarn message:@"Could not updateWithDictinary:, dictionary is nil." error:nil callingClass:self.class];
         return;
     }
     
     [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, __kindof NSObject * _Nonnull data, BOOL * _Nonnull stop) {
-        NSString *attributeName = [self attributeNameForSerializedKey:key];
-        if (attributeName == nil) {
+        NSString *propertyName = [self propertyNameForSerializedKey:key];
+        if (propertyName == nil) {
             return;
         }
         
-        Class attributeClass = [NSObject classForPropertyName:attributeName ofClass:self.class];
-        if (attributeClass == [NSNull class]) {
+        if (![self respondsToSetterForPropertyName:propertyName]) {
+            NSString *message = [NSString stringWithFormat:@"%s[%@] Responds to setter = NO", __PRETTY_FUNCTION__, propertyName];
+            [CQKLogger log:CQKLoggerLevelVerbose message:message error:nil callingClass:[self class]];
             return;
         }
-        
-        Class dataClass = [data class];
         
         @try {
-            if ([dataClass isSubclassOfClass:[NSDictionary class]]) {
-                NSManagedObject *object = [self initializedEntityOfClass:attributeClass forAttributeName:attributeName withDictionary:data];
-                if (object != nil) {
-                    [self setValue:object forKey:attributeName];
-                }
-            } else if ([dataClass isSubclassOfClass:[NSArray class]]) {
-                if (![attributeClass isSubclassOfClass:[NSSet class]]) {
-                    return;
-                }
-                
-                Class relationshipAttributeClass = [self classOfEntityForRelationshipWithAttributeName:attributeName];
-                
-                NSMutableSet *relationshipSet = [[self valueForKey:attributeName] mutableCopy];
-                
-                [(NSArray *)data enumerateObjectsUsingBlock:^(NSDictionary* relationshipObj, NSUInteger idx, BOOL *stop) {
-                    NSManagedObject *object = [self initializedEntityOfClass:relationshipAttributeClass forAttributeName:attributeName withDictionary:relationshipObj];
-                    if (object != nil && relationshipSet != nil) {
-                        [relationshipSet addObject:object];
-                    }
-                }];
-                
-                [self setValue:relationshipSet forKey:attributeName];
-            } else {
-                [self setValue:data forKey:attributeName];
+            if ([[data class] isSubclassOfClass:[NSDictionary class]]) {
+                [self setValueForPropertyName:propertyName withDictionary:data];
+            } else if ([[data class] isSubclassOfClass:[NSArray class]]) {
+                [self setValueForPropertyName:propertyName withArray:data];
+            } else if (![[data class] isSubclassOfClass:[NSNull class]]) {
+                [self setValueForPropertyName:propertyName withObject:data];
             }
         }
         @catch (NSException *exception) {
-            NSString *message = [NSString stringWithFormat:@"Failed to set value '%@' for attributeName '%@': %@", data, attributeName, exception.reason];
+            NSString *message = [NSString stringWithFormat:@"Failed to set value '%@' for key '%@': %@", data, key, exception.reason];
             [CQKLogger log:CQKLoggerLevelException message:message error:nil callingClass:[self class]];
         }
         @finally {
-            
         }
     }];
 }
@@ -206,19 +170,26 @@
     
     NSDictionary *attributes = [self.entity attributesByName];
     [attributes enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
-        NSString *serializedKey = [self serializedKeyForAttributeName:key];
+        NSString *serializedKey = [self serializedKeyForPropertyName:key];
         if (serializedKey == nil) {
             return;
         }
         
         @try {
             id value = [self valueForKey:key];
-            if (value != nil) {
-                [dictionary setObject:value forKey:serializedKey];
+            if (value == nil) {
+                return;
             }
+            
+            NSObject *serializedValue = [self serializedObjectForPropertyName:key withData:value];
+            if (serializedValue == nil) {
+                return;
+            }
+            
+            [dictionary setObject:serializedValue forKey:serializedKey];
         }
         @catch (NSException *exception) {
-            NSString *message = [NSString stringWithFormat:@"Failed to retrieve value for attributeName '%@': %@", key, exception.reason];
+            NSString *message = [NSString stringWithFormat:@"Failed to serialize value for attributeName '%@': %@", key, exception.reason];
             [CQKLogger log:CQKLoggerLevelException message:message error:nil callingClass:[self class]];
         }
         @finally {
@@ -228,47 +199,31 @@
     
     NSDictionary *relationships = [self.entity relationshipsByName];
     [relationships enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
-        NSString *serializedKey = [self serializedKeyForAttributeName:key];
+        NSString *serializedKey = [self serializedKeyForPropertyName:key];
         if (serializedKey == nil) {
             return;
         }
         
-        Class attributeClass = [NSObject classForPropertyName:key ofClass:self.class];
-        if ([attributeClass isSubclassOfClass:[NSNull class]]) {
-            return;
-        }
-        
-        if ([attributeClass conformsToProtocol:NSProtocolFromString(@"CQKSerializable")]) {
-            id <CQKSerializable> serializable = [self valueForKey:key];
-            NSDictionary *serializableDictionary = [serializable dictionary];
-            if (serializableDictionary != nil) {
-                [dictionary setObject:serializableDictionary forKey:serializedKey];
+        @try {
+            id value = [self valueForKey:key];
+            if (value == nil) {
+                return;
             }
-            return;
+            
+            NSObject *serializedValue = [self serializedObjectForPropertyName:key withData:value];
+            if (serializedValue == nil) {
+                return;
+            }
+            
+            [dictionary setObject:serializedValue forKey:serializedKey];
         }
-        
-        Class relationshipAttributeClass = [self classOfEntityForRelationshipWithAttributeName:key];
-        if ([relationshipAttributeClass isSubclassOfClass:[NSNull class]]) {
-            return;
+        @catch (NSException *exception) {
+            NSString *message = [NSString stringWithFormat:@"Failed to serialize value for relationshipName '%@': %@", key, exception.reason];
+            [CQKLogger log:CQKLoggerLevelException message:message error:nil callingClass:[self class]];
         }
-        
-        if (![relationshipAttributeClass conformsToProtocol:NSProtocolFromString(@"CQKSerializable")]) {
-            return;
+        @finally {
+            
         }
-        
-        NSMutableArray *serializedEntities = [NSMutableArray array];
-        
-        id <CQKSerializable> serializableSet = [self valueForKey:key];
-        if (serializableSet != nil) {
-            [(NSSet *)serializableSet enumerateObjectsUsingBlock:^(id<CQKSerializable> obj, BOOL *stop) {
-                NSDictionary *serializedDictionary = [obj dictionary];
-                if (serializedDictionary != nil) {
-                    [serializedEntities addObject:serializedDictionary];
-                }
-            }];
-        }
-        
-        [dictionary setObject:serializedEntities forKey:serializedKey];
     }];
     
     return dictionary;
@@ -351,6 +306,134 @@
     
     NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     return json;
+}
+
+#pragma mark - CQKSerializableCustomizable -
+- (NSString *)propertyNameForSerializedKey:(NSString *)serializedKey
+{
+    return [[CQKSerializableConfiguration sharedConfiguration] propertyNameForSerializedKey:serializedKey];
+}
+
+- (NSString *)serializedKeyForPropertyName:(NSString *)propertyName
+{
+    return [[CQKSerializableConfiguration sharedConfiguration] serializedKeyForPropertyName:propertyName];
+}
+
+- (NSObject *)initializedObjectForPropertyName:(NSString *)propertyName withData:(__kindof NSObject *)data
+{
+    if (propertyName == nil || data == nil) {
+        return nil;
+    }
+    
+    Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
+    if (propertyClass == [NSNull class]) {
+        return nil;
+    }
+    
+    if ([propertyClass isSubclassOfClass:[NSSet class]]) {
+        Class relationshipClass = [self classOfEntityForRelationshipWithAttributeName:propertyName];
+        if ([relationshipClass isSubclassOfClass:[NSNull class]]) {
+            return nil;
+        }
+        
+        if (![relationshipClass isSubclassOfClass:[CQKSerializableNSManagedObject class]]) {
+            return nil;
+        }
+        
+        return [[relationshipClass alloc] initIntoManagedObjectContext:self.managedObjectContext withDictionary:data];
+    }
+    
+    if ([propertyClass isSubclassOfClass:[CQKSerializableNSManagedObject class]]) {
+        return [[propertyClass alloc] initIntoManagedObjectContext:self.managedObjectContext withDictionary:data];
+    }
+    
+    return [[CQKSerializableConfiguration sharedConfiguration] initializedObjectForPropertyName:propertyName ofClass:self.class withData:data];
+}
+
+- (NSObject *)serializedObjectForPropertyName:(NSString *)propertyName withData:(__kindof NSObject *)data
+{
+    if (propertyName == nil || data == nil) {
+        return nil;
+    }
+    
+    Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
+    if (propertyClass == [NSNull class]) {
+        return nil;
+    }
+    
+    if ([[data class] isSubclassOfClass:[NSSet class]]) {
+        Class relationshipClass = [self classOfEntityForRelationshipWithAttributeName:propertyName];
+        if ([relationshipClass isSubclassOfClass:[NSNull class]]) {
+            return nil;
+        }
+        
+        if (![relationshipClass isSubclassOfClass:[CQKSerializableNSManagedObject class]]) {
+            return nil;
+        }
+        
+        NSMutableArray *serializedArray = [NSMutableArray array];
+        for (CQKSerializableNSManagedObject *cqkObject in (NSSet *)data) {
+            [serializedArray addObject:cqkObject.dictionary];
+        }
+        return serializedArray;
+    }
+    
+    if ([[data class] isSubclassOfClass:[CQKSerializableNSManagedObject class]]) {
+        return [(CQKSerializableNSManagedObject *)data dictionary];
+    }
+    
+    return [[CQKSerializableConfiguration sharedConfiguration] serializedObjectForPropertyName:propertyName withData:data];
+}
+
+#pragma mark - 
+- (void)setValueForPropertyName:(NSString *)propertyName withDictionary:(NSDictionary<NSString *,__kindof NSObject *> *)dictionary
+{
+    if (propertyName == nil || dictionary == nil) {
+        return;
+    }
+    
+    NSObject *initializedObject = [self initializedObjectForPropertyName:propertyName withData:dictionary];
+    if (initializedObject == nil) {
+        return;
+    }
+    
+    [self setValue:initializedObject forKey:propertyName];
+}
+
+- (void)setValueForPropertyName:(NSString *)propertyName withArray:(NSArray<__kindof NSObject *> *)array
+{
+    if (propertyName == nil || array == nil) {
+        return;
+    }
+    
+    Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
+    if (propertyClass == [NSNull class] || ![propertyClass isSubclassOfClass:[NSSet class]]) {
+        return;
+    }
+    
+    NSMutableSet *relationshipSet = [[self valueForKey:propertyName] mutableCopy];
+    [array enumerateObjectsUsingBlock:^(__kindof NSObject * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSManagedObject *initializedObject = [self initializedObjectForPropertyName:propertyName withData:obj];
+        if (initializedObject != nil) {
+            [relationshipSet addObject:initializedObject];
+        }
+    }];
+    
+    [self setValue:relationshipSet forKey:propertyName];
+}
+
+- (void)setValueForPropertyName:(NSString *)propertyName withObject:(__kindof NSObject *)object
+{
+    if (propertyName == nil || object == nil) {
+        return;
+    }
+    
+    NSObject *initializedObject = [self initializedObjectForPropertyName:propertyName withData:object];
+    if (initializedObject == nil) {
+        return;
+    }
+    
+    [self setValue:initializedObject forKey:propertyName];
 }
 
 @end

@@ -25,56 +25,9 @@
 #import <Foundation/Foundation.h>
 #import "CQKSerializable.h"
 
-/*!
- @abstract      CQKSerializableNSObject
- @discussion    Leverages the ObjC runtime to automatically de/serialize all \@property
-                objects to a dictionary/json string.
- */
-@interface CQKSerializableNSObject : NSObject <NSCoding, NSCopying, CQKSerializable>
-
-/*!
- @method        propertyNameForSerializedKey:
- @abstract      Translates a serialized name key/casing to property name key/casing.
- @param         serializedKey The key name from the dictionary being processed.
- @return        The property name with the property key casing style applied.
- @return        A nil return will skip the deserialization for this key.
- */
-- (nullable NSString *)propertyNameForSerializedKey:(nullable NSString *)serializedKey;
-
-/*!
- @method        serializedKeyForPropertyName:
- @abstract      Translates a property name key/casing to serialized name key/casing.
- @param         propertyName The instance property name being processed.
- @return        The key name with the serialized key casing style applied.
- @return        A nil return will skip the serialization for this key.
- */
-- (nullable NSString *)serializedKeyForPropertyName:(nullable NSString *)propertyName;
-
-/*!
- @method        initializedObjectForPropertyName:withData:
- @abstract      Overrides the default initialization behavior for a given property.
- @discussion    Many serialized object types can be nativly deserialized to their
-                corresponding NSObject types. Objects that are a subclass of
-                CQKSerializableNSObject will automatically be initialized.
-                Every element of an NSArray will be passed to this method.
- @param         propertyName The instance property name being processed.
- @param         data The data to be used to initialize the property.
- @return        The initialized object
- */
-- (nullable __kindof NSObject *)initializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data;
-
-/*!
- @method        serializedObjectForPropertyname:withData:
- @abstract      Overrides the default serialization behavior for a given property.
- @discussion    Several NSObject subclasses can nativley be serialized with the
-                NSJSONSerialization class. This method provieds the opportunity to
-                translate non supported formats to a supported one. Object that are
-                a subclass of CQKSerializableNSObject will automatically have their
-                NSDictionary representation returned.
- @param         propertyName The instance property name being processed.
- @param         data The property value to be serialized.
- @return        The serialized object.
- */
-- (nullable __kindof NSObject *)serializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data;
+/// CQKSerializableNSObject
+/// Leverages the ObjC runtime to automatically de/serialize all \@property
+/// objects to a dictionary/json string.
+@interface CQKSerializableNSObject : NSObject <NSCoding, NSCopying, CQKSerializable, CQKSerializableCustomizable>
 
 @end

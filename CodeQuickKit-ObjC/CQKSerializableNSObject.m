@@ -29,11 +29,9 @@
 #import "CQKLogger.h"
 
 @interface CQKSerializableNSObject ()
-- (BOOL)respondsToSetterForPropertyName:(NSString *)propertyName;
 - (void)setValueForPropertyName:(NSString *)propertyName withDictionary:(NSDictionary *)dictionary;
 - (void)setValueForPropertyName:(NSString *)propertyName withArray:(NSArray *)array;
 - (void)setValueForPropertyName:(NSString *)propertyName withObject:(id)object;
-- (NSArray *)serializedArrayForPropertyName:(NSString *)propertyName withArray:(NSArray *)array;
 @end
 
 @implementation CQKSerializableNSObject
@@ -140,43 +138,71 @@
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     
     NSArray *properties = [NSObject propertyNamesForClass:self.class];
-    for (NSString *propertyName in properties) {
-        if (![self respondsToSelector:NSSelectorFromString(propertyName)]) {
-            NSString *message = [NSString stringWithFormat:@"%s[%@] Responds to selector = NO", __PRETTY_FUNCTION__, propertyName];
-            [CQKLogger log:CQKLoggerLevelVerbose message:message error:nil callingClass:[self class]];
-            continue;
+    [properties enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *serializedKey = [self serializedKeyForPropertyName:key];
+        if (serializedKey == nil) {
+            return;
         }
-        
-        id valueObject = [self valueForKey:propertyName];
-        if (valueObject == nil) {
-            NSString *message = [NSString stringWithFormat:@"%s[%@] value = nil", __PRETTY_FUNCTION__, propertyName];
-            [CQKLogger log:CQKLoggerLevelVerbose message:message error:nil callingClass:[self class]];
-            continue;
-        }
-        
-        Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
-        NSString *serializedKey = [self serializedKeyForPropertyName:propertyName];
         
         @try {
-            if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]]) {
-                [dictionary setObject:[(CQKSerializableNSObject *)valueObject dictionary] forKey:serializedKey];
-            } else if ([propertyClass isSubclassOfClass:[NSArray class]]) {
-                [dictionary setObject:[self serializedArrayForPropertyName:propertyName withArray:valueObject] forKey:serializedKey];
-            } else {
-                id serializedObject = [self serializedObjectForPropertyName:propertyName withData:valueObject];
-                if (serializedObject != nil) {
-                    [dictionary setObject:serializedObject forKey:serializedKey];
-                }
+            id value = [self valueForKey:key];
+            if (value == nil) {
+                return;
             }
+            
+            NSObject *serializedValue = [self serializedObjectForPropertyName:key withData:value];
+            if (serializedValue == nil) {
+                return;
+            }
+            
+            [dictionary setObject:serializedValue forKey:serializedKey];
         }
         @catch (NSException *exception) {
-            NSString *message = [NSString stringWithFormat:@"Failed to set value '%@' for key '%@': %@", valueObject, serializedKey, exception.reason];
+            NSString *message = [NSString stringWithFormat:@"Failed to serialize value for propertyName '%@': %@", key, exception.reason];
             [CQKLogger log:CQKLoggerLevelException message:message error:nil callingClass:[self class]];
         }
         @finally {
             
         }
-    }
+    }];
+    
+//    for (NSString *propertyName in properties) {
+//        if (![self respondsToSelector:NSSelectorFromString(propertyName)]) {
+//            NSString *message = [NSString stringWithFormat:@"%s[%@] Responds to selector = NO", __PRETTY_FUNCTION__, propertyName];
+//            [CQKLogger log:CQKLoggerLevelVerbose message:message error:nil callingClass:[self class]];
+//            continue;
+//        }
+//        
+//        id valueObject = [self valueForKey:propertyName];
+//        if (valueObject == nil) {
+//            NSString *message = [NSString stringWithFormat:@"%s[%@] value = nil", __PRETTY_FUNCTION__, propertyName];
+//            [CQKLogger log:CQKLoggerLevelVerbose message:message error:nil callingClass:[self class]];
+//            continue;
+//        }
+//        
+//        Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
+//        NSString *serializedKey = [self serializedKeyForPropertyName:propertyName];
+//        
+//        @try {
+//            if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]]) {
+//                [dictionary setObject:[(CQKSerializableNSObject *)valueObject dictionary] forKey:serializedKey];
+//            } else if ([propertyClass isSubclassOfClass:[NSArray class]]) {
+//                [dictionary setObject:[self serializedArrayForPropertyName:propertyName withArray:valueObject] forKey:serializedKey];
+//            } else {
+//                id serializedObject = [self serializedObjectForPropertyName:propertyName withData:valueObject];
+//                if (serializedObject != nil) {
+//                    [dictionary setObject:serializedObject forKey:serializedKey];
+//                }
+//            }
+//        }
+//        @catch (NSException *exception) {
+//            NSString *message = [NSString stringWithFormat:@"Failed to set value '%@' for key '%@': %@", valueObject, serializedKey, exception.reason];
+//            [CQKLogger log:CQKLoggerLevelException message:message error:nil callingClass:[self class]];
+//        }
+//        @finally {
+//            
+//        }
+//    }
     
     return dictionary;
 }
@@ -222,7 +248,7 @@
         }
     }
     @catch (NSException *exception) {
-        NSString *message = [NSString stringWithFormat:@"Failed to serialize dictionary %@", dictionary];
+        NSString *message = [NSString stringWithFormat:@"Failed to serialize dictionary %@\n%@", dictionary, exception.reason];
         [CQKLogger log:CQKLoggerLevelException message:message error:nil callingClass:[self class]];
     }
     @finally {
@@ -268,120 +294,125 @@
     return jsonFormatted;
 }
 
-#pragma mark -
-- (nullable NSString *)propertyNameForSerializedKey:(nullable NSString *)serializedKey
+#pragma mark - CQKSerializableCustomizable -
+- (NSString *)propertyNameForSerializedKey:(NSString *)serializedKey
 {
     return [[CQKSerializableConfiguration sharedConfiguration] propertyNameForSerializedKey:serializedKey];
 }
 
-- (nullable NSString *)serializedKeyForPropertyName:(nullable NSString *)propertyName
+- (NSString *)serializedKeyForPropertyName:(NSString *)propertyName
 {
     return [[CQKSerializableConfiguration sharedConfiguration] serializedKeyForPropertyName:propertyName];
 }
 
-- (nullable __kindof NSObject *)initializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data
+- (NSObject *)initializedObjectForPropertyName:(NSString *)propertyName withData:(__kindof NSObject *)data
 {
+    if (propertyName == nil || data == nil) {
+        return nil;
+    }
+    
     Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
-    
-    if ([propertyClass isSubclassOfClass:[NSUUID class]]) {
-        return [[NSUUID alloc] initWithUUIDString:(NSString *)data];
-    } else if ([propertyClass isSubclassOfClass:[NSDate class]]) {
-        return [[NSDateFormatter rfc1123DateFormatter] dateFromString:(NSString *)data];
-    } else if ([propertyClass isSubclassOfClass:[NSURL class]]) {
-        return [NSURL URLWithString:(NSString *)data];
+    if (propertyClass == [NSNull class]) {
+        return nil;
     }
     
-    return data;
+    if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]]) {
+        return [[propertyClass alloc] initWithDictionary:data];
+    } else if ([propertyClass isSubclassOfClass:[NSMutableDictionary class]]) {
+        return [data mutableCopy];
+    } else if ([propertyClass isSubclassOfClass:[NSDictionary class]]) {
+        return data;
+    }
+    
+    return [[CQKSerializableConfiguration sharedConfiguration] initializedObjectForPropertyName:propertyName ofClass:self.class withData:data];
 }
 
-- (nullable __kindof NSObject *)serializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable id)data
+- (NSObject *)serializedObjectForPropertyName:(NSString *)propertyName withData:(__kindof NSObject *)data
 {
-    if ([[data class] isSubclassOfClass:[NSUUID class]]) {
-        return [(NSUUID *)data UUIDString];
-    } else if ([[data class] isSubclassOfClass:[NSDate class]]) {
-        return [[NSDateFormatter rfc1123DateFormatter] stringFromDate:(NSDate *)data];
-    } else if ([[data class] isSubclassOfClass:[NSURL class]]) {
-        return [(NSURL *)data absoluteString];
+    if (propertyName == nil || data == nil) {
+        return nil;
     }
     
-    return data;
-}
-
-- (BOOL)respondsToSetterForPropertyName:(NSString *)propertyName
-{
-    if (propertyName == nil || [propertyName isEqualToString:@""]) {
-        return NO;
+    Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
+    if (propertyClass == [NSNull class]) {
+        return nil;
     }
     
-    NSString *setter = [NSString stringWithFormat:@"set%@:", [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[propertyName substringToIndex:1].uppercaseString]];
-    return [self respondsToSelector:NSSelectorFromString(setter)];
+    if ([[data class] isSubclassOfClass:[NSArray class]]) {
+        NSMutableArray *serializedArray = [NSMutableArray array];
+        for (id obj in (NSArray *)data) {
+            if ([[obj class] isSubclassOfClass:[CQKSerializableNSObject class]]) {
+                [serializedArray addObject:[(CQKSerializableNSObject *)obj dictionary]];
+            } else if ([[obj class] isSubclassOfClass:[NSObject class]]) {
+                NSObject *serializedObject = [self serializedObjectForPropertyName:propertyName withData:obj];
+                if (serializedObject != nil) {
+                    [serializedArray addObject:serializedObject];
+                }
+            }
+        }
+        return serializedArray;
+    }
+    
+    if ([[data class] isSubclassOfClass:[CQKSerializableNSObject class]]) {
+        return [(CQKSerializableNSObject *)data dictionary];
+    }
+    
+    return [[CQKSerializableConfiguration sharedConfiguration] serializedObjectForPropertyName:propertyName withData:data];
 }
 
+#pragma mark -
 - (void)setValueForPropertyName:(NSString *)propertyName withDictionary:(NSDictionary *)dictionary
 {
-    Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
-    
-    if (propertyClass == NULL || [propertyClass isSubclassOfClass:[NSNull class]]) {
-        id valueObject = [self initializedObjectForPropertyName:propertyName withData:dictionary];
-        if (valueObject != nil) {
-            [self setValue:valueObject forKey:propertyName];
-        }
-    } else if ([propertyClass isSubclassOfClass:[CQKSerializableNSObject class]]) {
-        [self setValue:[[propertyClass alloc] initWithDictionary:dictionary] forKey:propertyName];
-    } else if ([propertyClass isSubclassOfClass:[NSMutableDictionary class]]) {
-        [self setValue:[dictionary mutableCopy] forKey:propertyName];
-    } else {
-        id valueObject = [self initializedObjectForPropertyName:propertyName withData:dictionary];
-        if (valueObject != nil) {
-            [self setValue:valueObject forKey:propertyName];
-        }
+    if (propertyName == nil || dictionary == nil) {
+        return;
     }
+    
+    NSObject *initializedObject = [self initializedObjectForPropertyName:propertyName withData:dictionary];
+    if (initializedObject == nil) {
+        return;
+    }
+    
+    [self setValue:initializedObject forKey:propertyName];
 }
 
 - (void)setValueForPropertyName:(NSString *)propertyName withArray:(NSArray *)array
 {
-    NSMutableArray *value = [NSMutableArray array];
+    if (propertyName == nil || array == nil) {
+        return;
+    }
     
+    Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
+    if (propertyClass == [NSNull class]) {
+        return;
+    }
+    
+    NSMutableArray *initializedArray = [NSMutableArray array];
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        id valueObject = [self initializedObjectForPropertyName:propertyName withData:obj];
-        if (valueObject != nil) {
-            [value addObject:valueObject];
+        NSObject *initializedObject = [self initializedObjectForPropertyName:propertyName withData:obj];
+        if (initializedObject != nil) {
+            [initializedArray addObject:initializedObject];
         }
     }];
     
-    Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:self.class];
     if ([propertyClass isSubclassOfClass:[NSMutableArray class]]) {
-        [self setValue:value forKey:propertyName];
+        [self setValue:initializedArray forKey:propertyName];
     } else {
-        [self setValue:[NSArray arrayWithArray:value] forKey:propertyName];
+        [self setValue:[NSArray arrayWithArray:initializedArray] forKey:propertyName];
     }
 }
 
 - (void)setValueForPropertyName:(NSString *)propertyName withObject:(id)object
 {
-    id valueObject = [self initializedObjectForPropertyName:propertyName withData:object];
-    if (valueObject != nil) {
-        [self setValue:valueObject forKey:propertyName];
-    }
-}
-
-- (NSArray *)serializedArrayForPropertyName:(NSString *)propertyName withArray:(NSArray *)array
-{
-    NSMutableArray *serialiazedArray = [NSMutableArray array];
-    
-    for (id obj in array) {
-        if ([[obj class] isSubclassOfClass:[CQKSerializableNSObject class]]) {
-            [serialiazedArray addObject:[(CQKSerializableNSObject *)obj dictionary]];
-            continue;
-        }
-        
-        id valueObject = [self serializedObjectForPropertyName:propertyName withData:obj];
-        if (valueObject != nil) {
-            [serialiazedArray addObject:valueObject];
-        }
+    if (propertyName == nil || object == nil) {
+        return;
     }
     
-    return serialiazedArray;
+    NSObject *initializedObject = [self initializedObjectForPropertyName:propertyName withData:object];
+    if (initializedObject == nil) {
+        return;
+    }
+    
+    [self setValue:initializedObject forKey:propertyName];
 }
 
 @end

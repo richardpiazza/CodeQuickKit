@@ -40,15 +40,14 @@
 @dynamic city;
 @dynamic person;
 
-- (NSString *)serializedKeyForAttributeName:(NSString *)attributeName
+- (NSString *)serializedKeyForPropertyName:(NSString *)propertyName
 {
-    if ([attributeName isEqualToString:@"person"]) {
+    if ([propertyName isEqualToString:@"person"]) {
         return nil;
     }
     
-    return [super serializedKeyForAttributeName:attributeName];
+    return [super serializedKeyForPropertyName:propertyName];
 }
-
 @end
 
 @interface CQKCDPerson : CQKSerializableNSManagedObject

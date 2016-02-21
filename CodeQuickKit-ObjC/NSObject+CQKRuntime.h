@@ -49,4 +49,6 @@
 /// Returns the last component from NSStringFromClass()
 - (nonnull NSString *)classNameWithoutModule;
 
+- (BOOL)respondsToSetterForPropertyName:(nullable NSString *)propertyName;
+
 @end

@@ -26,16 +26,12 @@
 #import <CoreData/CoreData.h>
 #import "CQKSerializable.h"
 
-@interface CQKSerializableNSManagedObject : NSManagedObject <CQKSerializable>
+@interface CQKSerializableNSManagedObject : NSManagedObject <CQKSerializable, CQKSerializableCustomizable>
 
-/*!
- @abstract      Initialize a new NSManagedObject into the provided NSManagedObjectContext.
- @discussion    This method assumes that an NSEntityDescription exists within the NSManagedObjectContext
-                that has the exact name of the class. i.e. If the class name is "Person", a "Person" entity must
-                exist in the model.
- @property      context The NSManagedObjectContext with the matching entity description.
- @return        A NSManagedObject subclass that has been inserted into the NSManagedObjectContext.
- */
+/// Initialize a new NSManagedObject into the provided NSManagedObjectContext.
+/// This method assumes that an NSEntityDescription exists within the NSManagedObjectContext
+/// that has the exact name of the class. i.e. If the class name is "Person", a "Person" entity must
+/// exist in the model.
 - (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context;
 /*! @abstract  Calls the default initializer then passes the referenced dictionary to `CQKSerializable` updateWithDictionary:. */
 - (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context withDictionary:(nullable NSDictionary<NSString *, __kindof NSObject *> *)dictionary;
@@ -44,34 +40,11 @@
 /*! @abstract  Calls the default initializer then passes the referenced dictionary to `CQKSerializable` updateWithJSON:. */
 - (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context withJSON:(nullable NSString *)json;
 
-/*!
- @method        attributeNameForSerializedKey:
- @abstract      Translates a serialized name key/casing to attribute name key/casing.
- @param         serializedKey The key name from the dictionary being processed.
- @return        The property name with the property key casing style applied.
- @return        A nil return will skip the deserialization for this key.
- */
-- (nullable NSString *)attributeNameForSerializedKey:(nullable NSString *)serializedKey;
-
-/*!
- @abstract
- @discussion    This should be overriden in subclasses to prevent serializing reverse relationships.
-                i.e. Given Person -> Address (One-to-many with reverse reference); When serializing a 'Person',
-                you want the related Addresses but don't want the 'Person' referenced on the 'Address'.
- */
-- (nullable NSString *)serializedKeyForAttributeName:(nullable NSString *)attributeName;
-
-/*!
- @abstract      Allows for the specifying/overriding of the class for a given relationship.
- @discussion    By default a singularized version of the provided attributeName will be used to identify the class.
-                If no class is specified, NSNull class will be returned.
- */
+/// classOfEntityForRelationshipWithAttributeName:
+/// ==============================================
+/// Allows for the specifying/overriding of the class for a given relationship.
+/// By default a singularized version of the provided attributeName will be used to identify the class.
+/// If no class is specified, NSNull class will be returned.
 - (nullable Class)classOfEntityForRelationshipWithAttributeName:(nullable NSString *)attributeName;
-
-/*!
- @abstract      Allows for the overriding of managed object initialization.
- @discussion    By default, if the class conforms to `CQKSerializable`, initIntoManagedObjectContext:withDictionary: is called.
- */
-- (nullable __kindof NSManagedObject *)initializedEntityOfClass:(nullable Class)entityClass forAttributeName:(nullable NSString *)attributeName withDictionary:(nullable NSDictionary<NSString *, __kindof NSObject *> *)dictionary;
 
 @end

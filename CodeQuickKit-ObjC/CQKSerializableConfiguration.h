@@ -51,9 +51,16 @@ typedef enum : NSUInteger {
 /*! @abstract   Redirects that should be applied during the de/serialization process.
                 key = propertyName, value = serializedKey */
 @property (nonatomic, strong, readonly) NSMutableDictionary<NSString *, NSString *> * _Nonnull keyRedirects;
+/// Customizable date formatting. Defaults to `[NSDateFormatter rfc1123DateFormatter]`
+@property (nonatomic, strong) NSDateFormatter * _Nonnull dateFormatter;
 
+/// Returns the properly cased property name for the given serialized key.
 - (nullable NSString *)propertyNameForSerializedKey:(nullable NSString *)serializedKey;
+/// Returns the properly cased serialized key for the given property name.
 - (nullable NSString *)serializedKeyForPropertyName:(nullable NSString *)propertyName;
+
+- (nullable __kindof NSObject *)initializedObjectForPropertyName:(nullable NSString *)propertyName ofClass:(nullable Class)ofClass withData:(nullable __kindof NSObject *)data;
+- (nullable __kindof NSObject *)serializedObjectForPropertyName:(nullable NSString *)propertyName withData:(nullable __kindof NSObject *)data;
 
 + (nullable NSString *)stringForString:(nullable NSString *)string withKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle;
 + (nullable NSString *)jsonStringRemovingPrettyFormatting:(nullable NSString *)json;

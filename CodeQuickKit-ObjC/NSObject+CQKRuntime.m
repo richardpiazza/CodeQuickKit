@@ -122,4 +122,14 @@
     return [NSObject nameForClass:self.class];
 }
 
+- (BOOL)respondsToSetterForPropertyName:(NSString *)propertyName
+{
+    if (propertyName == nil || [propertyName isEqualToString:@""]) {
+        return NO;
+    }
+    
+    NSString *setter = [NSString stringWithFormat:@"set%@:", [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[propertyName substringToIndex:1].uppercaseString]];
+    return [self respondsToSelector:NSSelectorFromString(setter)];
+}
+
 @end

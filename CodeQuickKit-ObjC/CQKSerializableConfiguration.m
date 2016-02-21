@@ -23,6 +23,8 @@
  */
 
 #import "CQKSerializableConfiguration.h"
+#import "NSDateFormatter+CQKDateFormatter.h"
+#import "NSObject+CQKRuntime.h"
 
 @interface CQKSerializableConfiguration ()
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> * _Nonnull keyRedirects;
@@ -47,50 +49,9 @@
         [self setPropertyKeyStyle:CQKSerializableNSObjectKeyStyleMatchCase];
         [self setSerializedKeyStyle:CQKSerializableNSObjectKeyStyleMatchCase];
         [self setKeyRedirects:[[NSMutableDictionary alloc] init]];
+        [self setDateFormatter:[NSDateFormatter rfc1123DateFormatter]];
     }
     return self;
-}
-
-- (nullable NSString *)propertyNameForSerializedKey:(nullable NSString *)serializedKey
-{
-    if (serializedKey == nil) {
-        return nil;
-    }
-    
-    __block NSString *propertyName;
-    [self.keyRedirects enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
-        if ([obj isEqualToString:serializedKey]) {
-            propertyName = key;
-            *stop = YES;
-        }
-    }];
-    
-    if (propertyName != nil) {
-        return propertyName;
-    }
-    
-    return [CQKSerializableConfiguration stringForString:serializedKey withKeyStyle:self.propertyKeyStyle];
-}
-
-- (nullable NSString *)serializedKeyForPropertyName:(nullable NSString *)propertyName
-{
-    if (propertyName == nil) {
-        return nil;
-    }
-    
-    __block NSString *serializedKey;
-    [self.keyRedirects enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
-        if ([key isEqualToString:propertyName]) {
-            serializedKey = obj;
-            *stop = YES;
-        }
-    }];
-    
-    if (serializedKey != nil) {
-        return serializedKey;
-    }
-    
-    return [CQKSerializableConfiguration stringForString:propertyName withKeyStyle:self.serializedKeyStyle];
 }
 
 + (NSString *)stringForString:(NSString *)string withKeyStyle:(CQKSerializableNSObjectKeyStyle)keyStyle
@@ -137,6 +98,85 @@
     [jsonString replaceOccurrencesOfString:@"  " withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, jsonString.length)];
     [jsonString replaceOccurrencesOfString:@"\\/" withString:@"/" options:NSCaseInsensitiveSearch range:NSMakeRange(0, jsonString.length)];
     return jsonString;
+}
+
+// MARK: - CQKSerializableCustomizable
+- (NSString *)propertyNameForSerializedKey:(NSString *)serializedKey
+{
+    if (serializedKey == nil) {
+        return nil;
+    }
+    
+    __block NSString *propertyName;
+    [self.keyRedirects enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([obj isEqualToString:serializedKey]) {
+            propertyName = key;
+            *stop = YES;
+        }
+    }];
+    
+    if (propertyName != nil) {
+        return propertyName;
+    }
+    
+    return [CQKSerializableConfiguration stringForString:serializedKey withKeyStyle:self.propertyKeyStyle];
+}
+
+- (NSString *)serializedKeyForPropertyName:(NSString *)propertyName
+{
+    if (propertyName == nil) {
+        return nil;
+    }
+    
+    __block NSString *serializedKey;
+    [self.keyRedirects enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([key isEqualToString:propertyName]) {
+            serializedKey = obj;
+            *stop = YES;
+        }
+    }];
+    
+    if (serializedKey != nil) {
+        return serializedKey;
+    }
+    
+    return [CQKSerializableConfiguration stringForString:propertyName withKeyStyle:self.serializedKeyStyle];
+}
+
+- (NSObject *)initializedObjectForPropertyName:(NSString *)propertyName ofClass:(Class)ofClass withData:(__kindof NSObject *)data
+{
+    if (ofClass == nil || propertyName == nil || data == nil) {
+        return nil;
+    }
+    
+    Class propertyClass = [NSObject classForPropertyName:propertyName ofClass:ofClass];
+    
+    if ([propertyClass isSubclassOfClass:[NSUUID class]]) {
+        return [[NSUUID alloc] initWithUUIDString:(NSString *)data];
+    } else if ([propertyClass isSubclassOfClass:[NSDate class]]) {
+        return [self.dateFormatter dateFromString:(NSString *)data];
+    } else if ([propertyClass isSubclassOfClass:[NSURL class]]) {
+        return [NSURL URLWithString:(NSString *)data];
+    }
+    
+    return data;
+}
+
+- (NSObject *)serializedObjectForPropertyName:(NSString *)propertyName withData:(__kindof NSObject *)data
+{
+    if (propertyName == nil || data == nil) {
+        return nil;
+    }
+    
+    if ([[data class] isSubclassOfClass:[NSUUID class]]) {
+        return [(NSUUID *)data UUIDString];
+    } else if ([[data class] isSubclassOfClass:[NSDate class]]) {
+        return [self.dateFormatter stringFromDate:(NSDate *)data];
+    } else if ([[data class] isSubclassOfClass:[NSURL class]]) {
+        return [(NSURL *)data absoluteString];
+    }
+    
+    return data;
 }
 
 @end
