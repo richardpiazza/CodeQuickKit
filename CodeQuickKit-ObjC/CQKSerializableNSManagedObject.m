@@ -36,6 +36,15 @@
 
 @implementation CQKSerializableNSManagedObject
 
+- (instancetype)initWithEntity:(NSEntityDescription *)entity insertIntoManagedObjectContext:(NSManagedObjectContext *)context
+{
+    self = [super initWithEntity:entity insertIntoManagedObjectContext:context];
+    if (self != nil) {
+        [self setDefaults];
+    }
+    return self;
+}
+
 - (instancetype)initIntoManagedObjectContext:(NSManagedObjectContext *)context
 {
     NSString *entityName = self.classNameWithoutModule;
@@ -75,6 +84,11 @@
         [self updateWithJSON:json];
     }
     return self;
+}
+
+- (void)setDefaults
+{
+    
 }
 
 #pragma mark - CQKSerializable -

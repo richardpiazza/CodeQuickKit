@@ -30,4 +30,7 @@
 /// objects to a dictionary/json string.
 @interface CQKSerializableNSObject : NSObject <NSCoding, NSCopying, CQKSerializable, CQKSerializableCustomizable>
 
+/// Allows for injection of default values during designated initialization.
+- (void)setDefaults;
+
 @end

@@ -40,4 +40,7 @@
 /*! @abstract  Calls the default initializer then passes the referenced dictionary to `CQKSerializable` updateWithJSON:. */
 - (nullable instancetype)initIntoManagedObjectContext:(nonnull NSManagedObjectContext *)context withJSON:(nullable NSString *)json;
 
+/// Allows for injection of default values during designated initialization.
+- (void)setDefaults;
+
 @end

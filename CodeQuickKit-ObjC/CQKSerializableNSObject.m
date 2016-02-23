@@ -38,8 +38,22 @@
 
 @implementation CQKSerializableNSObject
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self != nil) {
+        [self setDefaults];
+    }
+    return self;
+}
+
+- (void)setDefaults
+{
+    
+}
+
 #pragma mark - NSCoding -
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
     self = [self init];
     if (self != nil) {
@@ -88,7 +102,7 @@
 }
 
 #pragma mark - CQKSerializable -
-- (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *,__kindof NSObject *> *)dictionary
+- (instancetype)initWithDictionary:(NSDictionary<NSString *,__kindof NSObject *> *)dictionary
 {
     self = [self init];
     if (self != nil) {
@@ -171,7 +185,7 @@
     return dictionary;
 }
 
-- (nonnull instancetype)initWithData:(nullable NSData *)data;
+- (instancetype)initWithData:(NSData *)data;
 {
     self = [self init];
     if (self != nil) {
@@ -180,7 +194,7 @@
     return self;
 }
 
-- (void)updateWithData:(nullable NSData *)data
+- (void)updateWithData:(NSData *)data
 {
     if (data == nil) {
         return;
@@ -197,7 +211,7 @@
     [self updateWithDictionary:dictionary];
 }
 
-- (nullable NSData *)data
+- (NSData *)data
 {
     NSDictionary *dictionary = self.dictionary;
     
@@ -220,7 +234,7 @@
     }
 }
 
-- (nonnull instancetype)initWithJSON:(nullable NSString *)json
+- (instancetype)initWithJSON:(NSString *)json
 {
     self = [self init];
     if (self != nil) {
@@ -229,7 +243,7 @@
     return self;
 }
 
-- (void)updateWithJSON:(nullable NSString *)json
+- (void)updateWithJSON:(NSString *)json
 {
     if (json == nil || [json isEqualToString:@""]) {
         [CQKLogger log:CQKLoggerLevelWarn message:@"Could not updateWithJson:, json is nil." error:nil callingClass:self.class];
@@ -245,7 +259,7 @@
     [self updateWithData:data];
 }
 
-- (nullable NSString *)json
+- (NSString *)json
 {
     NSData *data = self.data;
     if (data == nil) {

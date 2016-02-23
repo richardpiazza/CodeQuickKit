@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "CodeQuickKit"
-  s.version          = "1.1.3"
+  s.version          = "1.1.4"
   s.summary          = "An iOS Library simplifying some everyday tasks."
   s.description      = <<-DESC
   CodeQuickKit is a collection of Objective-C Categories and helper classes designed to 

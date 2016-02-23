@@ -63,6 +63,13 @@
 @dynamic name;
 @dynamic addresses;
 
+- (void)setDefaults
+{
+    [super setDefaults];
+    
+    [self setName:@"Unknown"];
+}
+
 - (Class)objectClassOfCollectionTypeForPropertyName:(NSString *)propertyName
 {
     if ([propertyName isEqualToString:@"addresses"]) {
