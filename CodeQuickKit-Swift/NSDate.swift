@@ -27,13 +27,6 @@
 
 import Foundation
 
-// MARK: - Serializable
-extension NSDate: Serializable {
-    public func serializedValue() -> AnyObject? {
-        return NSDateFormatter.rfc1123DateFormatter.stringFromDate(self)
-    }
-}
-
 public extension NSDate {
     /// Provides the current datetime minus 24 hours.
     public static var yesturday: NSDate {

@@ -38,11 +38,7 @@
 
 - (instancetype)initWithEntity:(NSEntityDescription *)entity insertIntoManagedObjectContext:(NSManagedObjectContext *)context
 {
-    self = [super initWithEntity:entity insertIntoManagedObjectContext:context];
-    if (self != nil) {
-        [self setDefaults];
-    }
-    return self;
+    return [super initWithEntity:entity insertIntoManagedObjectContext:context];
 }
 
 - (instancetype)initIntoManagedObjectContext:(NSManagedObjectContext *)context
@@ -56,6 +52,7 @@
     }
     
     self = [self initWithEntity:entity insertIntoManagedObjectContext:context];
+    [self setDefaults];
     return self;
 }
 

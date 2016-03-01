@@ -27,9 +27,6 @@
 
 import Foundation
 
-// MARK: - Serializable
-extension String: Serializable {}
-
 public extension String {
     public func stringByApplyingKeyStyle(keyStyle: SerializerKeyStyle) -> String {
         guard self.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 1 else {

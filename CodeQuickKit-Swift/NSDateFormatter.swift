@@ -28,8 +28,13 @@
 import Foundation
 
 public extension NSDateFormatter {
+    
+    public struct SharedFormatters {
+        static let rfc1123DateFormatter: NSDateFormatter = NSDateFormatter.rfc1123DateFormatter
+    }
+    
     /// An `NSDateFormatter` that is preconfigured with RFC1123 format.
-    static var rfc1123DateFormatter: NSDateFormatter {
+    private static var rfc1123DateFormatter: NSDateFormatter {
         let formatter = NSDateFormatter()
         formatter.dateFormat = "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
         formatter.locale = NSLocale(localeIdentifier: "en_US")
