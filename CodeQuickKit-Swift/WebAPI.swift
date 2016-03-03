@@ -29,44 +29,77 @@ import Foundation
 
 public typealias WebAPICompletion = (statusCode: Int, responseObject: AnyObject?, error: NSError?) -> Void
 
-public enum WebAPIRequestMethod {
-    case Get
-    case Put
-    case Post
-    case Delete
+public enum WebAPIRequestMethod: String {
+    case Get = "GET"
+    case Put = "PUT"
+    case Post = "POST"
+    case Delete = "DELETE"
+}
+
+public struct WebAPIHeaderKey {
+    static let Accept = "Accept"
+    static let Date = "Date"
+    static let ContentType = "Content-Type"
+    static let ContentMD5 = "Content-MD5"
+    static let ContentLength = "Content-Length"
+    static let Authorization = "Authorization"
+}
+
+public struct WebAPIHeaderValue {
+    static let ApplicationJson = "application/json"
+    static let ImagePNG = "image/png"
+}
+
+public struct WebAPIInjectedResponse {
+    public var statusCode: Int = 0
+    public var responseObject: AnyObject?
+    public var error: NSError?
+    public var timeout: UInt64 = 0
+}
+
+public enum WebAPIError: ErrorType {
+    case InvalidURL
+    case InvalidRequest
     
-    func httpMethod() -> String {
+    public var description: String {
         switch self {
-        case .Get: return "GET"
-        case .Put: return "PUT"
-        case .Post: return "POST"
-        case .Delete: return "DELETE"
+        case .InvalidURL: return "Invalid Base URL"
+        case .InvalidRequest: return "Invalid URL Request"
         }
+    }
+    
+    public var failureReason: String {
+        switch self {
+        case .InvalidURL: return "Base URL is nil or invalid"
+        case .InvalidRequest: return "NSURLRequest is nil or invalid"
+        }
+    }
+    
+    public var recoverySuggestion: String {
+        switch self {
+        case .InvalidURL: return "Set the base URL and try the request again."
+        case .InvalidRequest: return "Try the request again with a valid NSURLRequest."
+        }
+    }
+    
+    public var code: Int {
+        switch self {
+        case .InvalidURL: return 0
+        case .InvalidRequest: return 1
+        }
+    }
+    
+    public var error: NSError {
+        return NSError(domain: String(WebAPI), code: code, userInfo: [NSLocalizedDescriptionKey: description, NSLocalizedFailureReasonErrorKey: failureReason, NSLocalizedRecoverySuggestionErrorKey: recoverySuggestion])
     }
 }
 
+/// # WebAPI
+/// A wrapper for NSURLSession for communication with JSON REST API's
+/// ### Features
+/// - automatic deserialization of a JSON response
+/// - mockability with injected responses
 public class WebAPI {
-    static let AcceptHeaderKey = "Accept"
-    static let DateHeaderKey = "Date"
-    static let ContentTypeHeaderKey = "Content-Type"
-    static let ContentMD5HeaderKey = "Content-MD5"
-    static let ContentLengthHeaderKey = "Content-Length"
-    static let AuthorizationHeaderKey = "Authorization"
-    static let ApplicationJsonHeaderValue = "application/json"
-    
-    static var invalidURL: NSError = {
-        let info: [String: AnyObject] = [NSLocalizedDescriptionKey:"Invalid Base URL",
-            NSLocalizedFailureReasonErrorKey:"Base URL is nil or invalid",
-            NSLocalizedRecoverySuggestionErrorKey:"Set the base URL and try the request again."]
-        return NSError(domain: "WebAPI", code: 0, userInfo: info)
-    }()
-    
-    static var invalidRequest: NSError = {
-        let info: [String: AnyObject] = [NSLocalizedDescriptionKey:"Invalid URL Request",
-            NSLocalizedFailureReasonErrorKey:"NSURLRequest is nil or invalid",
-            NSLocalizedRecoverySuggestionErrorKey:"Try the request again with a valid NSURLRequest."]
-        return NSError(domain: "WebAPI", code: 0, userInfo: info)
-    }()
     
     public var baseURL: NSURL?
     public var injectedResponses: [String : WebAPIInjectedResponse] = [String : WebAPIInjectedResponse]()
@@ -77,31 +110,33 @@ public class WebAPI {
         return NSURLSession(configuration: configuration, delegate: self.sessionDelegate, delegateQueue: nil)
     }()
     
-    public init() {
-    }
-    
-    public convenience init(baseURL: NSURL?, sessionDelegate: NSURLSessionDelegate?) {
-        self.init()
+    public init(baseURL: NSURL?, sessionDelegate: NSURLSessionDelegate?) {
         self.baseURL = baseURL
         self.sessionDelegate = sessionDelegate
     }
     
-    public func get(path: String, queryItems: [NSURLQueryItem]?, completion: WebAPICompletion) {
-        self.execute(path, queryItems: queryItems, method: .Get, data: nil, completion: completion)
+    // MARK: - Convenience Methods
+    
+    public final func get(path: String, queryItems: [NSURLQueryItem]?, completion: WebAPICompletion) {
+        execute(path, queryItems: queryItems, method: .Get, data: nil, completion: completion)
     }
     
-    public func put(data: NSData?, path: String, queryItems: [NSURLQueryItem]?, completion: WebAPICompletion) {
-        self.execute(path, queryItems: queryItems, method: .Put, data: data, completion: completion)
+    public final func put(data: NSData?, path: String, queryItems: [NSURLQueryItem]?, completion: WebAPICompletion) {
+        execute(path, queryItems: queryItems, method: .Put, data: data, completion: completion)
     }
     
-    public func post(data: NSData?, path: String, queryItems: [NSURLQueryItem]?, completion: WebAPICompletion) {
-        self.execute(path, queryItems: queryItems, method: .Post, data: data, completion: completion)
+    public final func post(data: NSData?, path: String, queryItems: [NSURLQueryItem]?, completion: WebAPICompletion) {
+        execute(path, queryItems: queryItems, method: .Post, data: data, completion: completion)
     }
     
-    public func delete(path: String, queryItems: [NSURLQueryItem]?, completion: WebAPICompletion) {
-        self.execute(path, queryItems: queryItems, method: .Delete, data: nil, completion: completion)
+    public final func delete(path: String, queryItems: [NSURLQueryItem]?, completion: WebAPICompletion) {
+        execute(path, queryItems: queryItems, method: .Delete, data: nil, completion: completion)
     }
     
+    // MARK: - Request Setup
+    
+    /// Constructs the request, setting the method, body data, and headers based on parameters
+    /// Subclasses can override this method to customize the request as needed.
     public func requestFor(path: String, queryItems: [NSURLQueryItem]?, method: WebAPIRequestMethod, data: NSData?) -> NSMutableURLRequest? {
         guard let baseURL = self.baseURL else {
             return nil
@@ -115,26 +150,67 @@ public class WebAPI {
         }
         
         let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = method.httpMethod()
+        request.HTTPMethod = method.rawValue
         request.HTTPBody = data
-        request.setValue(NSDateFormatter.rfc1123DateFormatter.stringFromDate(NSDate()), forHTTPHeaderField: WebAPI.DateHeaderKey)
-        request.setValue(WebAPI.ApplicationJsonHeaderValue, forHTTPHeaderField: WebAPI.AcceptHeaderKey)
-        request.setValue(WebAPI.ApplicationJsonHeaderValue, forHTTPHeaderField: WebAPI.ContentTypeHeaderKey)
+        request.setValue(NSDateFormatter.rfc1123DateFormatter().stringFromDate(NSDate()), forHTTPHeaderField: WebAPIHeaderKey.Date)
+        request.setValue(WebAPIHeaderValue.ApplicationJson, forHTTPHeaderField: WebAPIHeaderKey.Accept)
+        request.setValue(WebAPIHeaderValue.ApplicationJson, forHTTPHeaderField: WebAPIHeaderKey.ContentType)
         
         return request
     }
     
-    private func execute(path: String, queryItems: [NSURLQueryItem]?, method: WebAPIRequestMethod, data: NSData?, completion: WebAPICompletion) {
+    // MARK: - Execution
+    
+    /// Executes the request returned from `requestFor(path:queyItems:method:data:)`
+    public final func execute(path: String, queryItems: [NSURLQueryItem]?, method: WebAPIRequestMethod, data: NSData?, completion: WebAPICompletion) {
         if let request = self.requestFor(path, queryItems: queryItems, method: method, data: data) {
-            self.execute(request, completion: completion)
+            execute(request, completion: completion)
         } else {
-            completion(statusCode: 0, responseObject: nil, error: WebAPI.invalidRequest)
+            completion(statusCode: 0, responseObject: nil, error: WebAPIError.InvalidRequest.error)
+        }
+    }
+    
+    /// Transforms the request into a `multipart/form-data` request.
+    /// The request `content-type` will be set to `image/png` and the associated filename will be `image.png`
+    public final func execute(path: String, queryItems: [NSURLQueryItem]?, method: WebAPIRequestMethod, pngImageData: NSData, completion: WebAPICompletion) {
+        if let request = requestFor(path, queryItems: queryItems, method: method, data: nil) {
+            let boundary = NSUUID().UUIDString.stringByReplacingOccurrencesOfString("-", withString: "")
+            let contentType = "multipart/form-data; boundary=\(boundary)"
+            request.setValue(contentType, forHTTPHeaderField: WebAPIHeaderKey.ContentType)
+            
+            let data = NSMutableData()
+            
+            if let d = "--\(boundary)\r\n".dataUsingEncoding(NSUTF8StringEncoding) {
+                data.appendData(d)
+            }
+            if let d = "Content-Disposition: form-data; name=\"image\"; filename=\"image.png\"\r\n".dataUsingEncoding(NSUTF8StringEncoding) {
+                data.appendData(d)
+            }
+            if let d = "Content-Type: image/png\r\n\r\n".dataUsingEncoding(NSUTF8StringEncoding) {
+                data.appendData(d)
+            }
+            data.appendData(pngImageData)
+            if let d = "\r\n".dataUsingEncoding(NSUTF8StringEncoding) {
+                data.appendData(d)
+            }
+            if let d = "--\(boundary)--\r\n".dataUsingEncoding(NSUTF8StringEncoding) {
+                data.appendData(d)
+            }
+            
+            let contentLength = String(format: "%zu", data.length)
+            request.setValue(contentLength, forHTTPHeaderField: WebAPIHeaderKey.ContentLength)
+            
+            request.HTTPBody = data
+            
+            execute(request, completion: completion)
+        } else {
+            completion(statusCode: 0, responseObject: nil, error: WebAPIError.InvalidRequest.error)
         }
     }
     
     private func execute(request: NSMutableURLRequest, completion: WebAPICompletion) {
         guard let url = request.URL else {
-            completion(statusCode: 0, responseObject: nil, error: WebAPI.invalidRequest)
+            completion(statusCode: 0, responseObject: nil, error: WebAPIError.InvalidURL.error)
             return
         }
         
@@ -164,29 +240,27 @@ public class WebAPI {
                     return
                 }
                 
-                if let contentType = httpResponse.allHeaderFields[WebAPI.ContentTypeHeaderKey] {
-                    guard contentType.hasPrefix(WebAPI.ApplicationJsonHeaderValue) else {
+                if let contentType = httpResponse.allHeaderFields[WebAPIHeaderKey.ContentType] {
+                    guard contentType.hasPrefix(WebAPIHeaderValue.ApplicationJson) else {
                         completion(statusCode: httpResponse.statusCode, responseObject: nil, error: error)
                         return
                     }
                 }
                 
                 var body: AnyObject?
+                var e: NSError? = error
                 do {
                     body = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
                 } catch {
-                    print(error)
+                    if e == nil {
+                        e = (error as NSError)
+                    } else {
+                        print(error)
+                    }
                 }
                 
-                completion(statusCode: httpResponse.statusCode, responseObject: body, error: error)
+                completion(statusCode: httpResponse.statusCode, responseObject: body, error: e)
             })
         }.resume()
     }
-}
-
-public class WebAPIInjectedResponse {
-    public var statusCode: Int = 0
-    public var responseObject: AnyObject?
-    public var error: NSError?
-    public var timeout: UInt64 = 0
 }

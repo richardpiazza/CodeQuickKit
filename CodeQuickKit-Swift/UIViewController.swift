@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-// UIStoryboard.swift
+// UIViewController.swift
 //
 // Copyright (c) 2016 Richard Piazza
 // https://github.com/richardpiazza/CodeQuickKit
@@ -27,10 +27,27 @@
 
 import UIKit
 
-public extension UIStoryboard {
-    /// Instantiates a UIViewController for the provided `Storyboarded` class
-    /// This call potentially throws an execption that cannot be caught.
-    public func instantiateViewController<T: Storyboarded>(forClass viewControllerClass: T.Type) -> T {
-        return self.instantiateViewControllerWithIdentifier(viewControllerClass.storyboardIdentifier()) as! T
+public protocol Storyboarded {
+    static func bundle() -> NSBundle
+    static func storyboard() -> UIStoryboard
+    static func storyboardIdentifier() -> String
+}
+
+extension UIViewController: Storyboarded {
+    public class func bundle() -> NSBundle {
+        return NSBundle(forClass: self)
+    }
+    
+    public class func storyboard() -> UIStoryboard {
+        if let storyboard = self.bundle().mainStoryboard {
+            return storyboard
+        }
+        
+        assertionFailure("Bundle Storyboard Not Found")
+        return UIStoryboard()
+    }
+    
+    public class func storyboardIdentifier() -> String {
+        return String(self)
     }
 }

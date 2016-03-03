@@ -27,18 +27,41 @@
 
 import Foundation
 
-public extension NSDateFormatter {
+public enum DateFormat {
+    case RFC1123
     
-    public struct SharedFormatters {
-        static let rfc1123DateFormatter: NSDateFormatter = NSDateFormatter.rfc1123DateFormatter
+    var dateFormat: String {
+        switch self {
+        case .RFC1123: return "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
+        }
     }
     
-    /// An `NSDateFormatter` that is preconfigured with RFC1123 format.
-    private static var rfc1123DateFormatter: NSDateFormatter {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
-        formatter.locale = NSLocale(localeIdentifier: "en_US")
-        formatter.timeZone = NSTimeZone(abbreviation: "GMT")
-        return formatter
+    var locale: NSLocale {
+        switch self {
+        case .RFC1123: return NSLocale(localeIdentifier: "en_US")
+        }
+    }
+    
+    var timeZone: NSTimeZone {
+        switch self {
+        case .RFC1123: return NSTimeZone(abbreviation: "GMT")!
+        }
+    }
+}
+
+public extension NSDateFormatter {
+    struct common {
+        static let rfc1123DateFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .RFC1123)
+    }
+    
+    public convenience init(withDateFormat format: DateFormat) {
+        self.init()
+        dateFormat = format.dateFormat
+        locale = format.locale
+        timeZone = format.timeZone
+    }
+    
+    public static func rfc1123DateFormatter() -> NSDateFormatter {
+        return common.rfc1123DateFormatter
     }
 }

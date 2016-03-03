@@ -25,85 +25,67 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
+import UIKit
 
 public extension NSBundle {
-    @nonobjc static let BundleNameKey = "CFBundleName"
-    @nonobjc static let BundleDisplayNameKey = "CFBundleDisplayName"
-    @nonobjc static let BundleExecutableNameKey = "CFBundleExecutable"
-    @nonobjc static let AppVersionKey = "CFBundleShortVersionString"
-    @nonobjc static let BuildNumberKey = "CFBundleVersion"
-    @nonobjc static let BundleIdentifierKey = "CFBundleIdentifier"
-    @nonobjc static let LaunchScreenKey = "UILaunchStoryboardName"
-    @nonobjc static let MainStoryboardKey = "UIMainStoryboardFile"
     
-    var bundleName: String {
-        if let value = self.objectForInfoDictionaryKey(NSBundle.BundleNameKey) as? String {
-            return value
+    public struct Keys {
+        static let BundleName = "CFBundleName"
+        static let BundleDisplayName = "CFBundleDisplayName"
+        static let BundleExecutableName = "CFBundleExecutable"
+        static let AppVersion = "CFBundleShortVersionString"
+        static let BuildNumber = "CFBundleVersion"
+        static let BundleIdentifier = "CFBundleIdentifier"
+        static let LaunchScreen = "UILaunchStoryboardName"
+        static let MainStoryboard = "UIMainStoryboardFile"
+    }
+    
+    var bundleName: String? { return self.objectForInfoDictionaryKey(Keys.BundleName) as? String }
+    var bundleDisplayName: String? { return self.objectForInfoDictionaryKey(Keys.BundleDisplayName) as? String }
+    var executableName: String? { return self.objectForInfoDictionaryKey(Keys.BundleExecutableName) as? String }
+    var appVersion: String? { return self.objectForInfoDictionaryKey(Keys.AppVersion) as? String }
+    var buildNumber: String? { return self.objectForInfoDictionaryKey(Keys.BuildNumber) as? String }
+    var launchScreenStoryboardName: String? { return self.objectForInfoDictionaryKey(Keys.LaunchScreen) as? String }
+    var mainStoryboardName: String? { return self.objectForInfoDictionaryKey(Keys.MainStoryboard) as? String }
+
+    /// This call potentially throws an execption that cannot be caught.
+    var launchScreenStoryboard: UIStoryboard? {
+        guard let name = launchScreenStoryboardName else {
+            return nil
         }
-        return ""
+        
+        return UIStoryboard(name: name, bundle: self)
     }
     
-    var bundleDisplayName: String {
-        if let value = self.objectForInfoDictionaryKey(NSBundle.BundleDisplayNameKey) as? String {
-            return value
+    /// This call potentially throws an execption that cannot be caught.
+    var mainStoryboard: UIStoryboard? {
+        guard let name = mainStoryboardName else {
+            return nil
         }
-        return ""
+        
+        return UIStoryboard(name: name, bundle: self)
     }
     
-    var executableName: String {
-        if let value = self.objectForInfoDictionaryKey(NSBundle.BundleExecutableNameKey) as? String {
-            return value
-        }
-        return ""
+    override var description: String {
+        return "Bundle: \(dictionary)"
     }
     
-    var appVersion: String {
-        if let value = self.objectForInfoDictionaryKey(NSBundle.AppVersionKey) as? String {
-            return value
-        }
-        return ""
+    var dictionary: [String : String] {
+        return [
+            Keys.BundleName : (self.bundleName == nil) ? "" : self.bundleName!,
+            Keys.BundleDisplayName : (self.bundleDisplayName == nil) ? "" : self.bundleDisplayName!,
+            Keys.BundleExecutableName : (self.executableName == nil) ? "" : self.executableName!,
+            Keys.BundleIdentifier : (self.bundleIdentifier == nil) ? "" : self.bundleIdentifier!,
+            Keys.AppVersion : (self.appVersion == nil) ? "" : self.appVersion!,
+            Keys.BuildNumber : (self.buildNumber == nil) ? "" : self.buildNumber!,
+            Keys.LaunchScreen : (self.launchScreenStoryboardName == nil) ? "" : self.launchScreenStoryboardName!,
+            Keys.MainStoryboard : (self.mainStoryboardName == nil) ? "" : self.mainStoryboardName!
+        ]
     }
     
-    var buildNumber: String {
-        if let value = self.objectForInfoDictionaryKey(NSBundle.BuildNumberKey) as? String {
-            return value
-        }
-        return ""
-    }
-    
-    var launchScreenStoryboard: String {
-        if let value = self.objectForInfoDictionaryKey(NSBundle.LaunchScreenKey) as? String {
-            return value
-        }
-        return ""
-    }
-    
-    var mainStoryboard: String {
-        if let value = self.objectForInfoDictionaryKey(NSBundle.MainStoryboardKey) as? String {
-            return value
-        }
-        return ""
-    }
-    
-    var bundleDescriptionDictionary: [String : String] {
-        return [NSBundle.BundleNameKey:self.bundleName,
-            NSBundle.BundleDisplayNameKey:self.bundleDisplayName,
-            NSBundle.BundleExecutableNameKey:self.executableName,
-            NSBundle.BundleIdentifierKey:(self.bundleIdentifier == nil) ? "" : self.bundleIdentifier!,
-            NSBundle.AppVersionKey:self.appVersion,
-            NSBundle.BuildNumberKey:self.buildNumber,
-            NSBundle.LaunchScreenKey:self.launchScreenStoryboard,
-            NSBundle.MainStoryboardKey:self.mainStoryboard]
-    }
-    
-    var bundleDescription: String {
-        return "Bundle Description: \(self.bundleDescriptionDictionary)"
-    }
-    
-    var bundleDescriptionData: NSData? {
+    var data: NSData? {
         do {
-            return try NSJSONSerialization.dataWithJSONObject(self.bundleDescriptionDictionary, options: .PrettyPrinted)
+            return try NSJSONSerialization.dataWithJSONObject(dictionary, options: .PrettyPrinted)
         } catch {
             print(error)
             return nil
