@@ -34,7 +34,7 @@ public enum LoggerLevel: Int {
     case Warn = 3
     case Error = 4
     
-    func stringValue() -> String {
+    var description: String {
         switch self {
         case .Verbose: return "Verbose"
         case .Debug: return "Debug"
@@ -108,9 +108,9 @@ public class Logger {
             let messageString = (message != nil) ? message! : ""
             let typeString = (type != nil) ? NSStringFromClass(type!) : "Logger"
             if error != nil {
-                NSLog("[%@] (Class: %@), %@\n%@", level.stringValue(), typeString, messageString, error!)
+                NSLog("[%@] (Class: %@), %@\n%@", level.description, typeString, messageString, error!)
             } else {
-                NSLog("[%@] (Class: %@), %@", level.stringValue(), typeString, messageString)
+                NSLog("[%@] (Class: %@), %@", level.description, typeString, messageString)
             }
         }
         

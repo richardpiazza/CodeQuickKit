@@ -27,79 +27,9 @@
 
 import Foundation
 
-// MARK: - Objective-C Runtime
 public extension NSObject {
-    /// Lists all property names for an object of the provided class.
-    static func propertyNamesForClass(objectClass: AnyClass) -> [String] {
-        var properties: [String] = [String]()
-        
-        if let sc = objectClass.superclass() where sc.self != NSObject.self {
-            properties.appendContentsOf(self.propertyNamesForClass(sc))
-        }
-        
-        var propertyListCount: CUnsignedInt = 0
-        let runtimeProperties = class_copyPropertyList(objectClass, &propertyListCount)
-        
-        for index in 0..<Int(propertyListCount) {
-            let runtimeProperty = runtimeProperties[index]
-            let runtimeName = property_getName(runtimeProperty)
-            let propertyName = NSString(UTF8String: runtimeName)
-            guard var property = propertyName else {
-                continue
-            }
-            if property.hasPrefix("Optional") {
-                property = property.substringWithRange(NSMakeRange(8, property.length - 1))
-            }
-            let propertyString = String(property)
-            if !properties.contains(propertyString) {
-                properties.append(propertyString)
-            }
-        }
-        
-        free(runtimeProperties)
-        
-        return properties
-    }
-    
-    /// Provides the class for a property with the given name.
-    /// Will return NSNull class if property name not found/valid or not an NSObject subclass.
-    static func classForPropertyName(propertyName: String, ofClass objectClass: AnyClass) -> AnyClass {
-        let runtimeProperty = class_getProperty(objectClass, (propertyName as NSString).UTF8String)
-        guard runtimeProperty != nil else {
-            return NSNull.self
-        }
-        
-        let runtimeAttributes = property_getAttributes(runtimeProperty)
-        let propertyAttributesString = NSString(UTF8String: runtimeAttributes)
-        let propertyAttributesCollection = propertyAttributesString?.componentsSeparatedByString(",")
-        guard let attributesCollection = propertyAttributesCollection where attributesCollection.count > 0 else {
-            return NSNull.self
-        }
-        
-        let propertyClassAttribute = attributesCollection[0]
-        if (propertyClassAttribute as NSString).length == 2 {
-            let type = (propertyClassAttribute as NSString).substringFromIndex(1)
-            switch type {
-            case "q": return NSNumber.self // Swift Int
-            case "d": return NSNumber.self // Swift Double
-            case "f": return NSNumber.self // Swift Float
-            case "B": return NSNumber.self // Swift Bool
-            case "@": return NSObject.self
-            default: return NSObject.self
-            }
-        }
-        
-        let propertyClass = (propertyClassAttribute as NSString).substringFromIndex(1)
-        let className = (propertyClass as NSString).substringWithRange(NSMakeRange(2, (propertyClass as NSString).length - 3))
-        guard let anyclass = NSClassFromString(className) else {
-            return NSNull.self
-        }
-        
-        return anyclass.self
-    }
-    
     /// Returns a probably Obj-C setter for the specified property name.
-    static func setterForPropertyName(propertyName: String) -> Selector? {
+    public func setterForPropertyName(propertyName: String) -> Selector? {
         guard propertyName.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 else {
             return nil
         }
@@ -111,13 +41,11 @@ public extension NSObject {
         return NSSelectorFromString("set\(setter):")
     }
     
-    /// Convenience accessor to staitc NSObject.propertyNamesForClass
-    func propertyNames() -> [String] {
-        return NSObject.propertyNamesForClass(self.dynamicType)
-    }
-    
-    /// Convenience accessor to staitc classForPropertyName
-    func classForPropertyName(propertyName: String) -> AnyClass {
-        return NSObject.classForPropertyName(propertyName, ofClass: self.dynamicType)
+    public func respondsToSetter(forPropertyName propertyName: String) -> Bool {
+        guard let selector = setterForPropertyName(propertyName) else {
+            return false
+        }
+        
+        return respondsToSelector(selector)
     }
 }
