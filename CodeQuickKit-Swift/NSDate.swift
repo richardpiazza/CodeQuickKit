@@ -75,16 +75,16 @@ public extension NSDate {
     
     /// Uses `NSCalendar` to return the instance date mutated by the specified number of minutes.
     public func dateByAdding(minutes value: Int) -> NSDate? {
-        return NSCalendar.currentCalendar().dateByAddingUnit(.Minute, value: value, toDate: self, options: NSCalendarOptions.WrapComponents)
+        return NSCalendar.currentCalendar().dateByAddingUnit(.Minute, value: value, toDate: self, options: NSCalendarOptions())
     }
     
     /// Uses `NSCalendar` to return the instance date mutated by the specified number of hours.
     public func dateByAdding(hours value: Int) -> NSDate? {
-        return NSCalendar.currentCalendar().dateByAddingUnit(.Hour, value: value, toDate: self, options: NSCalendarOptions.WrapComponents)
+        return NSCalendar.currentCalendar().dateByAddingUnit(.Hour, value: value, toDate: self, options: NSCalendarOptions())
     }
     
     /// Uses `NSCalendar` to return the instance date mutated by the specified number of days.
     public func dateByAdding(days value: Int) -> NSDate? {
-        return NSCalendar.currentCalendar().dateByAddingUnit(.Day, value: value, toDate: self, options: NSCalendarOptions.WrapComponents)
+        return NSCalendar.currentCalendar().dateByAddingUnit(.Day, value: value, toDate: self, options: NSCalendarOptions())
     }
 }

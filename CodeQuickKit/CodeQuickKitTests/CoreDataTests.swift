@@ -35,7 +35,8 @@ class Person: SerializableManagedObject {
 }
 
 class CoreDataTests: XCTestCase {
-    static let modelJSON: String = "{\"addresses\":[{\"city\":\"Your Town\",\"street\":\"123 Main Street\"}],\"name\":\"Bob\"}"
+    static let modelJSON = "{\"addresses\":[{\"city\":\"Your Town\",\"street\":\"123 Main Street\"}],\"name\":\"Bob\"}"
+    static let modelJSON2 = "{\"addresses\":[{\"street\":\"123 Main Street\",\"city\":\"Your Town\"}],\"name\":\"Bob\"}"
     
     var repository: CoreData?
     
@@ -132,7 +133,7 @@ class CoreDataTests: XCTestCase {
             return
         }
         
-        XCTAssertTrue(json == CoreDataTests.modelJSON)
+        XCTAssertTrue(json == CoreDataTests.modelJSON || json == CoreDataTests.modelJSON2)
     }
     
     func testInitWithJSON() {

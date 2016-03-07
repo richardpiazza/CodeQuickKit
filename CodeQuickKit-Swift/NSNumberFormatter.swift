@@ -37,6 +37,7 @@ public enum NumberFormat {
     var numberStyle: NSNumberFormatterStyle {
         switch self {
         case .Currency: return .CurrencyStyle
+        case .Percent: return .PercentStyle
         default: return .DecimalStyle
         }
     }
@@ -53,7 +54,7 @@ public enum NumberFormat {
         case .Integer: return 0
         case .SingleDecimal: return 1
         case .Decimal, .Currency: return 2
-        case .Percent: return 3
+        case .Percent: return 4
         }
     }
     
