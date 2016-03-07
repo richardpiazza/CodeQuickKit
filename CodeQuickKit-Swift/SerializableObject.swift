@@ -107,7 +107,7 @@ public class SerializableObject: NSObject, Serializable {
             }
         } catch {
             let e = error as! NSError
-            Logger.logError(withError: e, message: "Failed update(withData:); \(d)")
+            Logger.error(e, message: "Failed update(withData:); \(d)")
         }
     }
     
@@ -117,7 +117,7 @@ public class SerializableObject: NSObject, Serializable {
             return try NSJSONSerialization.dataWithJSONObject(d, options: .PrettyPrinted)
         } catch {
             let e = error as! NSError
-            Logger.logError(withError: e, message: "Failed data; \(d)")
+            Logger.error(e, message: "Failed data; \(d)")
         }
         
         return nil
@@ -134,7 +134,7 @@ public class SerializableObject: NSObject, Serializable {
         }
         
         guard let data = j.dataUsingEncoding(NSUTF8StringEncoding) else {
-            Logger.logError(withError: nil, message: "Failed update(withJSON:); \(j)")
+            Logger.error(nil, message: "Failed update(withJSON:); \(j)")
             return
         }
         
@@ -233,7 +233,7 @@ public class SerializableObject: NSObject, Serializable {
     }
     
     public func objectClassOfCollectionType(forPropertyname propertyName: String) -> AnyClass? {
-        return NSBundle(forClass: self.dynamicType).singularizedClass(forPropertyName: propertyName)
+        return NSBundle(forClass: self.dynamicType).singularizedModuleClass(forClassNamed: propertyName)
     }
     
     private func setValue(value: SerializableDictionary, forPropertyName propertyName: String) {
@@ -276,5 +276,19 @@ public class SerializableObject: NSObject, Serializable {
     
     private func setValue(value: NSObject, forPropertyName propertyName: String) {
         setValue(value, forKey: propertyName)
+    }
+}
+
+public extension Serializable {
+    static func initializeSerializable(withDictionary dictionary: SerializableDictionary?) -> Self {
+        return self.init(withDictionary: dictionary)
+    }
+    
+    static func initializeSerializable(withData data: NSData?) -> Self {
+        return self.init(withData: data)
+    }
+    
+    static func initializeSerializable(withJSON json: String?) -> Self {
+        return self.init(withJSON: json)
     }
 }

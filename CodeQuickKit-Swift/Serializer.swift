@@ -27,6 +27,7 @@
 
 import Foundation
 
+/// Casing styles for `Serializable` object properties. (Default .MatchCase)
 public enum SerializerKeyStyle {
     case MatchCase
     case TitleCase
@@ -35,14 +36,17 @@ public enum SerializerKeyStyle {
     case LowerCase
 }
 
+/// Redirects that should be applied to all objects during the de/serialization process.
 public typealias SerializerRedirect = (propertyName: String, serializedKey: String)
 
+/// A collection of methods and properties the aid in the de/serializtion process.
 public class Serializer {
     public static var propertyKeyStyle: SerializerKeyStyle = .MatchCase
     public static var serializedKeyStyle: SerializerKeyStyle = .MatchCase
     public static var dateFormatter: NSDateFormatter = NSDateFormatter.rfc1123DateFormatter()
     public static var keyRedirects: [SerializerRedirect] = [SerializerRedirect]()
     
+    /// Returns the properly cased property name for the given serialized key.
     public static func propertyName(forSerializedKey serializedKey: String) -> String? {
         for (p, s) in keyRedirects {
             if s == serializedKey {
@@ -53,6 +57,7 @@ public class Serializer {
         return stringByApplyingKeyStyle(propertyKeyStyle, forString: serializedKey)
     }
     
+    /// Returns the properly cased serialized key for the given property name.
     public static func serializedKey(forPropertyName propertyName: String) -> String? {
         for (p, s) in keyRedirects {
             if p == propertyName {
@@ -63,6 +68,7 @@ public class Serializer {
         return stringByApplyingKeyStyle(serializedKeyStyle, forString: propertyName)
     }
     
+    /// Transforms common JSON string values into corresponding `NSObject`'s
     public static func initializedObject(forPropertyName propertyName: String, ofClass: AnyClass, withData data: NSObject?) -> NSObject? {
         guard let d = data else {
             return nil
@@ -82,6 +88,7 @@ public class Serializer {
         return d
     }
     
+    /// Transforms `NSObject`'s not handled by NSJSONSerialization into string serializable values.
     public static func serializedObject(forPropertyName propertyName: String, withData data: NSObject?) -> NSObject? {
         guard let d = data else {
             return nil

@@ -33,6 +33,7 @@ public enum LoggerLevel: Int {
     case Info = 2
     case Warn = 3
     case Error = 4
+    case Exception = 5
     
     var description: String {
         switch self {
@@ -41,6 +42,7 @@ public enum LoggerLevel: Int {
         case .Info: return "Info"
         case .Warn: return "Warn"
         case .Error: return "Error"
+        case .Exception: return "Exception"
         }
     }
 }
@@ -53,60 +55,46 @@ public class Logger {
     public static var minimumConsoleLevel: LoggerLevel = .Debug
     public static var agents: [LoggerAgent] = [LoggerAgent]()
     
-    public static func logVerbose(withMessage message: String) {
-        log(.Verbose, message: message, error: nil, type: Logger.self)
+    public static func verbose(message: String, callingClass: AnyClass? = nil) {
+        log(.Verbose, message: message, error: nil, type: callingClass)
     }
     
-    public static func logVerbose(withFormat format: String, args: CVarArgType...) {
-        let pointer = getVaList(args)
-        let message = NSString(format: format, arguments: pointer)
-        logVerbose(withMessage: message as String)
+    public static func debug(message: String, callingClass: AnyClass? = nil) {
+        log(.Debug, message: message, error: nil, type: callingClass)
     }
     
-    public static func logDebug(withMessage message: String) {
-        log(.Debug, message: message, error: nil, type: Logger.self)
+    public static func info(message: String, callingClass: AnyClass? = nil) {
+        log(.Info, message: message, error: nil, type: callingClass)
     }
     
-    public static func logDebug(withFormat format: String, args: CVarArgType...) {
-        let pointer = getVaList(args)
-        let message = NSString(format: format, arguments: pointer)
-        logDebug(withMessage: message as String)
+    public static func warn(message: String, callingClass: AnyClass? = nil) {
+        log(.Warn, message: message, error: nil, type: callingClass)
     }
     
-    public static func logInfo(withMessage message: String) {
-        log(.Info, message: message, error: nil, type: Logger.self)
+    public static func error(error: NSError?, message: String, callingClass: AnyClass? = nil) {
+        log(.Error, message: message, error: error, type: callingClass)
     }
     
-    public static func logInfo(withFormat format: String, args: CVarArgType...) {
-        let pointer = getVaList(args)
-        let message = NSString(format: format, arguments: pointer)
-        logInfo(withMessage: message as String)
-    }
-    
-    public static func logWarn(withMessage message: String) {
-        log(.Warn, message: message, error: nil, type: Logger.self)
-    }
-    
-    public static func logWarn(withFormat format: String, args: CVarArgType...) {
-        let pointer = getVaList(args)
-        let message = NSString(format: format, arguments: pointer)
-        logWarn(withMessage: message as String)
-    }
-    
-    public static func logError(withError error: NSError?, message: String) {
-        log(.Error, message: message, error: error, type: Logger.self)
-    }
-    
-    public static func logError(withError error: NSError?, format: String, args: CVarArgType...) {
-        let pointer = getVaList(args)
-        let message = NSString(format: format, arguments: pointer)
-        logError(withError: error, message: message as String)
+    public static func exception(exception: NSException?, message: String, callingClass: AnyClass? = nil) {
+        var error: NSError?
+        if let ex = exception {
+            var userInfo:[NSObject : AnyObject] = [NSObject : AnyObject]()
+            userInfo[NSLocalizedDescriptionKey] = ex.name
+            userInfo[NSLocalizedFailureReasonErrorKey] = ex.reason ?? "Unknown Reason"
+            if let dictionary = ex.userInfo {
+                for (key, value) in dictionary {
+                    userInfo[key] = value
+                }
+            }
+            error = NSError(domain: String(self), code: 0, userInfo: userInfo)
+        }
+        log(.Exception, message: message, error: error, type: callingClass)
     }
     
     static func log(level: LoggerLevel, message: String?, error: NSError?, type: AnyClass?) {
         if level.rawValue >= minimumConsoleLevel.rawValue {
             let messageString = (message != nil) ? message! : ""
-            let typeString = (type != nil) ? NSStringFromClass(type!) : "Logger"
+            let typeString = (type != nil) ? String(type!) : String(self)
             if error != nil {
                 NSLog("[%@] (Class: %@), %@\n%@", level.description, typeString, messageString, error!)
             } else {

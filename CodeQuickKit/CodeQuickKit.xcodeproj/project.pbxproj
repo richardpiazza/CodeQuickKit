@@ -8,16 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		E18740681C8D048500A7761C /* SerializableManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740671C8D048500A7761C /* SerializableManagedObject.swift */; };
-		E193B6B11C7939DF00B1FA9D /* CQKWebAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E193B6AF1C7939DF00B1FA9D /* CQKWebAPITests.m */; };
-		E193B6B21C7939DF00B1FA9D /* NSObjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E193B6B01C7939DF00B1FA9D /* NSObjectTests.m */; };
+		E187406A1C8D56DB00A7761C /* NSMetadataQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740691C8D56DB00A7761C /* NSMetadataQuery.swift */; };
+		E187406C1C8D7C8500A7761C /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406B1C8D7C8500A7761C /* CoreDataTests.swift */; };
 		E1D6449A1BE358A9006860FD /* CodeQuickKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D644991BE358A9006860FD /* CodeQuickKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D644A11BE358A9006860FD /* CodeQuickKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D644961BE358A9006860FD /* CodeQuickKit.framework */; };
 		E1D6455D1BE35B8E006860FD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D6455C1BE35B8E006860FD /* CoreData.framework */; };
-		E1D645621BE35C2D006860FD /* CQKCoreDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D644D41BE35A9B006860FD /* CQKCoreDataTests.m */; };
-		E1D645631BE35C2D006860FD /* CQKNSDateCQKDatesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D644D51BE35A9B006860FD /* CQKNSDateCQKDatesTests.m */; };
-		E1D645641BE35C2D006860FD /* CQKNSNumberFormattersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D644D61BE35A9B006860FD /* CQKNSNumberFormattersTests.m */; };
-		E1D645651BE35C2D006860FD /* CQKSerializableNSObjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D644D71BE35A9B006860FD /* CQKSerializableNSObjectTests.m */; };
-		E1E54C2B1C87F0D9003F12B3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E121CA9C1C85AD7B0003C1B6 /* CoreDataStack.swift */; };
+		E1E54C2B1C87F0D9003F12B3 /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E121CA9C1C85AD7B0003C1B6 /* CoreData.swift */; };
 		E1E54C2C1C87F0D9003F12B3 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E121CA9F1C85AD7B0003C1B6 /* Downloader.swift */; };
 		E1E54C2D1C87F0D9003F12B3 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E121CAA21C85AD7B0003C1B6 /* Logger.swift */; };
 		E1E54C2E1C87F0D9003F12B3 /* NSBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E121CAA41C85AD7B0003C1B6 /* NSBundle.swift */; };
@@ -47,7 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E121CA9C1C85AD7B0003C1B6 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		E121CA9C1C85AD7B0003C1B6 /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		E121CA9F1C85AD7B0003C1B6 /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		E121CAA21C85AD7B0003C1B6 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		E121CAA41C85AD7B0003C1B6 /* NSBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSBundle.swift; sourceTree = "<group>"; };
@@ -62,6 +58,8 @@
 		E121CAB11C85AD7B0003C1B6 /* UIStoryboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryboard.swift; sourceTree = "<group>"; };
 		E121CAB21C85AD7B0003C1B6 /* WebAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPI.swift; sourceTree = "<group>"; };
 		E18740671C8D048500A7761C /* SerializableManagedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializableManagedObject.swift; sourceTree = "<group>"; };
+		E18740691C8D56DB00A7761C /* NSMetadataQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMetadataQuery.swift; sourceTree = "<group>"; };
+		E187406B1C8D7C8500A7761C /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		E193B6691C7939AD00B1FA9D /* CQKCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQKCoreDataStack.h; sourceTree = "<group>"; };
 		E193B66A1C7939AD00B1FA9D /* CQKCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKCoreDataStack.m; sourceTree = "<group>"; };
 		E193B66B1C7939AD00B1FA9D /* CQKLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQKLogger.h; sourceTree = "<group>"; };
@@ -102,7 +100,7 @@
 		E1D644961BE358A9006860FD /* CodeQuickKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CodeQuickKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1D644991BE358A9006860FD /* CodeQuickKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodeQuickKit.h; sourceTree = "<group>"; };
 		E1D6449B1BE358A9006860FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E1D644A01BE358A9006860FD /* CodeQuickKit.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodeQuickKit.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1D644A01BE358A9006860FD /* CodeQuickKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodeQuickKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1D644A71BE358A9006860FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1D644D41BE35A9B006860FD /* CQKCoreDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKCoreDataTests.m; sourceTree = "<group>"; };
 		E1D644D51BE35A9B006860FD /* CQKNSDateCQKDatesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKNSDateCQKDatesTests.m; sourceTree = "<group>"; };
@@ -137,7 +135,7 @@
 		E121CA991C85AD7B0003C1B6 /* CodeQuickKit-Swift */ = {
 			isa = PBXGroup;
 			children = (
-				E121CA9C1C85AD7B0003C1B6 /* CoreDataStack.swift */,
+				E121CA9C1C85AD7B0003C1B6 /* CoreData.swift */,
 				E121CA9F1C85AD7B0003C1B6 /* Downloader.swift */,
 				E121CAA21C85AD7B0003C1B6 /* Logger.swift */,
 				E121CAA41C85AD7B0003C1B6 /* NSBundle.swift */,
@@ -145,6 +143,7 @@
 				E121CAA61C85AD7B0003C1B6 /* NSDateFormatter.swift */,
 				E121CAA71C85AD7B0003C1B6 /* NSFileManager.swift */,
 				E121CAA81C85AD7B0003C1B6 /* NSManagedObject.swift */,
+				E18740691C8D56DB00A7761C /* NSMetadataQuery.swift */,
 				E121CAA91C85AD7B0003C1B6 /* NSNumberFormatter.swift */,
 				E121CAAA1C85AD7B0003C1B6 /* NSObject.swift */,
 				E1E54C3C1C88627D003F12B3 /* Serializable.swift */,
@@ -217,7 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				E1D644961BE358A9006860FD /* CodeQuickKit.framework */,
-				E1D644A01BE358A9006860FD /* CodeQuickKit.xctest */,
+				E1D644A01BE358A9006860FD /* CodeQuickKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -243,6 +242,7 @@
 				E1D644D71BE35A9B006860FD /* CQKSerializableNSObjectTests.m */,
 				E193B6AF1C7939DF00B1FA9D /* CQKWebAPITests.m */,
 				E193B6B01C7939DF00B1FA9D /* NSObjectTests.m */,
+				E187406B1C8D7C8500A7761C /* CoreDataTests.swift */,
 			);
 			path = CodeQuickKitTests;
 			sourceTree = "<group>";
@@ -294,7 +294,7 @@
 			);
 			name = CodeQuickKitTests;
 			productName = iOSTests;
-			productReference = E1D644A01BE358A9006860FD /* CodeQuickKit.xctest */;
+			productReference = E1D644A01BE358A9006860FD /* CodeQuickKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -360,8 +360,9 @@
 				E1E54C331C87F0D9003F12B3 /* NSNumberFormatter.swift in Sources */,
 				E1E54C371C87F0D9003F12B3 /* UIAlertController.swift in Sources */,
 				E1E54C3D1C88627D003F12B3 /* Serializable.swift in Sources */,
-				E1E54C2B1C87F0D9003F12B3 /* CoreDataStack.swift in Sources */,
+				E1E54C2B1C87F0D9003F12B3 /* CoreData.swift in Sources */,
 				E1E54C2C1C87F0D9003F12B3 /* Downloader.swift in Sources */,
+				E187406A1C8D56DB00A7761C /* NSMetadataQuery.swift in Sources */,
 				E1E54C321C87F0D9003F12B3 /* NSManagedObject.swift in Sources */,
 				E1E54C301C87F0D9003F12B3 /* NSDateFormatter.swift in Sources */,
 				E1E54C381C87F0D9003F12B3 /* UIStoryboard.swift in Sources */,
@@ -381,12 +382,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1D645641BE35C2D006860FD /* CQKNSNumberFormattersTests.m in Sources */,
-				E193B6B21C7939DF00B1FA9D /* NSObjectTests.m in Sources */,
-				E1D645631BE35C2D006860FD /* CQKNSDateCQKDatesTests.m in Sources */,
-				E193B6B11C7939DF00B1FA9D /* CQKWebAPITests.m in Sources */,
-				E1D645651BE35C2D006860FD /* CQKSerializableNSObjectTests.m in Sources */,
-				E1D645621BE35C2D006860FD /* CQKCoreDataTests.m in Sources */,
+				E187406C1C8D7C8500A7761C /* CoreDataTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,20 +527,23 @@
 		E1D644AE1BE358A9006860FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = CodeQuickKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.richardpiazza.codequickkit.iOSTests;
-				PRODUCT_NAME = CodeQuickKit;
+				PRODUCT_NAME = CodeQuickKitTests;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		E1D644AF1BE358A9006860FD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = CodeQuickKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.richardpiazza.codequickkit.iOSTests;
-				PRODUCT_NAME = CodeQuickKit;
+				PRODUCT_NAME = CodeQuickKitTests;
 			};
 			name = Release;
 		};

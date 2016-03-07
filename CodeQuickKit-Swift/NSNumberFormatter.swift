@@ -27,97 +27,131 @@
 
 import Foundation
 
+public enum NumberFormat {
+    case Integer
+    case SingleDecimal
+    case Decimal
+    case Currency
+    case Percent
+    
+    var numberStyle: NSNumberFormatterStyle {
+        switch self {
+        case .Currency: return .CurrencyStyle
+        default: return .DecimalStyle
+        }
+    }
+    
+    var minimumFractionDigits: Int {
+        switch self {
+        case .Percent: return 1
+        default: return 0
+        }
+    }
+    
+    var maximumFractionDigits: Int {
+        switch self {
+        case .Integer: return 0
+        case .SingleDecimal: return 1
+        case .Decimal, .Currency: return 2
+        case .Percent: return 3
+        }
+    }
+    
+    var locale: NSLocale {
+        switch self {
+        default: return NSLocale.currentLocale()
+        }
+    }
+}
+
 public extension NSNumberFormatter {
+    private struct common {
+        static let integerFormatter = NSNumberFormatter(withNumberFormat: .Integer)
+        static let singleDecimalFormatter = NSNumberFormatter(withNumberFormat: .SingleDecimal)
+        static let decimalFormatter = NSNumberFormatter(withNumberFormat: .Decimal)
+        static let currencyFormatter = NSNumberFormatter(withNumberFormat: .Currency)
+        static let percentFormatter = NSNumberFormatter(withNumberFormat: .Percent)
+    }
+    
+    public convenience init(withNumberFormat format: NumberFormat) {
+        self.init()
+        numberStyle = format.numberStyle
+        locale = format.locale
+        minimumFractionDigits = format.minimumFractionDigits
+        maximumFractionDigits = format.maximumFractionDigits
+    }
+    
     /// An NSNumberFormatter for whole integers.
     /// Uses the NSNumberFormatterDecimalStyle with MaximumFractionDigits set to
     /// 0 (zero).
-    public static var integerFormatter: NSNumberFormatter {
-        return NSNumberFormatter(numberStyle: .DecimalStyle, maximumFractionDigits: 0)
+    public static func integerFormatter() -> NSNumberFormatter {
+        return common.integerFormatter
     }
     
-    public static func integerFromString(string: String) -> Int? {
-        return integerFormatter.numberFromString(string)?.integerValue
+    public static func integer(fromString string: String) -> Int? {
+        return common.integerFormatter.numberFromString(string)?.integerValue
     }
     
-    public static func integerStringFromNumber(number: Int) -> String? {
-        return integerFormatter.stringFromNumber(number)
+    public static func string(fromInteger number: Int) -> String? {
+        return common.integerFormatter.stringFromNumber(number)
     }
     
     /// An NSNumberFormatter for whole integers.
     /// Uses the NSNumberFormatterDecimalStyle with MaximumFractionDigits set to
     /// 1 (one).
-    public static var singleDecimalFormatter: NSNumberFormatter {
-        return NSNumberFormatter(numberStyle: .DecimalStyle, maximumFractionDigits: 1)
+    public static func singleDecimalFormatter() -> NSNumberFormatter {
+        return common.singleDecimalFormatter
     }
     
-    public static func singleDecimalFromString(string: String) -> Int? {
-        return singleDecimalFormatter.numberFromString(string)?.integerValue
+    public static func singleDecimal(fromString string: String) -> Float? {
+        return common.singleDecimalFormatter.numberFromString(string)?.floatValue
     }
     
-    public static func singleDecimalStringFromNumber(number: Int) -> String? {
-        return singleDecimalFormatter.stringFromNumber(number)
+    public static func string(fromSingleDecimal number: Float) -> String? {
+        return common.singleDecimalFormatter.stringFromNumber(number)
     }
     
     /// An NSNumberFormatter for whole integers.
     /// Uses the NSNumberFormatterDecimalStyle with MaximumFractionDigits set to
     /// 2 (two).
-    public static var decimalFormatter: NSNumberFormatter {
-        return NSNumberFormatter(numberStyle: .DecimalStyle, maximumFractionDigits: 2)
+    public static func decimalFormatter() -> NSNumberFormatter {
+        return common.decimalFormatter
     }
     
-    public static func decimalFromString(string: String) -> Int? {
-        return decimalFormatter.numberFromString(string)?.integerValue
+    public static func decimal(fromString string: String) -> Float? {
+        return common.decimalFormatter.numberFromString(string)?.floatValue
     }
     
-    public static func decimalStringFromNumber(number: Int) -> String? {
-        return decimalFormatter.stringFromNumber(number)
+    public static func string(fromDecimal number: Float) -> String? {
+        return common.decimalFormatter.stringFromNumber(number)
     }
     
     /// An NSNumberFormatter for whole integers.
     /// Uses the NSNumberFormatterCurrencyStyle.
-    public static var currencyFormatter: NSNumberFormatter {
-        return NSNumberFormatter(numberStyle: .CurrencyStyle, locale: NSLocale.currentLocale())
+    public static func currencyFormatter() -> NSNumberFormatter {
+        return common.currencyFormatter
     }
     
-    public static func currencyFromString(string: String) -> Int? {
-        return currencyFormatter.numberFromString(string)?.integerValue
+    public static func currency(fromString string: String) -> Float? {
+        return common.currencyFormatter.numberFromString(string)?.floatValue
     }
     
-    public static func currencyStringFromNumber(number: Int) -> String? {
-        return currencyFormatter.stringFromNumber(number)
+    public static func string(fromCurrency number: Float) -> String? {
+        return common.currencyFormatter.stringFromNumber(number)
     }
     
     /// An NSNumberFormatter for whole integers.
     /// Uses the NSNumberFormatterPercentStyle with MinimumFractionDigits set to
     /// 1 (one) and MaximumFractionDigits set to 3 (three).
-    public static var percentFormatter: NSNumberFormatter {
-        return NSNumberFormatter(numberStyle: .DecimalStyle, minimumFractionDigits: 1, maximumFractionDigits: 3)
+    public static func percentFormatter() -> NSNumberFormatter {
+        return common.percentFormatter
     }
     
-    public static func percentFromString(string: String) -> Int? {
-        return percentFormatter.numberFromString(string)?.integerValue
+    public static func percent(fromString string: String) -> Float? {
+        return common.percentFormatter.numberFromString(string)?.floatValue
     }
     
-    public static func percentStringFromNumber(number: Int) -> String? {
-        return percentFormatter.stringFromNumber(number)
-    }
-    
-    convenience init(numberStyle: NSNumberFormatterStyle, maximumFractionDigits: Int) {
-        self.init()
-        self.numberStyle = numberStyle
-        self.maximumFractionDigits = maximumFractionDigits
-    }
-    
-    convenience init(numberStyle: NSNumberFormatterStyle, minimumFractionDigits: Int, maximumFractionDigits: Int) {
-        self.init()
-        self.numberStyle = numberStyle
-        self.minimumFractionDigits = minimumFractionDigits
-        self.maximumFractionDigits = maximumFractionDigits
-    }
-    
-    convenience init(numberStyle: NSNumberFormatterStyle, locale: NSLocale) {
-        self.init()
-        self.numberStyle = numberStyle
-        self.locale = locale
+    public static func string(fromPercent number: Float) -> String? {
+        return common.percentFormatter.stringFromNumber(number)
     }
 }
