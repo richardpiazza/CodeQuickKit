@@ -275,7 +275,9 @@ public class SerializableObject: NSObject, Serializable {
     }
     
     private func setValue(value: NSObject, forPropertyName propertyName: String) {
-        setValue(value, forKey: propertyName)
+        if let initializedObject = initializedObject(forPropertyName: propertyName, withData: value) {
+            setValue(initializedObject, forKey: propertyName)
+        }
     }
 }
 

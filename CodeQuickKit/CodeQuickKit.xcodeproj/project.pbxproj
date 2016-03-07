@@ -12,6 +12,8 @@
 		E187406C1C8D7C8500A7761C /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406B1C8D7C8500A7761C /* CoreDataTests.swift */; };
 		E187406E1C8D8ED300A7761C /* NSNumberFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406D1C8D8ED300A7761C /* NSNumberFormatterTests.swift */; };
 		E18740701C8D932300A7761C /* NSDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406F1C8D932300A7761C /* NSDateTests.swift */; };
+		E18740721C8D9A3200A7761C /* SerializableObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740711C8D9A3200A7761C /* SerializableObjectTests.swift */; };
+		E18740741C8DAEE200A7761C /* WebAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740731C8DAEE200A7761C /* WebAPITests.swift */; };
 		E1D6449A1BE358A9006860FD /* CodeQuickKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D644991BE358A9006860FD /* CodeQuickKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D644A11BE358A9006860FD /* CodeQuickKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D644961BE358A9006860FD /* CodeQuickKit.framework */; };
 		E1D6455D1BE35B8E006860FD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D6455C1BE35B8E006860FD /* CoreData.framework */; };
@@ -64,6 +66,8 @@
 		E187406B1C8D7C8500A7761C /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		E187406D1C8D8ED300A7761C /* NSNumberFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNumberFormatterTests.swift; sourceTree = "<group>"; };
 		E187406F1C8D932300A7761C /* NSDateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateTests.swift; sourceTree = "<group>"; };
+		E18740711C8D9A3200A7761C /* SerializableObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializableObjectTests.swift; sourceTree = "<group>"; };
+		E18740731C8DAEE200A7761C /* WebAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPITests.swift; sourceTree = "<group>"; };
 		E193B6691C7939AD00B1FA9D /* CQKCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQKCoreDataStack.h; sourceTree = "<group>"; };
 		E193B66A1C7939AD00B1FA9D /* CQKCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKCoreDataStack.m; sourceTree = "<group>"; };
 		E193B66B1C7939AD00B1FA9D /* CQKLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQKLogger.h; sourceTree = "<group>"; };
@@ -249,6 +253,8 @@
 				E187406B1C8D7C8500A7761C /* CoreDataTests.swift */,
 				E187406D1C8D8ED300A7761C /* NSNumberFormatterTests.swift */,
 				E187406F1C8D932300A7761C /* NSDateTests.swift */,
+				E18740711C8D9A3200A7761C /* SerializableObjectTests.swift */,
+				E18740731C8DAEE200A7761C /* WebAPITests.swift */,
 			);
 			path = CodeQuickKitTests;
 			sourceTree = "<group>";
@@ -389,8 +395,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E18740701C8D932300A7761C /* NSDateTests.swift in Sources */,
+				E18740721C8D9A3200A7761C /* SerializableObjectTests.swift in Sources */,
 				E187406E1C8D8ED300A7761C /* NSNumberFormatterTests.swift in Sources */,
 				E187406C1C8D7C8500A7761C /* CoreDataTests.swift in Sources */,
+				E18740741C8DAEE200A7761C /* WebAPITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
