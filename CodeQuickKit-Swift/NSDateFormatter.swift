@@ -50,7 +50,7 @@ public enum DateFormat {
 }
 
 public extension NSDateFormatter {
-    struct common {
+    private struct common {
         static let rfc1123DateFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .RFC1123)
     }
     
@@ -63,5 +63,13 @@ public extension NSDateFormatter {
     
     public static func rfc1123DateFormatter() -> NSDateFormatter {
         return common.rfc1123DateFormatter
+    }
+    
+    public static func rfc1123Date(fromString string: String) -> NSDate? {
+        return common.rfc1123DateFormatter.dateFromString(string)
+    }
+    
+    public static func rfc1123String(fromDate date: NSDate) -> String {
+        return common.rfc1123DateFormatter.stringFromDate(date)
     }
 }

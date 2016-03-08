@@ -51,3 +51,11 @@ extension UIViewController: Storyboarded {
         return String(self)
     }
 }
+
+public extension UIStoryboard {
+    /// Instantiates a UIViewController for the provided `Storyboarded` class
+    /// This call potentially throws an execption that cannot be caught.
+    public func instantiateViewController<T: Storyboarded>(forClass viewControllerClass: T.Type) -> T {
+        return self.instantiateViewControllerWithIdentifier(viewControllerClass.storyboardIdentifier()) as! T
+    }
+}

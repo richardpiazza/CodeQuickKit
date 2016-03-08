@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-// UIStoryboard.swift
+// UITableViewCell.swift
 //
 // Copyright (c) 2016 Richard Piazza
 // https://github.com/richardpiazza/CodeQuickKit
@@ -27,10 +27,18 @@
 
 import UIKit
 
-public extension UIStoryboard {
-    /// Instantiates a UIViewController for the provided `Storyboarded` class
-    /// This call potentially throws an execption that cannot be caught.
-    public func instantiateViewController<T: Storyboarded>(forClass viewControllerClass: T.Type) -> T {
-        return self.instantiateViewControllerWithIdentifier(viewControllerClass.storyboardIdentifier()) as! T
+public protocol Reusable {
+    static func reuseIdentifier() -> String
+}
+
+extension UITableViewCell: Reusable {
+    public class func reuseIdentifier() -> String {
+        return String(self)
+    }
+}
+
+extension UICollectionReusableView: Reusable {
+    public class func reuseIdentifier() -> String {
+        return String(self)
     }
 }

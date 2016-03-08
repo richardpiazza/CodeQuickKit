@@ -104,4 +104,18 @@ class NSDateTests: XCTestCase {
         XCTAssertTrue(now.isSame(today))
     }
     
+    func testRFC1123DateFormatter() {
+        let string = "Fri, 05 Nov 1982 08:00:00 GMT"
+        let date = NSCalendar.currentCalendar().dateWithEra(1, year: 1982, month: 11, day: 5, hour: 16, minute: 0, second: 0, nanosecond: 0)!
+        
+        guard let d1 = NSDateFormatter.rfc1123Date(fromString: string) else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertTrue(date.isSame(d1))
+        
+        let s1 = NSDateFormatter.rfc1123String(fromDate: date)
+        XCTAssertTrue(string == s1)
+    }
 }

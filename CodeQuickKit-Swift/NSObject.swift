@@ -28,7 +28,7 @@
 import Foundation
 
 public extension NSObject {
-    /// Returns a probably Obj-C setter for the specified property name.
+    /// Returns a probable Obj-C setter for the specified property name.
     public func setterForPropertyName(propertyName: String) -> Selector? {
         guard propertyName.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 else {
             return nil

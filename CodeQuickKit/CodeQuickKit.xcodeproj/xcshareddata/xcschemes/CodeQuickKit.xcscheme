@@ -34,7 +34,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E1D6449F1BE358A9006860FD"
-               BuildableName = "CodeQuickKit.xctest"
+               BuildableName = "CodeQuickKitTests.xctest"
                BlueprintName = "CodeQuickKitTests"
                ReferencedContainer = "container:CodeQuickKit.xcodeproj">
             </BuildableReference>
