@@ -41,6 +41,8 @@ public enum BundleConfiguration {
     }
 }
 
+/// Extension on NSBundle that provides first level property access to common bundle items.
+/// Also provides methods for determining class names in other modules.
 public extension NSBundle {
     
     public struct Keys {

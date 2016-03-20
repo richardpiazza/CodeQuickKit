@@ -31,7 +31,7 @@ import UIKit
 public typealias DownloaderDataCompletion = (statusCode: Int, responseData: NSData?, error: NSError?) -> Void
 public typealias DownloaderImageCompletion = (statusCode: Int, responseImage: UIImage?, error: NSError?) -> Void
 
-/// A wrapper for NSURLSession similar to CQKWebAPI for general purpose
+/// A wrapper for `NSURLSession` similar to `WebAPI` for general purpose
 /// downloading of data and images.
 public class Downloader {
     private static let twentyFiveMB: Int = (1024 * 1024 * 25)

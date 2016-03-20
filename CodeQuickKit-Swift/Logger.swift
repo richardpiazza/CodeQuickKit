@@ -51,6 +51,8 @@ public protocol LoggerAgent {
     func log(level: LoggerLevel, message: String?, error: NSError?, type: AnyClass?)
 }
 
+/// Provides a single logger that allows for extension by proxying requests to `LoggerAgents`.
+/// The classes in CodeQuickKit use the Logger, add a `LoggerAgent` if you wish to process the log to another service.
 public class Logger {
     public static var minimumConsoleLevel: LoggerLevel = .Debug
     public static var agents: [LoggerAgent] = [LoggerAgent]()
