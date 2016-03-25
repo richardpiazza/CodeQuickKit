@@ -201,11 +201,11 @@ public class Serializer {
         
         switch (keyStyle) {
         case .TitleCase:
-            let range: Range = Range<String.Index>(start: string.startIndex, end: string.startIndex.advancedBy(1))
+            let range: Range = string.startIndex..<string.startIndex.advancedBy(1)
             let sub = string.substringWithRange(range).uppercaseString
             return string.stringByReplacingCharactersInRange(range, withString: sub)
         case .CamelCase:
-            let range: Range = Range<String.Index>(start: string.startIndex, end: string.startIndex.advancedBy(1))
+            let range: Range = string.startIndex..<string.startIndex.advancedBy(1)
             let sub = string.substringWithRange(range).lowercaseString
             return string.stringByReplacingCharactersInRange(range, withString: sub)
         case .UpperCase: return string.uppercaseString

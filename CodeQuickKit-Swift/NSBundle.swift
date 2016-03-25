@@ -150,8 +150,8 @@ public extension NSBundle {
             return moduleClass!
         }
         
-        let firstRange = Range(start: classNamed.startIndex, end: classNamed.startIndex.advancedBy(1))
-        let endRange = Range(start: classNamed.endIndex.advancedBy(-1), end: classNamed.endIndex)
+        let firstRange = classNamed.startIndex..<classNamed.startIndex.advancedBy(1)
+        let endRange = classNamed.endIndex.advancedBy(-1)..<classNamed.endIndex
         
         var singular = classNamed
         singular.replaceRange(firstRange, with: singular.substringWithRange(firstRange).uppercaseString)

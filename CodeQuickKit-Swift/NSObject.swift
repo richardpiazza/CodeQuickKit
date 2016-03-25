@@ -34,7 +34,7 @@ public extension NSObject {
             return nil
         }
         
-        let range = Range<String.Index>(start: propertyName.startIndex, end: propertyName.startIndex.advancedBy(1))
+        let range = propertyName.startIndex..<propertyName.startIndex.advancedBy(1)
         let character = propertyName.substringWithRange(range).uppercaseString
         let setter = propertyName.stringByReplacingCharactersInRange(range, withString: character)
         

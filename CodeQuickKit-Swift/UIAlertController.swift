@@ -75,8 +75,10 @@ public extension UIAlertController {
     }
     
     /// A basic message and single button `.Default` alert
-    public static func prompt(var presentedFrom vc: UIViewController?, withMessage message: String?, action: String = "OK") {
+    public static func prompt(presentedFrom vc: UIViewController?, withMessage message: String?, action: String = "OK") {
         manager.dismiss()
+        
+        var vc = vc
         if vc == nil {
             vc = UIApplication.sharedApplication().delegate?.window??.rootViewController
         }
@@ -100,8 +102,10 @@ public extension UIAlertController {
     }
     
     /// A configurable `.Default` alert
-    public static func alert(var presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, cancelAction: String?, destructiveAction: String?, otherActions: [String]?, completion: DefaultAlertCompletion) {
+    public static func alert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, cancelAction: String?, destructiveAction: String?, otherActions: [String]?, completion: DefaultAlertCompletion) {
         manager.dismiss()
+        
+        var vc = vc
         if vc == nil {
             vc = UIApplication.sharedApplication().delegate?.window??.rootViewController
         }
@@ -150,8 +154,10 @@ public extension UIAlertController {
     }
     
     /// A configurable `.Default` style alert with a single `UITextField`
-    public static func textAlert(var presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialText: String?, cancelAction: String?, otherActions: [String]?, completion: TextAlertCompletion) {
+    public static func textAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialText: String?, cancelAction: String?, otherActions: [String]?, completion: TextAlertCompletion) {
         manager.dismiss()
+        
+        var vc = vc
         if vc == nil {
             vc = UIApplication.sharedApplication().delegate?.window??.rootViewController
         }
@@ -196,8 +202,10 @@ public extension UIAlertController {
     }
     
     /// A configurable `.Default` style alert with a single secure `UITextField`
-    public static func secureAlert(var presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialText: String?, cancelAction: String?, otherActions: [String]?, completion: TextAlertCompletion) {
+    public static func secureAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialText: String?, cancelAction: String?, otherActions: [String]?, completion: TextAlertCompletion) {
         manager.dismiss()
+        
+        var vc = vc
         if vc == nil {
             vc = UIApplication.sharedApplication().delegate?.window??.rootViewController
         }
@@ -244,8 +252,10 @@ public extension UIAlertController {
     
     /// A configurable `.Default` style alert with two `UITextField`s, the 
     /// second of which is secure
-    public static func credentialAlert(var presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialCredentials: NSURLCredential?, cancelAction: String?, otherActions: [String]?, completion: CredentialAlertCompletion) {
+    public static func credentialAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialCredentials: NSURLCredential?, cancelAction: String?, otherActions: [String]?, completion: CredentialAlertCompletion) {
         manager.dismiss()
+        
+        var vc = vc
         if vc == nil {
             vc = UIApplication.sharedApplication().delegate?.window??.rootViewController
         }
@@ -304,8 +314,10 @@ public extension UIAlertController {
     
     /// A configurable `.ActionSheet` style alert presented from the 
     /// `viewController` or `sourceView` on Regular horizontal size classes
-    public static func sheet(var presentedFrom vc: UIViewController?, withBarButtonItem barButtonItem: UIBarButtonItem?, orSourceView sourceView: UIView?, title: String?, message: String?, cancelAction: String?, destructiveAction: String?, otherActions: [String]?, completion: DefaultAlertCompletion) {
+    public static func sheet(presentedFrom vc: UIViewController?, withBarButtonItem barButtonItem: UIBarButtonItem?, orSourceView sourceView: UIView?, title: String?, message: String?, cancelAction: String?, destructiveAction: String?, otherActions: [String]?, completion: DefaultAlertCompletion) {
         manager.dismiss()
+        
+        var vc = vc
         if vc == nil {
             vc = UIApplication.sharedApplication().delegate?.window??.rootViewController
         }

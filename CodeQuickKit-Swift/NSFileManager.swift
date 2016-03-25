@@ -131,7 +131,7 @@ public extension NSFileManager {
         var documentQuery: NSMetadataQuery?
         var documentsCompletion: UbiquityDocumentsCompletion?
         
-        func nsMetadataQueryDidFinishGathering(notification: NSNotification) {
+        @objc func nsMetadataQueryDidFinishGathering(notification: NSNotification) {
             guard let documentQuery = self.documentQuery else {
                 return
             }
@@ -155,7 +155,7 @@ public extension NSFileManager {
             documentQuery.enableUpdates()
         }
         
-        func nsMetadataQueryDidUpdate(notification: NSNotification) {
+        @objc func nsMetadataQueryDidUpdate(notification: NSNotification) {
             guard let documentQuery = self.documentQuery else {
                 return
             }
@@ -290,8 +290,9 @@ public extension NSFileManager {
             documentQuery.predicate = NSPredicate(format: "%K == *", argumentArray: [NSMetadataItemFSNameKey])
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(NSFileManager.ubiquityContainer, selector: Selector("nsMetadataQueryDidFinishGathering:"), name: NSMetadataQueryDidFinishGatheringNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(NSFileManager.ubiquityContainer, selector: Selector("nsMetadataQueryDidUpdate:"), name: NSMetadataQueryDidUpdateNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(NSFileManager.ubiquityContainer, selector: #selector(UbiquityContainer.nsMetadataQueryDidFinishGathering(_:)), name: NSMetadataQueryDidFinishGatheringNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(NSFileManager.ubiquityContainer, selector: #selector(UbiquityContainer.nsMetadataQueryDidUpdate(_:)), name: NSMetadataQueryDidUpdateNotification, object: nil)
         
         documentQuery.startQuery()
     }
