@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "CodeQuickKit"
-  s.version          = "2.0.0"
+  s.version          = "2.0.1"
   s.summary          = "An iOS Library simplifying some everyday tasks."
   s.description      = <<-DESC
   CodeQuickKit is a collection of Swift extensions and classes designed to 
@@ -26,9 +26,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '8.0'
   s.requires_arc = true
 
-  s.source_files = 'CodeQuickKit-ObjC/*'
-  # s.resource_bundles = { 'CodeQuickKit' => ['Pod/Assets/*.png'] }
-
-  s.public_header_files = 'CodeQuickKit-ObjC/*.h'
+  s.source_files = 'CodeQuickKit-Swift/*'
+#  s.public_header_files = 'CodeQuickKit-Swift/*.h'
   s.frameworks = 'UIKit', 'CoreData'
 end

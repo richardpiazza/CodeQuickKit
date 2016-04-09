@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E166D3381CA5294200EF5B06 /* UIPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E166D3371CA5294200EF5B06 /* UIPickerView.swift */; };
 		E18740681C8D048500A7761C /* SerializableManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740671C8D048500A7761C /* SerializableManagedObject.swift */; };
 		E187406A1C8D56DB00A7761C /* NSMetadataQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740691C8D56DB00A7761C /* NSMetadataQuery.swift */; };
 		E187406C1C8D7C8500A7761C /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406B1C8D7C8500A7761C /* CoreDataTests.swift */; };
@@ -58,6 +59,7 @@
 		E121CAAE1C85AD7B0003C1B6 /* Serializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serializer.swift; sourceTree = "<group>"; };
 		E121CAB01C85AD7B0003C1B6 /* UIAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController.swift; sourceTree = "<group>"; };
 		E121CAB21C85AD7B0003C1B6 /* WebAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPI.swift; sourceTree = "<group>"; };
+		E166D3371CA5294200EF5B06 /* UIPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIPickerView.swift; sourceTree = "<group>"; };
 		E18740671C8D048500A7761C /* SerializableManagedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializableManagedObject.swift; sourceTree = "<group>"; };
 		E18740691C8D56DB00A7761C /* NSMetadataQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMetadataQuery.swift; sourceTree = "<group>"; };
 		E187406B1C8D7C8500A7761C /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				E1E54C401C8865BA003F12B3 /* SerializableObject.swift */,
 				E1E54C3A1C880839003F12B3 /* Storyboarded.swift */,
 				E121CAB01C85AD7B0003C1B6 /* UIAlertController.swift */,
+				E166D3371CA5294200EF5B06 /* UIPickerView.swift */,
 				E121CAB21C85AD7B0003C1B6 /* WebAPI.swift */,
 			);
 			name = "CodeQuickKit-Swift";
@@ -366,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1E54C2F1C87F0D9003F12B3 /* NSDate.swift in Sources */,
+				E166D3381CA5294200EF5B06 /* UIPickerView.swift in Sources */,
 				E1E54C331C87F0D9003F12B3 /* NSNumberFormatter.swift in Sources */,
 				E1E54C371C87F0D9003F12B3 /* UIAlertController.swift in Sources */,
 				E1E54C3D1C88627D003F12B3 /* Serializable.swift in Sources */,
