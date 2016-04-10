@@ -121,14 +121,14 @@ public extension NSBundle {
     
     public func moduleClass(forClassNamed classNamed: String) -> AnyClass {
         var moduleClass: AnyClass? = NSClassFromString(classNamed)
-        if moduleClass != nil {
+        if moduleClass != nil && moduleClass != NSNull.self {
             return moduleClass!
         }
         
         if let prefix = bundleDisplayName {
             let underscored = prefix.stringByReplacingOccurrencesOfString(" " , withString: "_")
             moduleClass = NSClassFromString("\(underscored).\(classNamed)")
-            if moduleClass != nil {
+            if moduleClass != nil && moduleClass != NSNull.self {
                 return moduleClass!
             }
         }
@@ -136,7 +136,7 @@ public extension NSBundle {
         if let prefix = bundleName {
             let underscored = prefix.stringByReplacingOccurrencesOfString(" " , withString: "_")
             moduleClass = NSClassFromString("\(underscored).\(classNamed)")
-            if moduleClass != nil {
+            if moduleClass != nil && moduleClass != NSNull.self {
                 return moduleClass!
             }
         }
@@ -146,7 +146,7 @@ public extension NSBundle {
     
     public func singularizedModuleClass(forClassNamed classNamed: String) -> AnyClass {
         var moduleClass: AnyClass? = self.moduleClass(forClassNamed: classNamed)
-        if moduleClass != nil {
+        if moduleClass != nil && moduleClass != NSNull.self {
             return moduleClass!
         }
         
@@ -160,7 +160,7 @@ public extension NSBundle {
         }
         
         moduleClass = self.moduleClass(forClassNamed: singular)
-        if moduleClass != nil {
+        if moduleClass != nil && moduleClass != NSNull.self {
             return moduleClass!
         }
         

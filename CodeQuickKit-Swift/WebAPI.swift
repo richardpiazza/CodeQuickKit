@@ -37,17 +37,17 @@ public enum WebAPIRequestMethod: String {
 }
 
 public struct WebAPIHeaderKey {
-    static let Accept = "Accept"
-    static let Date = "Date"
-    static let ContentType = "Content-Type"
-    static let ContentMD5 = "Content-MD5"
-    static let ContentLength = "Content-Length"
-    static let Authorization = "Authorization"
+    public static let Accept = "Accept"
+    public static let Date = "Date"
+    public static let ContentType = "Content-Type"
+    public static let ContentMD5 = "Content-MD5"
+    public static let ContentLength = "Content-Length"
+    public static let Authorization = "Authorization"
 }
 
 public struct WebAPIHeaderValue {
-    static let ApplicationJson = "application/json"
-    static let ImagePNG = "image/png"
+    public static let ApplicationJson = "application/json"
+    public static let ImagePNG = "image/png"
 }
 
 public struct WebAPIInjectedResponse {
@@ -104,7 +104,7 @@ public class WebAPI {
     public var baseURL: NSURL?
     public var injectedResponses: [String : WebAPIInjectedResponse] = [String : WebAPIInjectedResponse]()
     public var sessionDelegate: NSURLSessionDelegate?
-    private lazy var session: NSURLSession = {
+    public lazy var session: NSURLSession = {
         [unowned self] in
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         return NSURLSession(configuration: configuration, delegate: self.sessionDelegate, delegateQueue: nil)
@@ -117,19 +117,19 @@ public class WebAPI {
     
     // MARK: - Convenience Methods
     
-    public final func get(path: String, queryItems: [NSURLQueryItem]?, completion: WebAPICompletion) {
+    public final func get(path: String, queryItems: [NSURLQueryItem]? = nil, completion: WebAPICompletion) {
         execute(path, queryItems: queryItems, method: .Get, data: nil, completion: completion)
     }
     
-    public final func put(data: NSData?, path: String, queryItems: [NSURLQueryItem]?, completion: WebAPICompletion) {
+    public final func put(data: NSData?, path: String, queryItems: [NSURLQueryItem]? = nil, completion: WebAPICompletion) {
         execute(path, queryItems: queryItems, method: .Put, data: data, completion: completion)
     }
     
-    public final func post(data: NSData?, path: String, queryItems: [NSURLQueryItem]?, completion: WebAPICompletion) {
+    public final func post(data: NSData?, path: String, queryItems: [NSURLQueryItem]? = nil, completion: WebAPICompletion) {
         execute(path, queryItems: queryItems, method: .Post, data: data, completion: completion)
     }
     
-    public final func delete(path: String, queryItems: [NSURLQueryItem]?, completion: WebAPICompletion) {
+    public final func delete(path: String, queryItems: [NSURLQueryItem]? = nil, completion: WebAPICompletion) {
         execute(path, queryItems: queryItems, method: .Delete, data: nil, completion: completion)
     }
     
