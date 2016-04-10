@@ -25,8 +25,32 @@ class Media: SerializableObject {
 class SerializableObjectTests: XCTestCase {
     static let uuid1 = NSUUID(UUIDString: "BEA9C47F-B002-4E84-91AD-582D0D19541D")!
     static let uuid2 = NSUUID(UUIDString: "5C52425E-E45D-11E5-9730-9A79F06E9478")!
-    static let date1 = NSCalendar.currentCalendar().dateWithEra(1, year: 1982, month: 11, day: 5, hour: 16, minute: 0, second: 0, nanosecond: 0)!
-    static let date2 = NSCalendar.currentCalendar().dateWithEra(1, year: 1975, month: 12, day: 12, hour: 6, minute: 0, second: 0, nanosecond: 0)!
+    static var date1: NSDate {
+        let dateComponents = NSDateComponents()
+        dateComponents.calendar = NSCalendar.currentCalendar()
+        dateComponents.timeZone = NSTimeZone(name: "GMT")!
+        dateComponents.era = 1
+        dateComponents.year = 1982
+        dateComponents.month = 11
+        dateComponents.day = 5
+        dateComponents.hour = 8
+        dateComponents.minute = 0
+        dateComponents.second = 0
+        return dateComponents.date!
+    }
+    static var date2: NSDate {
+        let dateComponents = NSDateComponents()
+        dateComponents.calendar = NSCalendar.currentCalendar()
+        dateComponents.timeZone = NSTimeZone(name: "GMT")!
+        dateComponents.era = 1
+        dateComponents.year = 1975
+        dateComponents.month = 12
+        dateComponents.day = 11
+        dateComponents.hour = 22
+        dateComponents.minute = 0
+        dateComponents.second = 0
+        return dateComponents.date!
+    }
     static let url1 = NSURL(string: "http://www.youtube.com/1")!
     static let url2 = NSURL(string: "http://www.youtube.com/2")!
     

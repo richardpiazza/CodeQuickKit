@@ -106,7 +106,20 @@ class NSDateTests: XCTestCase {
     
     func testRFC1123DateFormatter() {
         let string = "Fri, 05 Nov 1982 08:00:00 GMT"
-        let date = NSCalendar.currentCalendar().dateWithEra(1, year: 1982, month: 11, day: 5, hour: 16, minute: 0, second: 0, nanosecond: 0)!
+        
+        let dateComponents = NSDateComponents()
+        dateComponents.calendar = calendar
+        dateComponents.timeZone = NSTimeZone(name: "GMT")!
+        dateComponents.era = 1
+        dateComponents.year = 1982
+        dateComponents.month = 11
+        dateComponents.day = 5
+        dateComponents.hour = 8
+        dateComponents.minute = 0
+        dateComponents.second = 0
+        let date = dateComponents.date!
+        
+//        let date = NSCalendar.currentCalendar().dateWithEra(1, year: 1982, month: 11, day: 5, hour: 16, minute: 0, second: 0, nanosecond: 0)!
         
         guard let d1 = NSDateFormatter.rfc1123Date(fromString: string) else {
             XCTFail()
