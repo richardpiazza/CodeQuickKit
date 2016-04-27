@@ -16,6 +16,8 @@
 		E18740721C8D9A3200A7761C /* SerializableObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740711C8D9A3200A7761C /* SerializableObjectTests.swift */; };
 		E18740741C8DAEE200A7761C /* WebAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740731C8DAEE200A7761C /* WebAPITests.swift */; };
 		E18740831C8ED89300A7761C /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740821C8ED89300A7761C /* Reusable.swift */; };
+		E1AF56C01CCFAE5C00EF8B94 /* NSUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AF56BF1CCFAE5C00EF8B94 /* NSUserDefaults.swift */; };
+		E1AF56C21CCFB27200EF8B94 /* Ubiquity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AF56C11CCFB27200EF8B94 /* Ubiquity.swift */; };
 		E1D6449A1BE358A9006860FD /* CodeQuickKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D644991BE358A9006860FD /* CodeQuickKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D644A11BE358A9006860FD /* CodeQuickKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D644961BE358A9006860FD /* CodeQuickKit.framework */; };
 		E1D6455D1BE35B8E006860FD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D6455C1BE35B8E006860FD /* CoreData.framework */; };
@@ -105,6 +107,8 @@
 		E193B68B1C7939AD00B1FA9D /* UIStoryboard+CQKStoryboards.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIStoryboard+CQKStoryboards.m"; sourceTree = "<group>"; };
 		E193B6AF1C7939DF00B1FA9D /* CQKWebAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQKWebAPITests.m; sourceTree = "<group>"; };
 		E193B6B01C7939DF00B1FA9D /* NSObjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSObjectTests.m; sourceTree = "<group>"; };
+		E1AF56BF1CCFAE5C00EF8B94 /* NSUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSUserDefaults.swift; sourceTree = "<group>"; };
+		E1AF56C11CCFB27200EF8B94 /* Ubiquity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ubiquity.swift; sourceTree = "<group>"; };
 		E1D644961BE358A9006860FD /* CodeQuickKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CodeQuickKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1D644991BE358A9006860FD /* CodeQuickKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodeQuickKit.h; sourceTree = "<group>"; };
 		E1D6449B1BE358A9006860FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -153,12 +157,14 @@
 				E18740691C8D56DB00A7761C /* NSMetadataQuery.swift */,
 				E121CAA91C85AD7B0003C1B6 /* NSNumberFormatter.swift */,
 				E121CAAA1C85AD7B0003C1B6 /* NSObject.swift */,
+				E1AF56BF1CCFAE5C00EF8B94 /* NSUserDefaults.swift */,
 				E18740821C8ED89300A7761C /* Reusable.swift */,
 				E1E54C3C1C88627D003F12B3 /* Serializable.swift */,
 				E121CAAE1C85AD7B0003C1B6 /* Serializer.swift */,
 				E18740671C8D048500A7761C /* SerializableManagedObject.swift */,
 				E1E54C401C8865BA003F12B3 /* SerializableObject.swift */,
 				E1E54C3A1C880839003F12B3 /* Storyboarded.swift */,
+				E1AF56C11CCFB27200EF8B94 /* Ubiquity.swift */,
 				E121CAB01C85AD7B0003C1B6 /* UIAlertController.swift */,
 				E166D3371CA5294200EF5B06 /* UIPickerView.swift */,
 				E121CAB21C85AD7B0003C1B6 /* WebAPI.swift */,
@@ -383,6 +389,8 @@
 				E1E54C2E1C87F0D9003F12B3 /* NSBundle.swift in Sources */,
 				E1E54C311C87F0D9003F12B3 /* NSFileManager.swift in Sources */,
 				E1E54C341C87F0D9003F12B3 /* NSObject.swift in Sources */,
+				E1AF56C01CCFAE5C00EF8B94 /* NSUserDefaults.swift in Sources */,
+				E1AF56C21CCFB27200EF8B94 /* Ubiquity.swift in Sources */,
 				E1E54C411C8865BA003F12B3 /* SerializableObject.swift in Sources */,
 				E1E54C2D1C87F0D9003F12B3 /* Logger.swift in Sources */,
 				E1E54C3B1C880839003F12B3 /* Storyboarded.swift in Sources */,
