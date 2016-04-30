@@ -27,6 +27,9 @@
 
 import Foundation
 
+/// ### UserDefault
+/// A defined structure for storing information in `NSUserDefaults` and `NSUbiquitousKeyValueStore`.
+/// The `timestamp` and optional `build` variables allow for comparisson during syncing.
 public struct UserDefault {
     public var value: NSObject
     public var timestamp: NSDate = NSDate()
@@ -41,6 +44,8 @@ public struct UserDefault {
     }
 }
 
+/// ### UserDefaults
+/// A protocol declaring dictionary conformance. These methods are taken from `NSUbiquitousKeyValueStore`.
 public protocol UserDefaults {
     func dictionaryForKey(aKey: String) -> [String : AnyObject]?
     func setDictionary(aDictionary: [String : AnyObject]?, forKey aKey: String)
@@ -104,6 +109,8 @@ public protocol KeyValueUbiquityContainerDelegate {
     func didSetUserDefault(userDefault: UserDefault, forKey key: String)
 }
 
+/// ### KeyValueUbiquityContainer
+/// A subclass of `UbiquityContainer` that manages access to a `NSUbiquitousKeyValueStore` instance.
 public class KeyValueUbiquityContainer: UbiquityContainer {
     public struct Keys {
         static let value = "value"
@@ -118,9 +125,7 @@ public class KeyValueUbiquityContainer: UbiquityContainer {
         didSet {
             if let keyValueStore = self.keyValueStore {
                 NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KeyValueUbiquityContainer.nsUbiquitiousKeyValueStoreDidChangeExternally(_:)), name: NSUbiquitousKeyValueStoreDidChangeExternallyNotification, object: keyValueStore)
-                if !keyValueStore.synchronize() {
-                    Logger.log(.Error, message: "Failed to synchronize Ubiquitious Key Value Store", error: nil, type: self.dynamicType)
-                }
+                keyValueStore.synchronize()
             }
         }
     }
@@ -132,9 +137,10 @@ public class KeyValueUbiquityContainer: UbiquityContainer {
     }
     
     public override func ubiquityStateDidChange(oldState: UbiquityState, newState: UbiquityState) {
-        if oldState == .Available && newState != .Available {
+        switch newState {
+        case .Disabled:
             self.keyValueStore = nil
-        } else if oldState != .Available && newState == .Available {
+        default:
             self.keyValueStore = NSUbiquitousKeyValueStore.defaultStore()
         }
     }
@@ -188,6 +194,7 @@ public class KeyValueUbiquityContainer: UbiquityContainer {
         default: break
         }
         
+        Logger.verbose("\(keyValueStore.dictionaryRepresentation)")
     }
 }
 
@@ -195,10 +202,18 @@ public extension NSUserDefaults {
     public static var ubiquityUserDefaults: KeyValueUbiquityContainer = KeyValueUbiquityContainer()
     
     public static func setUserDefault(userDefault: UserDefault, forKey key: String) {
-        NSUserDefaults.ubiquityUserDefaults.keyValueStore?.setUserDefault(userDefault, forKey: key)
+        if let keyValueStore = NSUserDefaults.ubiquityUserDefaults.keyValueStore {
+            keyValueStore.setUserDefault(userDefault, forKey: key)
+        } else {
+            NSUserDefaults.standardUserDefaults().setUserDefault(userDefault, forKey: key)
+        }
     }
     
     public static func userDefaultForKey(key: String) -> UserDefault? {
-        return NSUserDefaults.ubiquityUserDefaults.keyValueStore?.userDefaultForKey(key)
+        if let userDefault = NSUserDefaults.ubiquityUserDefaults.keyValueStore?.userDefaultForKey(key) {
+            return userDefault
+        }
+        
+        return NSUserDefaults.standardUserDefaults().userDefaultForKey(key)
     }
 }
