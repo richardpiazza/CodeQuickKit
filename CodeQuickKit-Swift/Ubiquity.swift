@@ -82,6 +82,7 @@ public class UbiquityContainer: UbiquityContainerDelegate {
     }
     
     init(identifier: String? = nil, delegate: UbiquityContainerDelegate? = nil) {
+        Logger.verbose("\(#function)", callingClass: self.dynamicType)
         self.identifier = identifier
         self.delegate = delegate != nil ? delegate : self
         
@@ -102,6 +103,7 @@ public class UbiquityContainer: UbiquityContainerDelegate {
     }
     
     @objc private func ubiquityIdentityDidChange(notification: NSNotification) {
+        Logger.verbose("\(#function)", callingClass: self.dynamicType)
         let oldState = ubiquityState
         self.ubiquityIdentityToken = NSFileManager.defaultManager().ubiquityIdentityToken
         let newState = ubiquityState
@@ -112,6 +114,6 @@ public class UbiquityContainer: UbiquityContainerDelegate {
     }
     
     public func ubiquityStateDidChange(oldState: UbiquityState, newState: UbiquityState) {
-        Logger.log(.Debug, message: "Ubiquity State did change from '\(oldState.description)' to '\(newState.description)'", error: nil, type: self.dynamicType)
+        Logger.verbose("Ubiquity State did change from '\(oldState.description)' to '\(newState.description)'", callingClass: self.dynamicType)
     }
 }

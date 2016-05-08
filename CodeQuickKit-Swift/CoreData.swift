@@ -61,6 +61,7 @@ public class CoreData {
     public var delegate: CoreDataConfiguration?
     
     public init?(withModel model: NSManagedObjectModel, delegate: CoreDataConfiguration? = nil) {
+        Logger.verbose("\(#function)", callingClass: self.dynamicType)
         self.delegate = delegate
         managedObjectModel = model
         
@@ -97,12 +98,14 @@ public class CoreData {
     }
     
     public convenience init?(withEntities entities: [NSEntityDescription], delegate: CoreDataConfiguration? = nil) {
+        Logger.verbose("\(#function)", callingClass: self.dynamicType)
         let model = NSManagedObjectModel()
         model.entities = entities
         self.init(withModel: model, delegate: delegate)
     }
     
     public convenience init?(fromBundle bundle: NSBundle, modelName: String? = nil, delegate: CoreDataConfiguration? = nil) {
+        Logger.verbose("\(#function)", callingClass: self.dynamicType)
         var name: String? = modelName
         if modelName == nil {
             name = bundle.bundleName

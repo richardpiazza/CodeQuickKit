@@ -173,6 +173,7 @@ public class WebAPI {
     /// Transforms the request into a `multipart/form-data` request.
     /// The request `content-type` will be set to `image/png` and the associated filename will be `image.png`
     public final func execute(path: String, queryItems: [NSURLQueryItem]?, method: WebAPIRequestMethod, pngImageData: NSData, completion: WebAPICompletion) {
+        Logger.verbose("\(#function)", callingClass: self.dynamicType)
         if let request = requestFor(path, queryItems: queryItems, method: method, data: nil) {
             let boundary = NSUUID().UUIDString.stringByReplacingOccurrencesOfString("-", withString: "")
             let contentType = "multipart/form-data; boundary=\(boundary)"
@@ -209,6 +210,7 @@ public class WebAPI {
     }
     
     private func execute(request: NSMutableURLRequest, completion: WebAPICompletion) {
+        Logger.verbose("\(#function)", callingClass: self.dynamicType)
         guard let url = request.URL else {
             completion(statusCode: 0, responseObject: nil, error: WebAPIError.InvalidURL.error)
             return

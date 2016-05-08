@@ -97,10 +97,10 @@ public class Logger {
         if level.rawValue >= minimumConsoleLevel.rawValue {
             let messageString = (message != nil) ? message! : ""
             let typeString = (type != nil) ? String(type!) : String(self)
-            if error != nil {
-                NSLog("[%@] (Class: %@), %@\n%@", level.description, typeString, messageString, error!)
+            if let e = error {
+                NSLog("%@[%@] %@\n%@", typeString, level.description, messageString, e)
             } else {
-                NSLog("[%@] (Class: %@), %@", level.description, typeString, messageString)
+                NSLog("%@[%@] %@", typeString, level.description, messageString)
             }
         }
         
