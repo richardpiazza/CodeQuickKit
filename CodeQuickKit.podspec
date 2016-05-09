@@ -22,36 +22,38 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://twitter.com/richardpiazza'
 
   s.source = { :git => "https://github.com/richardpiazza/CodeQuickKit.git", :tag => s.version.to_s }
+  s.platforms = { :ios => '9.1', :tvos => '9.0'}
   s.requires_arc = true
   s.default_subspec = 'iOS'
 
-  s.subspec 'Foundation' do |foundation|
-    foundation.frameworks = 'Foundation'
-    foundation.source_files = 'Sources/Foundation/*'
+  s.subspec 'Foundation' do |framework|
+    #framework.platform = :ios, '9.1'
+    framework.frameworks = 'Foundation'
+    framework.source_files = 'Sources/Foundation/*'
   end
 
-  s.subspec 'CoreData' do |coredata|
-    coredata.dependency 'CodeQuickKit/Foundation'
-    coredata.frameworks = 'CoreData'
-    coredata.source_files = 'Sources/CoreData/*'
+  s.subspec 'CoreData' do |framework|
+    framework.dependency 'CodeQuickKit/Foundation'
+    framework.frameworks = 'CoreData'
+    framework.source_files = 'Sources/CoreData/*'
   end
 
-  s.subspec 'UIKit' do |uikit|
-    uikit.dependency 'CodeQuickKit/Foundation'
-    uikit.frameworks = 'UIKit'
-    uikit.source_files = 'Sources/UIKit/*'
+  s.subspec 'UIKit' do |framework|
+    framework.dependency 'CodeQuickKit/Foundation'
+    framework.frameworks = 'UIKit'
+    framework.source_files = 'Sources/UIKit/*'
   end
 
-  s.subspec 'iOS' do |ios|
-    ios.dependency 'CodeQuickKit/UIKit'
-    ios.platform = :ios, '8.0'
-    ios.source_files = 'Sources/iOS/*'
+  s.subspec 'iOS' do |platform|
+    platform.dependency 'CodeQuickKit/UIKit'
+    platform.platform = :ios, '9.1'
+    platform.source_files = 'Sources/iOS/*'
   end
 
-  s.subspec 'tvOS' do |tvos|
-    tvos.dependency 'CodeQuickKit/Foundation'
-    tvos.platform = :tvos, '9.0'
-    #tvos.source_files = 'Sources/tvOS/*'
+  s.subspec 'tvOS' do |platform|
+    platform.platform = :tvos, '9.0'
+    platform.dependency 'CodeQuickKit/Foundation'
+    #platform.source_files = 'Sources/tvOS/*'
   end
 
 end
