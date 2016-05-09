@@ -26,10 +26,8 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
-import UIKit
 
 public typealias DownloaderDataCompletion = (statusCode: Int, responseData: NSData?, error: NSError?) -> Void
-public typealias DownloaderImageCompletion = (statusCode: Int, responseImage: UIImage?, error: NSError?) -> Void
 
 /// A wrapper for `NSURLSession` similar to `WebAPI` for general purpose
 /// downloading of data and images.
@@ -48,7 +46,7 @@ public class Downloader {
     public var baseURL: NSURL?
     public var timeout: NSTimeInterval = 20
     
-    private lazy var invalidBaseURL: NSError = {
+    internal lazy var invalidBaseURL: NSError = {
         let userInfo: [String : AnyObject] = [NSLocalizedDescriptionKey:"Invalid Base URL", NSLocalizedFailureReasonErrorKey:"You can not use a `path` method without specifiying a baseURL."]
         return NSError(domain: "Downloader", code: 0, userInfo: userInfo)
     }()
@@ -61,7 +59,7 @@ public class Downloader {
         self.baseURL = baseURL
     }
     
-    private func urlForPath(path: String) -> NSURL? {
+    internal func urlForPath(path: String) -> NSURL? {
         guard let baseURL = self.baseURL else {
             return nil
         }
@@ -93,25 +91,5 @@ public class Downloader {
                 completion(statusCode: httpResponse.statusCode, responseData: data, error: error)
             })
         }.resume()
-    }
-    
-    public func getImageAtPath(path: String, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderImageCompletion) {
-        guard let url = self.urlForPath(path) else {
-            completion(statusCode: 0, responseImage: nil, error: invalidBaseURL)
-            return
-        }
-        
-        self.getImageAtURL(url, cachePolicy: cachePolicy, completion: completion)
-    }
-    
-    public func getImageAtURL(url: NSURL, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderImageCompletion) {
-        self.getDataAtURL(url, cachePolicy: cachePolicy) { (statusCode, responseData, error) -> Void in
-            var image: UIImage?
-            if responseData != nil {
-                image = UIImage(data: responseData!)
-            }
-            
-            completion(statusCode: statusCode, responseImage: image, error: error)
-        }
     }
 }

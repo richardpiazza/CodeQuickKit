@@ -25,7 +25,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-import UIKit
+import Foundation
 
 public enum BundleConfiguration {
     case Debug
@@ -72,24 +72,6 @@ public extension NSBundle {
         #else
             return (isSandboxReceipt) ? .TestFlight : .AppStore
         #endif
-    }
-    
-    /// This call potentially throws an execption that cannot be caught.
-    public var launchScreenStoryboard: UIStoryboard? {
-        guard let name = launchScreenStoryboardName else {
-            return nil
-        }
-        
-        return UIStoryboard(name: name, bundle: self)
-    }
-    
-    /// This call potentially throws an execption that cannot be caught.
-    public var mainStoryboard: UIStoryboard? {
-        guard let name = mainStoryboardName else {
-            return nil
-        }
-        
-        return UIStoryboard(name: name, bundle: self)
     }
     
     override var description: String {
