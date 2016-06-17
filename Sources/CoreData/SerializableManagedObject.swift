@@ -29,18 +29,21 @@ import Foundation
 import CoreData
 
 public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
-    
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
-    }
-    
-    public convenience required init?(managedObjectContext context: NSManagedObjectContext) {
-        var entityName = NSStringFromClass(self.dynamicType)
+    public static var entityName: String {
+        var entityName = NSStringFromClass(self)
         if let lastPeriodRange = entityName.rangeOfString(".", options: NSStringCompareOptions.BackwardsSearch, range: nil, locale: nil) {
             entityName = entityName.substringFromIndex(lastPeriodRange.endIndex)
         }
         
-        guard let entityDescription = NSEntityDescription.entityForName(entityName, inManagedObjectContext: context) else {
+        return entityName
+    }
+    
+    public override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    }
+    
+    public required convenience init?(managedObjectContext context: NSManagedObjectContext) {
+        guard let entityDescription = NSEntityDescription.entityForName(self.dynamicType.entityName, inManagedObjectContext: context) else {
             return nil
         }
         
@@ -57,12 +60,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
     }
     
     public convenience required init?(managedObjectContext context: NSManagedObjectContext, withDictionary dictionary: SerializableDictionary?) {
-        var entityName = NSStringFromClass(self.dynamicType)
-        if let lastPeriodRange = entityName.rangeOfString(".", options: NSStringCompareOptions.BackwardsSearch, range: nil, locale: nil) {
-            entityName = entityName.substringFromIndex(lastPeriodRange.endIndex)
-        }
-        
-        guard let entityDescription = NSEntityDescription.entityForName(entityName, inManagedObjectContext: context) else {
+        guard let entityDescription = NSEntityDescription.entityForName(self.dynamicType.entityName, inManagedObjectContext: context) else {
             return nil
         }
         
@@ -140,12 +138,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
     }
     
     public convenience required init?(managedObjectContext context: NSManagedObjectContext, withData data: NSData?) {
-        var entityName = NSStringFromClass(self.dynamicType)
-        if let lastPeriodRange = entityName.rangeOfString(".", options: NSStringCompareOptions.BackwardsSearch, range: nil, locale: nil) {
-            entityName = entityName.substringFromIndex(lastPeriodRange.endIndex)
-        }
-        
-        guard let entityDescription = NSEntityDescription.entityForName(entityName, inManagedObjectContext: context) else {
+        guard let entityDescription = NSEntityDescription.entityForName(self.dynamicType.entityName, inManagedObjectContext: context) else {
             return nil
         }
         
@@ -186,12 +179,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
     }
     
     public convenience required init?(managedObjectContext context: NSManagedObjectContext, withJSON json: String?) {
-        var entityName = NSStringFromClass(self.dynamicType)
-        if let lastPeriodRange = entityName.rangeOfString(".", options: NSStringCompareOptions.BackwardsSearch, range: nil, locale: nil) {
-            entityName = entityName.substringFromIndex(lastPeriodRange.endIndex)
-        }
-        
-        guard let entityDescription = NSEntityDescription.entityForName(entityName, inManagedObjectContext: context) else {
+        guard let entityDescription = NSEntityDescription.entityForName(self.dynamicType.entityName, inManagedObjectContext: context) else {
             return nil
         }
         
