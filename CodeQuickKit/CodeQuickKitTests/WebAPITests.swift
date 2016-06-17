@@ -14,7 +14,7 @@ class WebAPITests: XCTestCase {
             return
         }
         
-        let injectedResponse = WebAPIInjectedResponse(statusCode: 200, responseObject: ["name": "Mock Me"], error: nil, timeout: 2)
+        let injectedResponse = WebAPIInjectedResponse(statusCode: 200, response: nil, responseObject: ["name": "Mock Me"], error: nil, timeout: 2)
         webApi.injectedResponses["http://www.example.com/api/test"] = injectedResponse
     }
     
@@ -26,7 +26,7 @@ class WebAPITests: XCTestCase {
     func testInjectedResponse() {
         let expectation = expectationWithDescription("Injected Response")
         
-        api!.get("test", queryItems: nil) { (statusCode, responseObject, error) -> Void in
+        api!.get("test", queryItems: nil) { (statusCode, response, responseObject, error) -> Void in
             XCTAssertTrue(statusCode == 200)
             guard let dictionary = responseObject as? [String : String] else {
                 XCTFail()
