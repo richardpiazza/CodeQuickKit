@@ -195,7 +195,7 @@ public class Serializer {
     }
     
     public static func stringByApplyingKeyStyle(keyStyle: SerializerKeyStyle, forString string: String) -> String {
-        guard string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 1 else {
+        guard string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) <= 1 else {
             return string
         }
         

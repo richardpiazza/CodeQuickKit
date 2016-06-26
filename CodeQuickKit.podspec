@@ -8,21 +8,21 @@
 
 Pod::Spec.new do |s|
   s.name = "CodeQuickKit"
-  s.version = "2.2.0"
+  s.version = "2.3.1"
   s.summary = "An iOS Library simplifying some everyday tasks."
   s.description = <<-DESC
   CodeQuickKit is a collection of Swift extensions and classes designed to 
   quicken iOS development. This collection includes (but not limited to): logging, 
   NSObject/JSON de/serialization, JSON Web APIs, UIStoryboard/UIAlertController shortcuts, 
   and CoreData wrappers.
-                       DESC
+                     DESC
   s.homepage = "https://github.com/richardpiazza/CodeQuickKit"
   s.license = 'MIT'
   s.author = { "Richard Piazza" => "github@richardpiazza.com" }
   s.social_media_url = 'https://twitter.com/richardpiazza'
 
   s.source = { :git => "https://github.com/richardpiazza/CodeQuickKit.git", :tag => s.version.to_s }
-  s.platforms = { :ios => '9.1', :tvos => '9.0'}
+  s.platforms = { :ios => '9.1', :tvos => '9.0' }
   s.requires_arc = true
   s.default_subspec = 'iOS'
 

@@ -81,7 +81,7 @@ public class UbiquityContainer: UbiquityContainerDelegate {
         return .Available
     }
     
-    init(identifier: String? = nil, delegate: UbiquityContainerDelegate? = nil) {
+    public init(identifier: String? = nil, delegate: UbiquityContainerDelegate? = nil) {
         Logger.verbose("\(#function)", callingClass: self.dynamicType)
         self.identifier = identifier
         self.delegate = delegate != nil ? delegate : self
