@@ -98,9 +98,9 @@ public class Logger {
             let messageString = (message != nil) ? message! : ""
             let typeString = (type != nil) ? String(type!) : String(self)
             if let e = error {
-                NSLog("%@[%@] %@\n%@", typeString, level.description, messageString, e)
+                NSLog("[%@] %@ %@\n%@", level.description, typeString, messageString, e)
             } else {
-                NSLog("%@[%@] %@", typeString, level.description, messageString)
+                NSLog("[%@] %@ %@", level.description, typeString, messageString)
             }
         }
         
