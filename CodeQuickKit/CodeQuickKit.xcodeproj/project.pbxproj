@@ -35,6 +35,7 @@
 		E18740701C8D932300A7761C /* NSDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406F1C8D932300A7761C /* NSDateTests.swift */; };
 		E18740721C8D9A3200A7761C /* SerializableObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740711C8D9A3200A7761C /* SerializableObjectTests.swift */; };
 		E18740741C8DAEE200A7761C /* WebAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740731C8DAEE200A7761C /* WebAPITests.swift */; };
+		E1A1D5101D22F76A0082793F /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1D50F1D22F76A0082793F /* NSManagedObjectContext.swift */; };
 		E1D6449A1BE358A9006860FD /* CodeQuickKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D644991BE358A9006860FD /* CodeQuickKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D644A11BE358A9006860FD /* CodeQuickKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D644961BE358A9006860FD /* CodeQuickKit.framework */; };
 		E1D6455D1BE35B8E006860FD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D6455C1BE35B8E006860FD /* CoreData.framework */; };
@@ -79,6 +80,7 @@
 		E187406F1C8D932300A7761C /* NSDateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateTests.swift; sourceTree = "<group>"; };
 		E18740711C8D9A3200A7761C /* SerializableObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializableObjectTests.swift; sourceTree = "<group>"; };
 		E18740731C8DAEE200A7761C /* WebAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPITests.swift; sourceTree = "<group>"; };
+		E1A1D50F1D22F76A0082793F /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
 		E1D644961BE358A9006860FD /* CodeQuickKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CodeQuickKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1D644991BE358A9006860FD /* CodeQuickKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodeQuickKit.h; sourceTree = "<group>"; };
 		E1D6449B1BE358A9006860FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				E154446A1CE12674004409EA /* CoreData.swift */,
+				E1A1D50F1D22F76A0082793F /* NSManagedObjectContext.swift */,
 				E154446B1CE12674004409EA /* SerializableManagedObject.swift */,
 			);
 			path = CoreData;
@@ -330,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E15444851CE12674004409EA /* CoreData.swift in Sources */,
+				E1A1D5101D22F76A0082793F /* NSManagedObjectContext.swift in Sources */,
 				E154448F1CE12674004409EA /* NSObject.swift in Sources */,
 				E15444861CE12674004409EA /* SerializableManagedObject.swift in Sources */,
 				E154448C1CE12674004409EA /* NSFileManager.swift in Sources */,
