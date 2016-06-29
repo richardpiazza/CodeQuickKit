@@ -170,4 +170,35 @@ class CoreDataTests: XCTestCase {
         XCTAssertTrue(address.street == "123 Main Street")
         XCTAssertTrue(address.city == "Your Town")
     }
+    
+    func testSecondaryContextChanges() {
+        guard let moc = repository?.managedObjectContext else {
+            XCTFail()
+            return
+        }
+        
+        guard let person = Person(managedObjectContext: moc) else {
+            XCTFail()
+            return
+        }
+        
+        moc.mergeChanges(performingBlock: { (privateContext) in
+            if let guy = privateContext.objectWithID(person.objectID) as? Person {
+                guy.name = "Hector"
+            }
+            
+            }) { (error) in
+                XCTAssertNil(error)
+        }
+        
+        XCTAssertTrue(person.name == "Hector")
+        
+        moc.mergeChanges(performingBlock: { (privateContext) in
+            if let guy = privateContext.objectWithID(person.objectID) as? Person {
+                privateContext.deleteObject(guy)
+            }
+            }) { (error) in
+                XCTAssertNil(error)
+        }
+    }
 }

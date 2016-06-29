@@ -60,15 +60,14 @@ public class CoreData {
     public var managedObjectModel: NSManagedObjectModel!
     public var delegate: CoreDataConfiguration?
     
-    public init?(withModel model: NSManagedObjectModel, delegate: CoreDataConfiguration? = nil) {
+    public init(withModel model: NSManagedObjectModel, delegate: CoreDataConfiguration? = nil) {
         Logger.verbose("\(#function)", callingClass: self.dynamicType)
         self.delegate = delegate
         managedObjectModel = model
         
         persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
         guard let coordinator = persistentStoreCoordinator else {
-            Logger.warn("Persistent Store Coordinator is nil", callingClass: self.dynamicType)
-            return nil
+            fatalError("Persistent Store Coordinator is nil")
         }
         
         var storeType: String = NSInMemoryStoreType
@@ -84,27 +83,25 @@ public class CoreData {
         do {
             try persistentStore = coordinator.addPersistentStoreWithType(storeType, configuration: nil, URL: storeURL, options: storeOptions)
         } catch {
-            Logger.error((error as NSError), message: "addPersistentStoreWithType", callingClass: self.dynamicType)
-            return nil
+            fatalError("addPersistentStoreWithType failed")
         }
         
         managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
         guard let moc = managedObjectContext else {
-            Logger.warn("Managed Object Context is nil", callingClass: self.dynamicType)
-            return nil
+            fatalError("Managed Object Context is nil")
         }
         
         moc.persistentStoreCoordinator = coordinator
     }
     
-    public convenience init?(withEntities entities: [NSEntityDescription], delegate: CoreDataConfiguration? = nil) {
+    public convenience init(withEntities entities: [NSEntityDescription], delegate: CoreDataConfiguration? = nil) {
         Logger.verbose("\(#function)", callingClass: self.dynamicType)
         let model = NSManagedObjectModel()
         model.entities = entities
         self.init(withModel: model, delegate: delegate)
     }
     
-    public convenience init?(fromBundle bundle: NSBundle, modelName: String? = nil, delegate: CoreDataConfiguration? = nil) {
+    public convenience init(fromBundle bundle: NSBundle, modelName: String? = nil, delegate: CoreDataConfiguration? = nil) {
         Logger.verbose("\(#function)", callingClass: self.dynamicType)
         var name: String? = modelName
         if modelName == nil {
@@ -112,18 +109,15 @@ public class CoreData {
         }
         
         guard let momd = name else {
-            Logger.warn("Model name is nil.", callingClass: self.dynamicType)
-            return nil
+            fatalError("Model name is nil.")
         }
         
         guard let url = bundle.URLForResource(momd, withExtension: CoreData.mergedManagedObjectModelExtension) else {
-            Logger.warn("Model with name '\(momd)' not found.", callingClass: self.dynamicType)
-            return nil
+            fatalError("Model with name '\(momd)' not found.")
         }
         
         guard let model = NSManagedObjectModel(contentsOfURL: url) else {
-            Logger.warn("Model failed to load contents of url '\(url)'.", callingClass: self.dynamicType)
-            return nil
+            fatalError("Model failed to load contents of url '\(url)'.")
         }
         
         self.init(withModel: model, delegate: delegate)

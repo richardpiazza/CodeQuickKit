@@ -45,4 +45,29 @@ public extension NSManagedObjectContext {
     dynamic func managedObjectContextDidSave(notification: NSNotification) {
         self.mergeChangesFromContextDidSaveNotification(notification)
     }
+    
+    /// Executes a set of operations on a secondary `NSManagedObjectContext`.
+    /// A `save()` is triggered, and the changes are merged into the calling `NSManagedObjectContext`.
+    func mergeChanges(performingBlock block: (privateContext: NSManagedObjectContext) -> Void, withCompletion completion: (error: NSError?) -> Void) {
+        var e: NSError? = nil
+        
+        let privateContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+        privateContext.parentContext = self
+        
+        self.registerForDidSaveNotification(privateContext: privateContext)
+        
+        privateContext.performBlockAndWait { 
+            block(privateContext: privateContext)
+            
+            do {
+                try privateContext.save()
+            } catch {
+                e = error as NSError
+            }
+        }
+        
+        self.unregisterFromDidSaveNotification(privateContext: privateContext)
+        
+        completion(error: e)
+    }
 }
