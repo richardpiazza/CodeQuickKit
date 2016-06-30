@@ -36,6 +36,7 @@
 		E18740721C8D9A3200A7761C /* SerializableObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740711C8D9A3200A7761C /* SerializableObjectTests.swift */; };
 		E18740741C8DAEE200A7761C /* WebAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740731C8DAEE200A7761C /* WebAPITests.swift */; };
 		E1A1D5101D22F76A0082793F /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1D50F1D22F76A0082793F /* NSManagedObjectContext.swift */; };
+		E1A1D51D1D25D8190082793F /* CodeQuickKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = E1A1D51C1D25D8190082793F /* CodeQuickKit.podspec */; };
 		E1D6449A1BE358A9006860FD /* CodeQuickKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D644991BE358A9006860FD /* CodeQuickKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D644A11BE358A9006860FD /* CodeQuickKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D644961BE358A9006860FD /* CodeQuickKit.framework */; };
 		E1D6455D1BE35B8E006860FD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D6455C1BE35B8E006860FD /* CoreData.framework */; };
@@ -81,6 +82,7 @@
 		E18740711C8D9A3200A7761C /* SerializableObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializableObjectTests.swift; sourceTree = "<group>"; };
 		E18740731C8DAEE200A7761C /* WebAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPITests.swift; sourceTree = "<group>"; };
 		E1A1D50F1D22F76A0082793F /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
+		E1A1D51C1D25D8190082793F /* CodeQuickKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CodeQuickKit.podspec; path = ../CodeQuickKit.podspec; sourceTree = "<group>"; };
 		E1D644961BE358A9006860FD /* CodeQuickKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CodeQuickKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1D644991BE358A9006860FD /* CodeQuickKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodeQuickKit.h; sourceTree = "<group>"; };
 		E1D6449B1BE358A9006860FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 		E1D6448C1BE358A9006860FD = {
 			isa = PBXGroup;
 			children = (
+				E1A1D51C1D25D8190082793F /* CodeQuickKit.podspec */,
 				E15444681CE12674004409EA /* Sources */,
 				E1D6455C1BE35B8E006860FD /* CoreData.framework */,
 				E1D644981BE358A9006860FD /* CodeQuickKit */,
@@ -315,6 +318,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1A1D51D1D25D8190082793F /* CodeQuickKit.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

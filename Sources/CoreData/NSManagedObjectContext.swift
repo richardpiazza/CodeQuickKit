@@ -47,7 +47,7 @@ public extension NSManagedObjectContext {
     }
     
     /// Executes a set of operations on a secondary `NSManagedObjectContext`.
-    /// A `save()` is triggered, and the changes are merged into the calling `NSManagedObjectContext`.
+    /// The changes are merged into the calling `NSManagedObjectContext` and a `save()` is triggered.
     func mergeChanges(performingBlock block: (privateContext: NSManagedObjectContext) -> Void, withCompletion completion: (error: NSError?) -> Void) {
         var e: NSError? = nil
         
@@ -67,6 +67,12 @@ public extension NSManagedObjectContext {
         }
         
         self.unregisterFromDidSaveNotification(privateContext: privateContext)
+        
+        do {
+            try self.save()
+        } catch {
+            e = error as NSError
+        }
         
         completion(error: e)
     }
