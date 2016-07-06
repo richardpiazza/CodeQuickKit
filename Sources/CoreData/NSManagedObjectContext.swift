@@ -48,6 +48,38 @@ public extension NSManagedObjectContext {
     
     /// Executes a set of operations on a secondary `NSManagedObjectContext`.
     /// The changes are merged into the calling `NSManagedObjectContext` and a `save()` is triggered.
+    func mergeChanges(performingBlock block: (privateContext: NSManagedObjectContext) -> Void, savingWithCompletion completion: (error: NSError?) -> Void) {
+        var e: NSError? = nil
+        
+        let privateContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+        privateContext.parentContext = self
+        
+        self.registerForDidSaveNotification(privateContext: privateContext)
+        
+        privateContext.performBlockAndWait {
+            block(privateContext: privateContext)
+            
+            do {
+                try privateContext.save()
+            } catch {
+                e = error as NSError
+            }
+        }
+        
+        self.unregisterFromDidSaveNotification(privateContext: privateContext)
+        
+        do {
+            try self.save()
+        } catch {
+            e = error as NSError
+        }
+        
+        completion(error: e)
+    }
+    
+    /// Executes a set of operations on a secondary `NSManagedObjectContext`.
+    /// The changes are merged into the calling `NSManagedObjectContext`.
+    /// - note: a `save()` is not triggered on the calling context.
     func mergeChanges(performingBlock block: (privateContext: NSManagedObjectContext) -> Void, withCompletion completion: (error: NSError?) -> Void) {
         var e: NSError? = nil
         
@@ -67,12 +99,6 @@ public extension NSManagedObjectContext {
         }
         
         self.unregisterFromDidSaveNotification(privateContext: privateContext)
-        
-        do {
-            try self.save()
-        } catch {
-            e = error as NSError
-        }
         
         completion(error: e)
     }

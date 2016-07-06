@@ -28,6 +28,8 @@
 import Foundation
 import CoreData
 
+/// ## SerializableManagedObject
+/// A subclass of `NSManagedObject` that implements the `ManagedSerializable` protocol
 public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
     public static var entityName: String {
         var entityName = NSStringFromClass(self)
@@ -40,6 +42,8 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
     
     public override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
+        Logger.verbose("Initialized entity '\(self.dynamicType.entityName)'", callingClass: self.dynamicType)
+        setDefaults()
     }
     
     public required convenience init?(managedObjectContext context: NSManagedObjectContext) {
@@ -48,9 +52,11 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         }
         
         self.init(entity: entityDescription, insertIntoManagedObjectContext: context)
+        Logger.verbose("Initialized entity '\(self.dynamicType.entityName)'", callingClass: self.dynamicType)
         setDefaults()
     }
     
+    /// Called imediatley after initialization, allowing for property/relationship initialization.
     public func setDefaults() {
         
     }
@@ -59,6 +65,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         fatalError("init(managedObjectContext:withDictionary:) should be used")
     }
     
+    /// Initialize an instance of the class and pass the referenced dictionary to update(withDictionary:).
     public convenience required init?(managedObjectContext context: NSManagedObjectContext, withDictionary dictionary: SerializableDictionary?) {
         guard let entityDescription = NSEntityDescription.entityForName(self.dynamicType.entityName, inManagedObjectContext: context) else {
             return nil
@@ -69,6 +76,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         update(withDictionary: dictionary)
     }
     
+    /// Updates the instance with values in the dictionary.
     public func update(withDictionary dictionary: SerializableDictionary?) {
         guard let d = dictionary else {
             return
@@ -93,6 +101,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         }
     }
     
+    /// Returns a dictionary representation of the instance.
     public var dictionary: SerializableDictionary {
         var d: SerializableDictionary = SerializableDictionary()
         
@@ -137,6 +146,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         fatalError("init(managedObjectContext:withData:) should be used")
     }
     
+    /// Initialize an instance of the class and pass the referenced data to update(withData:).
     public convenience required init?(managedObjectContext context: NSManagedObjectContext, withData data: NSData?) {
         guard let entityDescription = NSEntityDescription.entityForName(self.dynamicType.entityName, inManagedObjectContext: context) else {
             return nil
@@ -147,6 +157,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         update(withData: data)
     }
     
+    /// Passes the `NSData` instance of an `NSDictionary` to update(withDictionary:).
     public func update(withData data: NSData?) {
         guard let d = data else {
             return
@@ -162,6 +173,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         }
     }
     
+    /// Returns the dictionary representation of the instance as an `NSData` object.
     public var data: NSData? {
         let d = dictionary
         do {
@@ -178,6 +190,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         fatalError("init(managedObjectContext:withJSON:) should be used")
     }
     
+    /// Initialize an instance of the class and pass the referenced json to update(withJSON:).
     public convenience required init?(managedObjectContext context: NSManagedObjectContext, withJSON json: String?) {
         guard let entityDescription = NSEntityDescription.entityForName(self.dynamicType.entityName, inManagedObjectContext: context) else {
             return nil
@@ -188,6 +201,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         update(withJSON: json)
     }
     
+    /// Deserializes the JSON formatted string and pass the `NSDictionary` to update(withDictionary):.
     public func update(withJSON json: String?) {
         guard let j = json else {
             return
@@ -201,6 +215,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         update(withData: data)
     }
     
+    /// Returns the dictionary representation of the instance as a JSON formatted string.
     public var json: String? {
         guard let d = data else {
             return nil
@@ -213,14 +228,30 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         return Serializer.stringByRemovingPrettyJSONFormatting(forString: s)
     }
     
+    /// Maps a serialized key to a property name.
+    /// Case translation is automatic based on `Serializer.propertyKeyStyle`.
+    /// A nil return will skip the deserialization for this key.
     public func propertyName(forSerializedKey serializedKey: String) -> String? {
         return Serializer.propertyName(forSerializedKey: serializedKey)
     }
     
+    /// Maps a propety name to serialized key.
+    /// Case translation is automatic based on `Serializer.serializedKeyStyle`.
+    /// A nil return will skip the deserialization for this key.
+    ///
+    /// When used in the context of `SerializableManagedObject` subclasses, a nil blocks recursive serialization.
+    /// i.e. Given Person -> Address (One-to-many with reverse reference); When serializing a 'Person',
+    /// you want the related Addresses but don't want the 'Person' referenced on the 'Address'.
     public func serializedKey(forPropertyName propertyName: String) -> String? {
         return Serializer.serializedKey(forPropertyName: propertyName)
     }
     
+    /// Overrides the default initialization behavior for a given property.
+    /// Many serialized object types can be nativly deserialized to their corresponding `NSObject` type.
+    /// Objects that conform to `Serializable` will automatically by initialized.
+    ///
+    /// When used in the context of `SerializableManagedObject`, `init(intoManagedObjectContext:withDictionary:)`
+    /// is called.
     public func initializedObject(forPropertyName propertyName: String, withData data: NSObject) -> NSObject? {
         let propertyClass: AnyClass = Serializer.classForPropertyName(propertyName, ofClass: self.dynamicType)
         if propertyClass is NSNull.Type {
@@ -264,6 +295,9 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         return Serializer.initializedObject(forPropertyName: propertyName, ofClass: self.dynamicType, withData: data)
     }
     
+    /// Overrides the default serialization behavior for a given property.
+    /// Several NSObject subclasses can nativley be serialized with the NSJSONSerialization class.
+    /// When used in the context of `Serializable` the `dictionary` representation is returned.
     public func serializedObject(forPropertyName propertyName: String, withData data: NSObject) -> NSObject? {
         if let arrayData = data as? Array<NSObject> {
             var serializedArray = [NSObject]()
@@ -292,16 +326,22 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         return Serializer.serializedObject(forPropertyName: propertyName, withData: data)
     }
     
+    /// Specifyes the type of objects contained within a collection.
+    /// Aids in deserializing array instances into appropriate `NSObject` subclasses.
+    /// By default a singularized version of the provided propertyName will be used to
+    /// identify the return class.
     public func objectClassOfCollectionType(forPropertyname propertyName: String) -> AnyClass? {
         return NSBundle(forClass: self.dynamicType).singularizedModuleClass(forClassNamed: propertyName)
     }
     
+    /// Initializes an entity represented by the `value` and assigns to the `propertyName` attribute.
     private func setValue(value: SerializableDictionary, forPropertyName propertyName: String) {
         if let initializedObject = initializedObject(forPropertyName: propertyName, withData: value) {
             setValue(initializedObject, forKey: propertyName)
         }
     }
     
+    /// Initializes multiple entities and assigns the set to the `propertyName` attribute.
     private func setValue(value: [NSObject], forPropertyName propertyName: String) {
         let propertyClass: AnyClass = Serializer.classForPropertyName(propertyName, ofClass: self.dynamicType)
         guard !(propertyClass is NSNull.Type) else {
@@ -318,6 +358,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         setValue(initializedSet, forKey: propertyName)
     }
     
+    /// Sets the `value` to the `propertyName` attribute.
     private func setValue(value: NSObject, forPropertyName propertyName: String) {
         setValue(value, forKey: propertyName)
     }

@@ -67,11 +67,7 @@ public extension NSBundle {
     public var isSandboxReceipt: Bool { return appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" }
     
     public var configuration: BundleConfiguration {
-        #if DEBUG
-            return .Debug
-        #else
-            return (isSandboxReceipt) ? .TestFlight : .AppStore
-        #endif
+        return (isSandboxReceipt) ? .TestFlight : .AppStore
     }
     
     override var description: String {
@@ -101,6 +97,9 @@ public extension NSBundle {
         }
     }
     
+    /// Attempts to determine the "full" modularized name for a given class.
+    /// For example: when using CodeQuickKit as a module, the moduleClass for
+    /// the `WebAPI` class would be `CodeQuickKit.WebAPI`.
     public func moduleClass(forClassNamed classNamed: String) -> AnyClass {
         var moduleClass: AnyClass? = NSClassFromString(classNamed)
         if moduleClass != nil && moduleClass != NSNull.self {
@@ -126,6 +125,7 @@ public extension NSBundle {
         return NSNull.self
     }
     
+    /// Takes the moduleClass for a given class and attempts to singularize it.
     public func singularizedModuleClass(forClassNamed classNamed: String) -> AnyClass {
         var moduleClass: AnyClass? = self.moduleClass(forClassNamed: classNamed)
         if moduleClass != nil && moduleClass != NSNull.self {
