@@ -42,8 +42,6 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
     
     public override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
-        Logger.verbose("Initialized entity '\(self.dynamicType.entityName)'", callingClass: self.dynamicType)
-        setDefaults()
     }
     
     public required convenience init?(managedObjectContext context: NSManagedObjectContext) {
@@ -52,7 +50,7 @@ public class SerializableManagedObject: NSManagedObject, ManagedSerializable {
         }
         
         self.init(entity: entityDescription, insertIntoManagedObjectContext: context)
-        Logger.verbose("Initialized entity '\(self.dynamicType.entityName)'", callingClass: self.dynamicType)
+        Logger.verbose("entity initialized", callingClass: self.dynamicType)
         setDefaults()
     }
     
