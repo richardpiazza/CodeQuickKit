@@ -43,7 +43,7 @@ public typealias SerializerRedirect = (propertyName: String, serializedKey: Stri
 public class Serializer {
     public static var propertyKeyStyle: SerializerKeyStyle = .MatchCase
     public static var serializedKeyStyle: SerializerKeyStyle = .MatchCase
-    public static var dateFormatter: NSDateFormatter = NSDateFormatter.rfc1123DateFormatter()
+    public static var dateFormatter: NSDateFormatter = NSDateFormatter.rfc1123DateFormatter
     public static var keyRedirects: [SerializerRedirect] = [SerializerRedirect]()
     
     /// Returns the properly cased property name for the given serialized key.

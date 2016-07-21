@@ -30,6 +30,7 @@
 		E15444991CE12675004409EA /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15444821CE12674004409EA /* Reusable.swift */; };
 		E154449A1CE12675004409EA /* Storyboarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15444831CE12674004409EA /* Storyboarded.swift */; };
 		E154449B1CE12675004409EA /* UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15444841CE12674004409EA /* UIAlertController.swift */; };
+		E185E32B1D41365500EBD40F /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E185E32A1D41365500EBD40F /* UIImage.swift */; };
 		E187406C1C8D7C8500A7761C /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406B1C8D7C8500A7761C /* CoreDataTests.swift */; };
 		E187406E1C8D8ED300A7761C /* NSNumberFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406D1C8D8ED300A7761C /* NSNumberFormatterTests.swift */; };
 		E18740701C8D932300A7761C /* NSDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406F1C8D932300A7761C /* NSDateTests.swift */; };
@@ -76,6 +77,7 @@
 		E15444821CE12674004409EA /* Reusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		E15444831CE12674004409EA /* Storyboarded.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storyboarded.swift; sourceTree = "<group>"; };
 		E15444841CE12674004409EA /* UIAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController.swift; sourceTree = "<group>"; };
+		E185E32A1D41365500EBD40F /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		E187406B1C8D7C8500A7761C /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		E187406D1C8D8ED300A7761C /* NSNumberFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNumberFormatterTests.swift; sourceTree = "<group>"; };
 		E187406F1C8D932300A7761C /* NSDateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateTests.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				E15444821CE12674004409EA /* Reusable.swift */,
 				E15444831CE12674004409EA /* Storyboarded.swift */,
 				E15444841CE12674004409EA /* UIAlertController.swift */,
+				E185E32A1D41365500EBD40F /* UIImage.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E15444851CE12674004409EA /* CoreData.swift in Sources */,
+				E185E32B1D41365500EBD40F /* UIImage.swift in Sources */,
 				E1A1D5101D22F76A0082793F /* NSManagedObjectContext.swift in Sources */,
 				E154448F1CE12674004409EA /* NSObject.swift in Sources */,
 				E15444861CE12674004409EA /* SerializableManagedObject.swift in Sources */,

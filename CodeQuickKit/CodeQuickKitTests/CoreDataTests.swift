@@ -187,9 +187,9 @@ class CoreDataTests: XCTestCase {
                 guy.name = "Hector"
             }
             
-            }) { (error) in
+            }, withCompletion: { (error) in
                 XCTAssertNil(error)
-        }
+        })
         
         XCTAssertTrue(person.name == "Hector")
         
@@ -197,8 +197,8 @@ class CoreDataTests: XCTestCase {
             if let guy = privateContext.objectWithID(person.objectID) as? Person {
                 privateContext.deleteObject(guy)
             }
-            }) { (error) in
+            }, withCompletion: { (error) in
                 XCTAssertNil(error)
-        }
+        })
     }
 }

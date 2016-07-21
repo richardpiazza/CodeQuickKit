@@ -153,7 +153,7 @@ public class WebAPI {
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = method.rawValue
         request.HTTPBody = data
-        request.setValue(NSDateFormatter.rfc1123DateFormatter().stringFromDate(NSDate()), forHTTPHeaderField: WebAPIHeaderKey.Date)
+        request.setValue(NSDateFormatter.rfc1123DateFormatter.stringFromDate(NSDate()), forHTTPHeaderField: WebAPIHeaderKey.Date)
         request.setValue(WebAPIHeaderValue.ApplicationJson, forHTTPHeaderField: WebAPIHeaderKey.Accept)
         request.setValue(WebAPIHeaderValue.ApplicationJson, forHTTPHeaderField: WebAPIHeaderKey.ContentType)
         

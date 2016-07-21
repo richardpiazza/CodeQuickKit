@@ -119,8 +119,6 @@ class NSDateTests: XCTestCase {
         dateComponents.second = 0
         let date = dateComponents.date!
         
-//        let date = NSCalendar.currentCalendar().dateWithEra(1, year: 1982, month: 11, day: 5, hour: 16, minute: 0, second: 0, nanosecond: 0)!
-        
         guard let d1 = NSDateFormatter.rfc1123Date(fromString: string) else {
             XCTFail()
             return
@@ -130,5 +128,27 @@ class NSDateTests: XCTestCase {
         
         let s1 = NSDateFormatter.rfc1123String(fromDate: date)
         XCTAssertTrue(string == s1)
+    }
+    
+    func testNSDateFormatterStyleFormatters() {
+        let string = "Fri, 05 Nov 1982 08:00:00 GMT"
+        
+        guard let date = NSDateFormatter.rfc1123DateFormatter.dateFromString(string) else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertTrue(NSDateFormatter.shortDateTimeFormatter.stringFromDate(date) == "11/5/82, 8:00 AM")
+        XCTAssertTrue(NSDateFormatter.shortDateOnlyFormatter.stringFromDate(date) == "11/5/82")
+        XCTAssertTrue(NSDateFormatter.shortTimeOnlyFormatter.stringFromDate(date) == "8:00 AM")
+        XCTAssertTrue(NSDateFormatter.mediumDateTimeFormatter.stringFromDate(date) == "Nov 5, 1982, 8:00:00 AM")
+        XCTAssertTrue(NSDateFormatter.mediumDateOnlyFormatter.stringFromDate(date) == "Nov 5, 1982")
+        XCTAssertTrue(NSDateFormatter.mediumTimeOnlyFormatter.stringFromDate(date) == "8:00:00 AM")
+        XCTAssertTrue(NSDateFormatter.longDateTimeFormatter.stringFromDate(date) == "November 5, 1982 at 8:00:00 AM GMT")
+        XCTAssertTrue(NSDateFormatter.longDateOnlyFormatter.stringFromDate(date) == "November 5, 1982")
+        XCTAssertTrue(NSDateFormatter.longTimeOnlyFormatter.stringFromDate(date) == "8:00:00 AM GMT")
+        XCTAssertTrue(NSDateFormatter.fullDateTimeFormatter.stringFromDate(date) == "Friday, November 5, 1982 at 8:00:00 AM GMT")
+        XCTAssertTrue(NSDateFormatter.fullDateOnlyFormatter.stringFromDate(date) == "Friday, November 5, 1982")
+        XCTAssertTrue(NSDateFormatter.fullTimeOnlyFormatter.stringFromDate(date) == "8:00:00 AM GMT")
     }
 }
