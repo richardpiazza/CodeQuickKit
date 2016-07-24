@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-// UIImage.swift
+// UIViewController.swift
 //
 // Copyright (c) 2016 Richard Piazza
 // https://github.com/richardpiazza/CodeQuickKit
@@ -27,38 +27,31 @@
 
 import UIKit
 
-extension UIImage {
-    static func filledImage(withPath path: CGMutablePathRef, color: UIColor, context: CGContextRef?) -> UIImage? {
-        guard let ctx = context else {
-            return nil
+extension UIViewController {
+    /// Animates a title change on the first `UILabel` found in the
+    /// UINavigationController.navigationBar.subviews.
+    func setNavigationTitle(title: String, animationType: String = kCATransitionMoveIn, animationSubtype: String = kCATransitionFromTop, animationDuration: CFTimeInterval = 0.25) {
+        guard let navigationController = self.navigationController else {
+            self.navigationItem.title = title
+            return
         }
         
-        var image: UIImage?
-        
-        CGContextSetLineWidth(ctx, 0)
-        CGContextSetFillColorWithColor(ctx, color.CGColor)
-        CGContextAddPath(ctx, path)
-        CGContextFillPath(ctx)
-        
-        image = UIGraphicsGetImageFromCurrentImageContext()
-        
-        return image
-    }
-    
-    static func strokedImage(withPath path: CGMutablePathRef, color: UIColor, strokeWidth: CGFloat, context: CGContextRef?) -> UIImage? {
-        guard let ctx = context else {
-            return nil
+        guard let titleView = navigationController.navigationBar.subviews.filter({ (view: UIView) -> Bool in
+            return view.subviews.filter({ (subview: UIView) -> Bool in
+                return subview is UILabel
+            }).first != nil
+        }).first else {
+            self.navigationItem.title = title
+            return
         }
         
-        var image: UIImage? = nil
+        let animation = CATransition()
+        animation.duration = animationDuration
+        animation.type = animationType
+        animation.subtype = animationSubtype
         
-        CGContextSetLineWidth(ctx, strokeWidth)
-        CGContextSetStrokeColorWithColor(ctx, color.CGColor)
-        CGContextAddPath(ctx, path)
-        CGContextStrokePath(ctx)
-        
-        image = UIGraphicsGetImageFromCurrentImageContext()
-        
-        return image
+        titleView.layer.addAnimation(animation, forKey: "animateTitle")
+        self.navigationItem.title = title
+        titleView.layer.removeAnimationForKey("animateTitle")
     }
 }
