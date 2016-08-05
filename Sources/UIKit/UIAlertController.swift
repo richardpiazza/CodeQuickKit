@@ -361,7 +361,7 @@ public extension UIAlertController {
         if let viewController = vc {
             viewController.presentViewController(alertController, animated: true, completion: nil)
             
-            if let ppc = viewController.popoverPresentationController {
+            if let ppc = alertController.popoverPresentationController {
                 ppc.barButtonItem = barButtonItem
                 ppc.sourceView = sourceView
                 if sourceView != nil {
