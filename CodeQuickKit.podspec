@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name = "CodeQuickKit"
-  s.version = "2.7.1"
-  s.summary = "An iOS Library simplifying some everyday tasks."
+  s.version = "3.0.0"
+  s.summary = "An Apple Library simplifying some everyday tasks."
   s.description = <<-DESC
   CodeQuickKit is a collection of Swift extensions and classes designed to 
   quicken iOS development. This collection includes (but not limited to): logging, 
@@ -21,13 +21,27 @@ Pod::Spec.new do |s|
   s.author = { "Richard Piazza" => "github@richardpiazza.com" }
   s.social_media_url = 'https://twitter.com/richardpiazza'
 
+  s.osx.frameworks = 'Foundation'
+  s.osx.deployment_target = "10.10"
+  s.osx.source_files = 'Sources/Foundation/*', 'Sources/macOS/*'
+
+  s.ios.frameworks = 'Foundation', 'UIKit'
+  s.ios.deployment_target = "9.1"
+  s.ios.source_files = 'Sources/Foundation/*', 'Sources/iOS/*'
+
+  s.tvos.frameworks = 'Foundation', 'UIKit'
+  s.tvos.deployment_target = "9.1"
+  s.tvos.source_files = 'Sources/Foundation/*', 'Sources/tvOS/*'
+
+  s.watchos.frameworks = 'Foundation'
+  s.watchos.deployment_target = "2.1"
+  s.watchos.source_files = 'Sources/Foundation/*', 'Sources/watchOS/*'
+
   s.source = { :git => "https://github.com/richardpiazza/CodeQuickKit.git", :tag => s.version.to_s }
-  s.platforms = { :ios => '9.1', :tvos => '9.0' }
   s.requires_arc = true
   s.default_subspec = 'iOS'
 
   s.subspec 'Foundation' do |framework|
-    #framework.platform = :ios, '9.1'
     framework.frameworks = 'Foundation'
     framework.source_files = 'Sources/Foundation/*'
   end
@@ -38,22 +52,28 @@ Pod::Spec.new do |s|
     framework.source_files = 'Sources/CoreData/*'
   end
 
-  s.subspec 'UIKit' do |framework|
-    framework.dependency 'CodeQuickKit/Foundation'
-    framework.frameworks = 'UIKit'
-    framework.source_files = 'Sources/UIKit/*'
+  s.subspec 'macOS' do |platform|
+    platform.platform = :osx, '10.10'
+    platform.dependency 'CodeQuickKit/Foundation'
+    #platform.source_files = 'Sources/macOS/*'
   end
 
   s.subspec 'iOS' do |platform|
-    platform.dependency 'CodeQuickKit/UIKit'
     platform.platform = :ios, '9.1'
+    platform.dependency 'CodeQuickKit/Foundation'
     platform.source_files = 'Sources/iOS/*'
   end
 
   s.subspec 'tvOS' do |platform|
-    platform.platform = :tvos, '9.0'
+    platform.platform = :tvos, '9.1'
     platform.dependency 'CodeQuickKit/Foundation'
     #platform.source_files = 'Sources/tvOS/*'
+  end
+
+  s.subspec 'watchOS' do |platform|
+    platform.platform = :watchos, '2.1'
+    platform.dependency 'CodeQuickKit/Foundation'
+    #platform.source_files = 'Sources/watchOS/*'
   end
 
 end

@@ -113,14 +113,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E105B7921D622159004AE5D9 /* watchOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = watchOS;
+			sourceTree = "<group>";
+		};
+		E105B7931D62215F004AE5D9 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
 		E15444681CE12674004409EA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				E15444691CE12674004409EA /* CoreData */,
 				E154446C1CE12674004409EA /* Foundation */,
 				E154447C1CE12674004409EA /* iOS */,
+				E105B7931D62215F004AE5D9 /* macOS */,
 				E154447E1CE12674004409EA /* tvOS */,
 				E154447F1CE12674004409EA /* UIKit */,
+				E105B7921D622159004AE5D9 /* watchOS */,
 			);
 			name = Sources;
 			path = ../Sources;
@@ -161,7 +177,13 @@
 		E154447C1CE12674004409EA /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				E15444801CE12674004409EA /* Downloader+UIKit.swift */,
+				E15444811CE12674004409EA /* NSBundle+UIKit.swift */,
+				E15444821CE12674004409EA /* Reusable.swift */,
+				E15444831CE12674004409EA /* Storyboarded.swift */,
+				E15444841CE12674004409EA /* UIAlertController.swift */,
 				E154447D1CE12674004409EA /* UIPickerView.swift */,
+				E185E32A1D41365500EBD40F /* UIViewController.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -176,12 +198,6 @@
 		E154447F1CE12674004409EA /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				E15444801CE12674004409EA /* Downloader+UIKit.swift */,
-				E15444811CE12674004409EA /* NSBundle+UIKit.swift */,
-				E15444821CE12674004409EA /* Reusable.swift */,
-				E15444831CE12674004409EA /* Storyboarded.swift */,
-				E15444841CE12674004409EA /* UIAlertController.swift */,
-				E185E32A1D41365500EBD40F /* UIViewController.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
