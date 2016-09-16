@@ -8,7 +8,7 @@ class WebAPITests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        api = WebAPI(baseURL: NSURL(string: "http://www.example.com/api"), sessionDelegate: nil)
+        api = WebAPI(baseURL: URL(string: "http://www.example.com/api"), sessionDelegate: nil)
         guard let webApi = api else {
             XCTFail("WebAPI is nil")
             return
@@ -24,7 +24,7 @@ class WebAPITests: XCTestCase {
     }
     
     func testInjectedResponse() {
-        let expectation = expectationWithDescription("Injected Response")
+        let expectation = self.expectation(description: "Injected Response")
         
         api!.get("test", queryItems: nil) { (statusCode, response, responseObject, error) -> Void in
             XCTAssertTrue(statusCode == 200)
@@ -40,7 +40,7 @@ class WebAPITests: XCTestCase {
             expectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(5) { (error: NSError?) -> Void in
+        waitForExpectations(timeout: 5) { (error: NSError?) -> Void in
             if let _ = error {
                 XCTFail()
             }

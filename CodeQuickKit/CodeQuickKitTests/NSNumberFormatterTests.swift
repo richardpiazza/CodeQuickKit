@@ -14,14 +14,14 @@ class NSNumberFormatterTests: XCTestCase {
     }
     
     func testIntegerFormatter() {
-        guard let number = NSNumberFormatter.integer(fromString: "25.5") else {
+        guard let number = NumberFormatter.integer(fromString: "25.5") else {
             XCTFail()
             return
         }
         
         XCTAssertTrue(number == 25)
         
-        guard let string = NSNumberFormatter.string(fromInteger: number) else {
+        guard let string = NumberFormatter.string(fromInteger: number) else {
             XCTFail()
             return
         }
@@ -30,14 +30,14 @@ class NSNumberFormatterTests: XCTestCase {
     }
     
     func testSingleDecimalFormatter() {
-        guard let number = NSNumberFormatter.singleDecimal(fromString: "147.3627") else {
+        guard let number = NumberFormatter.singleDecimal(fromString: "147.3627") else {
             XCTFail()
             return
         }
         
         XCTAssertTrue(number == 147.362701)
         
-        guard let string = NSNumberFormatter.string(fromSingleDecimal: number) else {
+        guard let string = NumberFormatter.string(fromSingleDecimal: number) else {
             XCTFail()
             return
         }
@@ -46,14 +46,14 @@ class NSNumberFormatterTests: XCTestCase {
     }
     
     func testDecimalFormatter() {
-        guard let number = NSNumberFormatter.decimal(fromString: "999") else {
+        guard let number = NumberFormatter.decimal(fromString: "999") else {
             XCTFail()
             return
         }
         
         XCTAssertTrue(number == 999.0)
         
-        guard let string = NSNumberFormatter.string(fromDecimal: number) else {
+        guard let string = NumberFormatter.string(fromDecimal: number) else {
             XCTFail()
             return
         }
@@ -62,16 +62,16 @@ class NSNumberFormatterTests: XCTestCase {
     }
     
     func testCurrencyFormatter() {
-        let currencySymbol = NSNumberFormatter.currencyFormatter().currencySymbol
+        let currencySymbol = NumberFormatter.currencyFormatter().currencySymbol
         
-        guard let number = NSNumberFormatter.currency(fromString: "\(currencySymbol)84.55") else {
+        guard let number = NumberFormatter.currency(fromString: "\(currencySymbol)84.55") else {
             XCTFail()
             return
         }
         
         XCTAssertTrue(number == 84.55)
         
-        guard let string = NSNumberFormatter.string(fromCurrency: number) else {
+        guard let string = NumberFormatter.string(fromCurrency: number) else {
             XCTFail()
             return
         }
@@ -80,16 +80,16 @@ class NSNumberFormatterTests: XCTestCase {
     }
     
     func testPercentFormatter() {
-        let percentSymbol = NSNumberFormatter.percentFormatter().percentSymbol
+        let percentSymbol = NumberFormatter.percentFormatter().percentSymbol
         
-        guard let number = NSNumberFormatter.percent(fromString: "69.75\(percentSymbol)") else {
+        guard let number = NumberFormatter.percent(fromString: "69.75\(percentSymbol)") else {
             XCTFail()
             return
         }
         
         XCTAssertTrue(number == 0.6975)
         
-        guard let string = NSNumberFormatter.string(fromPercent: number) else {
+        guard let string = NumberFormatter.string(fromPercent: number) else {
             XCTFail()
             return
         }

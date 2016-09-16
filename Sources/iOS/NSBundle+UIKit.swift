@@ -27,7 +27,7 @@
 
 import UIKit
 
-public extension NSBundle {
+public extension Bundle {
     /// This call potentially throws an execption that cannot be caught.
     public var launchScreenStoryboard: UIStoryboard? {
         guard let name = launchScreenStoryboardName else {

@@ -27,69 +27,71 @@
 
 import Foundation
 
-public typealias DownloaderDataCompletion = (statusCode: Int, responseData: NSData?, error: NSError?) -> Void
+public typealias DownloaderDataCompletion = (_ statusCode: Int, _ responseData: Data?, _ error: NSError?) -> Void
 
 /// A wrapper for `NSURLSession` similar to `WebAPI` for general purpose
 /// downloading of data and images.
-public class Downloader {
-    private static let twentyFiveMB: Int = (1024 * 1024 * 25)
-    private static let twoHundredMB: Int = (1024 * 1024 * 200)
+open class Downloader {
+    fileprivate static let twentyFiveMB: Int = (1024 * 1024 * 25)
+    fileprivate static let twoHundredMB: Int = (1024 * 1024 * 200)
     
-    private lazy var session: NSURLSession = {
+    fileprivate lazy var session: URLSession = {
         [unowned self] in
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.URLCache = self.cache
-        configuration.requestCachePolicy = .ReturnCacheDataElseLoad
-        return NSURLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
+        let configuration = URLSessionConfiguration.default
+        configuration.urlCache = self.cache
+        configuration.requestCachePolicy = .returnCacheDataElseLoad
+        return URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
     }()
-    private var cache: NSURLCache = NSURLCache(memoryCapacity: Downloader.twentyFiveMB, diskCapacity: Downloader.twoHundredMB, diskPath: "Downloader")
-    public var baseURL: NSURL?
-    public var timeout: NSTimeInterval = 20
+    fileprivate var cache: URLCache = URLCache(memoryCapacity: Downloader.twentyFiveMB, diskCapacity: Downloader.twoHundredMB, diskPath: "Downloader")
+    open var baseURL: URL?
+    open var timeout: TimeInterval = 20
     
     internal lazy var invalidBaseURL: NSError = {
-        let userInfo: [String : AnyObject] = [NSLocalizedDescriptionKey:"Invalid Base URL", NSLocalizedFailureReasonErrorKey:"You can not use a `path` method without specifiying a baseURL."]
+        let userInfo: [String : AnyObject] = [NSLocalizedDescriptionKey:"Invalid Base URL" as AnyObject, NSLocalizedFailureReasonErrorKey:"You can not use a `path` method without specifiying a baseURL." as AnyObject]
         return NSError(domain: "Downloader", code: 0, userInfo: userInfo)
     }()
     
     public init() {
     }
     
-    public convenience init(baseURL: NSURL) {
+    public convenience init(baseURL: URL) {
         self.init()
         self.baseURL = baseURL
     }
     
-    internal func urlForPath(path: String) -> NSURL? {
+    internal func urlForPath(_ path: String) -> URL? {
         guard let baseURL = self.baseURL else {
             return nil
         }
         
-        return baseURL.URLByAppendingPathComponent(path)
+        return baseURL.appendingPathComponent(path)
     }
     
-    public func getDataAtPath(path: String, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderDataCompletion) {
+    open func getDataAtPath(_ path: String, cachePolicy: NSURLRequest.CachePolicy, completion: @escaping DownloaderDataCompletion) {
         guard let url = self.urlForPath(path) else {
-            completion(statusCode: 0, responseData: nil, error: invalidBaseURL)
+            completion(0, nil, invalidBaseURL)
             return
         }
         
         self.getDataAtURL(url, cachePolicy: cachePolicy, completion: completion)
     }
     
-    public func getDataAtURL(url: NSURL, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderDataCompletion) {
-        let request = NSMutableURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: timeout)
-        request.HTTPMethod = "GET"
+    open func getDataAtURL(_ url: URL, cachePolicy: NSURLRequest.CachePolicy, completion: @escaping DownloaderDataCompletion) {
+        let request = NSMutableURLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeout)
+        request.httpMethod = "GET"
         
-        session.dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        let urlRequest: URLRequest = request as URLRequest
+
+        session.dataTask(with: urlRequest, completionHandler: { (data, response, error) -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 guard error == nil else {
-                    completion(statusCode: 0, responseData: data, error: error)
+                    completion(0, data, error as NSError?)
                     return
                 }
                 
-                let httpResponse = response as! NSHTTPURLResponse
-                completion(statusCode: httpResponse.statusCode, responseData: data, error: error)
+                let httpResponse = response as! HTTPURLResponse
+                completion(httpResponse.statusCode, data, error as NSError?)
             })
-        }.resume()
+        }) .resume()
     }
 }

@@ -1,6 +1,26 @@
 import XCTest
 import CoreData
 @testable import CodeQuickKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class Address: SerializableManagedObject {
     @NSManaged var street: String?
@@ -53,31 +73,31 @@ class CoreDataTests: XCTestCase {
         
         let streetAttribute = NSAttributeDescription()
         streetAttribute.name = "street"
-        streetAttribute.attributeType = .StringAttributeType
-        streetAttribute.optional = false
+        streetAttribute.attributeType = .stringAttributeType
+        streetAttribute.isOptional = false
         
         let cityAttribute = NSAttributeDescription()
         cityAttribute.name = "city"
-        cityAttribute.attributeType = .StringAttributeType
-        cityAttribute.optional = false
+        cityAttribute.attributeType = .stringAttributeType
+        cityAttribute.isOptional = false
         
         let addressPerson = NSRelationshipDescription()
         addressPerson.name = "person"
         addressPerson.destinationEntity = personEntity
         addressPerson.minCount = 0
         addressPerson.maxCount = 1
-        addressPerson.deleteRule = .NullifyDeleteRule
+        addressPerson.deleteRule = .nullifyDeleteRule
         
         let nameAttribute = NSAttributeDescription()
         nameAttribute.name = "name"
-        nameAttribute.attributeType = .StringAttributeType
-        nameAttribute.optional = false
+        nameAttribute.attributeType = .stringAttributeType
+        nameAttribute.isOptional = false
         
         let personAddress = NSRelationshipDescription()
         personAddress.name = "addresses"
         personAddress.destinationEntity = addressEntity
         personAddress.minCount = 0
-        personAddress.deleteRule = .CascadeDeleteRule
+        personAddress.deleteRule = .cascadeDeleteRule
         personAddress.inverseRelationship = addressPerson
         addressPerson.inverseRelationship = personAddress
         
@@ -183,7 +203,7 @@ class CoreDataTests: XCTestCase {
         }
         
         moc.mergeChanges(performingBlock: { (privateContext) in
-            if let guy = privateContext.objectWithID(person.objectID) as? Person {
+            if let guy = privateContext.object(with: person.objectID) as? Person {
                 guy.name = "Hector"
             }
             
@@ -194,8 +214,8 @@ class CoreDataTests: XCTestCase {
         XCTAssertTrue(person.name == "Hector")
         
         moc.mergeChanges(performingBlock: { (privateContext) in
-            if let guy = privateContext.objectWithID(person.objectID) as? Person {
-                privateContext.deleteObject(guy)
+            if let guy = privateContext.object(with: person.objectID) as? Person {
+                privateContext.delete(guy)
             }
             }, withCompletion: { (error) in
                 XCTAssertNil(error)

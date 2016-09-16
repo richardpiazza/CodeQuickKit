@@ -31,78 +31,78 @@ import Foundation
 ///
 /// Enum grouping the format options for `NSDateFormatter`s.
 public enum DateFormat {
-    case RFC1123
-    case ShortDateTime
-    case ShortDateOnly
-    case ShortTimeOnly
-    case MediumDateTime
-    case MediumDateOnly
-    case MediumTimeOnly
-    case LongDateTime
-    case LongDateOnly
-    case LongTimeOnly
-    case FullDateTime
-    case FullDateOnly
-    case FullTimeOnly
+    case rfc1123
+    case shortDateTime
+    case shortDateOnly
+    case shortTimeOnly
+    case mediumDateTime
+    case mediumDateOnly
+    case mediumTimeOnly
+    case longDateTime
+    case longDateOnly
+    case longTimeOnly
+    case fullDateTime
+    case fullDateOnly
+    case fullTimeOnly
     
     var dateFormat: String? {
         switch self {
-        case .RFC1123: return "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
+        case .rfc1123: return "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
         default: return nil
         }
     }
     
-    var dateStyle: NSDateFormatterStyle? {
+    var dateStyle: DateFormatter.Style? {
         switch self {
-        case .ShortDateTime, .ShortDateOnly: return .ShortStyle
-        case .MediumDateTime, .MediumDateOnly: return .MediumStyle
-        case .LongDateTime, .LongDateOnly: return .LongStyle
-        case .FullDateTime, .FullDateOnly: return .FullStyle
-        case .ShortTimeOnly, .MediumTimeOnly, .LongTimeOnly, .FullTimeOnly: return .NoStyle
+        case .shortDateTime, .shortDateOnly: return .short
+        case .mediumDateTime, .mediumDateOnly: return .medium
+        case .longDateTime, .longDateOnly: return .long
+        case .fullDateTime, .fullDateOnly: return .full
+        case .shortTimeOnly, .mediumTimeOnly, .longTimeOnly, .fullTimeOnly: return .none
         default: return nil
         }
     }
     
-    var timeStyle: NSDateFormatterStyle? {
+    var timeStyle: DateFormatter.Style? {
         switch self {
-        case .ShortDateTime, .ShortTimeOnly: return .ShortStyle
-        case .MediumDateTime, .MediumTimeOnly: return .MediumStyle
-        case .LongDateTime, .LongTimeOnly: return .LongStyle
-        case .FullDateTime, .FullTimeOnly: return .FullStyle
-        case .ShortDateOnly, .MediumDateOnly, .LongDateOnly, .FullDateOnly: return .NoStyle
+        case .shortDateTime, .shortTimeOnly: return .short
+        case .mediumDateTime, .mediumTimeOnly: return .medium
+        case .longDateTime, .longTimeOnly: return .long
+        case .fullDateTime, .fullTimeOnly: return .full
+        case .shortDateOnly, .mediumDateOnly, .longDateOnly, .fullDateOnly: return .none
         default: return nil
         }
     }
     
-    var locale: NSLocale {
+    var locale: Locale {
         switch self {
-        default: return NSLocale(localeIdentifier: "en_US")
+        default: return Locale(identifier: "en_US")
         }
     }
     
-    var timeZone: NSTimeZone {
+    var timeZone: TimeZone {
         switch self {
-        default: return NSTimeZone(abbreviation: "GMT")!
+        default: return TimeZone(abbreviation: "GMT")!
         }
     }
 }
 
 /// Extension of `NSDateFormatter` adding static access to common formatters.
-public extension NSDateFormatter {
-    private struct common {
-        static let rfc1123DateFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .RFC1123)
-        static let shortDateTimeFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .ShortDateTime)
-        static let shortDateOnlyFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .ShortDateOnly)
-        static let shortTimeOnlyFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .ShortTimeOnly)
-        static let mediumDateTimeFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .MediumDateTime)
-        static let mediumDateOnlyFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .MediumDateOnly)
-        static let mediumTimeOnlyFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .MediumTimeOnly)
-        static let longDateTimeFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .LongDateTime)
-        static let longDateOnlyFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .LongDateOnly)
-        static let longTimeOnlyFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .LongTimeOnly)
-        static let fullDateTimeFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .FullDateTime)
-        static let fullDateOnlyFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .FullDateOnly)
-        static let fullTimeOnlyFormatter: NSDateFormatter = NSDateFormatter(withDateFormat: .FullTimeOnly)
+public extension DateFormatter {
+    fileprivate struct common {
+        static let rfc1123DateFormatter: DateFormatter = DateFormatter(withDateFormat: .rfc1123)
+        static let shortDateTimeFormatter: DateFormatter = DateFormatter(withDateFormat: .shortDateTime)
+        static let shortDateOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .shortDateOnly)
+        static let shortTimeOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .shortTimeOnly)
+        static let mediumDateTimeFormatter: DateFormatter = DateFormatter(withDateFormat: .mediumDateTime)
+        static let mediumDateOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .mediumDateOnly)
+        static let mediumTimeOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .mediumTimeOnly)
+        static let longDateTimeFormatter: DateFormatter = DateFormatter(withDateFormat: .longDateTime)
+        static let longDateOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .longDateOnly)
+        static let longTimeOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .longTimeOnly)
+        static let fullDateTimeFormatter: DateFormatter = DateFormatter(withDateFormat: .fullDateTime)
+        static let fullDateOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .fullDateOnly)
+        static let fullTimeOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .fullTimeOnly)
     }
     
     public convenience init(withDateFormat format: DateFormat) {
@@ -123,87 +123,87 @@ public extension NSDateFormatter {
     /// DateFormatter with the format "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
     ///
     /// ***Example:*** "Fri, 05 Nov 1982 08:00:00 GMT"
-    public static var rfc1123DateFormatter: NSDateFormatter {
+    public static var rfc1123DateFormatter: DateFormatter {
         return common.rfc1123DateFormatter
     }
     
-    public static func rfc1123Date(fromString string: String) -> NSDate? {
-        return common.rfc1123DateFormatter.dateFromString(string)
+    public static func rfc1123Date(fromString string: String) -> Date? {
+        return common.rfc1123DateFormatter.date(from: string)
     }
     
-    public static func rfc1123String(fromDate date: NSDate) -> String {
-        return common.rfc1123DateFormatter.stringFromDate(date)
+    public static func rfc1123String(fromDate date: Date) -> String {
+        return common.rfc1123DateFormatter.string(from: date)
     }
     
     /// Date Formatter using the .ShortStyle for both Date and Time
     /// ***Example:*** "11/5/82, 8:00 AM"
-    public static var shortDateTimeFormatter: NSDateFormatter {
+    public static var shortDateTimeFormatter: DateFormatter {
         return common.shortDateTimeFormatter
     }
     
     /// Date Formatter using the .ShortStyle for Date and .NoStyle for Time
     /// ***Example:*** "11/5/82"
-    public static var shortDateOnlyFormatter: NSDateFormatter {
+    public static var shortDateOnlyFormatter: DateFormatter {
         return common.shortDateOnlyFormatter
     }
     
     /// Date Formatter using the .NoStyle for Date and .ShortStyle for Time
     /// ***Example:*** "8:00 AM"
-    public static var shortTimeOnlyFormatter: NSDateFormatter {
+    public static var shortTimeOnlyFormatter: DateFormatter {
         return common.shortTimeOnlyFormatter
     }
     
     /// Date Formatter using the .MediumStyle for both Date and Time
     /// ***Example:*** "Nov 5, 1982, 8:00:00 AM"
-    public static var mediumDateTimeFormatter: NSDateFormatter {
+    public static var mediumDateTimeFormatter: DateFormatter {
         return common.mediumDateTimeFormatter
     }
     
     /// Date Formatter using the .MediumStyle for Date and .NoStyle for Time
     /// ***Example:*** "Nov 5, 1982"
-    public static var mediumDateOnlyFormatter: NSDateFormatter {
+    public static var mediumDateOnlyFormatter: DateFormatter {
         return common.mediumDateOnlyFormatter
     }
     
     /// Date Formatter using the .NoStyle for Date and .MediumStyle for Time
     /// ***Example:*** "8:00:00 AM"
-    public static var mediumTimeOnlyFormatter: NSDateFormatter {
+    public static var mediumTimeOnlyFormatter: DateFormatter {
         return common.mediumTimeOnlyFormatter
     }
     
     /// Date Formatter using the .LongStyle for both Date and Time
     /// ***Example:*** "November 5, 1982 at 8:00:00 AM GMT"
-    public static var longDateTimeFormatter: NSDateFormatter {
+    public static var longDateTimeFormatter: DateFormatter {
         return common.longDateTimeFormatter
     }
     
     /// Date Formatter using the .LongStyle for Date and .NoStyle for Time
     /// ***Example:*** "November 5, 1982"
-    public static var longDateOnlyFormatter: NSDateFormatter {
+    public static var longDateOnlyFormatter: DateFormatter {
         return common.longDateOnlyFormatter
     }
     
     /// Date Formatter using the .NoStyle for Date and .LongStyle for Time
     /// ***Example:*** "8:00:00 AM GMT"
-    public static var longTimeOnlyFormatter: NSDateFormatter {
+    public static var longTimeOnlyFormatter: DateFormatter {
         return common.longTimeOnlyFormatter
     }
     
     /// Date Formatter using the .FullStyle for both Date and Time
     /// ***Example:*** "Friday, November 5, 1982 at 8:00:00 AM GMT"
-    public static var fullDateTimeFormatter: NSDateFormatter {
+    public static var fullDateTimeFormatter: DateFormatter {
         return common.fullDateTimeFormatter
     }
     
     /// Date Formatter using the .LongStyle for Date and .NoStyle for Time
     /// ***Example:*** "Friday, November 5, 1982"
-    public static var fullDateOnlyFormatter: NSDateFormatter {
+    public static var fullDateOnlyFormatter: DateFormatter {
         return common.fullDateOnlyFormatter
     }
     
     /// Date Formatter using the .NoStyle for Date and .LongStyle for Time
     /// ***Example:*** "8:00:00 AM GMT"
-    public static var fullTimeOnlyFormatter: NSDateFormatter {
+    public static var fullTimeOnlyFormatter: DateFormatter {
         return common.fullTimeOnlyFormatter
     }
 }

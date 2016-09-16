@@ -42,11 +42,11 @@ public protocol Serializable: NSObjectProtocol {
     var dictionary: SerializableDictionary { get }
     
     /// Initialize an instance of the class and pass the referenced data to updateWithData:.
-    init(withData data: NSData?)
+    init(withData data: Data?)
     /// Passes the NSData instance of NSDictionary to updateWithDictionary:.
-    func update(withData data: NSData?)
+    func update(withData data: Data?)
     /// Returns the dictionary representation of the instance as an NSData object.
-    var data: NSData? { get }
+    var data: Data? { get }
     
     /// Initialize an instance of the class and pass the referenced json to updateWithJSON:.
     init(withJSON json: String?)

@@ -32,32 +32,32 @@ public extension NSManagedObjectContext {
     /// Registers a parent `NSManagedObjectContext` in the `NSNotificationCenter`
     /// for watching `NSManagedObjectContextDidSaveNotification` notifications.
     func registerForDidSaveNotification(privateContext context: NSManagedObjectContext) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NSManagedObjectContext.managedObjectContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
+        NotificationCenter.default.addObserver(self, selector: #selector(NSManagedObjectContext.managedObjectContextDidSave(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: context)
     }
     
     /// Unregisterd a parent `NSManagedObjectContext` from notifications.
     func unregisterFromDidSaveNotification(privateContext context: NSManagedObjectContext) {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSManagedObjectContextDidSaveNotification, object: context)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: context)
     }
     
     /// Calls `mergeChangesFromContextDidSaveNotification()` on the `NSManagedObjectContext`
     /// registered in `registerForDidSaveNotification(privateContext:)`
-    dynamic func managedObjectContextDidSave(notification: NSNotification) {
-        self.mergeChangesFromContextDidSaveNotification(notification)
+    dynamic func managedObjectContextDidSave(_ notification: Notification) {
+        self.mergeChanges(fromContextDidSave: notification)
     }
     
     /// Executes a set of operations on a secondary `NSManagedObjectContext`.
     /// The changes are merged into the calling `NSManagedObjectContext` and a `save()` is triggered.
-    func mergeChanges(performingBlock block: (privateContext: NSManagedObjectContext) -> Void, savingWithCompletion completion: (error: NSError?) -> Void) {
+    func mergeChanges(performingBlock block: @escaping (_ privateContext: NSManagedObjectContext) -> Void, savingWithCompletion completion: (_ error: NSError?) -> Void) {
         var e: NSError? = nil
         
-        let privateContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-        privateContext.parentContext = self
+        let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        privateContext.parent = self
         
         self.registerForDidSaveNotification(privateContext: privateContext)
         
-        privateContext.performBlockAndWait {
-            block(privateContext: privateContext)
+        privateContext.performAndWait {
+            block(privateContext)
             
             do {
                 try privateContext.save()
@@ -74,22 +74,22 @@ public extension NSManagedObjectContext {
             e = error as NSError
         }
         
-        completion(error: e)
+        completion(e)
     }
     
     /// Executes a set of operations on a secondary `NSManagedObjectContext`.
     /// The changes are merged into the calling `NSManagedObjectContext`.
     /// - note: a `save()` is not triggered on the calling context.
-    func mergeChanges(performingBlock block: (privateContext: NSManagedObjectContext) -> Void, withCompletion completion: (error: NSError?) -> Void) {
+    func mergeChanges(performingBlock block: @escaping (_ privateContext: NSManagedObjectContext) -> Void, withCompletion completion: (_ error: NSError?) -> Void) {
         var e: NSError? = nil
         
-        let privateContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-        privateContext.parentContext = self
+        let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        privateContext.parent = self
         
         self.registerForDidSaveNotification(privateContext: privateContext)
         
-        privateContext.performBlockAndWait { 
-            block(privateContext: privateContext)
+        privateContext.performAndWait { 
+            block(privateContext)
             
             do {
                 try privateContext.save()
@@ -100,6 +100,6 @@ public extension NSManagedObjectContext {
         
         self.unregisterFromDidSaveNotification(privateContext: privateContext)
         
-        completion(error: e)
+        completion(e)
     }
 }

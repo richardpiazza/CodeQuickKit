@@ -27,20 +27,20 @@
 
 import Foundation
 
-public typealias MetadataQueryResults = [String : NSDate]
+public typealias MetadataQueryResults = [String : Date]
 
 public extension NSMetadataQuery {
     var nonHiddenDocuments: MetadataQueryResults {
         var documents = MetadataQueryResults()
         
         for item in results {
-            guard let url = item.valueForAttribute(NSMetadataItemURLKey) as? NSURL else {
+            guard let url = (item as AnyObject).value(forAttribute: NSMetadataItemURLKey) as? URL else {
                 continue
             }
             
-            var fileDate: NSDate? = item.valueForAttribute(NSMetadataItemFSContentChangeDateKey) as? NSDate
+            var fileDate: Date? = (item as AnyObject).value(forAttribute: NSMetadataItemFSContentChangeDateKey) as? Date
             if fileDate == nil {
-                fileDate = item.valueForAttribute(NSMetadataItemFSCreationDateKey) as? NSDate
+                fileDate = (item as AnyObject).value(forAttribute: NSMetadataItemFSCreationDateKey) as? Date
             }
             
             guard let date = fileDate else {
@@ -49,13 +49,13 @@ public extension NSMetadataQuery {
             
             var isHidden: AnyObject?
             do {
-                try url.getResourceValue(&isHidden, forKey: NSURLIsHiddenKey)
+                try (url as NSURL).getResourceValue(&isHidden, forKey: URLResourceKey.isHiddenKey)
             } catch {
-                Logger.error((error as NSError), message: "", callingClass: self.dynamicType)
+                Logger.error((error as NSError), message: "", callingClass: type(of: self))
                 continue
             }
             
-            guard let isHiddenNumber = isHidden as? NSNumber where isHiddenNumber.boolValue == false else {
+            guard let isHiddenNumber = isHidden as? NSNumber , isHiddenNumber.boolValue == false else {
                 continue
             }
             

@@ -30,7 +30,7 @@ import UIKit
 extension UIViewController {
     /// Animates a title change on the first `UILabel` found in the
     /// UINavigationController.navigationBar.subviews.
-    func setNavigationTitle(title: String, animationType: String = kCATransitionMoveIn, animationSubtype: String = kCATransitionFromTop, animationDuration: CFTimeInterval = 0.25) {
+    func setNavigationTitle(_ title: String, animationType: String = kCATransitionMoveIn, animationSubtype: String = kCATransitionFromTop, animationDuration: CFTimeInterval = 0.25) {
         guard let navigationController = self.navigationController else {
             self.navigationItem.title = title
             return
@@ -50,8 +50,8 @@ extension UIViewController {
         animation.type = animationType
         animation.subtype = animationSubtype
         
-        titleView.layer.addAnimation(animation, forKey: "animateTitle")
+        titleView.layer.add(animation, forKey: "animateTitle")
         self.navigationItem.title = title
-        titleView.layer.removeAnimationForKey("animateTitle")
+        titleView.layer.removeAnimation(forKey: "animateTitle")
     }
 }

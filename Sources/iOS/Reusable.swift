@@ -33,12 +33,12 @@ public protocol Reusable {
 
 extension UITableViewCell: Reusable {
     public class func reuseIdentifier() -> String {
-        return String(self)
+        return String(describing: self)
     }
 }
 
 extension UICollectionReusableView: Reusable {
     public class func reuseIdentifier() -> String {
-        return String(self)
+        return String(describing: self)
     }
 }

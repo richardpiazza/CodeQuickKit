@@ -27,28 +27,28 @@
 
 import UIKit
 
-public typealias DownloaderImageCompletion = (statusCode: Int, responseImage: UIImage?, error: NSError?) -> Void
+public typealias DownloaderImageCompletion = (_ statusCode: Int, _ responseImage: UIImage?, _ error: NSError?) -> Void
 
 /// A wrapper for `NSURLSession` similar to `WebAPI` for general purpose
 /// downloading of data and images.
 public extension Downloader {
-    public func getImageAtPath(path: String, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderImageCompletion) {
+    public func getImageAtPath(_ path: String, cachePolicy: NSURLRequest.CachePolicy, completion: @escaping DownloaderImageCompletion) {
         guard let url = self.urlForPath(path) else {
-            completion(statusCode: 0, responseImage: nil, error: invalidBaseURL)
+            completion(0, nil, invalidBaseURL)
             return
         }
         
         self.getImageAtURL(url, cachePolicy: cachePolicy, completion: completion)
     }
     
-    public func getImageAtURL(url: NSURL, cachePolicy: NSURLRequestCachePolicy, completion: DownloaderImageCompletion) {
+    public func getImageAtURL(_ url: URL, cachePolicy: NSURLRequest.CachePolicy, completion: @escaping DownloaderImageCompletion) {
         self.getDataAtURL(url, cachePolicy: cachePolicy) { (statusCode, responseData, error) -> Void in
             var image: UIImage?
             if responseData != nil {
                 image = UIImage(data: responseData!)
             }
             
-            completion(statusCode: statusCode, responseImage: image, error: error)
+            completion(statusCode, image, error)
         }
     }
 }

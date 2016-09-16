@@ -28,50 +28,50 @@
 import Foundation
 
 public enum NumberFormat {
-    case Integer
-    case SingleDecimal
-    case Decimal
-    case Currency
-    case Percent
+    case integer
+    case singleDecimal
+    case decimal
+    case currency
+    case percent
     
-    var numberStyle: NSNumberFormatterStyle {
+    var numberStyle: NumberFormatter.Style {
         switch self {
-        case .Currency: return .CurrencyStyle
-        case .Percent: return .PercentStyle
-        default: return .DecimalStyle
+        case .currency: return .currency
+        case .percent: return .percent
+        default: return .decimal
         }
     }
     
     var minimumFractionDigits: Int {
         switch self {
-        case .Percent: return 1
+        case .percent: return 1
         default: return 0
         }
     }
     
     var maximumFractionDigits: Int {
         switch self {
-        case .Integer: return 0
-        case .SingleDecimal: return 1
-        case .Decimal, .Currency: return 2
-        case .Percent: return 4
+        case .integer: return 0
+        case .singleDecimal: return 1
+        case .decimal, .currency: return 2
+        case .percent: return 4
         }
     }
     
-    var locale: NSLocale {
+    var locale: Locale {
         switch self {
-        default: return NSLocale.currentLocale()
+        default: return Locale.current
         }
     }
 }
 
-public extension NSNumberFormatter {
-    private struct common {
-        static let integerFormatter = NSNumberFormatter(withNumberFormat: .Integer)
-        static let singleDecimalFormatter = NSNumberFormatter(withNumberFormat: .SingleDecimal)
-        static let decimalFormatter = NSNumberFormatter(withNumberFormat: .Decimal)
-        static let currencyFormatter = NSNumberFormatter(withNumberFormat: .Currency)
-        static let percentFormatter = NSNumberFormatter(withNumberFormat: .Percent)
+public extension NumberFormatter {
+    fileprivate struct common {
+        static let integerFormatter = NumberFormatter(withNumberFormat: .integer)
+        static let singleDecimalFormatter = NumberFormatter(withNumberFormat: .singleDecimal)
+        static let decimalFormatter = NumberFormatter(withNumberFormat: .decimal)
+        static let currencyFormatter = NumberFormatter(withNumberFormat: .currency)
+        static let percentFormatter = NumberFormatter(withNumberFormat: .percent)
     }
     
     public convenience init(withNumberFormat format: NumberFormat) {
@@ -85,74 +85,74 @@ public extension NSNumberFormatter {
     /// An NSNumberFormatter for whole integers.
     /// Uses the NSNumberFormatterDecimalStyle with MaximumFractionDigits set to
     /// 0 (zero).
-    public static func integerFormatter() -> NSNumberFormatter {
+    public static func integerFormatter() -> NumberFormatter {
         return common.integerFormatter
     }
     
     public static func integer(fromString string: String) -> Int? {
-        return common.integerFormatter.numberFromString(string)?.integerValue
+        return common.integerFormatter.number(from: string)?.intValue
     }
     
     public static func string(fromInteger number: Int) -> String? {
-        return common.integerFormatter.stringFromNumber(number)
+        return common.integerFormatter.string(from: NSNumber(value: number))
     }
     
     /// An NSNumberFormatter for whole integers.
     /// Uses the NSNumberFormatterDecimalStyle with MaximumFractionDigits set to
     /// 1 (one).
-    public static func singleDecimalFormatter() -> NSNumberFormatter {
+    public static func singleDecimalFormatter() -> NumberFormatter {
         return common.singleDecimalFormatter
     }
     
     public static func singleDecimal(fromString string: String) -> Float? {
-        return common.singleDecimalFormatter.numberFromString(string)?.floatValue
+        return common.singleDecimalFormatter.number(from: string)?.floatValue
     }
     
     public static func string(fromSingleDecimal number: Float) -> String? {
-        return common.singleDecimalFormatter.stringFromNumber(number)
+        return common.singleDecimalFormatter.string(from: NSNumber(value: number))
     }
     
     /// An NSNumberFormatter for whole integers.
     /// Uses the NSNumberFormatterDecimalStyle with MaximumFractionDigits set to
     /// 2 (two).
-    public static func decimalFormatter() -> NSNumberFormatter {
+    public static func decimalFormatter() -> NumberFormatter {
         return common.decimalFormatter
     }
     
     public static func decimal(fromString string: String) -> Float? {
-        return common.decimalFormatter.numberFromString(string)?.floatValue
+        return common.decimalFormatter.number(from: string)?.floatValue
     }
     
     public static func string(fromDecimal number: Float) -> String? {
-        return common.decimalFormatter.stringFromNumber(number)
+        return common.decimalFormatter.string(from: NSNumber(value: number))
     }
     
     /// An NSNumberFormatter for whole integers.
     /// Uses the NSNumberFormatterCurrencyStyle.
-    public static func currencyFormatter() -> NSNumberFormatter {
+    public static func currencyFormatter() -> NumberFormatter {
         return common.currencyFormatter
     }
     
     public static func currency(fromString string: String) -> Float? {
-        return common.currencyFormatter.numberFromString(string)?.floatValue
+        return common.currencyFormatter.number(from: string)?.floatValue
     }
     
     public static func string(fromCurrency number: Float) -> String? {
-        return common.currencyFormatter.stringFromNumber(number)
+        return common.currencyFormatter.string(from: NSNumber(value: number))
     }
     
     /// An NSNumberFormatter for whole integers.
     /// Uses the NSNumberFormatterPercentStyle with MinimumFractionDigits set to
     /// 1 (one) and MaximumFractionDigits set to 3 (three).
-    public static func percentFormatter() -> NSNumberFormatter {
+    public static func percentFormatter() -> NumberFormatter {
         return common.percentFormatter
     }
     
     public static func percent(fromString string: String) -> Float? {
-        return common.percentFormatter.numberFromString(string)?.floatValue
+        return common.percentFormatter.number(from: string)?.floatValue
     }
     
     public static func string(fromPercent number: Float) -> String? {
-        return common.percentFormatter.stringFromNumber(number)
+        return common.percentFormatter.string(from: NSNumber(value: number))
     }
 }

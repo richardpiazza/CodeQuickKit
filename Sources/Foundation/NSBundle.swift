@@ -28,22 +28,22 @@
 import Foundation
 
 public enum BundleConfiguration {
-    case Debug
-    case TestFlight
-    case AppStore
+    case debug
+    case testFlight
+    case appStore
     
     public var description: String {
         switch self {
-        case .Debug: return "Debug"
-        case .TestFlight: return "TestFlight"
-        case .AppStore: return "App Store"
+        case .debug: return "Debug"
+        case .testFlight: return "TestFlight"
+        case .appStore: return "App Store"
         }
     }
 }
 
 /// Extension on NSBundle that provides first level property access to common bundle items.
 /// Also provides methods for determining class names in other modules.
-public extension NSBundle {
+public extension Bundle {
     
     public struct Keys {
         static let BundleName = "CFBundleName"
@@ -56,22 +56,18 @@ public extension NSBundle {
         static let MainStoryboard = "UIMainStoryboardFile"
     }
     
-    public var bundleName: String? { return self.objectForInfoDictionaryKey(Keys.BundleName) as? String }
-    public var bundleDisplayName: String? { return self.objectForInfoDictionaryKey(Keys.BundleDisplayName) as? String }
-    public var executableName: String? { return self.objectForInfoDictionaryKey(Keys.BundleExecutableName) as? String }
-    public var appVersion: String? { return self.objectForInfoDictionaryKey(Keys.AppVersion) as? String }
-    public var buildNumber: String? { return self.objectForInfoDictionaryKey(Keys.BuildNumber) as? String }
-    public var launchScreenStoryboardName: String? { return self.objectForInfoDictionaryKey(Keys.LaunchScreen) as? String }
-    public var mainStoryboardName: String? { return self.objectForInfoDictionaryKey(Keys.MainStoryboard) as? String }
+    public var bundleName: String? { return self.object(forInfoDictionaryKey: Keys.BundleName) as? String }
+    public var bundleDisplayName: String? { return self.object(forInfoDictionaryKey: Keys.BundleDisplayName) as? String }
+    public var executableName: String? { return self.object(forInfoDictionaryKey: Keys.BundleExecutableName) as? String }
+    public var appVersion: String? { return self.object(forInfoDictionaryKey: Keys.AppVersion) as? String }
+    public var buildNumber: String? { return self.object(forInfoDictionaryKey: Keys.BuildNumber) as? String }
+    public var launchScreenStoryboardName: String? { return self.object(forInfoDictionaryKey: Keys.LaunchScreen) as? String }
+    public var mainStoryboardName: String? { return self.object(forInfoDictionaryKey: Keys.MainStoryboard) as? String }
     
     public var isSandboxReceipt: Bool { return appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" }
     
     public var configuration: BundleConfiguration {
-        return (isSandboxReceipt) ? .TestFlight : .AppStore
-    }
-    
-    override var description: String {
-        return "Bundle: \(dictionary)"
+        return (isSandboxReceipt) ? .testFlight : .appStore
     }
     
     public var dictionary: [String : String] {
@@ -88,9 +84,9 @@ public extension NSBundle {
         ]
     }
     
-    public var data: NSData? {
+    public var data: Data? {
         do {
-            return try NSJSONSerialization.dataWithJSONObject(dictionary, options: .PrettyPrinted)
+            return try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
         } catch {
             print(error)
             return nil
@@ -107,7 +103,7 @@ public extension NSBundle {
         }
         
         if let prefix = bundleDisplayName {
-            let underscored = prefix.stringByReplacingOccurrencesOfString(" " , withString: "_")
+            let underscored = prefix.replacingOccurrences(of: " " , with: "_")
             moduleClass = NSClassFromString("\(underscored).\(classNamed)")
             if moduleClass != nil && moduleClass != NSNull.self {
                 return moduleClass!
@@ -115,7 +111,7 @@ public extension NSBundle {
         }
         
         if let prefix = bundleName {
-            let underscored = prefix.stringByReplacingOccurrencesOfString(" " , withString: "_")
+            let underscored = prefix.replacingOccurrences(of: " " , with: "_")
             moduleClass = NSClassFromString("\(underscored).\(classNamed)")
             if moduleClass != nil && moduleClass != NSNull.self {
                 return moduleClass!
@@ -132,13 +128,13 @@ public extension NSBundle {
             return moduleClass!
         }
         
-        let firstRange = classNamed.startIndex..<classNamed.startIndex.advancedBy(1)
-        let endRange = classNamed.endIndex.advancedBy(-1)..<classNamed.endIndex
+        let firstRange = classNamed.startIndex..<classNamed.characters.index(classNamed.startIndex, offsetBy: 1)
+        let endRange = classNamed.characters.index(classNamed.endIndex, offsetBy: -1)..<classNamed.endIndex
         
         var singular = classNamed
-        singular.replaceRange(firstRange, with: singular.substringWithRange(firstRange).uppercaseString)
-        if singular.lowercaseString.hasSuffix("s") {
-            singular.replaceRange(endRange, with: "")
+        singular.replaceSubrange(firstRange, with: singular.substring(with: firstRange).uppercased())
+        if singular.lowercased().hasSuffix("s") {
+            singular.replaceSubrange(endRange, with: "")
         }
         
         moduleClass = self.moduleClass(forClassNamed: singular)

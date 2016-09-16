@@ -29,14 +29,14 @@ import Foundation
 
 public extension NSObject {
     /// Returns a probable Obj-C setter for the specified property name.
-    public func setterForPropertyName(propertyName: String) -> Selector? {
-        guard propertyName.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 else {
+    public func setterForPropertyName(_ propertyName: String) -> Selector? {
+        guard propertyName.lengthOfBytes(using: String.Encoding.utf8) > 0 else {
             return nil
         }
         
-        let range = propertyName.startIndex..<propertyName.startIndex.advancedBy(1)
-        let character = propertyName.substringWithRange(range).uppercaseString
-        let setter = propertyName.stringByReplacingCharactersInRange(range, withString: character)
+        let range = propertyName.startIndex..<propertyName.characters.index(propertyName.startIndex, offsetBy: 1)
+        let character = propertyName.substring(with: range).uppercased()
+        let setter = propertyName.replacingCharacters(in: range, with: character)
         
         return NSSelectorFromString("set\(setter):")
     }
@@ -46,6 +46,6 @@ public extension NSObject {
             return false
         }
         
-        return respondsToSelector(selector)
+        return responds(to: selector)
     }
 }

@@ -34,30 +34,30 @@ public struct UbiquityDocuments {
     var addedDocumentPaths: [String]?
 }
 
-public typealias UbiquityDocumentsCompletion = (documents: UbiquityDocuments?, error: NSError?) -> Void
+public typealias UbiquityDocumentsCompletion = (_ documents: UbiquityDocuments?, _ error: NSError?) -> Void
 
-public class DocumentsUbiquityContainer: UbiquityContainer {
+open class DocumentsUbiquityContainer: UbiquityContainer {
     public struct Keys {
         static let documents = "Documents"
     }
     
-    override public var directory: NSURL? {
+    override open var directory: URL? {
         didSet {
             guard let d = directory else {
                 documentsDirectory = nil
                 return
             }
             
-            documentsDirectory = d.URLByAppendingPathComponent(DocumentsUbiquityContainer.Keys.documents)
+            documentsDirectory = d.appendingPathComponent(DocumentsUbiquityContainer.Keys.documents)
         }
     }
-    var documentsDirectory: NSURL?
+    var documentsDirectory: URL?
     var documentPaths: [String] = [String]()
-    var documentTimestamps: [String : NSDate] = [String : NSDate]()
+    var documentTimestamps: [String : Date] = [String : Date]()
     var documentQuery: NSMetadataQuery?
     var documentsCompletion: UbiquityDocumentsCompletion?
     
-    @objc func nsMetadataQueryDidFinishGathering(notification: NSNotification) {
+    @objc func nsMetadataQueryDidFinishGathering(_ notification: Notification) {
         guard let documentQuery = self.documentQuery else {
             return
         }
@@ -69,19 +69,19 @@ public class DocumentsUbiquityContainer: UbiquityContainer {
         let nonHiddenDocuments = documentQuery.nonHiddenDocuments
         for (path, date) in nonHiddenDocuments {
             documentPaths.append(path)
-            documentTimestamps[path] = date
+            documentTimestamps[path] = date as Date
         }
         
         if let completion = documentsCompletion {
             var documents = UbiquityDocuments()
             documents.documentPaths = documentPaths
-            completion(documents: documents, error: nil)
+            completion(documents, nil)
         }
         
         documentQuery.enableUpdates()
     }
     
-    @objc func nsMetadataQueryDidUpdate(notification: NSNotification) {
+    @objc func nsMetadataQueryDidUpdate(_ notification: Notification) {
         guard let documentQuery = self.documentQuery else {
             return
         }
@@ -106,24 +106,24 @@ public class DocumentsUbiquityContainer: UbiquityContainer {
             guard found else {
                 addedDocuments.append(path)
                 documentPaths.append(path)
-                documentTimestamps[path] = date
+                documentTimestamps[path] = date as Date
                 continue
             }
             
             guard let modifiedDate = documentTimestamps[path] else {
                 modifiedDocuments.append(path)
-                documentTimestamps[path] = date
+                documentTimestamps[path] = date as Date
                 continue
             }
             
-            if modifiedDate == date {
+            if modifiedDate == date as Date {
                 unmodifiedDocuments.append(path)
             } else {
                 modifiedDocuments.append(path)
             }
         }
         
-        for (index, documentPath) in documentPaths.reverse().enumerate() {
+        for (index, documentPath) in documentPaths.reversed().enumerated() {
             var found = false
             
             for (path, _) in nonHiddenDocuments {
@@ -138,22 +138,22 @@ public class DocumentsUbiquityContainer: UbiquityContainer {
             
             removedDocuments.append(documentPath)
             documentTimestamps[documentPath] = nil
-            documentPaths.removeAtIndex(index)
+            documentPaths.remove(at: index)
         }
         
         if let completion = documentsCompletion {
             let documents = UbiquityDocuments(documentPaths: unmodifiedDocuments, modifiedDocumentPaths: modifiedDocuments, removedDocumentPaths: removedDocuments, addedDocumentPaths: addedDocuments)
-            completion(documents: documents, error: nil)
+            completion(documents, nil)
         }
         
         documentQuery.enableUpdates()
     }
     
-    public func ubiquityDocuments(withExtension ext: String?, completion: UbiquityDocumentsCompletion) {
+    open func ubiquityDocuments(withExtension ext: String?, completion: @escaping UbiquityDocumentsCompletion) {
         endUbiquityDocumentsQuery()
         
-        guard ubiquityState == .Available else {
-            completion(documents: nil, error: UbiquityState.invalidUbiquityState)
+        guard ubiquityState == .available else {
+            completion(nil, UbiquityState.invalidUbiquityState)
             return
         }
         
@@ -177,49 +177,49 @@ public class DocumentsUbiquityContainer: UbiquityContainer {
         }
         
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DocumentsUbiquityContainer.nsMetadataQueryDidFinishGathering(_:)), name: NSMetadataQueryDidFinishGatheringNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DocumentsUbiquityContainer.nsMetadataQueryDidUpdate(_:)), name: NSMetadataQueryDidUpdateNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DocumentsUbiquityContainer.nsMetadataQueryDidFinishGathering(_:)), name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DocumentsUbiquityContainer.nsMetadataQueryDidUpdate(_:)), name: NSNotification.Name.NSMetadataQueryDidUpdate, object: nil)
         
-        documentQuery.startQuery()
+        documentQuery.start()
     }
     
-    public func endUbiquityDocumentsQuery() {
+    open func endUbiquityDocumentsQuery() {
         guard let documentQuery = self.documentQuery else {
             return
         }
         
-        documentQuery.stopQuery()
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSMetadataQueryDidFinishGatheringNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSMetadataQueryDidUpdateNotification, object: nil)
+        documentQuery.stop()
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSMetadataQueryDidUpdate, object: nil)
         self.documentQuery = nil
     }
 }
 
-public extension NSFileManager {
+public extension FileManager {
     
-    public var sandboxDirectory: NSURL? {
+    public var sandboxDirectory: URL? {
         guard let directory = self.sandboxDocumentsDirectory else {
             return nil
         }
         
-        return directory.URLByDeletingLastPathComponent
+        return directory.deletingLastPathComponent()
     }
     
-    public var sandboxDocumentsDirectory: NSURL? {
-        let searchPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+    public var sandboxDocumentsDirectory: URL? {
+        let searchPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         guard let path = searchPath.last else {
             return nil
         }
         
-        return NSURL(fileURLWithPath: path)
+        return URL(fileURLWithPath: path)
     }
     
-    public func sandboxDocuments(withExtension ext: String?) -> [NSURL] {
+    public func sandboxDocuments(withExtension ext: String?) -> [URL] {
         return self.sandboxDocuments(atPath: nil, withExtension: ext)
     }
     
-    public func sandboxDocuments(atPath path: String?, withExtension ext: String?) -> [NSURL] {
-        var urls: [NSURL] = [NSURL]()
+    public func sandboxDocuments(atPath path: String?, withExtension ext: String?) -> [URL] {
+        var urls: [URL] = [URL]()
         
         guard let documentsURL = self.sandboxDocumentsDirectory else {
             return urls
@@ -227,12 +227,12 @@ public extension NSFileManager {
         
         var documentsDirectory = documentsURL
         if let pathComponent = path {
-            documentsDirectory = documentsURL.URLByAppendingPathComponent(pathComponent)
+            documentsDirectory = documentsURL.appendingPathComponent(pathComponent)
         }
         
-        var allDocuments: [NSURL]?
+        var allDocuments: [URL]?
         do {
-            allDocuments = try NSFileManager.defaultManager().contentsOfDirectoryAtURL(documentsDirectory, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions.SkipsHiddenFiles)
+            allDocuments = try FileManager.default.contentsOfDirectory(at: documentsDirectory, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions.skipsHiddenFiles)
         } catch {
             Logger.error((error as NSError), message: "contentsOfDirectoryAtURL failed")
             return urls
@@ -243,11 +243,11 @@ public extension NSFileManager {
         }
         
         guard ext != nil && ext != "" else {
-            urls.appendContentsOf(allDocuments!)
+            urls.append(contentsOf: allDocuments!)
             return urls
         }
         
-        let pathExtension = (ext!.hasPrefix(".")) ? ext!.substringFromIndex(ext!.startIndex.advancedBy(1)) : ext!
+        let pathExtension = (ext!.hasPrefix(".")) ? ext!.substring(from: ext!.characters.index(ext!.startIndex, offsetBy: 1)) : ext!
         
         for doc in allDocuments! {
             if doc.pathExtension == pathExtension {

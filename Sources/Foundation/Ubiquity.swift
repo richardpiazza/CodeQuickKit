@@ -28,84 +28,84 @@
 import Foundation
 
 public enum UbiquityState {
-    case Disabled
-    case DeviceOnly
-    case Available
+    case disabled
+    case deviceOnly
+    case available
     
     var description: String {
         switch self {
-        case .Disabled: return "Disabled"
-        case .DeviceOnly: return "Device Only"
-        case .Available: return "Available"
+        case .disabled: return "Disabled"
+        case .deviceOnly: return "Device Only"
+        case .available: return "Available"
         }
     }
     
     var longDescription: String {
         switch self {
-        case .Disabled: return "iCloud is not enabled on this device."
-        case .DeviceOnly: return "iCloud is enabled, but the application container does not exist."
-        case .Available: return "iCloud is enabled, and the application container is ready."
+        case .disabled: return "iCloud is not enabled on this device."
+        case .deviceOnly: return "iCloud is enabled, but the application container does not exist."
+        case .available: return "iCloud is enabled, and the application container is ready."
         }
     }
     
     static var invalidUbiquityState: NSError {
         var userInfo = [String : AnyObject]()
-        userInfo[NSLocalizedDescriptionKey] = "Invalid ubiquity state."
-        userInfo[NSLocalizedFailureReasonErrorKey] = "This application does not have access to a valid iCloud ubiquity container."
-        userInfo[NSLocalizedRecoverySuggestionErrorKey] = "Log into iCloud and initialize the ubiquity container."
-        return NSError(domain: String(self), code: 0, userInfo: userInfo)
+        userInfo[NSLocalizedDescriptionKey] = "Invalid ubiquity state." as AnyObject?
+        userInfo[NSLocalizedFailureReasonErrorKey] = "This application does not have access to a valid iCloud ubiquity container." as AnyObject?
+        userInfo[NSLocalizedRecoverySuggestionErrorKey] = "Log into iCloud and initialize the ubiquity container." as AnyObject?
+        return NSError(domain: String(describing: self), code: 0, userInfo: userInfo)
     }
 }
 
 public protocol UbiquityContainerDelegate {
-    func ubiquityStateDidChange(oldState: UbiquityState, newState: UbiquityState)
+    func ubiquityStateDidChange(_ oldState: UbiquityState, newState: UbiquityState)
 }
 
-public class UbiquityContainer: UbiquityContainerDelegate {
-    public static let defaultContainer: UbiquityContainer = UbiquityContainer()
+open class UbiquityContainer: UbiquityContainerDelegate {
+    open static let defaultContainer: UbiquityContainer = UbiquityContainer()
     
-    public internal(set) var identifier: String?
-    public internal(set) var directory: NSURL?
-    public internal(set) var ubiquityIdentityToken = NSFileManager.defaultManager().ubiquityIdentityToken
-    public var delegate: UbiquityContainerDelegate?
+    open internal(set) var identifier: String?
+    open internal(set) var directory: URL?
+    open internal(set) var ubiquityIdentityToken = FileManager.default.ubiquityIdentityToken
+    open var delegate: UbiquityContainerDelegate?
     
-    public var ubiquityState: UbiquityState {
+    open var ubiquityState: UbiquityState {
         guard let _ = ubiquityIdentityToken else {
-            return .Disabled
+            return .disabled
         }
         
         guard let _ = directory else {
-            return .DeviceOnly
+            return .deviceOnly
         }
         
-        return .Available
+        return .available
     }
     
     public init(identifier: String? = nil, delegate: UbiquityContainerDelegate? = nil) {
-        Logger.verbose("\(#function)", callingClass: self.dynamicType)
+        Logger.verbose("\(#function)", callingClass: type(of: self))
         self.identifier = identifier
         self.delegate = delegate != nil ? delegate : self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UbiquityContainer.ubiquityIdentityDidChange(_:)), name: NSUbiquityIdentityDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UbiquityContainer.ubiquityIdentityDidChange(_:)), name: NSNotification.Name.NSUbiquityIdentityDidChange, object: nil)
         
         let oldState = ubiquityState
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { 
-            self.directory = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier(identifier)
+        DispatchQueue.global(qos: .default).async { 
+            self.directory = FileManager.default.url(forUbiquityContainerIdentifier: identifier)
             let newState = self.ubiquityState
             
             if let delegate = self.delegate {
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     delegate.ubiquityStateDidChange(oldState, newState: newState)
                 })
             }
         }
     }
     
-    @objc private func ubiquityIdentityDidChange(notification: NSNotification) {
-        Logger.verbose("\(#function)", callingClass: self.dynamicType)
+    @objc fileprivate func ubiquityIdentityDidChange(_ notification: Notification) {
+        Logger.verbose("\(#function)", callingClass: type(of: self))
         let oldState = ubiquityState
-        self.ubiquityIdentityToken = NSFileManager.defaultManager().ubiquityIdentityToken
+        self.ubiquityIdentityToken = FileManager.default.ubiquityIdentityToken
         let newState = ubiquityState
         
         if let delegate = self.delegate {
@@ -113,7 +113,7 @@ public class UbiquityContainer: UbiquityContainerDelegate {
         }
     }
     
-    public func ubiquityStateDidChange(oldState: UbiquityState, newState: UbiquityState) {
-        Logger.verbose("Ubiquity State did change from '\(oldState.description)' to '\(newState.description)'", callingClass: self.dynamicType)
+    open func ubiquityStateDidChange(_ oldState: UbiquityState, newState: UbiquityState) {
+        Logger.verbose("Ubiquity State did change from '\(oldState.description)' to '\(newState.description)'", callingClass: type(of: self))
     }
 }

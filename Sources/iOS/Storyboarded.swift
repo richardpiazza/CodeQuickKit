@@ -28,14 +28,14 @@
 import UIKit
 
 public protocol Storyboarded {
-    static func bundle() -> NSBundle
+    static func bundle() -> Bundle
     static func storyboard() -> UIStoryboard
     static func storyboardIdentifier() -> String
 }
 
 extension UIViewController: Storyboarded {
-    public class func bundle() -> NSBundle {
-        return NSBundle(forClass: self)
+    public class func bundle() -> Bundle {
+        return Bundle(for: self)
     }
     
     public class func storyboard() -> UIStoryboard {
@@ -48,7 +48,7 @@ extension UIViewController: Storyboarded {
     }
     
     public class func storyboardIdentifier() -> String {
-        return String(self)
+        return String(describing: self)
     }
 }
 
@@ -56,6 +56,6 @@ public extension UIStoryboard {
     /// Instantiates a UIViewController for the provided `Storyboarded` class
     /// This call potentially throws an execption that cannot be caught.
     public func instantiateViewController<T: Storyboarded>(forClass viewControllerClass: T.Type) -> T {
-        return self.instantiateViewControllerWithIdentifier(viewControllerClass.storyboardIdentifier()) as! T
+        return self.instantiateViewController(withIdentifier: viewControllerClass.storyboardIdentifier()) as! T
     }
 }

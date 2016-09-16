@@ -27,13 +27,13 @@
 
 import Foundation
 
-public class SerializableObject: NSObject, Serializable {
+open class SerializableObject: NSObject, Serializable {
     public override init() {
         super.init()
         setDefaults()
     }
     
-    public func setDefaults() {
+    open func setDefaults() {
         
     }
     
@@ -42,7 +42,7 @@ public class SerializableObject: NSObject, Serializable {
         update(withDictionary: dictionary)
     }
     
-    public func update(withDictionary dictionary: SerializableDictionary?) {
+    open func update(withDictionary dictionary: SerializableDictionary?) {
         guard let d = dictionary else {
             return
         }
@@ -68,16 +68,16 @@ public class SerializableObject: NSObject, Serializable {
         }
     }
     
-    public var dictionary: SerializableDictionary {
+    open var dictionary: SerializableDictionary {
         var d: SerializableDictionary = SerializableDictionary()
         
-        let propertyNames = Serializer.propertyNamesForClass(self.dynamicType)
+        let propertyNames = Serializer.propertyNamesForClass(type(of: self))
         for propertyName in propertyNames {
             guard let serializedKey = serializedKey(forPropertyName: propertyName) else {
                 continue
             }
             
-            guard let value = valueForKey(propertyName) as? NSObject where !(value is NSNull.Type)  else {
+            guard let value = value(forKey: propertyName) as? NSObject , !(value is NSNull.Type)  else {
                 continue
             }
             
@@ -91,32 +91,32 @@ public class SerializableObject: NSObject, Serializable {
         return d
     }
     
-    public required convenience init(withData data: NSData?) {
+    public required convenience init(withData data: Data?) {
         self.init()
         update(withData: data)
     }
     
-    public func update(withData data: NSData?) {
+    open func update(withData data: Data?) {
         guard let d = data else {
             return
         }
         
         do {
-            if let dictionary = try NSJSONSerialization.JSONObjectWithData(d, options: .MutableContainers) as? SerializableDictionary {
+            if let dictionary = try JSONSerialization.jsonObject(with: d, options: .mutableContainers) as? SerializableDictionary {
                 update(withDictionary: dictionary)
             }
         } catch {
-            let e = error as! NSError
+            let e = error as NSError
             Logger.error(e, message: "Failed update(withData:); \(d)")
         }
     }
     
-    public var data: NSData? {
+    open var data: Data? {
         let d = dictionary
         do {
-            return try NSJSONSerialization.dataWithJSONObject(d, options: .PrettyPrinted)
+            return try JSONSerialization.data(withJSONObject: d, options: .prettyPrinted)
         } catch {
-            let e = error as! NSError
+            let e = error as NSError
             Logger.error(e, message: "Failed data; \(d)")
         }
         
@@ -128,12 +128,12 @@ public class SerializableObject: NSObject, Serializable {
         update(withJSON: json)
     }
     
-    public func update(withJSON json: String?) {
+    open func update(withJSON json: String?) {
         guard let j = json else {
             return
         }
         
-        guard let data = j.dataUsingEncoding(NSUTF8StringEncoding) else {
+        guard let data = j.data(using: String.Encoding.utf8) else {
             Logger.error(nil, message: "Failed update(withJSON:); \(j)")
             return
         }
@@ -141,28 +141,28 @@ public class SerializableObject: NSObject, Serializable {
         update(withData: data)
     }
     
-    public var json: String? {
+    open var json: String? {
         guard let d = data else {
             return nil
         }
         
-        guard let s = String(data: d, encoding: NSUTF8StringEncoding) else {
+        guard let s = String(data: d, encoding: String.Encoding.utf8) else {
             return nil
         }
         
         return Serializer.stringByRemovingPrettyJSONFormatting(forString: s)
     }
     
-    public func propertyName(forSerializedKey serializedKey: String) -> String? {
+    open func propertyName(forSerializedKey serializedKey: String) -> String? {
         return Serializer.propertyName(forSerializedKey: serializedKey)
     }
     
-    public func serializedKey(forPropertyName propertyName: String) -> String? {
+    open func serializedKey(forPropertyName propertyName: String) -> String? {
         return Serializer.serializedKey(forPropertyName: propertyName)
     }
     
-    public func initializedObject(forPropertyName propertyName: String, withData data: NSObject) -> NSObject? {
-        let propertyClass: AnyClass = Serializer.classForPropertyName(propertyName, ofClass: self.dynamicType)
+    open func initializedObject(forPropertyName propertyName: String, withData data: NSObject) -> NSObject? {
+        let propertyClass: AnyClass = Serializer.classForPropertyName(propertyName, ofClass: type(of: self))
         if propertyClass is NSNull.Type {
             return nil
         }
@@ -197,53 +197,53 @@ public class SerializableObject: NSObject, Serializable {
                     }
                 }
             } else if propertyClass is NSDictionary.Type {
-                return dictionary
+                return dictionary as NSObject?
             }
         }
         
-        return Serializer.initializedObject(forPropertyName: propertyName, ofClass: self.dynamicType, withData: data)
+        return Serializer.initializedObject(forPropertyName: propertyName, ofClass: type(of: self), withData: data)
     }
     
-    public func serializedObject(forPropertyName propertyName: String, withData data: NSObject) -> NSObject? {
+    open func serializedObject(forPropertyName propertyName: String, withData data: NSObject) -> NSObject? {
         if let arrayData = data as? Array<NSObject> {
             var serializedArray = [NSObject]()
             for object in arrayData {
                 if let serializableData = object as? Serializable {
-                    serializedArray.append(serializableData.dictionary)
+                    serializedArray.append(serializableData.dictionary as NSObject)
                 } else if let serializedObject = serializedObject(forPropertyName: propertyName, withData: object) {
                     serializedArray.append(serializedObject)
                 }
             }
-            return serializedArray
+            return serializedArray as NSObject?
         } else if let setData = data as? Set<NSObject> {
             var serializedSet = [NSObject]()
             for object in setData {
                 if let serializedData = object as? Serializable {
-                    serializedSet.append(serializedData.dictionary)
+                    serializedSet.append(serializedData.dictionary as NSObject)
                 } else if let serializedObject = serializedObject(forPropertyName: propertyName, withData: object) {
                     serializedSet.append(serializedObject)
                 }
             }
-            return serializedSet
+            return serializedSet as NSObject?
         } else if let serializableData = data as? Serializable {
-            return serializableData.dictionary
+            return serializableData.dictionary as NSObject?
         }
         
         return Serializer.serializedObject(forPropertyName: propertyName, withData: data)
     }
     
-    public func objectClassOfCollectionType(forPropertyname propertyName: String) -> AnyClass? {
-        return NSBundle(forClass: self.dynamicType).singularizedModuleClass(forClassNamed: propertyName)
+    open func objectClassOfCollectionType(forPropertyname propertyName: String) -> AnyClass? {
+        return Bundle(for: type(of: self)).singularizedModuleClass(forClassNamed: propertyName)
     }
     
-    private func setValue(value: SerializableDictionary, forPropertyName propertyName: String) {
-        if let initializedObject = initializedObject(forPropertyName: propertyName, withData: value) {
+    fileprivate func setValue(_ value: SerializableDictionary, forPropertyName propertyName: String) {
+        if let initializedObject = initializedObject(forPropertyName: propertyName, withData: value as NSObject) {
             setValue(initializedObject, forKey: propertyName)
         }
     }
     
-    private func setValue(value: [NSObject], forPropertyName propertyName: String) {
-        let propertyClass: AnyClass = Serializer.classForPropertyName(propertyName, ofClass: self.dynamicType)
+    fileprivate func setValue(_ value: [NSObject], forPropertyName propertyName: String) {
+        let propertyClass: AnyClass = Serializer.classForPropertyName(propertyName, ofClass: type(of: self))
         guard !(propertyClass is NSNull.Type) else {
             return
         }
@@ -258,8 +258,8 @@ public class SerializableObject: NSObject, Serializable {
         setValue(initializedArray, forKey: propertyName)
     }
     
-    private func setValue(value: Set<NSObject>, forPropertyName propertyName: String) {
-        let propertyClass: AnyClass = Serializer.classForPropertyName(propertyName, ofClass: self.dynamicType)
+    fileprivate func setValue(_ value: Set<NSObject>, forPropertyName propertyName: String) {
+        let propertyClass: AnyClass = Serializer.classForPropertyName(propertyName, ofClass: type(of: self))
         guard !(propertyClass is NSNull.Type) else {
             return
         }
@@ -274,7 +274,7 @@ public class SerializableObject: NSObject, Serializable {
         setValue(initializedSet, forKey: propertyName)
     }
     
-    private func setValue(value: NSObject, forPropertyName propertyName: String) {
+    fileprivate func setValue(_ value: NSObject, forPropertyName propertyName: String) {
         if let initializedObject = initializedObject(forPropertyName: propertyName, withData: value) {
             setValue(initializedObject, forKey: propertyName)
         }
@@ -286,7 +286,7 @@ public extension Serializable {
         return self.init(withDictionary: dictionary)
     }
     
-    static func initializeSerializable(withData data: NSData?) -> Self {
+    static func initializeSerializable(withData data: Data?) -> Self {
         return self.init(withData: data)
     }
     

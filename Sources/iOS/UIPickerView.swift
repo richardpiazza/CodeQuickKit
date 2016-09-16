@@ -29,7 +29,7 @@ import UIKit
 
 extension UIPickerView {
     
-    private class Manager: PickerViewControllerDelegate {
+    fileprivate class Manager: PickerViewControllerDelegate {
         var pickerViewController: PickerViewController = PickerViewController()
         var presentingView: UIView?
         
@@ -49,51 +49,51 @@ extension UIPickerView {
             }
         }
         
-        func present(fromView: UIView, withTitle title: String?, configuration: UIPickerViewConfigurationBlock) {
+        func present(_ fromView: UIView, withTitle title: String?, configuration: UIPickerViewConfigurationBlock) {
             presentingView = fromView
             pickerViewController.toolbarTitle.title = title ?? ""
-            configuration(pickerView: pickerViewController.picker)
+            configuration(pickerViewController.picker)
             
             pickerViewController.view.frame = offScreenFrame()
             fromView.addSubview(pickerViewController.view)
-            UIView.animateWithDuration(0.5) { 
+            UIView.animate(withDuration: 0.5, animations: { 
                 self.pickerViewController.view.frame = self.onScreenFrame()
-            }
+            }) 
             
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(Manager.uiKeyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(Manager.uiKeyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         }
         
         func resign() {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
             
-            UIView.animateWithDuration(0.4, animations: { 
+            UIView.animate(withDuration: 0.4, animations: { 
                 self.pickerViewController.view.frame = self.offScreenFrame()
-            }) { (complete: Bool) in
+            }, completion: { (complete: Bool) in
                 self.pickerViewController.view.removeFromSuperview()
                 self.presentingView = nil
-            }
+            }) 
         }
         
-        @objc private func uiKeyboardWillShow(notification: NSNotification) {
+        @objc fileprivate func uiKeyboardWillShow(_ notification: Notification) {
             
         }
         
-        private func didTapCancelOnPickerViewController(pickerViewController: PickerViewController) {
+        fileprivate func didTapCancelOnPickerViewController(_ pickerViewController: PickerViewController) {
             resign()
         }
         
-        private func didTapDoneOnPickerViewController(pickerViewController: PickerViewController) {
+        fileprivate func didTapDoneOnPickerViewController(_ pickerViewController: PickerViewController) {
             resign()
         }
     }
     
-    private static var manager = Manager()
+    fileprivate static var manager = Manager()
     
-    static func present(fromView: UIView, withTitle title: String?, configuration: UIPickerViewConfigurationBlock) {
+    static func present(_ fromView: UIView, withTitle title: String?, configuration: UIPickerViewConfigurationBlock) {
         manager.present(fromView, withTitle: title, configuration: configuration)
     }
     
-    static func present(fromView: UIView, withTitle title: String?, options: [String], selectedIndex: Int?, selectionHandler: UIPickerViewSelectionHandler) {
+    static func present(_ fromView: UIView, withTitle title: String?, options: [String], selectedIndex: Int?, selectionHandler: UIPickerViewSelectionHandler) {
         
     }
     
@@ -102,12 +102,12 @@ extension UIPickerView {
     }
 }
 
-public typealias UIPickerViewConfigurationBlock = (pickerView: UIPickerView) -> Void
-public typealias UIPickerViewSelectionHandler = (pickerView: UIPickerView, selectedItem: String, index: Int) -> Void
+public typealias UIPickerViewConfigurationBlock = (_ pickerView: UIPickerView) -> Void
+public typealias UIPickerViewSelectionHandler = (_ pickerView: UIPickerView, _ selectedItem: String, _ index: Int) -> Void
 
 internal protocol PickerViewControllerDelegate {
-    func didTapCancelOnPickerViewController(pickerViewController: PickerViewController)
-    func didTapDoneOnPickerViewController(pickerViewController: PickerViewController)
+    func didTapCancelOnPickerViewController(_ pickerViewController: PickerViewController)
+    func didTapDoneOnPickerViewController(_ pickerViewController: PickerViewController)
 }
 
 internal class PickerViewController: UIViewController {
@@ -116,18 +116,18 @@ internal class PickerViewController: UIViewController {
     static let defaultViewHeight: CGFloat = 260.0
     static let defaultViewWidth: CGFloat = 320.0
     
-    private var flex = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
-    private var toolbarTitle = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-    private lazy var cancel: UIBarButtonItem = {
+    fileprivate var flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    fileprivate var toolbarTitle = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    fileprivate lazy var cancel: UIBarButtonItem = {
         [unowned self] in
-        return UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: #selector(PickerViewController.didTapDone(_:)))
+        return UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(PickerViewController.didTapDone(_:)))
         }()
-    private lazy var done: UIBarButtonItem = {
+    fileprivate lazy var done: UIBarButtonItem = {
         [unowned self] in
-        return UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(PickerViewController.didTapDone(_:)))
+        return UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(PickerViewController.didTapDone(_:)))
         }()
-    private lazy var fixed: UIBarButtonItem = {
-        let barButton = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+    fileprivate lazy var fixed: UIBarButtonItem = {
+        let barButton = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         barButton.width = 8.0
         return barButton
     }()
@@ -142,42 +142,42 @@ internal class PickerViewController: UIViewController {
     
     override func loadView() {
         self.view = UIView(frame: CGRect(x: 0, y: 0, width: PickerViewController.defaultViewWidth, height: PickerViewController.defaultViewHeight))
-        view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clear
         
-        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
+        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
         blurView.translatesAutoresizingMaskIntoConstraints = false
         blurView.frame = view.bounds
         view.addSubview(blurView)
         
-        view.addConstraint(NSLayoutConstraint(item: blurView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: blurView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: blurView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: blurView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: blurView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: blurView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: blurView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: blurView, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: 0.0))
         
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: PickerViewController.defaultViewWidth, height: PickerViewController.defaultToolbarHeight))
         toolbar.setItems([fixed, cancel, flex, toolbarTitle, flex, done, fixed], animated: false)
         toolbar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(toolbar)
         
-        toolbar.addConstraint(NSLayoutConstraint(item: toolbar, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: PickerViewController.defaultToolbarHeight))
-        view.addConstraint(NSLayoutConstraint(item: toolbar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: toolbar, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: toolbar, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1.0, constant: 0.0))
+        toolbar.addConstraint(NSLayoutConstraint(item: toolbar, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: PickerViewController.defaultToolbarHeight))
+        view.addConstraint(NSLayoutConstraint(item: toolbar, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: toolbar, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: toolbar, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: 0.0))
         
         view.addSubview(picker)
-        picker.addConstraint(NSLayoutConstraint(item: picker, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: PickerViewController.defaultPickerHeight))
-        view.addConstraint(NSLayoutConstraint(item: picker, attribute: .Top, relatedBy: .Equal, toItem: toolbar, attribute: .Bottom, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: picker, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: picker, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1.0, constant: 0.0))
+        picker.addConstraint(NSLayoutConstraint(item: picker, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: PickerViewController.defaultPickerHeight))
+        view.addConstraint(NSLayoutConstraint(item: picker, attribute: .top, relatedBy: .equal, toItem: toolbar, attribute: .bottom, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: picker, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: picker, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: 0.0))
     }
     
-    @objc func didTapCancel(sender: UIBarButtonItem) {
+    @objc func didTapCancel(_ sender: UIBarButtonItem) {
         if let delegate = self.delegate {
             delegate.didTapCancelOnPickerViewController(self)
         }
     }
     
-    @objc func didTapDone(sender: UIBarButtonItem) {
+    @objc func didTapDone(_ sender: UIBarButtonItem) {
         if let delegate = self.delegate {
             delegate.didTapDoneOnPickerViewController(self)
         }

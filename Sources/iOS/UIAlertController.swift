@@ -27,39 +27,39 @@
 
 import UIKit
 
-public typealias DefaultAlertCompletion = (selectedAction: String?, wasCanceled: Bool) -> Void
-public typealias TextAlertCompletion = (selectedAction: String?, wasCanceled: Bool, enteredText: String?) -> Void
-public typealias CredentialAlertCompletion = (selectedAction: String?, wasCanceled: Bool, enteredCredentials: NSURLCredential?) -> Void
+public typealias DefaultAlertCompletion = (_ selectedAction: String?, _ wasCanceled: Bool) -> Void
+public typealias TextAlertCompletion = (_ selectedAction: String?, _ wasCanceled: Bool, _ enteredText: String?) -> Void
+public typealias CredentialAlertCompletion = (_ selectedAction: String?, _ wasCanceled: Bool, _ enteredCredentials: URLCredential?) -> Void
 
 /// Extension allowing for a single callback.
 public extension UIAlertController {
     
-    private struct Manager {
+    fileprivate struct Manager {
         var alertController: UIAlertController?
         var cancelAction: String?
         var defaultCompletion: DefaultAlertCompletion?
         var textCompletion: TextAlertCompletion?
         var credentialCompletion: CredentialAlertCompletion?
         
-        private mutating func dismiss() {
+        fileprivate mutating func dismiss() {
             guard let alert = alertController else {
                 return
             }
             
-            alert.dismissViewControllerAnimated(true, completion: nil)
+            alert.dismiss(animated: true, completion: nil)
             
             if let completion = defaultCompletion {
-                completion(selectedAction: cancelAction, wasCanceled: true)
+                completion(cancelAction, true)
             } else if let completion = textCompletion {
-                completion(selectedAction: cancelAction, wasCanceled: true, enteredText: nil)
+                completion(cancelAction, true, nil)
             } else if let completion = credentialCompletion {
-                completion(selectedAction: cancelAction, wasCanceled: true, enteredCredentials: nil)
+                completion(cancelAction, true, nil)
             }
             
             reset()
         }
         
-        private mutating func reset() {
+        fileprivate mutating func reset() {
             defaultCompletion = nil
             textCompletion = nil
             credentialCompletion = nil
@@ -68,7 +68,7 @@ public extension UIAlertController {
         }
     }
     
-    private static var manager = Manager()
+    fileprivate static var manager = Manager()
     
     public static func reset() {
         manager.reset()
@@ -80,13 +80,13 @@ public extension UIAlertController {
         
         var vc = vc
         if vc == nil {
-            vc = UIApplication.sharedApplication().delegate?.window??.rootViewController
+            vc = UIApplication.shared.delegate?.window??.rootViewController
         }
         
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         manager.cancelAction = action
         
-        let cancelAlertAction = UIAlertAction(title: action, style: .Default) { (alertAction: UIAlertAction) -> Void in
+        let cancelAlertAction = UIAlertAction(title: action, style: .default) { (alertAction: UIAlertAction) -> Void in
             manager.reset()
         }
         
@@ -95,29 +95,29 @@ public extension UIAlertController {
         manager.alertController = alertController
         
         if let viewController = vc {
-            viewController.presentViewController(alertController, animated: true, completion: nil)
+            viewController.present(alertController, animated: true, completion: nil)
         } else {
             manager.dismiss()
         }
     }
     
     /// A configurable `.Default` alert
-    public static func alert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, cancelAction: String?, destructiveAction: String?, otherActions: [String]?, completion: DefaultAlertCompletion) {
+    public static func alert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, cancelAction: String?, destructiveAction: String?, otherActions: [String]?, completion: @escaping DefaultAlertCompletion) {
         manager.dismiss()
         
         var vc = vc
         if vc == nil {
-            vc = UIApplication.sharedApplication().delegate?.window??.rootViewController
+            vc = UIApplication.shared.delegate?.window??.rootViewController
         }
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         if cancelAction != nil {
             manager.cancelAction = cancelAction
             manager.defaultCompletion = completion
             
-            let cancelAlertAction = UIAlertAction(title: cancelAction, style: .Default, handler: { (UIAlertAction) -> Void in
-                completion(selectedAction: cancelAction, wasCanceled: true)
+            let cancelAlertAction = UIAlertAction(title: cancelAction, style: .default, handler: { (UIAlertAction) -> Void in
+                completion(cancelAction, true)
                 manager.reset()
             })
             
@@ -125,8 +125,8 @@ public extension UIAlertController {
         }
         
         if destructiveAction != nil {
-            let destroyAlertAction = UIAlertAction(title: destructiveAction, style: .Destructive, handler: { (UIAlertAction) -> Void in
-                completion(selectedAction: destructiveAction, wasCanceled: false)
+            let destroyAlertAction = UIAlertAction(title: destructiveAction, style: .destructive, handler: { (UIAlertAction) -> Void in
+                completion(destructiveAction, false)
                 manager.reset()
             })
             
@@ -135,8 +135,8 @@ public extension UIAlertController {
         
         if let otherActions = otherActions {
             for action in otherActions {
-                let alertAction = UIAlertAction(title: action, style: .Default, handler: { (UIAlertAction) -> Void in
-                    completion(selectedAction: action, wasCanceled: false)
+                let alertAction = UIAlertAction(title: action, style: .default, handler: { (UIAlertAction) -> Void in
+                    completion(action, false)
                     manager.reset()
                 })
                 
@@ -147,29 +147,29 @@ public extension UIAlertController {
         manager.alertController = alertController
         
         if let viewController = vc {
-            viewController.presentViewController(alertController, animated: true, completion: nil)
+            viewController.present(alertController, animated: true, completion: nil)
         } else {
             manager.dismiss()
         }
     }
     
     /// A configurable `.Default` style alert with a single `UITextField`
-    public static func textAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialText: String?, cancelAction: String?, otherActions: [String]?, completion: TextAlertCompletion) {
+    public static func textAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialText: String?, cancelAction: String?, otherActions: [String]?, completion: @escaping TextAlertCompletion) {
         manager.dismiss()
         
         var vc = vc
         if vc == nil {
-            vc = UIApplication.sharedApplication().delegate?.window??.rootViewController
+            vc = UIApplication.shared.delegate?.window??.rootViewController
         }
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         if cancelAction != nil {
             manager.cancelAction = cancelAction
             manager.textCompletion = completion
             
-            let cancelAlertAction = UIAlertAction(title: cancelAction, style: .Default, handler: { (UIAlertAction) -> Void in
-                completion(selectedAction: cancelAction, wasCanceled: true, enteredText: nil)
+            let cancelAlertAction = UIAlertAction(title: cancelAction, style: .default, handler: { (UIAlertAction) -> Void in
+                completion(cancelAction, true, nil)
                 manager.reset()
             })
             
@@ -178,9 +178,9 @@ public extension UIAlertController {
         
         if let otherActions = otherActions {
             for action in otherActions {
-                let alertAction = UIAlertAction(title: action, style: .Default, handler: { (UIAlertAction) -> Void in
+                let alertAction = UIAlertAction(title: action, style: .default, handler: { (UIAlertAction) -> Void in
                     let enteredText = alertController.textFields?.first?.text
-                    completion(selectedAction: action, wasCanceled: false, enteredText: enteredText)
+                    completion(action, false, enteredText)
                     manager.reset()
                 })
                 
@@ -188,36 +188,36 @@ public extension UIAlertController {
             }
         }
         
-        alertController.addTextFieldWithConfigurationHandler { (textField: UITextField) -> Void in
+        alertController.addTextField { (textField: UITextField) -> Void in
             textField.text = initialText
         }
         
         manager.alertController = alertController
         
         if let viewController = vc {
-            viewController.presentViewController(alertController, animated: true, completion: nil)
+            viewController.present(alertController, animated: true, completion: nil)
         } else {
             manager.dismiss()
         }
     }
     
     /// A configurable `.Default` style alert with a single secure `UITextField`
-    public static func secureAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialText: String?, cancelAction: String?, otherActions: [String]?, completion: TextAlertCompletion) {
+    public static func secureAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialText: String?, cancelAction: String?, otherActions: [String]?, completion: @escaping TextAlertCompletion) {
         manager.dismiss()
         
         var vc = vc
         if vc == nil {
-            vc = UIApplication.sharedApplication().delegate?.window??.rootViewController
+            vc = UIApplication.shared.delegate?.window??.rootViewController
         }
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         if cancelAction != nil {
             manager.cancelAction = cancelAction
             manager.textCompletion = completion
             
-            let cancelAlertAction = UIAlertAction(title: cancelAction, style: .Default, handler: { (UIAlertAction) -> Void in
-                completion(selectedAction: cancelAction, wasCanceled: true, enteredText: nil)
+            let cancelAlertAction = UIAlertAction(title: cancelAction, style: .default, handler: { (UIAlertAction) -> Void in
+                completion(cancelAction, true, nil)
                 manager.reset()
             })
             
@@ -226,9 +226,9 @@ public extension UIAlertController {
         
         if let otherActions = otherActions {
             for action in otherActions {
-                let alertAction = UIAlertAction(title: action, style: .Default, handler: { (UIAlertAction) -> Void in
+                let alertAction = UIAlertAction(title: action, style: .default, handler: { (UIAlertAction) -> Void in
                     let enteredText = alertController.textFields?.first?.text
-                    completion(selectedAction: action, wasCanceled: false, enteredText: enteredText)
+                    completion(action, false, enteredText)
                     manager.reset()
                 })
                 
@@ -236,15 +236,15 @@ public extension UIAlertController {
             }
         }
         
-        alertController.addTextFieldWithConfigurationHandler { (textField: UITextField) -> Void in
+        alertController.addTextField { (textField: UITextField) -> Void in
             textField.text = initialText
-            textField.secureTextEntry = true
+            textField.isSecureTextEntry = true
         }
         
         manager.alertController = alertController
         
         if let viewController = vc {
-            viewController.presentViewController(alertController, animated: true, completion: nil)
+            viewController.present(alertController, animated: true, completion: nil)
         } else {
             manager.dismiss()
         }
@@ -252,22 +252,22 @@ public extension UIAlertController {
     
     /// A configurable `.Default` style alert with two `UITextField`s, the 
     /// second of which is secure
-    public static func credentialAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialCredentials: NSURLCredential?, cancelAction: String?, otherActions: [String]?, completion: CredentialAlertCompletion) {
+    public static func credentialAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialCredentials: URLCredential?, cancelAction: String?, otherActions: [String]?, completion: @escaping CredentialAlertCompletion) {
         manager.dismiss()
         
         var vc = vc
         if vc == nil {
-            vc = UIApplication.sharedApplication().delegate?.window??.rootViewController
+            vc = UIApplication.shared.delegate?.window??.rootViewController
         }
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         if cancelAction != nil {
             manager.cancelAction = cancelAction
             manager.credentialCompletion = completion
             
-            let cancelAlertAction = UIAlertAction(title: cancelAction, style: .Default, handler: { (UIAlertAction) -> Void in
-                completion(selectedAction: cancelAction, wasCanceled: true, enteredCredentials: nil)
+            let cancelAlertAction = UIAlertAction(title: cancelAction, style: .default, handler: { (UIAlertAction) -> Void in
+                completion(cancelAction, true, nil)
                 manager.reset()
             })
             
@@ -276,7 +276,7 @@ public extension UIAlertController {
         
         if let otherActions = otherActions {
             for action in otherActions {
-                let alertAction = UIAlertAction(title: action, style: .Default, handler: { (UIAlertAction) -> Void in
+                let alertAction = UIAlertAction(title: action, style: .default, handler: { (UIAlertAction) -> Void in
                     var enteredUsername = ""
                     if let text = alertController.textFields?.first?.text {
                         enteredUsername = text
@@ -285,8 +285,8 @@ public extension UIAlertController {
                     if let text = alertController.textFields?.last?.text {
                         enteredPassword = text
                     }
-                    let enteredCredentials = NSURLCredential(user: enteredUsername, password: enteredPassword, persistence: .None)
-                    completion(selectedAction: action, wasCanceled: false, enteredCredentials: enteredCredentials)
+                    let enteredCredentials = URLCredential(user: enteredUsername, password: enteredPassword, persistence: .none)
+                    completion(action, false, enteredCredentials)
                     manager.reset()
                 })
                 
@@ -294,19 +294,19 @@ public extension UIAlertController {
             }
         }
         
-        alertController.addTextFieldWithConfigurationHandler { (textField: UITextField) -> Void in
+        alertController.addTextField { (textField: UITextField) -> Void in
             textField.text = initialCredentials?.user
         }
         
-        alertController.addTextFieldWithConfigurationHandler { (textField: UITextField) -> Void in
+        alertController.addTextField { (textField: UITextField) -> Void in
             textField.text = initialCredentials?.password
-            textField.secureTextEntry = true
+            textField.isSecureTextEntry = true
         }
         
         manager.alertController = alertController
         
         if let viewController = vc {
-            viewController.presentViewController(alertController, animated: true, completion: nil)
+            viewController.present(alertController, animated: true, completion: nil)
         } else {
             manager.dismiss()
         }
@@ -314,22 +314,22 @@ public extension UIAlertController {
     
     /// A configurable `.ActionSheet` style alert presented from the 
     /// `viewController` or `sourceView` on Regular horizontal size classes
-    public static func sheet(presentedFrom vc: UIViewController?, withBarButtonItem barButtonItem: UIBarButtonItem?, orSourceView sourceView: UIView?, title: String?, message: String?, cancelAction: String?, destructiveAction: String?, otherActions: [String]?, completion: DefaultAlertCompletion) {
+    public static func sheet(presentedFrom vc: UIViewController?, withBarButtonItem barButtonItem: UIBarButtonItem?, orSourceView sourceView: UIView?, title: String?, message: String?, cancelAction: String?, destructiveAction: String?, otherActions: [String]?, completion: @escaping DefaultAlertCompletion) {
         manager.dismiss()
         
         var vc = vc
         if vc == nil {
-            vc = UIApplication.sharedApplication().delegate?.window??.rootViewController
+            vc = UIApplication.shared.delegate?.window??.rootViewController
         }
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .ActionSheet)
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         
         if cancelAction != nil {
             manager.cancelAction = cancelAction
             manager.defaultCompletion = completion
             
-            let cancelAlertAction = UIAlertAction(title: cancelAction, style: .Default, handler: { (UIAlertAction) -> Void in
-                completion(selectedAction: cancelAction, wasCanceled: true)
+            let cancelAlertAction = UIAlertAction(title: cancelAction, style: .default, handler: { (UIAlertAction) -> Void in
+                completion(cancelAction, true)
                 manager.reset()
             })
             
@@ -337,8 +337,8 @@ public extension UIAlertController {
         }
         
         if destructiveAction != nil {
-            let destroyAlertAction = UIAlertAction(title: destructiveAction, style: .Destructive, handler: { (UIAlertAction) -> Void in
-                completion(selectedAction: destructiveAction, wasCanceled: false)
+            let destroyAlertAction = UIAlertAction(title: destructiveAction, style: .destructive, handler: { (UIAlertAction) -> Void in
+                completion(destructiveAction, false)
                 manager.reset()
             })
             
@@ -347,8 +347,8 @@ public extension UIAlertController {
         
         if let otherActions = otherActions {
             for action in otherActions {
-                let alertAction = UIAlertAction(title: action, style: .Default, handler: { (UIAlertAction) -> Void in
-                    completion(selectedAction: action, wasCanceled: false)
+                let alertAction = UIAlertAction(title: action, style: .default, handler: { (UIAlertAction) -> Void in
+                    completion(action, false)
                     manager.reset()
                 })
                 
@@ -359,7 +359,7 @@ public extension UIAlertController {
         manager.alertController = alertController
         
         if let viewController = vc {
-            viewController.presentViewController(alertController, animated: true, completion: nil)
+            viewController.present(alertController, animated: true, completion: nil)
             
             if let ppc = alertController.popoverPresentationController {
                 ppc.barButtonItem = barButtonItem

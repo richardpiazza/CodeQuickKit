@@ -29,39 +29,39 @@ import Foundation
 import CoreData
 
 public enum StoreType {
-    case SQLite
-    case Binary
-    case InMemory
+    case sqLite
+    case binary
+    case inMemory
     
     public var stringValue: String {
         switch self {
-        case .SQLite: return NSSQLiteStoreType
-        case .Binary: return NSBinaryStoreType
-        case .InMemory: return NSInMemoryStoreType
+        case .sqLite: return NSSQLiteStoreType
+        case .binary: return NSBinaryStoreType
+        case .inMemory: return NSInMemoryStoreType
         }
     }
 }
 
 public protocol CoreDataConfiguration {
     var persistentStoreType: StoreType { get }
-    var persistentStoreURL: NSURL { get }
+    var persistentStoreURL: URL { get }
     var persistentStoreOptions: [String : AnyObject] { get }
 }
 
 /// Provides an implementation of a CoreData Stack. When no delegate is provided
 /// during initialization, an in-memory store type is used.
-public class CoreData {
-    public static let defaultStoreName = "CoreData.sqlite"
-    public static let mergedManagedObjectModelExtension = "momd"
+open class CoreData {
+    open static let defaultStoreName = "CoreData.sqlite"
+    open static let mergedManagedObjectModelExtension = "momd"
     
-    public var managedObjectContext: NSManagedObjectContext!
-    public var persistentStore: NSPersistentStore!
-    public var persistentStoreCoordinator: NSPersistentStoreCoordinator!
-    public var managedObjectModel: NSManagedObjectModel!
-    public var delegate: CoreDataConfiguration?
+    open var managedObjectContext: NSManagedObjectContext!
+    open var persistentStore: NSPersistentStore!
+    open var persistentStoreCoordinator: NSPersistentStoreCoordinator!
+    open var managedObjectModel: NSManagedObjectModel!
+    open var delegate: CoreDataConfiguration?
     
     public init(withModel model: NSManagedObjectModel, delegate: CoreDataConfiguration? = nil) {
-        Logger.verbose("\(#function)", callingClass: self.dynamicType)
+        Logger.verbose("\(#function)", callingClass: type(of: self))
         self.delegate = delegate
         managedObjectModel = model
         
@@ -71,7 +71,7 @@ public class CoreData {
         }
         
         var storeType: String = NSInMemoryStoreType
-        var storeURL: NSURL? = nil
+        var storeURL: URL? = nil
         var storeOptions: [String : AnyObject]? = nil
         
         if let delegate = self.delegate {
@@ -81,12 +81,12 @@ public class CoreData {
         }
         
         do {
-            try persistentStore = coordinator.addPersistentStoreWithType(storeType, configuration: nil, URL: storeURL, options: storeOptions)
+            try persistentStore = coordinator.addPersistentStore(ofType: storeType, configurationName: nil, at: storeURL, options: storeOptions)
         } catch {
             fatalError("addPersistentStoreWithType failed")
         }
         
-        managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         guard let moc = managedObjectContext else {
             fatalError("Managed Object Context is nil")
         }
@@ -95,14 +95,14 @@ public class CoreData {
     }
     
     public convenience init(withEntities entities: [NSEntityDescription], delegate: CoreDataConfiguration? = nil) {
-        Logger.verbose("\(#function)", callingClass: self.dynamicType)
+        Logger.verbose("\(#function)", callingClass: type(of: self))
         let model = NSManagedObjectModel()
         model.entities = entities
         self.init(withModel: model, delegate: delegate)
     }
     
-    public convenience init(fromBundle bundle: NSBundle, modelName: String? = nil, delegate: CoreDataConfiguration? = nil) {
-        Logger.verbose("\(#function)", callingClass: self.dynamicType)
+    public convenience init(fromBundle bundle: Bundle, modelName: String? = nil, delegate: CoreDataConfiguration? = nil) {
+        Logger.verbose("\(#function)", callingClass: type(of: self))
         var name: String? = modelName
         if modelName == nil {
             name = bundle.bundleName
@@ -112,11 +112,11 @@ public class CoreData {
             fatalError("Model name is nil.")
         }
         
-        guard let url = bundle.URLForResource(momd, withExtension: CoreData.mergedManagedObjectModelExtension) else {
+        guard let url = bundle.url(forResource: momd, withExtension: CoreData.mergedManagedObjectModelExtension) else {
             fatalError("Model with name '\(momd)' not found.")
         }
         
-        guard let model = NSManagedObjectModel(contentsOfURL: url) else {
+        guard let model = NSManagedObjectModel(contentsOf: url) else {
             fatalError("Model failed to load contents of url '\(url)'.")
         }
         
@@ -125,9 +125,9 @@ public class CoreData {
     
     deinit {
         do {
-            try persistentStoreCoordinator.removePersistentStore(persistentStore)
+            try persistentStoreCoordinator.remove(persistentStore)
         } catch {
-            Logger.error((error as NSError), message: "removePersistentStore", callingClass: self.dynamicType)
+            Logger.error((error as NSError), message: "removePersistentStore", callingClass: type(of: self))
         }
     }
 }

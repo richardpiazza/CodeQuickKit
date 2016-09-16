@@ -29,25 +29,25 @@ import Foundation
 
 /// Casing styles for `Serializable` object properties. (Default .MatchCase)
 public enum SerializerKeyStyle {
-    case MatchCase
-    case TitleCase
-    case CamelCase
-    case UpperCase
-    case LowerCase
+    case matchCase
+    case titleCase
+    case camelCase
+    case upperCase
+    case lowerCase
 }
 
 /// Redirects that should be applied to all objects during the de/serialization process.
 public typealias SerializerRedirect = (propertyName: String, serializedKey: String)
 
 /// A collection of methods and properties the aid in the de/serializtion process.
-public class Serializer {
-    public static var propertyKeyStyle: SerializerKeyStyle = .MatchCase
-    public static var serializedKeyStyle: SerializerKeyStyle = .MatchCase
-    public static var dateFormatter: NSDateFormatter = NSDateFormatter.rfc1123DateFormatter
-    public static var keyRedirects: [SerializerRedirect] = [SerializerRedirect]()
+open class Serializer {
+    open static var propertyKeyStyle: SerializerKeyStyle = .matchCase
+    open static var serializedKeyStyle: SerializerKeyStyle = .matchCase
+    open static var dateFormatter: DateFormatter = DateFormatter.rfc1123DateFormatter
+    open static var keyRedirects: [SerializerRedirect] = [SerializerRedirect]()
     
     /// Returns the properly cased property name for the given serialized key.
-    public static func propertyName(forSerializedKey serializedKey: String) -> String? {
+    open static func propertyName(forSerializedKey serializedKey: String) -> String? {
         for (p, s) in keyRedirects {
             if s == serializedKey {
                 return p
@@ -58,7 +58,7 @@ public class Serializer {
     }
     
     /// Returns the properly cased serialized key for the given property name.
-    public static func serializedKey(forPropertyName propertyName: String) -> String? {
+    open static func serializedKey(forPropertyName propertyName: String) -> String? {
         for (p, s) in keyRedirects {
             if p == propertyName {
                 return s
@@ -69,7 +69,7 @@ public class Serializer {
     }
     
     /// Transforms common JSON string values into corresponding `NSObject`'s
-    public static func initializedObject(forPropertyName propertyName: String, ofClass: AnyClass, withData data: NSObject?) -> NSObject? {
+    open static func initializedObject(forPropertyName propertyName: String, ofClass: AnyClass, withData data: NSObject?) -> NSObject? {
         guard let d = data else {
             return nil
         }
@@ -78,9 +78,9 @@ public class Serializer {
             let propertyClass: AnyClass = classForPropertyName(propertyName, ofClass: ofClass)
             
             switch propertyClass {
-            case is NSUUID.Type: return NSUUID(UUIDString: s)
-            case is NSDate.Type: return dateFormatter.dateFromString(s)
-            case is NSURL.Type: return NSURL(string: s)
+            case is UUID.Type: return UUID(uuidString: s) as NSObject?
+            case is Date.Type: return dateFormatter.date(from: s) as NSObject?
+            case is URL.Type: return URL(string: s) as NSObject?
             default: break
             }
         }
@@ -89,25 +89,25 @@ public class Serializer {
     }
     
     /// Transforms `NSObject`'s not handled by NSJSONSerialization into string serializable values.
-    public static func serializedObject(forPropertyName propertyName: String, withData data: NSObject?) -> NSObject? {
+    open static func serializedObject(forPropertyName propertyName: String, withData data: NSObject?) -> NSObject? {
         guard let d = data else {
             return nil
         }
         
-        switch d.dynamicType {
-        case is NSUUID.Type:
-            if let uuid = d as? NSUUID {
-                return uuid.UUIDString
+        switch type(of: d) {
+        case is UUID.Type:
+            if let uuid = d as? UUID {
+                return uuid.uuidString as NSObject?
             }
             break
-        case is NSDate.Type:
-            if let date = d as? NSDate {
-                return dateFormatter.stringFromDate(date)
+        case is Date.Type:
+            if let date = d as? Date {
+                return dateFormatter.string(from: date) as NSObject?
             }
             break
-        case is NSURL.Type:
-            if let url = d as? NSURL {
-                return url.absoluteString
+        case is URL.Type:
+            if let url = d as? URL {
+                return url.absoluteString as NSObject?
             }
             break
         default: break
@@ -117,25 +117,25 @@ public class Serializer {
     }
     
     /// Lists all property names for an object of the provided class.
-    public static func propertyNamesForClass(objectClass: AnyClass) -> [String] {
+    open static func propertyNamesForClass(_ objectClass: AnyClass) -> [String] {
         var properties: [String] = [String]()
         
-        if let sc = objectClass.superclass() where (sc != SerializableObject.self && sc != NSObject.self) {
-            properties.appendContentsOf(self.propertyNamesForClass(sc))
+        if let sc = objectClass.superclass() , (sc != SerializableObject.self && sc != NSObject.self) {
+            properties.append(contentsOf: self.propertyNamesForClass(sc))
         }
         
         var propertyListCount: CUnsignedInt = 0
         let runtimeProperties = class_copyPropertyList(objectClass, &propertyListCount)
         
         for index in 0..<Int(propertyListCount) {
-            let runtimeProperty = runtimeProperties[index]
+            let runtimeProperty = runtimeProperties?[index]
             let runtimeName = property_getName(runtimeProperty)
-            let propertyName = NSString(UTF8String: runtimeName)
+            let propertyName = NSString(utf8String: runtimeName!)
             guard var property = propertyName else {
                 continue
             }
             if property.hasPrefix("Optional") {
-                property = property.substringWithRange(NSMakeRange(8, property.length - 1))
+                property = property.substring(with: NSMakeRange(8, property.length - 1)) as NSString
             }
             let propertyString = String(property)
             if !properties.contains(propertyString) {
@@ -150,22 +150,22 @@ public class Serializer {
     
     /// Provides the class for a property with the given name.
     /// Will return NSNull class if property name not found/valid or not an NSObject subclass.
-    public static func classForPropertyName(propertyName: String, ofClass objectClass: AnyClass) -> AnyClass {
-        let runtimeProperty = class_getProperty(objectClass, (propertyName as NSString).UTF8String)
+    open static func classForPropertyName(_ propertyName: String, ofClass objectClass: AnyClass) -> AnyClass {
+        let runtimeProperty = class_getProperty(objectClass, (propertyName as NSString).utf8String)
         guard runtimeProperty != nil else {
             return NSNull.self
         }
         
         let runtimeAttributes = property_getAttributes(runtimeProperty)
-        let propertyAttributesString = NSString(UTF8String: runtimeAttributes)
-        let propertyAttributesCollection = propertyAttributesString?.componentsSeparatedByString(",")
-        guard let attributesCollection = propertyAttributesCollection where attributesCollection.count > 0 else {
+        let propertyAttributesString = NSString(utf8String: runtimeAttributes!)
+        let propertyAttributesCollection = propertyAttributesString?.components(separatedBy: ",")
+        guard let attributesCollection = propertyAttributesCollection , attributesCollection.count > 0 else {
             return NSNull.self
         }
         
         let propertyClassAttribute = attributesCollection[0]
         if (propertyClassAttribute as NSString).length == 2 {
-            let type = (propertyClassAttribute as NSString).substringFromIndex(1)
+            let type = (propertyClassAttribute as NSString).substring(from: 1)
             switch type {
             case "q": return NSNumber.self // Swift Int
             case "d": return NSNumber.self // Swift Double
@@ -176,8 +176,8 @@ public class Serializer {
             }
         }
         
-        let propertyClass = (propertyClassAttribute as NSString).substringFromIndex(1)
-        let className = (propertyClass as NSString).substringWithRange(NSMakeRange(2, (propertyClass as NSString).length - 3))
+        let propertyClass = (propertyClassAttribute as NSString).substring(from: 1)
+        let className = (propertyClass as NSString).substring(with: NSMakeRange(2, (propertyClass as NSString).length - 3))
         guard let anyclass = NSClassFromString(className) else {
             return NSNull.self
         }
@@ -185,31 +185,31 @@ public class Serializer {
         return anyclass.self
     }
     
-    public static func stringByRemovingPrettyJSONFormatting(forString jsonString: String) -> String {
+    open static func stringByRemovingPrettyJSONFormatting(forString jsonString: String) -> String {
         let string: NSMutableString = NSMutableString(string: jsonString)
-        string.replaceOccurrencesOfString("\n", withString: "", options: .CaseInsensitiveSearch, range: NSMakeRange(0, string.length))
-        string.replaceOccurrencesOfString(" : ", withString: ":", options: .CaseInsensitiveSearch, range: NSMakeRange(0, string.length))
-        string.replaceOccurrencesOfString("  ", withString: "", options: .CaseInsensitiveSearch, range: NSMakeRange(0, string.length))
-        string.replaceOccurrencesOfString("\\/", withString: "/", options: .CaseInsensitiveSearch, range: NSMakeRange(0, string.length))
+        string.replaceOccurrences(of: "\n", with: "", options: .caseInsensitive, range: NSMakeRange(0, string.length))
+        string.replaceOccurrences(of: " : ", with: ":", options: .caseInsensitive, range: NSMakeRange(0, string.length))
+        string.replaceOccurrences(of: "  ", with: "", options: .caseInsensitive, range: NSMakeRange(0, string.length))
+        string.replaceOccurrences(of: "\\/", with: "/", options: .caseInsensitive, range: NSMakeRange(0, string.length))
         return string as String
     }
     
-    public static func stringByApplyingKeyStyle(keyStyle: SerializerKeyStyle, forString string: String) -> String {
-        guard string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) <= 1 else {
+    open static func stringByApplyingKeyStyle(_ keyStyle: SerializerKeyStyle, forString string: String) -> String {
+        guard string.lengthOfBytes(using: String.Encoding.utf8) <= 1 else {
             return string
         }
         
         switch (keyStyle) {
-        case .TitleCase:
-            let range: Range = string.startIndex..<string.startIndex.advancedBy(1)
-            let sub = string.substringWithRange(range).uppercaseString
-            return string.stringByReplacingCharactersInRange(range, withString: sub)
-        case .CamelCase:
-            let range: Range = string.startIndex..<string.startIndex.advancedBy(1)
-            let sub = string.substringWithRange(range).lowercaseString
-            return string.stringByReplacingCharactersInRange(range, withString: sub)
-        case .UpperCase: return string.uppercaseString
-        case .LowerCase: return string.lowercaseString
+        case .titleCase:
+            let range: Range = string.startIndex..<string.characters.index(string.startIndex, offsetBy: 1)
+            let sub = string.substring(with: range).uppercased()
+            return string.replacingCharacters(in: range, with: sub)
+        case .camelCase:
+            let range: Range = string.startIndex..<string.characters.index(string.startIndex, offsetBy: 1)
+            let sub = string.substring(with: range).lowercased()
+            return string.replacingCharacters(in: range, with: sub)
+        case .upperCase: return string.uppercased()
+        case .lowerCase: return string.lowercased()
         default: return string
         }
     }

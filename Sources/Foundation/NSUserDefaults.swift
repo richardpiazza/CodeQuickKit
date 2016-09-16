@@ -32,10 +32,10 @@ import Foundation
 /// The `timestamp` and optional `build` variables allow for comparisson during syncing.
 public struct KeyValueItem {
     public var value: NSObject
-    public var timestamp: NSDate = NSDate()
+    public var timestamp: Date = Date()
     public var build: NSString?
     
-    public init(value: NSObject, timestamp: NSDate? = nil, build: NSString? = nil) {
+    public init(value: NSObject, timestamp: Date? = nil, build: NSString? = nil) {
         self.value = value
         if let date = timestamp {
             self.timestamp = date
@@ -48,13 +48,13 @@ public struct KeyValueItem {
 /// A protocol declaring dictionary conformance.
 /// - note: These methods are taken from `NSUbiquitousKeyValueStore`.
 public protocol KeyValueStorage {
-    func dictionaryForKey(aKey: String) -> [String : AnyObject]?
-    func setDictionary(aDictionary: [String : AnyObject]?, forKey aKey: String)
+    func dictionary(forKey: String) -> [String : Any]?
+    func set(_ aDictionary: [String : Any]?, forKey: String)
 }
 
 extension KeyValueStorage {
-    func itemForKey(key: String) -> KeyValueItem? {
-        guard let dictionary = self.dictionaryForKey(key) else {
+    func item(forKey: String) -> KeyValueItem? {
+        guard let dictionary = self.dictionary(forKey: forKey) else {
             return nil
         }
         
@@ -62,7 +62,7 @@ extension KeyValueStorage {
             return nil
         }
         
-        guard let timestamp = dictionary[KeyValueUbiquityContainer.Keys.timestamp] as? NSDate else {
+        guard let timestamp = dictionary[KeyValueUbiquityContainer.Keys.timestamp] as? Date else {
             return nil
         }
         
@@ -71,86 +71,87 @@ extension KeyValueStorage {
         return KeyValueItem(value: value, timestamp: timestamp, build: build)
     }
     
-    func valueForKey(key: String) -> NSObject? {
-        return itemForKey(key)?.value
+    func value(forKey: String) -> NSObject? {
+        return item(forKey: forKey)?.value
     }
     
-    func setItem(item: KeyValueItem, forKey key: String) {
+    func set(_ item: KeyValueItem, forKey: String) {
         var dictionary = [String : NSObject]()
         dictionary[KeyValueUbiquityContainer.Keys.value] = item.value
-        dictionary[KeyValueUbiquityContainer.Keys.timestamp] = item.timestamp
+        dictionary[KeyValueUbiquityContainer.Keys.timestamp] = item.timestamp as NSObject?
         if let build = item.build {
             dictionary[KeyValueUbiquityContainer.Keys.build] = build
         }
         
-        self.setDictionary(dictionary, forKey: key)
+        self.set(dictionary, forKey: forKey)
     }
     
-    func setValue(value: NSObject, forKey key: String) {
-        self.setItem(KeyValueItem(value: value, timestamp: NSDate(), build: nil), forKey: key)
+    func setValue(_ value: NSObject, forKey: String) {
+        self.set(KeyValueItem(value: value, timestamp: Date(), build: nil), forKey: forKey)
     }
 }
 
-extension NSUserDefaults: KeyValueStorage {
-    public func setDictionary(aDictionary: [String : AnyObject]?, forKey aKey: String) {
+extension UserDefaults: KeyValueStorage {
+    public func set(_ aDictionary: [String : Any]?, forKey: String) {
         if let dictionary = aDictionary {
-            self.setObject(dictionary, forKey: aKey)
+            self.set(dictionary, forKey: forKey)
         } else {
-            self.removeObjectForKey(aKey)
+            self.removeObject(forKey: forKey)
         }
     }
 }
 
 extension NSUbiquitousKeyValueStore: KeyValueStorage {
+    
 }
 
 public protocol KeyValueUbiquityContainerDelegate {
-    func shouldReplaceItem(existingItem existingItem: KeyValueItem, withItem newItem: KeyValueItem, forKey key: String) -> Bool
-    func didSetItem(item: KeyValueItem, forKey key: String)
+    func shouldReplace(_ existing: KeyValueItem, with new: KeyValueItem, forKey: String) -> Bool
+    func didSet(_ item: KeyValueItem, forKey: String)
 }
 
 /// ### KeyValueUbiquityContainer
 /// A subclass of `UbiquityContainer` that manages access to a `NSUbiquitousKeyValueStore` instance.
-public class KeyValueUbiquityContainer: UbiquityContainer {
+open class KeyValueUbiquityContainer: UbiquityContainer {
     public struct Keys {
         static let value = "value"
         static let timestamp = "timestamp"
         static let build = "build"
     }
     
-    public var keyValueStore: NSUbiquitousKeyValueStore? {
+    open var keyValueStore: NSUbiquitousKeyValueStore? {
         willSet {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: NSUbiquitousKeyValueStoreDidChangeExternallyNotification, object: self.keyValueStore)
+            NotificationCenter.default.removeObserver(self, name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: self.keyValueStore)
         }
         didSet {
             if let keyValueStore = self.keyValueStore {
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KeyValueUbiquityContainer.nsUbiquitiousKeyValueStoreDidChangeExternally(_:)), name: NSUbiquitousKeyValueStoreDidChangeExternallyNotification, object: keyValueStore)
+                NotificationCenter.default.addObserver(self, selector: #selector(KeyValueUbiquityContainer.nsUbiquitiousKeyValueStoreDidChangeExternally(_:)), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: keyValueStore)
                 keyValueStore.synchronize()
             }
         }
     }
-    public var keyValueDelegate: KeyValueUbiquityContainerDelegate?
+    open var keyValueDelegate: KeyValueUbiquityContainerDelegate?
     
     convenience init(identifier: String?, delegate: UbiquityContainerDelegate?, keyValueDelegate: KeyValueUbiquityContainerDelegate?) {
         self.init(identifier: identifier, delegate: delegate)
         self.keyValueDelegate = keyValueDelegate
     }
     
-    public override func ubiquityStateDidChange(oldState: UbiquityState, newState: UbiquityState) {
+    open override func ubiquityStateDidChange(_ oldState: UbiquityState, newState: UbiquityState) {
         switch newState {
-        case .Disabled:
+        case .disabled:
             self.keyValueStore = nil
         default:
-            self.keyValueStore = NSUbiquitousKeyValueStore.defaultStore()
+            self.keyValueStore = NSUbiquitousKeyValueStore.default()
         }
     }
     
-    @objc func nsUbiquitiousKeyValueStoreDidChangeExternally(notification: NSNotification) {
+    @objc func nsUbiquitiousKeyValueStoreDidChangeExternally(_ notification: Notification) {
         guard let keyValueStore = self.keyValueStore else {
             return
         }
         
-        guard let dictionary = notification.userInfo else {
+        guard let dictionary = (notification as NSNotification).userInfo else {
             return
         }
         
@@ -165,29 +166,29 @@ public class KeyValueUbiquityContainer: UbiquityContainer {
             }
             
             for key in changedKeys {
-                guard let ubiquityItem = keyValueStore.itemForKey(key) else {
+                guard let ubiquityItem = keyValueStore.item(forKey: key) else {
                     Logger.debug("Removing NSUserDefaults object for key '\(key)'")
-                    NSUserDefaults.standardUserDefaults().removeObjectForKey(key)
+                    UserDefaults.standard.removeObject(forKey: key)
                     continue
                 }
                 
-                guard let standardItem = NSUserDefaults.standardUserDefaults().itemForKey(key) else {
-                    NSUserDefaults.standardUserDefaults().setItem(ubiquityItem, forKey: key)
+                guard let standardItem = UserDefaults.standard.item(forKey: key) else {
+                    UserDefaults.standard.set(ubiquityItem, forKey: key)
                     if let delegate = keyValueDelegate {
-                        delegate.didSetItem(ubiquityItem, forKey: key)
+                        delegate.didSet(ubiquityItem, forKey: key)
                     }
                     continue
                 }
                 
                 var replace = true
                 if let delegate = self.keyValueDelegate {
-                    replace = delegate.shouldReplaceItem(existingItem: standardItem, withItem: ubiquityItem, forKey: key)
+                    replace = delegate.shouldReplace(standardItem, with: ubiquityItem, forKey: key)
                 }
                 
                 if replace {
-                    NSUserDefaults.standardUserDefaults().setItem(ubiquityItem, forKey: key)
+                    UserDefaults.standard.set(ubiquityItem, forKey: key)
                     if let delegate = keyValueDelegate {
-                        delegate.didSetItem(ubiquityItem, forKey: key)
+                        delegate.didSet(ubiquityItem, forKey: key)
                     }
                 }
             }
@@ -198,27 +199,27 @@ public class KeyValueUbiquityContainer: UbiquityContainer {
     }
 }
 
-public extension NSUserDefaults {
+public extension UserDefaults {
     public static var ubiquityUserDefaults: KeyValueUbiquityContainer = KeyValueUbiquityContainer()
     
     /// Attempts to set an item on `NSUbiquitousKeyValueStore`. Will fallback to `NSUserDefaults`
-    public static func setItem(item: KeyValueItem, forKey key: String) {
-        if let keyValueStore = NSUserDefaults.ubiquityUserDefaults.keyValueStore {
-            keyValueStore.setItem(item, forKey: key)
+    public static func setItem(_ item: KeyValueItem, forKey key: String) {
+        if let keyValueStore = UserDefaults.ubiquityUserDefaults.keyValueStore {
+            keyValueStore.set(item, forKey: key)
             if let delegate = ubiquityUserDefaults.keyValueDelegate {
-                delegate.didSetItem(item, forKey: key)
+                delegate.didSet(item, forKey: key)
             }
         } else {
-            NSUserDefaults.standardUserDefaults().setItem(item, forKey: key)
+            UserDefaults.standard.set(item, forKey: key)
         }
     }
     
     /// Attemps to retrieve an item from `NSUbiquitousKeyValueStore`. Will fallback to `NSUserDefaults`
-    public static func itemForKey(key: String) -> KeyValueItem? {
-        if let item = NSUserDefaults.ubiquityUserDefaults.keyValueStore?.itemForKey(key) {
+    public static func itemForKey(_ key: String) -> KeyValueItem? {
+        if let item = UserDefaults.ubiquityUserDefaults.keyValueStore?.item(forKey: key) {
             return item
         }
         
-        return NSUserDefaults.standardUserDefaults().itemForKey(key)
+        return UserDefaults.standard.item(forKey: key)
     }
 }

@@ -2,7 +2,7 @@ import XCTest
 @testable import CodeQuickKit
 
 class NSDateTests: XCTestCase {
-    let calendar = NSCalendar.currentCalendar()
+    let calendar = Calendar.current
     
     override func setUp() {
         super.setUp()
@@ -15,8 +15,8 @@ class NSDateTests: XCTestCase {
     }
     
     func testYesturday() {
-        let now = NSDate()
-        let yesturday = NSDate.yesturday
+        let now = Date()
+        let yesturday = Date.yesturday
         
         XCTAssertTrue(yesturday.isBefore(now))
         
@@ -30,8 +30,8 @@ class NSDateTests: XCTestCase {
     }
     
     func testTwoDaysAgo() {
-        let now = NSDate()
-        let twoDaysAgo = NSDate.twoDaysAgo
+        let now = Date()
+        let twoDaysAgo = Date.twoDaysAgo
         
         XCTAssertTrue(twoDaysAgo.isBefore(now))
         
@@ -45,8 +45,8 @@ class NSDateTests: XCTestCase {
     }
     
     func testLastWeek() {
-        let now = NSDate()
-        let lastWeek = NSDate.lastWeek
+        let now = Date()
+        let lastWeek = Date.lastWeek
         
         XCTAssertTrue(lastWeek.isBefore(now))
         
@@ -60,8 +60,8 @@ class NSDateTests: XCTestCase {
     }
     
     func testTomorrow() {
-        let now = NSDate()
-        let tomorrow = NSDate.tomorrow
+        let now = Date()
+        let tomorrow = Date.tomorrow
         
         XCTAssertTrue(tomorrow.isAfter(now))
         
@@ -75,8 +75,8 @@ class NSDateTests: XCTestCase {
     }
     
     func testDayAfterTomorrow() {
-        let now = NSDate()
-        let dayAfterTomorrow = NSDate.dayAfterTomorrow
+        let now = Date()
+        let dayAfterTomorrow = Date.dayAfterTomorrow
         
         XCTAssertTrue(dayAfterTomorrow.isAfter(now))
         
@@ -90,8 +90,8 @@ class NSDateTests: XCTestCase {
     }
     
     func testNextWeek() {
-        let now = NSDate()
-        let nextWeek = NSDate.nextWeek
+        let now = Date()
+        let nextWeek = Date.nextWeek
         
         XCTAssertTrue(nextWeek.isAfter(now))
         
@@ -107,9 +107,9 @@ class NSDateTests: XCTestCase {
     func testRFC1123DateFormatter() {
         let string = "Fri, 05 Nov 1982 08:00:00 GMT"
         
-        let dateComponents = NSDateComponents()
-        dateComponents.calendar = calendar
-        dateComponents.timeZone = NSTimeZone(name: "GMT")!
+        var dateComponents = DateComponents()
+        (dateComponents as NSDateComponents).calendar = calendar
+        (dateComponents as NSDateComponents).timeZone = TimeZone(identifier: "GMT")!
         dateComponents.era = 1
         dateComponents.year = 1982
         dateComponents.month = 11
@@ -117,38 +117,38 @@ class NSDateTests: XCTestCase {
         dateComponents.hour = 8
         dateComponents.minute = 0
         dateComponents.second = 0
-        let date = dateComponents.date!
+        let date = (dateComponents as NSDateComponents).date!
         
-        guard let d1 = NSDateFormatter.rfc1123Date(fromString: string) else {
+        guard let d1 = DateFormatter.rfc1123Date(fromString: string) else {
             XCTFail()
             return
         }
         
         XCTAssertTrue(date.isSame(d1))
         
-        let s1 = NSDateFormatter.rfc1123String(fromDate: date)
+        let s1 = DateFormatter.rfc1123String(fromDate: date)
         XCTAssertTrue(string == s1)
     }
     
     func testNSDateFormatterStyleFormatters() {
         let string = "Fri, 05 Nov 1982 08:00:00 GMT"
         
-        guard let date = NSDateFormatter.rfc1123DateFormatter.dateFromString(string) else {
+        guard let date = DateFormatter.rfc1123DateFormatter.date(from: string) else {
             XCTFail()
             return
         }
         
-        XCTAssertTrue(NSDateFormatter.shortDateTimeFormatter.stringFromDate(date) == "11/5/82, 8:00 AM")
-        XCTAssertTrue(NSDateFormatter.shortDateOnlyFormatter.stringFromDate(date) == "11/5/82")
-        XCTAssertTrue(NSDateFormatter.shortTimeOnlyFormatter.stringFromDate(date) == "8:00 AM")
-        XCTAssertTrue(NSDateFormatter.mediumDateTimeFormatter.stringFromDate(date) == "Nov 5, 1982, 8:00:00 AM")
-        XCTAssertTrue(NSDateFormatter.mediumDateOnlyFormatter.stringFromDate(date) == "Nov 5, 1982")
-        XCTAssertTrue(NSDateFormatter.mediumTimeOnlyFormatter.stringFromDate(date) == "8:00:00 AM")
-        XCTAssertTrue(NSDateFormatter.longDateTimeFormatter.stringFromDate(date) == "November 5, 1982 at 8:00:00 AM GMT")
-        XCTAssertTrue(NSDateFormatter.longDateOnlyFormatter.stringFromDate(date) == "November 5, 1982")
-        XCTAssertTrue(NSDateFormatter.longTimeOnlyFormatter.stringFromDate(date) == "8:00:00 AM GMT")
-        XCTAssertTrue(NSDateFormatter.fullDateTimeFormatter.stringFromDate(date) == "Friday, November 5, 1982 at 8:00:00 AM GMT")
-        XCTAssertTrue(NSDateFormatter.fullDateOnlyFormatter.stringFromDate(date) == "Friday, November 5, 1982")
-        XCTAssertTrue(NSDateFormatter.fullTimeOnlyFormatter.stringFromDate(date) == "8:00:00 AM GMT")
+        XCTAssertTrue(DateFormatter.shortDateTimeFormatter.string(from: date) == "11/5/82, 8:00 AM")
+        XCTAssertTrue(DateFormatter.shortDateOnlyFormatter.string(from: date) == "11/5/82")
+        XCTAssertTrue(DateFormatter.shortTimeOnlyFormatter.string(from: date) == "8:00 AM")
+        XCTAssertTrue(DateFormatter.mediumDateTimeFormatter.string(from: date) == "Nov 5, 1982, 8:00:00 AM")
+        XCTAssertTrue(DateFormatter.mediumDateOnlyFormatter.string(from: date) == "Nov 5, 1982")
+        XCTAssertTrue(DateFormatter.mediumTimeOnlyFormatter.string(from: date) == "8:00:00 AM")
+        XCTAssertTrue(DateFormatter.longDateTimeFormatter.string(from: date) == "November 5, 1982 at 8:00:00 AM GMT")
+        XCTAssertTrue(DateFormatter.longDateOnlyFormatter.string(from: date) == "November 5, 1982")
+        XCTAssertTrue(DateFormatter.longTimeOnlyFormatter.string(from: date) == "8:00:00 AM GMT")
+        XCTAssertTrue(DateFormatter.fullDateTimeFormatter.string(from: date) == "Friday, November 5, 1982 at 8:00:00 AM GMT")
+        XCTAssertTrue(DateFormatter.fullDateOnlyFormatter.string(from: date) == "Friday, November 5, 1982")
+        XCTAssertTrue(DateFormatter.fullTimeOnlyFormatter.string(from: date) == "8:00:00 AM GMT")
     }
 }
