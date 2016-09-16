@@ -14,7 +14,9 @@ class WebAPITests: XCTestCase {
             return
         }
         
-        let injectedResponse = WebAPIInjectedResponse(statusCode: 200, response: nil, responseObject: ["name": "Mock Me"], error: nil, timeout: 2)
+        let responseObject: AnyObject = ["name":"Mock Me"] as AnyObject
+        
+        let injectedResponse = WebAPIInjectedResponse(statusCode: 200, response: nil, responseObject: responseObject, error: nil, timeout: 2)
         webApi.injectedResponses["http://www.example.com/api/test"] = injectedResponse
     }
     
@@ -40,7 +42,7 @@ class WebAPITests: XCTestCase {
             expectation.fulfill()
         }
         
-        waitForExpectations(timeout: 5) { (error: NSError?) -> Void in
+        waitForExpectations(timeout: 5) { (error) in
             if let _ = error {
                 XCTFail()
             }

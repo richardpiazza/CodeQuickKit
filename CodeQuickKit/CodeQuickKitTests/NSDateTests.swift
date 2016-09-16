@@ -3,6 +3,7 @@ import XCTest
 
 class NSDateTests: XCTestCase {
     let calendar = Calendar.current
+    let timeZone = TimeZone(identifier: "GMT")!
     
     override func setUp() {
         super.setUp()
@@ -108,8 +109,8 @@ class NSDateTests: XCTestCase {
         let string = "Fri, 05 Nov 1982 08:00:00 GMT"
         
         var dateComponents = DateComponents()
-        (dateComponents as NSDateComponents).calendar = calendar
-        (dateComponents as NSDateComponents).timeZone = TimeZone(identifier: "GMT")!
+        dateComponents.calendar = calendar
+        dateComponents.timeZone = timeZone
         dateComponents.era = 1
         dateComponents.year = 1982
         dateComponents.month = 11
@@ -117,7 +118,11 @@ class NSDateTests: XCTestCase {
         dateComponents.hour = 8
         dateComponents.minute = 0
         dateComponents.second = 0
-        let date = (dateComponents as NSDateComponents).date!
+        
+        guard let date = dateComponents.date else {
+            XCTFail()
+            return
+        }
         
         guard let d1 = DateFormatter.rfc1123Date(fromString: string) else {
             XCTFail()

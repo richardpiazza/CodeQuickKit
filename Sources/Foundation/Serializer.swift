@@ -78,9 +78,18 @@ open class Serializer {
             let propertyClass: AnyClass = classForPropertyName(propertyName, ofClass: ofClass)
             
             switch propertyClass {
-            case is UUID.Type: return UUID(uuidString: s) as NSObject?
-            case is Date.Type: return dateFormatter.date(from: s) as NSObject?
-            case is URL.Type: return URL(string: s) as NSObject?
+            case is UUID.Type:
+                return UUID(uuidString: s) as NSObject?
+            case is NSUUID.Type:
+                return UUID(uuidString: s) as NSObject?
+            case is Date.Type:
+                return dateFormatter.date(from: s) as NSObject?
+            case is NSDate.Type:
+                return dateFormatter.date(from: s) as NSObject?
+            case is URL.Type:
+                return URL(string: s) as NSObject?
+            case is NSURL.Type:
+                return URL(string: s) as NSObject?
             default: break
             }
         }
@@ -94,23 +103,12 @@ open class Serializer {
             return nil
         }
         
-        switch type(of: d) {
-        case is UUID.Type:
-            if let uuid = d as? UUID {
-                return uuid.uuidString as NSObject?
-            }
-            break
-        case is Date.Type:
-            if let date = d as? Date {
-                return dateFormatter.string(from: date) as NSObject?
-            }
-            break
-        case is URL.Type:
-            if let url = d as? URL {
-                return url.absoluteString as NSObject?
-            }
-            break
-        default: break
+        if let uuid = d as? UUID {
+            return uuid.uuidString as NSObject?
+        } else if let date = d as? Date {
+            return dateFormatter.string(from: date) as NSObject?
+        } else if let url = d as? URL {
+            return url.absoluteString as NSObject?
         }
         
         return d
@@ -167,12 +165,22 @@ open class Serializer {
         if (propertyClassAttribute as NSString).length == 2 {
             let type = (propertyClassAttribute as NSString).substring(from: 1)
             switch type {
-            case "q": return NSNumber.self // Swift Int
-            case "d": return NSNumber.self // Swift Double
-            case "f": return NSNumber.self // Swift Float
-            case "B": return NSNumber.self // Swift Bool
-            case "@": return NSObject.self
-            default: return NSObject.self
+            case "q":
+                // Swift Int
+                return NSNumber.self
+            case "d":
+                // Swift Double
+                return NSNumber.self
+            case "f":
+                // Swift Float
+                return NSNumber.self
+            case "B":
+                // Swift Bool
+                return NSNumber.self
+            case "@":
+                return NSObject.self
+            default:
+                return NSObject.self
             }
         }
         

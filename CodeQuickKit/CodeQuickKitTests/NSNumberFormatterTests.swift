@@ -62,7 +62,10 @@ class NSNumberFormatterTests: XCTestCase {
     }
     
     func testCurrencyFormatter() {
-        let currencySymbol = NumberFormatter.currencyFormatter().currencySymbol
+        guard let currencySymbol = NumberFormatter.currencyFormatter().currencySymbol else {
+            // No Currency Symbol in currect environment
+            return
+        }
         
         guard let number = NumberFormatter.currency(fromString: "\(currencySymbol)84.55") else {
             XCTFail()
@@ -80,7 +83,10 @@ class NSNumberFormatterTests: XCTestCase {
     }
     
     func testPercentFormatter() {
-        let percentSymbol = NumberFormatter.percentFormatter().percentSymbol
+        guard let percentSymbol = NumberFormatter.percentFormatter().percentSymbol else {
+            // No Percent Symbol in current environment
+            return
+        }
         
         guard let number = NumberFormatter.percent(fromString: "69.75\(percentSymbol)") else {
             XCTFail()

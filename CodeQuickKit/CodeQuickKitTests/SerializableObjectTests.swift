@@ -27,8 +27,8 @@ class SerializableObjectTests: XCTestCase {
     static let uuid2 = UUID(uuidString: "5C52425E-E45D-11E5-9730-9A79F06E9478")!
     static var date1: Date {
         var dateComponents = DateComponents()
-        (dateComponents as NSDateComponents).calendar = Calendar.current
-        (dateComponents as NSDateComponents).timeZone = TimeZone(identifier: "GMT")!
+        dateComponents.calendar = Calendar.current
+        dateComponents.timeZone = TimeZone(identifier: "GMT")!
         dateComponents.era = 1
         dateComponents.year = 1982
         dateComponents.month = 11
@@ -36,12 +36,18 @@ class SerializableObjectTests: XCTestCase {
         dateComponents.hour = 8
         dateComponents.minute = 0
         dateComponents.second = 0
-        return (dateComponents as NSDateComponents).date!
+        
+        guard let date = dateComponents.date else {
+            XCTFail()
+            return Date()
+        }
+        
+        return date
     }
     static var date2: Date {
         var dateComponents = DateComponents()
-        (dateComponents as NSDateComponents).calendar = Calendar.current
-        (dateComponents as NSDateComponents).timeZone = TimeZone(identifier: "GMT")!
+        dateComponents.calendar = Calendar.current
+        dateComponents.timeZone = TimeZone(identifier: "GMT")!
         dateComponents.era = 1
         dateComponents.year = 1975
         dateComponents.month = 12
@@ -49,13 +55,20 @@ class SerializableObjectTests: XCTestCase {
         dateComponents.hour = 22
         dateComponents.minute = 0
         dateComponents.second = 0
-        return (dateComponents as NSDateComponents).date!
+        
+        guard let date = dateComponents.date else {
+            XCTFail()
+            return Date()
+        }
+        
+        return date
     }
     static let url1 = URL(string: "http://www.youtube.com/1")!
     static let url2 = URL(string: "http://www.youtube.com/2")!
     
     static let json1 = "{\"media\":[{\"date\":\"Fri, 05 Nov 1982 08:00:00 GMT\",\"id\":\"BEA9C47F-B002-4E84-91AD-582D0D19541D\",\"url\":\"http://www.youtube.com/1\",\"name\":\"Item 1\"},{\"date\":\"Thu, 11 Dec 1975 22:00:00 GMT\",\"id\":\"5C52425E-E45D-11E5-9730-9A79F06E9478\",\"url\":\"http://www.youtube.com/2\",\"name\":\"Item 2\"}],\"likes\":208,\"name\":\"Show Time\"}"
     static let json2 = "{\"media\":[{\"date\":\"Fri, 05 Nov 1982 08:00:00 GMT\",\"id\":\"BEA9C47F-B002-4E84-91AD-582D0D19541D\",\"url\":\"http://www.youtube.com/1\",\"name\":\"Item 1\"},{\"date\":\"Thu, 11 Dec 1975 22:00:00 GMT\",\"id\":\"5C52425E-E45D-11E5-9730-9A79F06E9478\",\"url\":\"http://www.youtube.com/2\",\"name\":\"Item 2\"}],\"name\":\"Show Time\",\"likes\":208}"
+    static let json3 = "{\"name\":\"Show Time\",\"likes\":208,\"media\":[{\"name\":\"Item 1\",\"date\":\"Fri, 05 Nov 1982 08:00:00 GMT\",\"id\":\"BEA9C47F-B002-4E84-91AD-582D0D19541D\",\"url\":\"http://www.youtube.com/1\"},{\"name\":\"Item 2\",\"date\":\"Thu, 11 Dec 1975 22:00:00 GMT\",\"id\":\"5C52425E-E45D-11E5-9730-9A79F06E9478\",\"url\":\"http://www.youtube.com/2\"}]}"
     
     override func setUp() {
         super.setUp()
@@ -87,7 +100,7 @@ class SerializableObjectTests: XCTestCase {
         channel.media = [media1, media2]
         
         let json = channel.json
-        XCTAssertTrue(json == SerializableObjectTests.json1 || json == SerializableObjectTests.json2)
+        XCTAssertTrue(json == SerializableObjectTests.json1 || json == SerializableObjectTests.json2 || json == SerializableObjectTests.json3)
     }
     
     func testDeserialization() {
