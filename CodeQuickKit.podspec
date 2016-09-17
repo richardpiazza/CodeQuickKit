@@ -53,25 +53,25 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'macOS' do |platform|
-    platform.platform = :osx, '10.10'
+    platform.platform = :osx, '10.12'
     platform.dependency 'CodeQuickKit/Foundation'
     #platform.source_files = 'Sources/macOS/*'
   end
 
   s.subspec 'iOS' do |platform|
-    platform.platform = :ios, '9.1'
+    platform.platform = :ios, '10.0'
     platform.dependency 'CodeQuickKit/Foundation'
     platform.source_files = 'Sources/iOS/*'
   end
 
   s.subspec 'tvOS' do |platform|
-    platform.platform = :tvos, '9.1'
+    platform.platform = :tvos, '10.0'
     platform.dependency 'CodeQuickKit/Foundation'
     #platform.source_files = 'Sources/tvOS/*'
   end
 
   s.subspec 'watchOS' do |platform|
-    platform.platform = :watchos, '2.1'
+    platform.platform = :watchos, '3.0'
     platform.dependency 'CodeQuickKit/Foundation'
     #platform.source_files = 'Sources/watchOS/*'
   end
