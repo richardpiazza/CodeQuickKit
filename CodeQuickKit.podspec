@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name = "CodeQuickKit"
-  s.version = "3.0.0"
+  s.version = "4.0.0"
   s.summary = "An Apple Library simplifying some everyday tasks."
   s.description = <<-DESC
   CodeQuickKit is a collection of Swift extensions and classes designed to 
@@ -22,19 +22,19 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://twitter.com/richardpiazza'
 
   s.osx.frameworks = 'Foundation'
-  s.osx.deployment_target = "10.10"
+  s.osx.deployment_target = "10.12"
   s.osx.source_files = 'Sources/Foundation/*', 'Sources/macOS/*'
 
   s.ios.frameworks = 'Foundation', 'UIKit'
-  s.ios.deployment_target = "9.1"
+  s.ios.deployment_target = "10.0"
   s.ios.source_files = 'Sources/Foundation/*', 'Sources/iOS/*'
 
   s.tvos.frameworks = 'Foundation', 'UIKit'
-  s.tvos.deployment_target = "9.1"
+  s.tvos.deployment_target = "10.0"
   s.tvos.source_files = 'Sources/Foundation/*', 'Sources/tvOS/*'
 
   s.watchos.frameworks = 'Foundation'
-  s.watchos.deployment_target = "2.1"
+  s.watchos.deployment_target = "3.0"
   s.watchos.source_files = 'Sources/Foundation/*', 'Sources/watchOS/*'
 
   s.source = { :git => "https://github.com/richardpiazza/CodeQuickKit.git", :tag => s.version.to_s }
