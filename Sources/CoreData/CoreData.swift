@@ -43,10 +43,13 @@ public enum StoreType {
 }
 
 public struct PersistentStoreConfiguration {
-    var storeType: StoreType = .inMemory
-    var configurationName: String?
-    var url: URL?
-    var options: [String : AnyObject]?
+    public var storeType: StoreType = .inMemory
+    public var configurationName: String?
+    public var url: URL?
+    public var options: [String : AnyObject]?
+    
+    public init() {
+    }
 }
 
 /// Provides an implementation of a CoreData Stack.
