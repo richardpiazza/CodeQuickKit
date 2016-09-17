@@ -53,31 +53,31 @@ public protocol LoggerAgent {
 
 /// Provides a single logger that allows for extension by proxying requests to `LoggerAgents`.
 /// The classes in CodeQuickKit use the Logger, add a `LoggerAgent` if you wish to process the log to another service.
-open class Logger {
-    open static var minimumConsoleLevel: LoggerLevel = .debug
-    open static var agents: [LoggerAgent] = [LoggerAgent]()
+public class Logger {
+    public static var minimumConsoleLevel: LoggerLevel = .debug
+    public static var agents: [LoggerAgent] = [LoggerAgent]()
     
-    open static func verbose(_ message: String, callingClass: AnyClass? = nil) {
+    public static func verbose(_ message: String, callingClass: AnyClass? = nil) {
         log(.verbose, message: message, error: nil, type: callingClass)
     }
     
-    open static func debug(_ message: String, callingClass: AnyClass? = nil) {
+    public static func debug(_ message: String, callingClass: AnyClass? = nil) {
         log(.debug, message: message, error: nil, type: callingClass)
     }
     
-    open static func info(_ message: String, callingClass: AnyClass? = nil) {
+    public static func info(_ message: String, callingClass: AnyClass? = nil) {
         log(.info, message: message, error: nil, type: callingClass)
     }
     
-    open static func warn(_ message: String, callingClass: AnyClass? = nil) {
+    public static func warn(_ message: String, callingClass: AnyClass? = nil) {
         log(.warn, message: message, error: nil, type: callingClass)
     }
     
-    open static func error(_ error: NSError?, message: String, callingClass: AnyClass? = nil) {
+    public static func error(_ error: NSError?, message: String, callingClass: AnyClass? = nil) {
         log(.error, message: message, error: error, type: callingClass)
     }
     
-    open static func exception(_ exception: NSException?, message: String, callingClass: AnyClass? = nil) {
+    public static func exception(_ exception: NSException?, message: String, callingClass: AnyClass? = nil) {
         var error: NSError?
         if let ex = exception {
             var userInfo:[AnyHashable: Any] = [AnyHashable: Any]()
@@ -93,7 +93,7 @@ open class Logger {
         log(.exception, message: message, error: error, type: callingClass)
     }
     
-    static func log(_ level: LoggerLevel, message: String?, error: NSError?, type: AnyClass?) {
+    public static func log(_ level: LoggerLevel, message: String?, error: NSError?, type: AnyClass?) {
         if level.rawValue >= minimumConsoleLevel.rawValue {
             let messageString = (message != nil) ? message! : ""
             let typeString = (type != nil) ? String(describing: type!) : String(describing: self)

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-// NSNumberFormatter.swift
+// NumberFormatter.swift
 //
 // Copyright (c) 2016 Richard Piazza
 // https://github.com/richardpiazza/CodeQuickKit
@@ -34,7 +34,7 @@ public enum NumberFormat {
     case currency
     case percent
     
-    var numberStyle: NumberFormatter.Style {
+    public var numberStyle: NumberFormatter.Style {
         switch self {
         case .currency: return .currency
         case .percent: return .percent
@@ -42,14 +42,14 @@ public enum NumberFormat {
         }
     }
     
-    var minimumFractionDigits: Int {
+    public var minimumFractionDigits: Int {
         switch self {
         case .percent: return 1
         default: return 0
         }
     }
     
-    var maximumFractionDigits: Int {
+    public var maximumFractionDigits: Int {
         switch self {
         case .integer: return 0
         case .singleDecimal: return 1
@@ -58,7 +58,7 @@ public enum NumberFormat {
         }
     }
     
-    var locale: Locale {
+    public var locale: Locale {
         switch self {
         default: return Locale.current
         }
@@ -67,14 +67,14 @@ public enum NumberFormat {
 
 public extension NumberFormatter {
     fileprivate struct common {
-        static let integerFormatter = NumberFormatter(withNumberFormat: .integer)
-        static let singleDecimalFormatter = NumberFormatter(withNumberFormat: .singleDecimal)
-        static let decimalFormatter = NumberFormatter(withNumberFormat: .decimal)
-        static let currencyFormatter = NumberFormatter(withNumberFormat: .currency)
-        static let percentFormatter = NumberFormatter(withNumberFormat: .percent)
+        static let integerFormatter = NumberFormatter(.integer)
+        static let singleDecimalFormatter = NumberFormatter(.singleDecimal)
+        static let decimalFormatter = NumberFormatter(.decimal)
+        static let currencyFormatter = NumberFormatter(.currency)
+        static let percentFormatter = NumberFormatter(.percent)
     }
     
-    public convenience init(withNumberFormat format: NumberFormat) {
+    public convenience init(_ format: NumberFormat) {
         self.init()
         numberStyle = format.numberStyle
         locale = format.locale

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-// NSDateFormatter.swift
+// DateFormatter.swift
 //
 // Copyright (c) 2016 Richard Piazza
 // https://github.com/richardpiazza/CodeQuickKit
@@ -45,14 +45,14 @@ public enum DateFormat {
     case fullDateOnly
     case fullTimeOnly
     
-    var dateFormat: String? {
+    public var dateFormat: String? {
         switch self {
         case .rfc1123: return "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
         default: return nil
         }
     }
     
-    var dateStyle: DateFormatter.Style? {
+    public var dateStyle: DateFormatter.Style? {
         switch self {
         case .shortDateTime, .shortDateOnly: return .short
         case .mediumDateTime, .mediumDateOnly: return .medium
@@ -63,7 +63,7 @@ public enum DateFormat {
         }
     }
     
-    var timeStyle: DateFormatter.Style? {
+    public var timeStyle: DateFormatter.Style? {
         switch self {
         case .shortDateTime, .shortTimeOnly: return .short
         case .mediumDateTime, .mediumTimeOnly: return .medium
@@ -74,13 +74,13 @@ public enum DateFormat {
         }
     }
     
-    var locale: Locale {
+    public var locale: Locale {
         switch self {
-        default: return Locale(identifier: "en_US")
+        default: return Locale(identifier: "en_US_POSIX")
         }
     }
     
-    var timeZone: TimeZone {
+    public var timeZone: TimeZone {
         switch self {
         default: return TimeZone(abbreviation: "GMT")!
         }
@@ -90,22 +90,22 @@ public enum DateFormat {
 /// Extension of `NSDateFormatter` adding static access to common formatters.
 public extension DateFormatter {
     fileprivate struct common {
-        static let rfc1123DateFormatter: DateFormatter = DateFormatter(withDateFormat: .rfc1123)
-        static let shortDateTimeFormatter: DateFormatter = DateFormatter(withDateFormat: .shortDateTime)
-        static let shortDateOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .shortDateOnly)
-        static let shortTimeOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .shortTimeOnly)
-        static let mediumDateTimeFormatter: DateFormatter = DateFormatter(withDateFormat: .mediumDateTime)
-        static let mediumDateOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .mediumDateOnly)
-        static let mediumTimeOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .mediumTimeOnly)
-        static let longDateTimeFormatter: DateFormatter = DateFormatter(withDateFormat: .longDateTime)
-        static let longDateOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .longDateOnly)
-        static let longTimeOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .longTimeOnly)
-        static let fullDateTimeFormatter: DateFormatter = DateFormatter(withDateFormat: .fullDateTime)
-        static let fullDateOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .fullDateOnly)
-        static let fullTimeOnlyFormatter: DateFormatter = DateFormatter(withDateFormat: .fullTimeOnly)
+        static let rfc1123DateFormatter: DateFormatter = DateFormatter(.rfc1123)
+        static let shortDateTimeFormatter: DateFormatter = DateFormatter(.shortDateTime)
+        static let shortDateOnlyFormatter: DateFormatter = DateFormatter(.shortDateOnly)
+        static let shortTimeOnlyFormatter: DateFormatter = DateFormatter(.shortTimeOnly)
+        static let mediumDateTimeFormatter: DateFormatter = DateFormatter(.mediumDateTime)
+        static let mediumDateOnlyFormatter: DateFormatter = DateFormatter(.mediumDateOnly)
+        static let mediumTimeOnlyFormatter: DateFormatter = DateFormatter(.mediumTimeOnly)
+        static let longDateTimeFormatter: DateFormatter = DateFormatter(.longDateTime)
+        static let longDateOnlyFormatter: DateFormatter = DateFormatter(.longDateOnly)
+        static let longTimeOnlyFormatter: DateFormatter = DateFormatter(.longTimeOnly)
+        static let fullDateTimeFormatter: DateFormatter = DateFormatter(.fullDateTime)
+        static let fullDateOnlyFormatter: DateFormatter = DateFormatter(.fullDateOnly)
+        static let fullTimeOnlyFormatter: DateFormatter = DateFormatter(.fullTimeOnly)
     }
     
-    public convenience init(withDateFormat format: DateFormat) {
+    public convenience init(_ format: DateFormat) {
         self.init()
         if let dateFormat = format.dateFormat {
             self.dateFormat = dateFormat

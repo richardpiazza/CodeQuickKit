@@ -48,7 +48,7 @@ public extension NSManagedObjectContext {
     
     /// Executes a set of operations on a secondary `NSManagedObjectContext`.
     /// The changes are merged into the calling `NSManagedObjectContext` and a `save()` is triggered.
-    func mergeChanges(performingBlock block: @escaping (_ privateContext: NSManagedObjectContext) -> Void, savingWithCompletion completion: (_ error: NSError?) -> Void) {
+    public func mergeChanges(performingBlock block: @escaping (_ privateContext: NSManagedObjectContext) -> Void, savingWithCompletion completion: (_ error: NSError?) -> Void) {
         var e: NSError? = nil
         
         let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
@@ -80,7 +80,7 @@ public extension NSManagedObjectContext {
     /// Executes a set of operations on a secondary `NSManagedObjectContext`.
     /// The changes are merged into the calling `NSManagedObjectContext`.
     /// - note: a `save()` is not triggered on the calling context.
-    func mergeChanges(performingBlock block: @escaping (_ privateContext: NSManagedObjectContext) -> Void, withCompletion completion: (_ error: NSError?) -> Void) {
+    public func mergeChanges(performingBlock block: @escaping (_ privateContext: NSManagedObjectContext) -> Void, withCompletion completion: (_ error: NSError?) -> Void) {
         var e: NSError? = nil
         
         let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)

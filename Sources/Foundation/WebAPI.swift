@@ -102,10 +102,10 @@ public enum WebAPIError: Error {
 /// - testability with injected responses
 open class WebAPI {
     
-    open var baseURL: URL?
-    open var injectedResponses: [String : WebAPIInjectedResponse] = [String : WebAPIInjectedResponse]()
-    open var sessionDelegate: URLSessionDelegate?
-    open lazy var session: URLSession = {
+    public var baseURL: URL?
+    public var injectedResponses: [String : WebAPIInjectedResponse] = [String : WebAPIInjectedResponse]()
+    public var sessionDelegate: URLSessionDelegate?
+    public lazy var session: URLSession = {
         [unowned self] in
         let configuration = URLSessionConfiguration.default
         return URLSession(configuration: configuration, delegate: self.sessionDelegate, delegateQueue: nil)

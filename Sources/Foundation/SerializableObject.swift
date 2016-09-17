@@ -71,7 +71,7 @@ open class SerializableObject: NSObject, Serializable {
     open var dictionary: SerializableDictionary {
         var d: SerializableDictionary = SerializableDictionary()
         
-        let propertyNames = Serializer.propertyNamesForClass(type(of: self))
+        let propertyNames = Serializer.propertyNames(forClass: type(of: self))
         for propertyName in propertyNames {
             guard let serializedKey = serializedKey(forPropertyName: propertyName) else {
                 continue
@@ -150,7 +150,7 @@ open class SerializableObject: NSObject, Serializable {
             return nil
         }
         
-        return Serializer.stringByRemovingPrettyJSONFormatting(forString: s)
+        return s.removingPrettyJSONFormatting
     }
     
     open func propertyName(forSerializedKey serializedKey: String) -> String? {
@@ -162,7 +162,7 @@ open class SerializableObject: NSObject, Serializable {
     }
     
     open func initializedObject(forPropertyName propertyName: String, withData data: NSObject) -> NSObject? {
-        let propertyClass: AnyClass = Serializer.classForPropertyName(propertyName, ofClass: type(of: self))
+        let propertyClass: AnyClass = Serializer.objectClass(forPropertyName: propertyName, ofClass: type(of: self))
         if propertyClass is NSNull.Type {
             return nil
         }
@@ -243,7 +243,7 @@ open class SerializableObject: NSObject, Serializable {
     }
     
     fileprivate func setValue(_ value: [NSObject], forPropertyName propertyName: String) {
-        let propertyClass: AnyClass = Serializer.classForPropertyName(propertyName, ofClass: type(of: self))
+        let propertyClass: AnyClass = Serializer.objectClass(forPropertyName: propertyName, ofClass: type(of: self))
         guard !(propertyClass is NSNull.Type) else {
             return
         }
@@ -259,7 +259,7 @@ open class SerializableObject: NSObject, Serializable {
     }
     
     fileprivate func setValue(_ value: Set<NSObject>, forPropertyName propertyName: String) {
-        let propertyClass: AnyClass = Serializer.classForPropertyName(propertyName, ofClass: type(of: self))
+        let propertyClass: AnyClass = Serializer.objectClass(forPropertyName: propertyName, ofClass: type(of: self))
         guard !(propertyClass is NSNull.Type) else {
             return
         }

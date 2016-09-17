@@ -29,40 +29,38 @@ import Foundation
 import CoreData
 
 public enum StoreType {
-    case sqLite
+    case sqlite
     case binary
     case inMemory
     
     public var stringValue: String {
         switch self {
-        case .sqLite: return NSSQLiteStoreType
+        case .sqlite: return NSSQLiteStoreType
         case .binary: return NSBinaryStoreType
         case .inMemory: return NSInMemoryStoreType
         }
     }
 }
 
-public protocol CoreDataConfiguration {
-    var persistentStoreType: StoreType { get }
-    var persistentStoreURL: URL { get }
-    var persistentStoreOptions: [String : AnyObject] { get }
+public struct PersistentStoreConfiguration {
+    var storeType: StoreType = .inMemory
+    var configurationName: String?
+    var url: URL?
+    var options: [String : AnyObject]?
 }
 
-/// Provides an implementation of a CoreData Stack. When no delegate is provided
-/// during initialization, an in-memory store type is used.
+/// Provides an implementation of a CoreData Stack.
+/// The default configuration uses an in-memory store type.
 open class CoreData {
-    open static let defaultStoreName = "CoreData.sqlite"
-    open static let mergedManagedObjectModelExtension = "momd"
+    fileprivate static let mergedManagedObjectModelExtension = "momd"
     
-    open var managedObjectContext: NSManagedObjectContext!
-    open var persistentStore: NSPersistentStore!
-    open var persistentStoreCoordinator: NSPersistentStoreCoordinator!
-    open var managedObjectModel: NSManagedObjectModel!
-    open var delegate: CoreDataConfiguration?
+    public var managedObjectContext: NSManagedObjectContext!
+    public var persistentStore: NSPersistentStore!
+    public var persistentStoreCoordinator: NSPersistentStoreCoordinator!
+    public var managedObjectModel: NSManagedObjectModel!
     
-    public init(withModel model: NSManagedObjectModel, delegate: CoreDataConfiguration? = nil) {
+    public init(withModel model: NSManagedObjectModel, configuration: PersistentStoreConfiguration = PersistentStoreConfiguration()) {
         Logger.verbose("\(#function)", callingClass: type(of: self))
-        self.delegate = delegate
         managedObjectModel = model
         
         persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
@@ -70,18 +68,8 @@ open class CoreData {
             fatalError("Persistent Store Coordinator is nil")
         }
         
-        var storeType: String = NSInMemoryStoreType
-        var storeURL: URL? = nil
-        var storeOptions: [String : AnyObject]? = nil
-        
-        if let delegate = self.delegate {
-            storeType = delegate.persistentStoreType.stringValue
-            storeURL = delegate.persistentStoreURL
-            storeOptions = delegate.persistentStoreOptions
-        }
-        
         do {
-            try persistentStore = coordinator.addPersistentStore(ofType: storeType, configurationName: nil, at: storeURL, options: storeOptions)
+            try persistentStore = coordinator.addPersistentStore(ofType: configuration.storeType.stringValue, configurationName: configuration.configurationName, at: configuration.url, options: configuration.options)
         } catch {
             fatalError("addPersistentStoreWithType failed")
         }
@@ -94,14 +82,14 @@ open class CoreData {
         moc.persistentStoreCoordinator = coordinator
     }
     
-    public convenience init(withEntities entities: [NSEntityDescription], delegate: CoreDataConfiguration? = nil) {
+    public convenience init(withEntities entities: [NSEntityDescription], configuration: PersistentStoreConfiguration = PersistentStoreConfiguration()) {
         Logger.verbose("\(#function)", callingClass: type(of: self))
         let model = NSManagedObjectModel()
         model.entities = entities
-        self.init(withModel: model, delegate: delegate)
+        self.init(withModel: model, configuration: configuration)
     }
     
-    public convenience init(fromBundle bundle: Bundle, modelName: String? = nil, delegate: CoreDataConfiguration? = nil) {
+    public convenience init(fromBundle bundle: Bundle, modelName: String? = nil, configuration: PersistentStoreConfiguration = PersistentStoreConfiguration()) {
         Logger.verbose("\(#function)", callingClass: type(of: self))
         var name: String? = modelName
         if modelName == nil {
@@ -120,7 +108,7 @@ open class CoreData {
             fatalError("Model failed to load contents of url '\(url)'.")
         }
         
-        self.init(withModel: model, delegate: delegate)
+        self.init(withModel: model, configuration: configuration)
     }
     
     deinit {

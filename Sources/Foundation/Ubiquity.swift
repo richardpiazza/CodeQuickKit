@@ -32,7 +32,7 @@ public enum UbiquityState {
     case deviceOnly
     case available
     
-    var description: String {
+    public var description: String {
         switch self {
         case .disabled: return "Disabled"
         case .deviceOnly: return "Device Only"
@@ -40,7 +40,7 @@ public enum UbiquityState {
         }
     }
     
-    var longDescription: String {
+    public var longDescription: String {
         switch self {
         case .disabled: return "iCloud is not enabled on this device."
         case .deviceOnly: return "iCloud is enabled, but the application container does not exist."
@@ -48,7 +48,7 @@ public enum UbiquityState {
         }
     }
     
-    static var invalidUbiquityState: NSError {
+    public static var invalidUbiquityState: NSError {
         var userInfo = [String : AnyObject]()
         userInfo[NSLocalizedDescriptionKey] = "Invalid ubiquity state." as AnyObject?
         userInfo[NSLocalizedFailureReasonErrorKey] = "This application does not have access to a valid iCloud ubiquity container." as AnyObject?
@@ -62,14 +62,14 @@ public protocol UbiquityContainerDelegate {
 }
 
 open class UbiquityContainer: UbiquityContainerDelegate {
-    open static let defaultContainer: UbiquityContainer = UbiquityContainer()
+    public static let defaultContainer: UbiquityContainer = UbiquityContainer()
     
-    open internal(set) var identifier: String?
-    open internal(set) var directory: URL?
-    open internal(set) var ubiquityIdentityToken = FileManager.default.ubiquityIdentityToken
-    open var delegate: UbiquityContainerDelegate?
+    public internal(set) var identifier: String?
+    public internal(set) var directory: URL?
+    public internal(set) var ubiquityIdentityToken = FileManager.default.ubiquityIdentityToken
+    public var delegate: UbiquityContainerDelegate?
     
-    open var ubiquityState: UbiquityState {
+    public var ubiquityState: UbiquityState {
         guard let _ = ubiquityIdentityToken else {
             return .disabled
         }
@@ -113,7 +113,7 @@ open class UbiquityContainer: UbiquityContainerDelegate {
         }
     }
     
-    open func ubiquityStateDidChange(_ oldState: UbiquityState, newState: UbiquityState) {
+    public func ubiquityStateDidChange(_ oldState: UbiquityState, newState: UbiquityState) {
         Logger.verbose("Ubiquity State did change from '\(oldState.description)' to '\(newState.description)'", callingClass: type(of: self))
     }
 }

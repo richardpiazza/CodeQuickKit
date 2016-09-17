@@ -40,42 +40,42 @@ public enum SerializerKeyStyle {
 public typealias SerializerRedirect = (propertyName: String, serializedKey: String)
 
 /// A collection of methods and properties the aid in the de/serializtion process.
-open class Serializer {
-    open static var propertyKeyStyle: SerializerKeyStyle = .matchCase
-    open static var serializedKeyStyle: SerializerKeyStyle = .matchCase
-    open static var dateFormatter: DateFormatter = DateFormatter.rfc1123DateFormatter
-    open static var keyRedirects: [SerializerRedirect] = [SerializerRedirect]()
+public class Serializer {
+    public static var propertyKeyStyle: SerializerKeyStyle = .matchCase
+    public static var serializedKeyStyle: SerializerKeyStyle = .matchCase
+    public static var dateFormatter: DateFormatter = DateFormatter.rfc1123DateFormatter
+    public static var keyRedirects: [SerializerRedirect] = [SerializerRedirect]()
     
     /// Returns the properly cased property name for the given serialized key.
-    open static func propertyName(forSerializedKey serializedKey: String) -> String? {
+    public static func propertyName(forSerializedKey serializedKey: String) -> String? {
         for (p, s) in keyRedirects {
             if s == serializedKey {
                 return p
             }
         }
         
-        return stringByApplyingKeyStyle(propertyKeyStyle, forString: serializedKey)
+        return serializedKey.applyingKeyStyle(propertyKeyStyle)
     }
     
     /// Returns the properly cased serialized key for the given property name.
-    open static func serializedKey(forPropertyName propertyName: String) -> String? {
+    public static func serializedKey(forPropertyName propertyName: String) -> String? {
         for (p, s) in keyRedirects {
             if p == propertyName {
                 return s
             }
         }
         
-        return stringByApplyingKeyStyle(serializedKeyStyle, forString: propertyName)
+        return propertyName.applyingKeyStyle(serializedKeyStyle)
     }
     
     /// Transforms common JSON string values into corresponding `NSObject`'s
-    open static func initializedObject(forPropertyName propertyName: String, ofClass: AnyClass, withData data: NSObject?) -> NSObject? {
+    public static func initializedObject(forPropertyName propertyName: String, ofClass: AnyClass, withData data: NSObject?) -> NSObject? {
         guard let d = data else {
             return nil
         }
         
         if let s = d as? String {
-            let propertyClass: AnyClass = classForPropertyName(propertyName, ofClass: ofClass)
+            let propertyClass: AnyClass = objectClass(forPropertyName: propertyName, ofClass: ofClass)
             
             switch propertyClass {
             case is UUID.Type:
@@ -98,7 +98,7 @@ open class Serializer {
     }
     
     /// Transforms `NSObject`'s not handled by NSJSONSerialization into string serializable values.
-    open static func serializedObject(forPropertyName propertyName: String, withData data: NSObject?) -> NSObject? {
+    public static func serializedObject(forPropertyName propertyName: String, withData data: NSObject?) -> NSObject? {
         guard let d = data else {
             return nil
         }
@@ -115,11 +115,11 @@ open class Serializer {
     }
     
     /// Lists all property names for an object of the provided class.
-    open static func propertyNamesForClass(_ objectClass: AnyClass) -> [String] {
+    public static func propertyNames(forClass objectClass: AnyClass) -> [String] {
         var properties: [String] = [String]()
         
         if let sc = objectClass.superclass() , (sc != SerializableObject.self && sc != NSObject.self) {
-            properties.append(contentsOf: self.propertyNamesForClass(sc))
+            properties.append(contentsOf: self.propertyNames(forClass: sc))
         }
         
         var propertyListCount: CUnsignedInt = 0
@@ -148,7 +148,7 @@ open class Serializer {
     
     /// Provides the class for a property with the given name.
     /// Will return NSNull class if property name not found/valid or not an NSObject subclass.
-    open static func classForPropertyName(_ propertyName: String, ofClass objectClass: AnyClass) -> AnyClass {
+    public static func objectClass(forPropertyName propertyName: String, ofClass objectClass: AnyClass) -> AnyClass {
         let runtimeProperty = class_getProperty(objectClass, (propertyName as NSString).utf8String)
         guard runtimeProperty != nil else {
             return NSNull.self
@@ -192,33 +192,38 @@ open class Serializer {
         
         return anyclass.self
     }
-    
-    open static func stringByRemovingPrettyJSONFormatting(forString jsonString: String) -> String {
-        let string: NSMutableString = NSMutableString(string: jsonString)
-        string.replaceOccurrences(of: "\n", with: "", options: .caseInsensitive, range: NSMakeRange(0, string.length))
-        string.replaceOccurrences(of: " : ", with: ":", options: .caseInsensitive, range: NSMakeRange(0, string.length))
-        string.replaceOccurrences(of: "  ", with: "", options: .caseInsensitive, range: NSMakeRange(0, string.length))
-        string.replaceOccurrences(of: "\\/", with: "/", options: .caseInsensitive, range: NSMakeRange(0, string.length))
-        return string as String
+}
+
+public extension String {
+    public var removingPrettyJSONFormatting: String {
+        var mutated = self
+        mutated = mutated.replacingOccurrences(of: "\n", with: "")
+        mutated = mutated.replacingOccurrences(of: " : ", with: ":")
+        mutated = mutated.replacingOccurrences(of: "  ", with: "")
+        mutated = mutated.replacingOccurrences(of: "\\/", with: "/")
+        return mutated
     }
     
-    open static func stringByApplyingKeyStyle(_ keyStyle: SerializerKeyStyle, forString string: String) -> String {
-        guard string.lengthOfBytes(using: String.Encoding.utf8) <= 1 else {
-            return string
+    internal func applyingKeyStyle(_ keyStyle: SerializerKeyStyle) -> String {
+        guard self.lengthOfBytes(using: .utf8) <= 1 else {
+            return self
         }
         
-        switch (keyStyle) {
+        switch keyStyle {
         case .titleCase:
-            let range: Range = string.startIndex..<string.characters.index(string.startIndex, offsetBy: 1)
-            let sub = string.substring(with: range).uppercased()
-            return string.replacingCharacters(in: range, with: sub)
+            let range = self.startIndex..<self.characters.index(self.startIndex, offsetBy: 1)
+            let sub = self.substring(with: range).uppercased()
+            return self.replacingCharacters(in: range, with: sub)
         case .camelCase:
-            let range: Range = string.startIndex..<string.characters.index(string.startIndex, offsetBy: 1)
-            let sub = string.substring(with: range).lowercased()
-            return string.replacingCharacters(in: range, with: sub)
-        case .upperCase: return string.uppercased()
-        case .lowerCase: return string.lowercased()
-        default: return string
+            let range = self.startIndex..<self.characters.index(self.startIndex, offsetBy: 1)
+            let sub = self.substring(with: range).lowercased()
+            return self.replacingCharacters(in: range, with: sub)
+        case .upperCase:
+            return self.uppercased()
+        case .lowerCase:
+            return self.lowercased()
+        default:
+            return self
         }
     }
 }

@@ -29,7 +29,7 @@ import Foundation
 
 public extension NSObject {
     /// Returns a probable Obj-C setter for the specified property name.
-    public func setterForPropertyName(_ propertyName: String) -> Selector? {
+    public func setter(forPropertyName propertyName: String) -> Selector? {
         guard propertyName.lengthOfBytes(using: String.Encoding.utf8) > 0 else {
             return nil
         }
@@ -42,7 +42,7 @@ public extension NSObject {
     }
     
     public func respondsToSetter(forPropertyName propertyName: String) -> Bool {
-        guard let selector = setterForPropertyName(propertyName) else {
+        guard let selector = setter(forPropertyName: propertyName) else {
             return false
         }
         

@@ -223,7 +223,7 @@ open class SerializableManagedObject: NSManagedObject, ManagedSerializable {
             return nil
         }
         
-        return Serializer.stringByRemovingPrettyJSONFormatting(forString: s)
+        return s.removingPrettyJSONFormatting
     }
     
     /// Maps a serialized key to a property name.
@@ -251,7 +251,7 @@ open class SerializableManagedObject: NSManagedObject, ManagedSerializable {
     /// When used in the context of `SerializableManagedObject`, `init(intoManagedObjectContext:withDictionary:)`
     /// is called.
     open func initializedObject(forPropertyName propertyName: String, withData data: NSObject) -> NSObject? {
-        let propertyClass: AnyClass = Serializer.classForPropertyName(propertyName, ofClass: type(of: self))
+        let propertyClass: AnyClass = Serializer.objectClass(forPropertyName: propertyName, ofClass: type(of: self))
         if propertyClass is NSNull.Type {
             return nil
         }
@@ -341,7 +341,7 @@ open class SerializableManagedObject: NSManagedObject, ManagedSerializable {
     
     /// Initializes multiple entities and assigns the set to the `propertyName` attribute.
     fileprivate func setValue(_ value: [NSObject], forPropertyName propertyName: String) {
-        let propertyClass: AnyClass = Serializer.classForPropertyName(propertyName, ofClass: type(of: self))
+        let propertyClass: AnyClass = Serializer.objectClass(forPropertyName: propertyName, ofClass: type(of: self))
         guard !(propertyClass is NSNull.Type) else {
             return
         }

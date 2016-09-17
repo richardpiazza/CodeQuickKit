@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-// NSUserDefaults.swift
+// UserDefaults.swift
 //
 // Copyright (c) 2016 Richard Piazza
 // https://github.com/richardpiazza/CodeQuickKit

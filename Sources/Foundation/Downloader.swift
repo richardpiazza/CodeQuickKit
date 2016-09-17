@@ -43,8 +43,8 @@ open class Downloader {
         return URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
     }()
     fileprivate var cache: URLCache = URLCache(memoryCapacity: Downloader.twentyFiveMB, diskCapacity: Downloader.twoHundredMB, diskPath: "Downloader")
-    open var baseURL: URL?
-    open var timeout: TimeInterval = 20
+    public var baseURL: URL?
+    public var timeout: TimeInterval = 20
     
     internal lazy var invalidBaseURL: NSError = {
         let userInfo: [String : AnyObject] = [NSLocalizedDescriptionKey:"Invalid Base URL" as AnyObject, NSLocalizedFailureReasonErrorKey:"You can not use a `path` method without specifiying a baseURL." as AnyObject]

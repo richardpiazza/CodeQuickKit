@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-// NSFileManger.swift
+// FileManger.swift
 //
 // Copyright (c) 2016 Richard Piazza
 // https://github.com/richardpiazza/CodeQuickKit
@@ -36,12 +36,12 @@ public struct UbiquityDocuments {
 
 public typealias UbiquityDocumentsCompletion = (_ documents: UbiquityDocuments?, _ error: NSError?) -> Void
 
-open class DocumentsUbiquityContainer: UbiquityContainer {
+public class DocumentsUbiquityContainer: UbiquityContainer {
     public struct Keys {
         static let documents = "Documents"
     }
     
-    override open var directory: URL? {
+    override public var directory: URL? {
         didSet {
             guard let d = directory else {
                 documentsDirectory = nil
@@ -149,7 +149,7 @@ open class DocumentsUbiquityContainer: UbiquityContainer {
         documentQuery.enableUpdates()
     }
     
-    open func ubiquityDocuments(withExtension ext: String?, completion: @escaping UbiquityDocumentsCompletion) {
+    public func ubiquityDocuments(withExtension ext: String?, completion: @escaping UbiquityDocumentsCompletion) {
         endUbiquityDocumentsQuery()
         
         guard ubiquityState == .available else {
@@ -183,7 +183,7 @@ open class DocumentsUbiquityContainer: UbiquityContainer {
         documentQuery.start()
     }
     
-    open func endUbiquityDocumentsQuery() {
+    public func endUbiquityDocumentsQuery() {
         guard let documentQuery = self.documentQuery else {
             return
         }
