@@ -33,9 +33,9 @@ import Foundation
 public struct KeyValueItem {
     public var value: NSObject
     public var timestamp: Date = Date()
-    public var build: NSString?
+    public var build: String?
     
-    public init(value: NSObject, timestamp: Date? = nil, build: NSString? = nil) {
+    public init(value: NSObject, timestamp: Date? = nil, build: String? = nil) {
         self.value = value
         if let date = timestamp {
             self.timestamp = date
@@ -66,7 +66,7 @@ extension KeyValueStorage {
             return nil
         }
         
-        let build = dictionary[KeyValueUbiquityContainer.Keys.build] as? NSString
+        let build = dictionary[KeyValueUbiquityContainer.Keys.build] as? String
         
         return KeyValueItem(value: value, timestamp: timestamp, build: build)
     }
@@ -76,7 +76,7 @@ extension KeyValueStorage {
     }
     
     func set(_ item: KeyValueItem, forKey: String) {
-        var dictionary = [String : NSObject]()
+        var dictionary = [String : Any]()
         dictionary[KeyValueUbiquityContainer.Keys.value] = item.value
         dictionary[KeyValueUbiquityContainer.Keys.timestamp] = item.timestamp as NSObject?
         if let build = item.build {
@@ -93,11 +93,16 @@ extension KeyValueStorage {
 
 extension UserDefaults: KeyValueStorage {
     public func set(_ aDictionary: [String : Any]?, forKey: String) {
-        if let dictionary = aDictionary {
-            self.set(dictionary, forKey: forKey)
-        } else {
+        guard aDictionary != nil else {
             self.removeObject(forKey: forKey)
+            return
         }
+        
+        guard let dictionary = aDictionary as? [String : NSObject] else {
+            return
+        }
+        
+        self.set(dictionary, forKey: forKey)
     }
 }
 
