@@ -45,17 +45,32 @@ public class PausableTimer {
     public var delegateRefreshRate: Float = 0.1
     public var expireCompletion: PausableTimerExpiredCompletion?
     
-    init(timeInterval: TimeInterval, delegate: PausableTimerDelegate? = nil, expireCompletion: PausableTimerExpiredCompletion? = nil) {
+    /// Instantiates a new PausabelTimer and automatically 'resumes' the execution.
+    public static func makeTimer(timeInterval: TimeInterval, delegate: PausableTimerDelegate? = nil, expireCompletion: PausableTimerExpiredCompletion? = nil) -> PausableTimer {
+        let timer = PausableTimer(timeInterval: timeInterval, delegate: delegate, expireCompletion: expireCompletion)
+        timer.resume()
+        return timer
+    }
+    
+    public static func makeTimer(timeInterval: TimeInterval, delegate: PausableTimerDelegate) -> PausableTimer {
+        return makeTimer(timeInterval: timeInterval, delegate: delegate, expireCompletion: nil)
+    }
+    
+    public static func makeTimer(timeInterval: TimeInterval, expireCompletion: @escaping PausableTimerExpiredCompletion) -> PausableTimer {
+        return makeTimer(timeInterval: timeInterval, delegate: nil, expireCompletion: expireCompletion)
+    }
+    
+    public init(timeInterval: TimeInterval, delegate: PausableTimerDelegate? = nil, expireCompletion: PausableTimerExpiredCompletion? = nil) {
         self.timeInterval = timeInterval
         self.delegate = delegate
         self.expireCompletion = expireCompletion
     }
     
-    convenience init(timeInterval: TimeInterval, delegate: PausableTimerDelegate) {
+    public convenience init(timeInterval: TimeInterval, delegate: PausableTimerDelegate) {
         self.init(timeInterval: timeInterval, delegate: delegate, expireCompletion: nil)
     }
     
-    convenience init(timeInterval: TimeInterval, expireCompletion: @escaping PausableTimerExpiredCompletion) {
+    public convenience init(timeInterval: TimeInterval, expireCompletion: @escaping PausableTimerExpiredCompletion) {
         self.init(timeInterval: timeInterval, delegate: nil, expireCompletion: expireCompletion)
     }
     
@@ -95,6 +110,7 @@ public class PausableTimer {
         update()
     }
     
+    /// Calculates the number of completed intervals and notifies the delegate.
     fileprivate func update() {
         guard let referenceDate = self.referenceDate else {
             return
@@ -118,6 +134,7 @@ public class PausableTimer {
         }
     }
     
+    /// Terminates the execution of the timer and notifies delegates.
     fileprivate func expire() {
         referenceDate = nil
         if let delegate = self.delegate {

@@ -41,6 +41,7 @@
 		E1D644A11BE358A9006860FD /* CodeQuickKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D644961BE358A9006860FD /* CodeQuickKit.framework */; };
 		E1D6455D1BE35B8E006860FD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D6455C1BE35B8E006860FD /* CoreData.framework */; };
 		E1F2EFC31D9C409F0047DC6E /* PausableTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2EFC21D9C409F0047DC6E /* PausableTimer.swift */; };
+		E1FB2C0E1DA02E2800A8E0C6 /* PausableTimerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FB2C0D1DA02E2800A8E0C6 /* PausableTimerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		E1D644A71BE358A9006860FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1D6455C1BE35B8E006860FD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E1F2EFC21D9C409F0047DC6E /* PausableTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PausableTimer.swift; sourceTree = "<group>"; };
+		E1FB2C0D1DA02E2800A8E0C6 /* PausableTimerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PausableTimerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,6 +247,7 @@
 				E187406F1C8D932300A7761C /* NSDateTests.swift */,
 				E18740711C8D9A3200A7761C /* SerializableObjectTests.swift */,
 				E18740731C8DAEE200A7761C /* WebAPITests.swift */,
+				E1FB2C0D1DA02E2800A8E0C6 /* PausableTimerTests.swift */,
 			);
 			path = CodeQuickKitTests;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				E18740721C8D9A3200A7761C /* SerializableObjectTests.swift in Sources */,
 				E187406E1C8D8ED300A7761C /* NSNumberFormatterTests.swift in Sources */,
 				E187406C1C8D7C8500A7761C /* CoreDataTests.swift in Sources */,
+				E1FB2C0E1DA02E2800A8E0C6 /* PausableTimerTests.swift in Sources */,
 				E18740741C8DAEE200A7761C /* WebAPITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
