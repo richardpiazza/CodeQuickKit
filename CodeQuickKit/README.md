@@ -82,7 +82,7 @@ Provides static access to several common number formatters:
 
 #### Reusable.swift
 
-Defines a protocol for use on `UITableViewCell` and `UICollectionReusableView` that provides the class name as a reuse identifier.
+Defines a protocol for use on `UIView` that provides the class name as a reuse identifier.
 
 #### Serializable.swift
 

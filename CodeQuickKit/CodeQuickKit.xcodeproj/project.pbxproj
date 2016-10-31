@@ -41,6 +41,8 @@
 		E1D644A11BE358A9006860FD /* CodeQuickKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D644961BE358A9006860FD /* CodeQuickKit.framework */; };
 		E1D6455D1BE35B8E006860FD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D6455C1BE35B8E006860FD /* CoreData.framework */; };
 		E1F2EFC31D9C409F0047DC6E /* PausableTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2EFC21D9C409F0047DC6E /* PausableTimer.swift */; };
+		E1F825F91DC15115006C53AE /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F825F81DC15115006C53AE /* UITableView.swift */; };
+		E1F825FB1DC153B3006C53AE /* ProgrammaticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F825FA1DC153B3006C53AE /* ProgrammaticView.swift */; };
 		E1FB2C0E1DA02E2800A8E0C6 /* PausableTimerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FB2C0D1DA02E2800A8E0C6 /* PausableTimerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +96,8 @@
 		E1D644A71BE358A9006860FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1D6455C1BE35B8E006860FD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E1F2EFC21D9C409F0047DC6E /* PausableTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PausableTimer.swift; sourceTree = "<group>"; };
+		E1F825F81DC15115006C53AE /* UITableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
+		E1F825FA1DC153B3006C53AE /* ProgrammaticView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgrammaticView.swift; sourceTree = "<group>"; };
 		E1FB2C0D1DA02E2800A8E0C6 /* PausableTimerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PausableTimerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -184,10 +188,12 @@
 			children = (
 				E15444811CE12674004409EA /* Bundle+UIKit.swift */,
 				E15444801CE12674004409EA /* Downloader+UIKit.swift */,
+				E1F825FA1DC153B3006C53AE /* ProgrammaticView.swift */,
 				E15444821CE12674004409EA /* Reusable.swift */,
 				E15444831CE12674004409EA /* Storyboarded.swift */,
 				E15444841CE12674004409EA /* UIAlertController.swift */,
 				E154447D1CE12674004409EA /* UIPickerView.swift */,
+				E1F825F81DC15115006C53AE /* UITableView.swift */,
 				E185E32A1D41365500EBD40F /* UIViewController.swift */,
 			);
 			path = iOS;
@@ -368,6 +374,7 @@
 				E1A1D5101D22F76A0082793F /* NSManagedObjectContext.swift in Sources */,
 				E154448F1CE12674004409EA /* NSObject.swift in Sources */,
 				E1F2EFC31D9C409F0047DC6E /* PausableTimer.swift in Sources */,
+				E1F825F91DC15115006C53AE /* UITableView.swift in Sources */,
 				E15444861CE12674004409EA /* SerializableManagedObject.swift in Sources */,
 				E154448C1CE12674004409EA /* FileManager.swift in Sources */,
 				E15444931CE12674004409EA /* Serializer.swift in Sources */,
@@ -382,6 +389,7 @@
 				E15444911CE12674004409EA /* Serializable.swift in Sources */,
 				E15444981CE12674004409EA /* Bundle+UIKit.swift in Sources */,
 				E154448A1CE12674004409EA /* Date.swift in Sources */,
+				E1F825FB1DC153B3006C53AE /* ProgrammaticView.swift in Sources */,
 				E15444961CE12674004409EA /* UIPickerView.swift in Sources */,
 				E15444881CE12674004409EA /* Logger.swift in Sources */,
 				E154448E1CE12674004409EA /* NumberFormatter.swift in Sources */,
