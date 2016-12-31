@@ -28,6 +28,7 @@
 import Foundation
 import CoreData
 
+@available(*, deprecated)
 public enum StoreType {
     case sqlite
     case binary
@@ -42,6 +43,7 @@ public enum StoreType {
     }
 }
 
+@available(*, deprecated, message: "use NSPersistentStoreDescription instead")
 public struct PersistentStoreConfiguration {
     public var storeType: StoreType = .inMemory
     public var configurationName: String?
@@ -54,6 +56,7 @@ public struct PersistentStoreConfiguration {
 
 /// Provides an implementation of a CoreData Stack.
 /// The default configuration uses an in-memory store type.
+@available(*, deprecated, message: "use NSPersistentContainer instead")
 open class CoreData {
     fileprivate static let mergedManagedObjectModelExtension = "momd"
     
