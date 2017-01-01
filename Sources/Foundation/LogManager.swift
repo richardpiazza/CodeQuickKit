@@ -33,29 +33,15 @@ public class LogManager {
     public private(set) var logAgents: [LogAgent] = [LogAgent]()
     public var consoleLevel: LogLevel = .debug
     public var fileLevel: LogLevel = .error
+    public var logFile: LogFile = LogFile.default
     public var writeToFile: Bool = false
     
     private init() {
         
     }
     
-    private var fileDirectory: URL {
-        var urls: [URL]
-        #if os(tvOS)
-            urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-        #else
-            urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        #endif
-        
-        guard let url = urls.last else {
-            fatalError("Could not find url for storage directory.")
-        }
-        
-        return url.appendingPathComponent("Logs")
-    }
-    
     // MARK: - Agents
-    private func index(agent: LogAgent) -> Array<LogAgent>.Index? {
+    private func index(of agent: LogAgent) -> Array<LogAgent>.Index? {
         let index = logAgents.index { (logAgent) -> Bool in
             return logAgent.isEqual(agent)
         }
@@ -64,7 +50,7 @@ public class LogManager {
     }
     
     public func add(agent: LogAgent) {
-        if let _ = index(agent: agent) {
+        if let _ = index(of: agent) {
             return
         }
         
@@ -72,7 +58,7 @@ public class LogManager {
     }
     
     public func remove(agent: LogAgent) {
-        guard let index = index(agent: agent) else {
+        guard let index = index(of: agent) else {
             return
         }
         
@@ -101,23 +87,25 @@ public class LogManager {
     }
     
     private func log(_ level: LogLevel, file: String, line: Int, message: String? = nil, error: NSError? = nil) {
+        let url = URL(fileURLWithPath: file)
+        
         var output: String
         if let m = message, let e = error {
-            output = "[\(level.fixedSpaceStringValue)] file: \(file) line: \(line)\nmessage: \(m)\nerror: \(e)"
+            output = "[\(level.symbolValue) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(m) | \(e)"
         } else if let m = message {
-            output = "[\(level.fixedSpaceStringValue)] file: \(file) line: \(line)\nmessage: \(m)"
+            output = "[\(level.symbolValue) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(m)"
         } else if let e = error {
-            output = "[\(level.fixedSpaceStringValue)] file: \(file) line: \(line)\nerror: \(e)"
+            output = "[\(level.symbolValue) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(e)"
         } else {
-            output = "[\(level.fixedSpaceStringValue)] file: \(file) line: \(line)"
+            output = "[\(level.symbolValue) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)]"
         }
         
         if level.rawValue >= consoleLevel.rawValue {
             NSLog("%@", output)
         }
         
-        if writeToFile {
-            
+        if level.rawValue >= fileLevel.rawValue && writeToFile {
+            logFile.write(output)
         }
             
         for agent in logAgents {
@@ -134,18 +122,95 @@ public enum LogLevel: Int {
     
     public var stringValue: String {
         switch self {
-        case .debug: return "DEBUG"
-        case .info: return "INFO"
-        case .warn: return "WARN"
-        case .error: return "ERROR"
+        case .debug: return "Debug"
+        case .info: return "Info"
+        case .warn: return "Warn"
+        case .error: return "Error"
         }
     }
     
     public var fixedSpaceStringValue: String {
         return stringValue.padding(toLength: 5, withPad: " ", startingAt: 0)
     }
+    
+    public var symbolValue: String {
+        switch self {
+        case .debug: return "⚪️"
+        case .info: return "⚫️"
+        case .warn: return "🔵"
+        case .error: return "🔴"
+        }
+    }
 }
 
 public protocol LogAgent: NSObjectProtocol {
     func log(_ level: LogLevel, file: String, line: Int, message: String?, error: NSError?)
+}
+
+public class LogFile {
+    public static var `default`: LogFile = LogFile(fileName: "log.txt")
+    
+    private var fileDirectory: URL {
+        var urls: [URL]
+        #if os(tvOS)
+            urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
+        #else
+            urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        #endif
+        
+        guard let url = urls.last else {
+            fatalError("Could not find url for storage directory.")
+        }
+        
+        return url
+    }
+    
+    public var fileURL: URL {
+        return fileDirectory.appendingPathComponent(fileName)
+    }
+    
+    public private(set) var fileName: String
+    
+    init(fileName: String) {
+        self.fileName = fileName
+    }
+    
+    public func write(_ output: String) {
+        guard let data = output.appending("\n").data(using: .utf8) else {
+            return
+        }
+        
+        guard FileManager.default.fileExists(atPath: fileURL.path) else {
+            do {
+                try data.write(to: fileURL, options: .atomic)
+            } catch {
+                NSLog("%@", error as NSError)
+            }
+            return
+        }
+        
+        var handle: FileHandle
+        do {
+            handle = try FileHandle(forWritingTo: fileURL)
+        } catch {
+            NSLog("%@", error as NSError)
+            return
+        }
+        
+        handle.seekToEndOfFile()
+        handle.write(data)
+        handle.closeFile()
+    }
+    
+    public func purge() {
+        guard FileManager.default.fileExists(atPath: fileURL.path) else {
+            return
+        }
+        
+        do {
+            try FileManager.default.removeItem(at: fileURL)
+        } catch {
+            NSLog("%@", error as NSError)
+        }
+    }
 }
