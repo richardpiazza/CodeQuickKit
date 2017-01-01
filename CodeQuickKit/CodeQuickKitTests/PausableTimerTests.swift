@@ -30,7 +30,9 @@ class PausableTimerTests: XCTestCase, PausableTimerDelegate {
         }
         
         waitForExpectations(timeout: 4) { (error) in
-            print(error)
+            if let e = error {
+                print(e)
+            }
         }
     }
     
@@ -40,7 +42,9 @@ class PausableTimerTests: XCTestCase, PausableTimerDelegate {
         let _ = PausableTimer.makeTimer(timeInterval: 3, delegate: self)
         
         waitForExpectations(timeout: 4) { (error) in
-            print(error)
+            if let e = error {
+                print(e)
+            }
         }
     }
 }

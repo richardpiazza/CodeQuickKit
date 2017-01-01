@@ -234,7 +234,7 @@ public extension FileManager {
         do {
             allDocuments = try FileManager.default.contentsOfDirectory(at: documentsDirectory, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions.skipsHiddenFiles)
         } catch {
-            Logger.error((error as NSError), message: "contentsOfDirectoryAtURL failed")
+            Log.error(error)
             return urls
         }
         

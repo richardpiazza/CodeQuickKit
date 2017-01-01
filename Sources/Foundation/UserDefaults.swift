@@ -172,7 +172,7 @@ open class KeyValueUbiquityContainer: UbiquityContainer {
             
             for key in changedKeys {
                 guard let ubiquityItem = keyValueStore.item(forKey: key) else {
-                    Logger.debug("Removing NSUserDefaults object for key '\(key)'")
+                    Log.debug("Removing NSUserDefaults object for key '\(key)'")
                     UserDefaults.standard.removeObject(forKey: key)
                     continue
                 }
@@ -200,7 +200,7 @@ open class KeyValueUbiquityContainer: UbiquityContainer {
         default: break
         }
         
-        Logger.verbose("\(keyValueStore.dictionaryRepresentation)")
+        Log.debug("\(keyValueStore.dictionaryRepresentation)")
     }
 }
 

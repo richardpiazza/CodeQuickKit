@@ -88,7 +88,7 @@ public extension Bundle {
         do {
             return try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
         } catch {
-            print(error)
+            Log.error(error)
             return nil
         }
     }

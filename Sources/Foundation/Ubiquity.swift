@@ -82,7 +82,6 @@ open class UbiquityContainer: UbiquityContainerDelegate {
     }
     
     public init(identifier: String? = nil, delegate: UbiquityContainerDelegate? = nil) {
-        Logger.verbose("\(#function)", callingClass: type(of: self))
         self.identifier = identifier
         self.delegate = delegate != nil ? delegate : self
         
@@ -103,7 +102,6 @@ open class UbiquityContainer: UbiquityContainerDelegate {
     }
     
     @objc fileprivate func ubiquityIdentityDidChange(_ notification: Notification) {
-        Logger.verbose("\(#function)", callingClass: type(of: self))
         let oldState = ubiquityState
         self.ubiquityIdentityToken = FileManager.default.ubiquityIdentityToken
         let newState = ubiquityState
@@ -114,6 +112,6 @@ open class UbiquityContainer: UbiquityContainerDelegate {
     }
     
     public func ubiquityStateDidChange(_ oldState: UbiquityState, newState: UbiquityState) {
-        Logger.verbose("Ubiquity State did change from '\(oldState.description)' to '\(newState.description)'", callingClass: type(of: self))
+        Log.debug("Ubiquity State did change from '\(oldState.description)' to '\(newState.description)'")
     }
 }

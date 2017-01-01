@@ -106,8 +106,7 @@ open class SerializableObject: NSObject, Serializable {
                 update(withDictionary: dictionary)
             }
         } catch {
-            let e = error as NSError
-            Logger.error(e, message: "Failed update(withData:); \(d)")
+            Log.error(error)
         }
     }
     
@@ -116,8 +115,7 @@ open class SerializableObject: NSObject, Serializable {
         do {
             return try JSONSerialization.data(withJSONObject: d, options: .prettyPrinted)
         } catch {
-            let e = error as NSError
-            Logger.error(e, message: "Failed data; \(d)")
+            Log.error(error)
         }
         
         return nil
@@ -134,7 +132,6 @@ open class SerializableObject: NSObject, Serializable {
         }
         
         guard let data = j.data(using: String.Encoding.utf8) else {
-            Logger.error(nil, message: "Failed update(withJSON:); \(j)")
             return
         }
         

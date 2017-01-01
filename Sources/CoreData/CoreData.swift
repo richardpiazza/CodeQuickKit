@@ -121,7 +121,7 @@ open class CoreData {
         do {
             try persistentStoreCoordinator.remove(persistentStore)
         } catch {
-            Logger.error((error as NSError), message: "removePersistentStore", callingClass: type(of: self))
+            Log.error(error)
         }
     }
 }

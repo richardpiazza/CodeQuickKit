@@ -8,16 +8,6 @@ An iOS Library for simplifying some everyday tasks.
 
 Extension on `Bundle` that provides first level property access to common bundle items. Also provides methods for determining class names in other modules.
 
-#### CoreData.swift
-
-Provides an implementation of a CoreData Stack. Conveience initializers allow for the model to be retrieved from the app bundle or through specified `NSEntityDescription`s.
-
-A common implementation looks like this:
-
-	class Repository {
-		static let coreData = CoreData(fromBundle: NSBundle.mainBundle(), modelName: "model")
-	}
-
 #### Date.swift
 
 Extension on `Date` that provides several helpful variables and methods.
@@ -54,9 +44,9 @@ and a wrapper for `NSMetadataQuery` needed to access documents in the ubiquity c
 		
 	}
 
-#### Logger.swift
+#### Log.swift
 
-Provides a single logger that allows for extension by proxying requests to `LoggerAgents`. The classes in CodeQuickKit use the Logger, add a `LoggerAgent` if you wish to process the log to another service.
+Provides a single logger that allows for extension by proxying requests to `LogObserver`s. The classes in CodeQuickKit use the Log, add a `LogOberserver` if you wish to process the log to another service.
 
 #### NSManagedObjectContext.swift
 

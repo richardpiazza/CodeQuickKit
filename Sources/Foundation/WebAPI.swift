@@ -175,7 +175,6 @@ open class WebAPI {
     /// Transforms the request into a `multipart/form-data` request.
     /// The request `content-type` will be set to `image/png` and the associated filename will be `image.png`
     public final func execute(_ path: String, queryItems: [URLQueryItem]?, method: WebAPIRequestMethod, pngImageData: Data, completion: @escaping WebAPICompletion) {
-        Logger.verbose("\(#function)", callingClass: type(of: self))
         if let request = request(forPath: path, queryItems: queryItems, method: method, data: nil) {
             let boundary = UUID().uuidString.replacingOccurrences(of: "-", with: "")
             let contentType = "multipart/form-data; boundary=\(boundary)"
@@ -244,10 +243,9 @@ open class WebAPI {
                 do {
                     body = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as AnyObject
                 } catch {
+                    Log.error(error)
                     if e == nil {
                         e = (error as NSError)
-                    } else {
-                        print(error)
                     }
                 }
                 
@@ -257,7 +255,6 @@ open class WebAPI {
     }
     
     fileprivate func execute(_ request: NSMutableURLRequest, completion: @escaping WebAPICompletion) {
-        Logger.verbose("\(#function)", callingClass: type(of: self))
         guard let url = request.url else {
             completion(0, nil, nil, WebAPIError.invalidURL.error)
             return
@@ -303,10 +300,9 @@ open class WebAPI {
                 do {
                     body = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as AnyObject
                 } catch {
+                    Log.error(error)
                     if e == nil {
                         e = (error as NSError)
-                    } else {
-                        print(error)
                     }
                 }
                 

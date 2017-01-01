@@ -27,6 +27,7 @@
 
 import Foundation
 
+@available(*, deprecated, message: "use `LogLevel` instead")
 public enum LoggerLevel: Int {
     case verbose = 0
     case debug = 1
@@ -47,12 +48,14 @@ public enum LoggerLevel: Int {
     }
 }
 
+@available(*, deprecated, message: "use `LogObserver` instead")
 public protocol LoggerAgent {
     func log(_ level: LoggerLevel, message: String?, error: NSError?, type: AnyClass?)
 }
 
 /// Provides a single logger that allows for extension by proxying requests to `LoggerAgents`.
 /// The classes in CodeQuickKit use the Logger, add a `LoggerAgent` if you wish to process the log to another service.
+@available(*, deprecated, message: "use `Log` instead")
 public class Logger {
     public static var minimumConsoleLevel: LoggerLevel = .debug
     public static var agents: [LoggerAgent] = [LoggerAgent]()

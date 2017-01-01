@@ -51,7 +51,7 @@ public extension NSMetadataQuery {
             do {
                 try (url as NSURL).getResourceValue(&isHidden, forKey: URLResourceKey.isHiddenKey)
             } catch {
-                Logger.error((error as NSError), message: "", callingClass: type(of: self))
+                Log.error(error)
                 continue
             }
             

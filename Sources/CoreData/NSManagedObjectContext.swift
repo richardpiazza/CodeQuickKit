@@ -62,6 +62,7 @@ public extension NSManagedObjectContext {
             do {
                 try privateContext.save()
             } catch {
+                Log.error(error)
                 e = error as NSError
             }
         }
@@ -71,6 +72,7 @@ public extension NSManagedObjectContext {
         do {
             try self.save()
         } catch {
+            Log.error(error)
             e = error as NSError
         }
         
@@ -94,6 +96,7 @@ public extension NSManagedObjectContext {
             do {
                 try privateContext.save()
             } catch {
+                Log.error(error)
                 e = error as NSError
             }
         }
