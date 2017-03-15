@@ -233,7 +233,7 @@ open class WebAPI {
                 
                 if let contentType = httpResponse.allHeaderFields[WebAPIHeaderKey.ContentType] as? String {
                     guard contentType.hasPrefix(WebAPIHeaderValue.ApplicationJson) else {
-                        completion(httpResponse.statusCode, httpResponse, nil, error as NSError?)
+                        completion(httpResponse.statusCode, httpResponse, data as AnyObject?, error as NSError?)
                         return
                     }
                 }
@@ -290,7 +290,7 @@ open class WebAPI {
                 
                 if let contentType = httpResponse.allHeaderFields[WebAPIHeaderKey.ContentType] as? String {
                     guard contentType.hasPrefix(WebAPIHeaderValue.ApplicationJson) else {
-                        completion(httpResponse.statusCode, httpResponse, nil, error as NSError?)
+                        completion(httpResponse.statusCode, httpResponse, data as AnyObject?, error as NSError?)
                         return
                     }
                 }
