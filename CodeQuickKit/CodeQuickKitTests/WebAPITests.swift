@@ -48,4 +48,26 @@ class WebAPITests: XCTestCase {
             }
         }
     }
+    
+    func testIPv6DNSError() {
+        let expectation = self.expectation(description: "IPv6 DNS Error")
+        
+        let invalidApi = WebAPI(baseURL: URL(string: "https://api.richardpiazza.com"), sessionDelegate: nil)
+        invalidApi.get("") { (statusCode, response, responseObject, error) in
+            guard let e = error else {
+                XCTFail()
+                return
+            }
+            
+            print(e)
+            
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 10) { (error) in
+            if let _ = error {
+                XCTFail()
+            }
+        }
+    }
 }
