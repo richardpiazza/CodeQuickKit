@@ -56,6 +56,17 @@ public struct WebAPIInjectedResponse {
     public var responseObject: AnyObject?
     public var error: NSError?
     public var timeout: UInt64 = 0
+    
+    public init() {
+    }
+    
+    public init(statusCode: Int, response: HTTPURLResponse? = nil, responseObject: AnyObject? = nil, error: NSError? = nil, timeout: UInt64 = 0) {
+        self.statusCode = statusCode
+        self.response = response
+        self.responseObject = responseObject
+        self.error = error
+        self.timeout = timeout
+    }
 }
 
 public enum WebAPIError: Error {
