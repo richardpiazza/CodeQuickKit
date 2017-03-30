@@ -86,7 +86,7 @@ public class PausableTimer {
     
     public var percentComplete: Double {
         let percent = completedIntervals / timeInterval
-        return max(percent, maxPercentComplete)
+        return min(percent, maxPercentComplete)
     }
     
     fileprivate var dispatchTime: DispatchTime {
