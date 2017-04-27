@@ -76,13 +76,15 @@ public enum DateFormat {
     
     public var locale: Locale {
         switch self {
-        default: return Locale(identifier: "en_US_POSIX")
+        case .rfc1123: return Locale(identifier: "en_US_POSIX")
+        default: return Locale.current
         }
     }
     
     public var timeZone: TimeZone {
         switch self {
-        default: return TimeZone(abbreviation: "GMT")!
+        case .rfc1123: return TimeZone(abbreviation: "GMT")!
+        default: return TimeZone.current
         }
     }
 }
