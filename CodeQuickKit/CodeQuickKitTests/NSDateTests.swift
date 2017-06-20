@@ -138,6 +138,7 @@ class NSDateTests: XCTestCase {
     func testNSDateFormatterStyleFormatters() {
         let string = "Fri, 05 Nov 1982 08:00:00 GMT"
         
+        DateFormatter.rfc1123DateFormatter.timeZone = TimeZone(identifier: "CST")
         guard let date = DateFormatter.rfc1123DateFormatter.date(from: string) else {
             XCTFail()
             return
@@ -149,11 +150,11 @@ class NSDateTests: XCTestCase {
         XCTAssertTrue(DateFormatter.mediumDateTimeFormatter.string(from: date) == "Nov 5, 1982, 8:00:00 AM")
         XCTAssertTrue(DateFormatter.mediumDateOnlyFormatter.string(from: date) == "Nov 5, 1982")
         XCTAssertTrue(DateFormatter.mediumTimeOnlyFormatter.string(from: date) == "8:00:00 AM")
-        XCTAssertTrue(DateFormatter.longDateTimeFormatter.string(from: date) == "November 5, 1982 at 8:00:00 AM GMT")
+        XCTAssertTrue(DateFormatter.longDateTimeFormatter.string(from: date) == "November 5, 1982 at 8:00:00 AM CST")
         XCTAssertTrue(DateFormatter.longDateOnlyFormatter.string(from: date) == "November 5, 1982")
-        XCTAssertTrue(DateFormatter.longTimeOnlyFormatter.string(from: date) == "8:00:00 AM GMT")
-        XCTAssertTrue(DateFormatter.fullDateTimeFormatter.string(from: date) == "Friday, November 5, 1982 at 8:00:00 AM GMT")
+        XCTAssertTrue(DateFormatter.longTimeOnlyFormatter.string(from: date) == "8:00:00 AM CST")
+        XCTAssertTrue(DateFormatter.fullDateTimeFormatter.string(from: date) == "Friday, November 5, 1982 at 8:00:00 AM Central Standard Time")
         XCTAssertTrue(DateFormatter.fullDateOnlyFormatter.string(from: date) == "Friday, November 5, 1982")
-        XCTAssertTrue(DateFormatter.fullTimeOnlyFormatter.string(from: date) == "8:00:00 AM GMT")
+        XCTAssertTrue(DateFormatter.fullTimeOnlyFormatter.string(from: date) == "8:00:00 AM Central Standard Time")
     }
 }
