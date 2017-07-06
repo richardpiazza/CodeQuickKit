@@ -28,6 +28,7 @@
 import Foundation
 
 /// Casing styles for `Serializable` object properties. (Default .MatchCase)
+@available(*, deprecated, message: "Swift `Encodeable`, `Decodable`, `Codable` should be used.")
 public enum SerializerKeyStyle {
     case matchCase
     case titleCase
@@ -37,9 +38,11 @@ public enum SerializerKeyStyle {
 }
 
 /// Redirects that should be applied to all objects during the de/serialization process.
+@available(*, deprecated, message: "Swift `Encodeable`, `Decodable`, `Codable` should be used.")
 public typealias SerializerRedirect = (propertyName: String, serializedKey: String)
 
 /// A collection of methods and properties the aid in the de/serializtion process.
+@available(*, deprecated, message: "Swift `Encodeable`, `Decodable`, `Codable` should be used.")
 public class Serializer {
     public static var propertyKeyStyle: SerializerKeyStyle = .matchCase
     public static var serializedKeyStyle: SerializerKeyStyle = .matchCase
@@ -115,6 +118,7 @@ public class Serializer {
     }
     
     /// Lists all property names for an object of the provided class.
+    @available(*, deprecated)
     public static func propertyNames(forClass objectClass: AnyClass) -> [String] {
         var properties: [String] = [String]()
         
@@ -127,8 +131,8 @@ public class Serializer {
         
         for index in 0..<Int(propertyListCount) {
             let runtimeProperty = runtimeProperties?[index]
-            let runtimeName = property_getName(runtimeProperty)
-            let propertyName = NSString(utf8String: runtimeName!)
+            let runtimeName = property_getName(runtimeProperty!)
+            let propertyName = NSString(utf8String: runtimeName)
             guard var property = propertyName else {
                 continue
             }
@@ -149,12 +153,12 @@ public class Serializer {
     /// Provides the class for a property with the given name.
     /// Will return NSNull class if property name not found/valid or not an NSObject subclass.
     public static func objectClass(forPropertyName propertyName: String, ofClass objectClass: AnyClass) -> AnyClass {
-        let runtimeProperty = class_getProperty(objectClass, (propertyName as NSString).utf8String)
+        let runtimeProperty = class_getProperty(objectClass, (propertyName as NSString).utf8String!)
         guard runtimeProperty != nil else {
             return NSNull.self
         }
         
-        let runtimeAttributes = property_getAttributes(runtimeProperty)
+        let runtimeAttributes = property_getAttributes(runtimeProperty!)
         let propertyAttributesString = NSString(utf8String: runtimeAttributes!)
         let propertyAttributesCollection = propertyAttributesString?.components(separatedBy: ",")
         guard let attributesCollection = propertyAttributesCollection , attributesCollection.count > 0 else {
@@ -194,6 +198,7 @@ public class Serializer {
     }
 }
 
+@available(*, deprecated, message: "Swift `Encodeable`, `Decodable`, `Codable` should be used.")
 public extension String {
     public var removingPrettyJSONFormatting: String {
         var mutated = self

@@ -147,7 +147,7 @@ class NSDateTests: XCTestCase {
         XCTAssertTrue(DateFormatter.shortDateTimeFormatter.string(from: date) == "11/5/82, 8:00 AM")
         XCTAssertTrue(DateFormatter.shortDateOnlyFormatter.string(from: date) == "11/5/82")
         XCTAssertTrue(DateFormatter.shortTimeOnlyFormatter.string(from: date) == "8:00 AM")
-        XCTAssertTrue(DateFormatter.mediumDateTimeFormatter.string(from: date) == "Nov 5, 1982, 8:00:00 AM")
+        XCTAssertTrue(DateFormatter.mediumDateTimeFormatter.string(from: date) == "Nov 5, 1982 at 8:00:00 AM")
         XCTAssertTrue(DateFormatter.mediumDateOnlyFormatter.string(from: date) == "Nov 5, 1982")
         XCTAssertTrue(DateFormatter.mediumTimeOnlyFormatter.string(from: date) == "8:00:00 AM")
         XCTAssertTrue(DateFormatter.longDateTimeFormatter.string(from: date) == "November 5, 1982 at 8:00:00 AM CST")

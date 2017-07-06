@@ -30,6 +30,7 @@ import CoreData
 
 /// ## SerializableManagedObject
 /// A subclass of `NSManagedObject` that implements the `ManagedSerializable` protocol
+@available(*, deprecated, message: "Swift `Encodeable`, `Decodable`, `Codable` should be used to map to CoreData objects.")
 open class SerializableManagedObject: NSManagedObject, ManagedSerializable {
     open static var entityName: String {
         var entityName = NSStringFromClass(self)
@@ -358,6 +359,7 @@ open class SerializableManagedObject: NSManagedObject, ManagedSerializable {
     }
 }
 
+@available(*, deprecated, message: "Swift `Encodeable`, `Decodable`, `Codable` should be used to map to CoreData objects.")
 public protocol ManagedSerializable: Serializable {
     init?(managedObjectContext context: NSManagedObjectContext)
     init?(managedObjectContext context: NSManagedObjectContext, withDictionary dictionary: SerializableDictionary?)
@@ -365,6 +367,7 @@ public protocol ManagedSerializable: Serializable {
     init?(managedObjectContext context: NSManagedObjectContext, withJSON json: String?)
 }
 
+@available(*, deprecated, message: "Swift `Encodeable`, `Decodable`, `Codable` should be used to map to CoreData objects.")
 public extension ManagedSerializable {
     static func initializeSerializable(managedObjectContext moc: NSManagedObjectContext?, withDictionary dictionary: SerializableDictionary?) -> Self? {
         guard let moc = moc else {

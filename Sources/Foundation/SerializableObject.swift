@@ -27,6 +27,7 @@
 
 import Foundation
 
+@available(*, deprecated, message: "Swift `Encodeable`, `Decodable`, `Codable` should be used.")
 open class SerializableObject: NSObject, Serializable {
     public override init() {
         super.init()
@@ -278,6 +279,7 @@ open class SerializableObject: NSObject, Serializable {
     }
 }
 
+@available(*, deprecated, message: "Swift `Encodeable`, `Decodable`, `Codable` should be used.")
 public extension Serializable {
     static func initializeSerializable(withDictionary dictionary: SerializableDictionary?) -> Self {
         return self.init(withDictionary: dictionary)

@@ -42,7 +42,7 @@ public extension NSManagedObjectContext {
     
     /// Calls `mergeChangesFromContextDidSaveNotification()` on the `NSManagedObjectContext`
     /// registered in `registerForDidSaveNotification(privateContext:)`
-    dynamic func managedObjectContextDidSave(_ notification: Notification) {
+    @objc dynamic func managedObjectContextDidSave(_ notification: Notification) {
         self.mergeChanges(fromContextDidSave: notification)
     }
     

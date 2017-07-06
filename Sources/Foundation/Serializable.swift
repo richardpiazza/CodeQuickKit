@@ -27,9 +27,11 @@
 
 import Foundation
 
+@available(*, deprecated, message: "Swift `Encodeable`, `Decodable`, `Codable` should be used.")
 public typealias SerializableDictionary = [String : NSObject]
 
 /// A protocol specifying methods for interacting with Dictionary/JSON representations of NSObjects.
+@available(*, deprecated, message: "Swift `Encodeable`, `Decodable`, `Codable` should be used.")
 public protocol Serializable: NSObjectProtocol {
     /// Called imediatley after initialization, allowing for property initialization.
     func setDefaults()

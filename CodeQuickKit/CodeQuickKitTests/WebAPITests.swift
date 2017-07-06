@@ -15,8 +15,16 @@ class WebAPITests: XCTestCase {
         }
         
         let responseObject: AnyObject = ["name":"Mock Me"] as AnyObject
+        var data: Data
+        do {
+            data = try JSONSerialization.data(withJSONObject: responseObject, options: .prettyPrinted)
+        } catch {
+            print(error)
+            XCTFail()
+            return
+        }
         
-        let injectedResponse = WebAPIInjectedResponse(statusCode: 200, response: nil, responseObject: responseObject, error: nil, timeout: 2)
+        let injectedResponse = WebAPI.InjectedResponse(statusCode: 200, headers: nil, data: data, error: nil, timeout: 2)
         webApi.injectedResponses["http://www.example.com/api/test"] = injectedResponse
     }
     
@@ -28,12 +36,25 @@ class WebAPITests: XCTestCase {
     func testInjectedResponse() {
         let expectation = self.expectation(description: "Injected Response")
         
-        api!.get("test", queryItems: nil) { (statusCode, response, responseObject, error) -> Void in
+        api!.get("test") { (statusCode, headers, data, error) in
             XCTAssertTrue(statusCode == 200)
-            guard let dictionary = responseObject as? [String : String] else {
+            XCTAssertNotNil(data)
+            
+            var dictionary: [String : String]
+            do {
+                let dictionaryData = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions())
+                if let d = dictionaryData as? [String : String] {
+                    dictionary = d
+                } else {
+                    XCTFail()
+                    return
+                }
+            } catch {
+                print(error)
                 XCTFail()
                 return
             }
+            
             guard dictionary["name"] == "Mock Me" else {
                 XCTFail()
                 return

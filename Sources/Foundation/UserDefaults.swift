@@ -147,7 +147,7 @@ open class KeyValueUbiquityContainer: UbiquityContainer {
         case .disabled:
             self.keyValueStore = nil
         default:
-            self.keyValueStore = NSUbiquitousKeyValueStore.default()
+            self.keyValueStore = NSUbiquitousKeyValueStore.default
         }
     }
     

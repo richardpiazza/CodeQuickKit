@@ -59,7 +59,7 @@ class CoreDataTests: XCTestCase {
     static let modelJSON2 = "{\"addresses\":[{\"street\":\"123 Main Street\",\"city\":\"Your Town\"}],\"name\":\"Bob\"}"
     static let modelJSON3 = "{\"name\":\"Bob\",\"addresses\":[{\"street\":\"123 Main Street\",\"city\":\"Your Town\"}]}"
     
-    var repository: CoreData?
+    var repository: NSPersistentContainer?
     
     override func setUp() {
         super.setUp()
@@ -105,11 +105,31 @@ class CoreDataTests: XCTestCase {
         addressEntity.properties = [cityAttribute, streetAttribute, addressPerson]
         personEntity.properties = [nameAttribute, personAddress]
         
-        repository = CoreData(withEntities: [addressEntity, personEntity])
+        let model = NSManagedObjectModel()
+        model.entities = [addressEntity, personEntity]
         
-        guard let _ = repository else {
+        repository = NSPersistentContainer(name: "Test", managedObjectModel: model)
+        
+        guard let coreData = repository else {
             XCTFail("Repository Not Initialized")
             return
+        }
+        
+        let expectation = self.expectation(description: "Load Expectation")
+        
+        let description = NSPersistentStoreDescription()
+        description.type = NSInMemoryStoreType
+        
+        coreData.persistentStoreDescriptions = [description]
+        coreData.loadPersistentStores { (persistentDescription, error) in
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { (error) in
+            if let e = error {
+                print(e)
+                XCTFail()
+            }
         }
     }
     
@@ -120,7 +140,7 @@ class CoreDataTests: XCTestCase {
     }
     
     func testInitManagedObjects() {
-        guard let moc = repository?.managedObjectContext else {
+        guard let moc = repository?.viewContext else {
             XCTFail("MOC nil")
             return
         }
@@ -158,7 +178,7 @@ class CoreDataTests: XCTestCase {
     }
     
     func testInitWithJSON() {
-        guard let moc = repository?.managedObjectContext else {
+        guard let moc = repository?.viewContext else {
             XCTFail("MOC nil")
             return
         }
@@ -193,7 +213,7 @@ class CoreDataTests: XCTestCase {
     }
     
     func testSecondaryContextChanges() {
-        guard let moc = repository?.managedObjectContext else {
+        guard let moc = repository?.viewContext else {
             XCTFail()
             return
         }
