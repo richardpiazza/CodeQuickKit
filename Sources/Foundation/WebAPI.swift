@@ -140,6 +140,7 @@ open class WebAPI {
     /// Subclasses can override this method to customize the request as needed.
     open func request(method: HTTPRequestMethod, path: String, queryItems: [URLQueryItem]?, data: Data?) throws -> NSMutableURLRequest {
         guard let baseURL = self.baseURL else {
+            Log.error(Errors.invalidURL)
             throw Errors.invalidURL
         }
         
@@ -147,6 +148,7 @@ open class WebAPI {
         urlWithComponents?.queryItems = queryItems
         
         guard let url = urlWithComponents?.url else {
+            Log.error(Errors.invalidURL)
             throw Errors.invalidURL
         }
         
@@ -168,6 +170,7 @@ open class WebAPI {
         let urlRequest = request as URLRequest
         return self.session.dataTask(with: urlRequest, completionHandler: { (responseData, urlResponse, error) in
             guard let httpResponse = urlResponse as? HTTPURLResponse else {
+                Log.error(error, message: "URLResponse failed to cast as HTTPURLResponse")
                 completion(0, nil, responseData, error)
                 return
             }
@@ -182,6 +185,7 @@ open class WebAPI {
     /// - note: Injected Responses will be queried before a task is executed.
     open func execute(request: NSMutableURLRequest, completion: @escaping WebAPIRequestCompletion) {
         guard let url = request.url else {
+            Log.error(Errors.invalidURL, message: "Failed to execute URL Request.")
             completion(0, nil, nil, Errors.invalidURL)
             return
         }
@@ -204,7 +208,7 @@ open class WebAPI {
         do {
             request = try self.request(method: method, path: path, queryItems: queryItems, data: nil)
         } catch {
-            completion(0, nil, nil, Errors.invalidRequest)
+            completion(0, nil, nil, error)
             return
         }
         

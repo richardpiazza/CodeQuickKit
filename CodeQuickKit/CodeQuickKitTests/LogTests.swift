@@ -28,13 +28,17 @@ class LogManagerTests: XCTestCase {
         super.tearDown()
     }
     
+    enum TestError: Error {
+        case fanError
+    }
+    
     func testLog() {
         XCTAssertFalse(FileManager.default.fileExists(atPath: logFile.url.path))
         
         Log.debug("doh...")
         Log.info("FYI...")
         Log.warn("Danger Will Robinson...")
-        Log.error("Shit just hit the fan...", error: NSError(domain: "LogManagerTests", code: 0, userInfo: nil))
+        Log.error(TestError.fanError, message: "Shit just hit the fan...")
         
         XCTAssertTrue(FileManager.default.fileExists(atPath: logFile.url.path))
     }

@@ -108,6 +108,8 @@ class NSDateTests: XCTestCase {
     func testRFC1123DateFormatter() {
         let string = "Fri, 05 Nov 1982 08:00:00 GMT"
         
+        DateFormatter.rfc1123DateFormatter.timeZone = TimeZone(identifier: "GMT")
+        
         var dateComponents = DateComponents()
         dateComponents.calendar = calendar
         dateComponents.timeZone = timeZone

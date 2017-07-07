@@ -81,15 +81,11 @@ public struct Log {
         log(.warn, file: file, line: line, message: message, error: nil)
     }
     
-    public static func error(file: String = #file, line: Int = #line, _ message: String? = nil, error: NSError) {
+    public static func error(file: String = #file, line: Int = #line, _ error: Error? = nil, message: String? = nil) {
         log(.error, file: file, line: line, message: message, error: error)
     }
     
-    public static func error(file: String = #file, line: Int = #line, _ error: Error) {
-        log(.error, file: file, line: line, message: nil, error: error as NSError)
-    }
-    
-    private static func log(_ level: LogLevel, file: String, line: Int, message: String? = nil, error: NSError? = nil) {
+    private static func log(_ level: LogLevel, file: String, line: Int, message: String? = nil, error: Error? = nil) {
         let log = Log(level, file: file, line: line, message: message, error: error)
         
         if level.rawValue >= consoleLevel.rawValue {
@@ -105,9 +101,9 @@ public struct Log {
     public var file: String
     public var line: Int
     public var message: String?
-    public var error: NSError?
+    public var error: Error?
     
-    public init(_ level: LogLevel, file: String = #file, line: Int = #line, message: String? = nil, error: NSError? = nil) {
+    public init(_ level: LogLevel, file: String = #file, line: Int = #line, message: String? = nil, error: Error? = nil) {
         self.level = level
         self.file = file
         self.line = line
@@ -119,11 +115,11 @@ public struct Log {
         let url = URL(fileURLWithPath: file)
         
         if let m = message, let e = error {
-            return "[\(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(m) | \(e)"
+            return "[\(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(m) | \(e.localizedDescription)"
         } else if let m = message {
             return "[\(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(m)"
         } else if let e = error {
-            return "[\(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(e)"
+            return "[\(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(e.localizedDescription)"
         } else {
             return "[\(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)]"
         }

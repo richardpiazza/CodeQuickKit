@@ -46,7 +46,7 @@ and a wrapper for `NSMetadataQuery` needed to access documents in the ubiquity c
 
 #### Log.swift
 
-Provides a single logger that allows for extension by proxying requests to `LogObserver`s. The classes in CodeQuickKit use the Log, add a `LogOberserver` if you wish to process the log to another service.
+Provides a single logger that allows for extension by proxying requests to `LogObserver`s. The classes in CodeQuickKit use the Log. Add a `LogOberserver` if you wish to process the log to another service.
 
 #### NSManagedObjectContext.swift
 
@@ -74,22 +74,6 @@ Provides static access to several common number formatters:
 
 Defines a protocol for use on `UIView` that provides the class name as a reuse identifier.
 
-#### Serializable.swift
-
-A protocol specifying methods for interacting with Dictionary/JSON representations of NSObjects.
-
-#### Serializer.swift
-
-A collection of methods and properties the aid in the de/serializtion process.
-
-#### SerializableManagedObject.swift
-
-A subclass of `NSManagedObject` that conforms to the `Serializable` protocol as well as providing convenience methods for initializing Core Data entities.
-
-#### SerializableObject.swift
-
-A subclass of `NSObject` that conforms to the `Serializable` protocol.
-
 #### Storyboarded.swift
 
 A protocol for use with UIViewController subclasses that are implemented in storyboards.
@@ -100,4 +84,4 @@ An extension on UIAlertController that provides static methods for displaying Al
 
 #### WebAPI.swift
 
-A wrapper for `NSURLSession` for communication with JSON REST API's. This class automatically deserializes a JSON response.
+A wrapper for `NSURLSession` for communication with REST API's.

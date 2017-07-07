@@ -30,7 +30,6 @@
 		E154449A1CE12675004409EA /* Storyboarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15444831CE12674004409EA /* Storyboarded.swift */; };
 		E154449B1CE12675004409EA /* UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15444841CE12674004409EA /* UIAlertController.swift */; };
 		E185E32B1D41365500EBD40F /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E185E32A1D41365500EBD40F /* UIViewController.swift */; };
-		E187406C1C8D7C8500A7761C /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406B1C8D7C8500A7761C /* CoreDataTests.swift */; };
 		E187406E1C8D8ED300A7761C /* NSNumberFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406D1C8D8ED300A7761C /* NSNumberFormatterTests.swift */; };
 		E18740701C8D932300A7761C /* NSDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406F1C8D932300A7761C /* NSDateTests.swift */; };
 		E18740741C8DAEE200A7761C /* WebAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740731C8DAEE200A7761C /* WebAPITests.swift */; };
@@ -81,7 +80,6 @@
 		E15444841CE12674004409EA /* UIAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController.swift; sourceTree = "<group>"; };
 		E176A68D1D8D7B2B00823E19 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E185E32A1D41365500EBD40F /* UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
-		E187406B1C8D7C8500A7761C /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		E187406D1C8D8ED300A7761C /* NSNumberFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNumberFormatterTests.swift; sourceTree = "<group>"; };
 		E187406F1C8D932300A7761C /* NSDateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateTests.swift; sourceTree = "<group>"; };
 		E18740731C8DAEE200A7761C /* WebAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPITests.swift; sourceTree = "<group>"; };
@@ -248,7 +246,6 @@
 			isa = PBXGroup;
 			children = (
 				E1D644A71BE358A9006860FD /* Info.plist */,
-				E187406B1C8D7C8500A7761C /* CoreDataTests.swift */,
 				E1D0CA031E18777100A718DC /* LogTests.swift */,
 				E187406D1C8D8ED300A7761C /* NSNumberFormatterTests.swift */,
 				E187406F1C8D932300A7761C /* NSDateTests.swift */,
@@ -408,7 +405,6 @@
 				E18740701C8D932300A7761C /* NSDateTests.swift in Sources */,
 				E187406E1C8D8ED300A7761C /* NSNumberFormatterTests.swift in Sources */,
 				E1D0CA041E18777100A718DC /* LogTests.swift in Sources */,
-				E187406C1C8D7C8500A7761C /* CoreDataTests.swift in Sources */,
 				E1FB2C0E1DA02E2800A8E0C6 /* PausableTimerTests.swift in Sources */,
 				E18740741C8DAEE200A7761C /* WebAPITests.swift in Sources */,
 			);
