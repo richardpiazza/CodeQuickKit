@@ -141,7 +141,6 @@
 				E154447C1CE12674004409EA /* iOS */,
 				E105B7931D62215F004AE5D9 /* macOS */,
 				E154447E1CE12674004409EA /* tvOS */,
-				E154447F1CE12674004409EA /* UIKit */,
 				E105B7921D622159004AE5D9 /* watchOS */,
 			);
 			name = Sources;
@@ -202,13 +201,6 @@
 			children = (
 			);
 			path = tvOS;
-			sourceTree = "<group>";
-		};
-		E154447F1CE12674004409EA /* UIKit */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UIKit;
 			sourceTree = "<group>";
 		};
 		E1D6448C1BE358A9006860FD = {
