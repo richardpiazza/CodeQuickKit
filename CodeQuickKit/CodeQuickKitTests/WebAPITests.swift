@@ -25,7 +25,7 @@ class WebAPITests: XCTestCase {
         }
         
         let injectedResponse = WebAPI.InjectedResponse(statusCode: 200, headers: nil, data: data, error: nil, timeout: 2)
-        webApi.injectedResponses["http://www.example.com/api/test"] = injectedResponse
+        webApi.injectedResponses[WebAPI.InjectedPath(string: "http://www.example.com/api/test")] = injectedResponse
     }
     
     override func tearDown() {

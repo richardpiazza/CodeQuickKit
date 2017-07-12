@@ -54,6 +54,48 @@ open class WebAPI {
         public static let ImagePNG = "image/png"
     }
     
+    public struct InjectedPath: Hashable {
+        var method: HTTPRequestMethod = .get
+        var absoluteString: String
+        
+        public init(request: NSMutableURLRequest) {
+            var m = HTTPRequestMethod.get
+            if let requestMethod = HTTPRequestMethod(rawValue: request.httpMethod) {
+                m = requestMethod
+            }
+            var a = ""
+            if let url = request.url {
+                a = url.absoluteString
+            }
+            self.init(method: m, string: a)
+        }
+        
+        public init(string: String) {
+            self.init(method: .get, string: string)
+        }
+        
+        public init(method: HTTPRequestMethod, string: String) {
+            self.method = method
+            self.absoluteString = string
+        }
+        
+        public var hashValue: Int {
+            return "\(method.rawValue)\(absoluteString)".hashValue
+        }
+        
+        public static func ==(lhs: InjectedPath, rhs: InjectedPath) -> Bool {
+            guard lhs.method == rhs.method else {
+                return false
+            }
+            
+            guard lhs.absoluteString == rhs.absoluteString else {
+                return false
+            }
+            
+            return true
+        }
+    }
+    
     public struct InjectedResponse {
         public var statusCode: Int = 0
         public var headers: [AnyHashable : Any]?
@@ -121,7 +163,7 @@ open class WebAPI {
     }
     
     public var baseURL: URL?
-    public var injectedResponses: [String : InjectedResponse] = [String : InjectedResponse]()
+    public var injectedResponses: [InjectedPath : InjectedResponse] = [InjectedPath : InjectedResponse]()
     public var sessionDelegate: URLSessionDelegate?
     public lazy var session: URLSession = {
         [unowned self] in
@@ -184,13 +226,13 @@ open class WebAPI {
     /// Executes the specified request.
     /// - note: Injected Responses will be queried before a task is executed.
     open func execute(request: NSMutableURLRequest, completion: @escaping WebAPIRequestCompletion) {
-        guard let url = request.url else {
+        guard let _ = request.url else {
             Log.error(Errors.invalidURL, message: "Failed to execute URL Request.")
             completion(0, nil, nil, Errors.invalidURL)
             return
         }
         
-        if let canned = injectedResponses[url.absoluteString] {
+        if let canned = injectedResponses[InjectedPath(request: request)] {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(canned.timeout * NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: { () -> Void in
                 completion(canned.statusCode, canned.headers, canned.data, canned.error)
             })
