@@ -83,12 +83,14 @@ public class Logger {
     public static func exception(_ exception: NSException?, message: String, callingClass: AnyClass? = nil) {
         var error: NSError?
         if let ex = exception {
-            var userInfo:[AnyHashable: Any] = [AnyHashable: Any]()
+            var userInfo:[String: Any] = [String: Any]()
             userInfo[NSLocalizedDescriptionKey] = ex.name
             userInfo[NSLocalizedFailureReasonErrorKey] = ex.reason ?? "Unknown Reason"
             if let dictionary = ex.userInfo {
                 for (key, value) in dictionary {
-                    userInfo[key] = value
+                    if let keyString = key as? String {
+                        userInfo[keyString] = value
+                    }
                 }
             }
             error = NSError(domain: String(describing: self), code: 0, userInfo: userInfo)
