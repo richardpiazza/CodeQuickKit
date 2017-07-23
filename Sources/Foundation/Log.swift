@@ -248,7 +248,7 @@ public class LogFile: NSObject, LogObserver {
             return
         }
         
-        guard fileBytes < bytes else {
+        guard fileBytes > bytes else {
             return
         }
         
