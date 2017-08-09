@@ -35,7 +35,7 @@ public extension NSObject {
         }
         
         let range = propertyName.startIndex..<propertyName.characters.index(propertyName.startIndex, offsetBy: 1)
-        let character = propertyName.substring(with: range).uppercased()
+        let character = propertyName[range].uppercased()
         let setter = propertyName.replacingCharacters(in: range, with: character)
         
         return NSSelectorFromString("set\(setter):")

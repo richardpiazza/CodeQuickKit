@@ -132,7 +132,7 @@ public extension Bundle {
         let endRange = classNamed.characters.index(classNamed.endIndex, offsetBy: -1)..<classNamed.endIndex
         
         var singular = classNamed
-        singular.replaceSubrange(firstRange, with: singular.substring(with: firstRange).uppercased())
+        singular.replaceSubrange(firstRange, with: singular[firstRange].uppercased())
         if singular.lowercased().hasSuffix("s") {
             singular.replaceSubrange(endRange, with: "")
         }

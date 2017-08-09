@@ -247,7 +247,7 @@ public extension FileManager {
             return urls
         }
         
-        let pathExtension = (ext!.hasPrefix(".")) ? ext!.substring(from: ext!.characters.index(ext!.startIndex, offsetBy: 1)) : ext!
+        let pathExtension = (ext!.hasPrefix(".")) ? String(ext![ext!.characters.index(ext!.startIndex, offsetBy: 1)..<ext!.characters.endIndex]) : ext!
         
         for doc in allDocuments! {
             if doc.pathExtension == pathExtension {
