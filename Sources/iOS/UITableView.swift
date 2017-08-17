@@ -25,6 +25,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if os(iOS)
+
 import UIKit
 
 public extension UITableView {
@@ -43,3 +45,5 @@ public extension UITableView {
         return cell
     }
 }
+
+#endif

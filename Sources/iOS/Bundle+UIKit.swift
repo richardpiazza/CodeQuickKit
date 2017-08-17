@@ -25,6 +25,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if os(iOS)
+
 import UIKit
 
 public extension Bundle {
@@ -46,3 +48,5 @@ public extension Bundle {
         return UIStoryboard(name: name, bundle: self)
     }
 }
+
+#endif

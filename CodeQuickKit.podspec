@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name = "CodeQuickKit"
-  s.version = "5.0.4"
+  s.version = "5.1.0"
   s.summary = "An Apple Library simplifying some everyday tasks."
   s.description = <<-DESC
   CodeQuickKit is a collection of Swift extensions and classes designed to 
@@ -22,19 +22,19 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://twitter.com/richardpiazza'
 
   s.osx.frameworks = 'Foundation'
-  s.osx.deployment_target = "10.12"
+  s.osx.deployment_target = "10.13"
   s.osx.source_files = 'Sources/Foundation/*', 'Sources/macOS/*'
 
   s.ios.frameworks = 'Foundation', 'UIKit'
-  s.ios.deployment_target = "10.0"
+  s.ios.deployment_target = "11.0"
   s.ios.source_files = 'Sources/Foundation/*', 'Sources/iOS/*'
 
   s.tvos.frameworks = 'Foundation', 'UIKit'
-  s.tvos.deployment_target = "10.0"
+  s.tvos.deployment_target = "11.0"
   s.tvos.source_files = 'Sources/Foundation/*', 'Sources/tvOS/*'
 
   s.watchos.frameworks = 'Foundation'
-  s.watchos.deployment_target = "3.0"
+  s.watchos.deployment_target = "4.0"
   s.watchos.source_files = 'Sources/Foundation/*', 'Sources/watchOS/*'
 
   s.source = { :git => "https://github.com/richardpiazza/CodeQuickKit.git", :tag => s.version.to_s }
@@ -53,25 +53,25 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'macOS' do |platform|
-    platform.platform = :osx, '10.12'
+    platform.platform = :osx, '10.13'
     platform.dependency 'CodeQuickKit/Foundation'
     #platform.source_files = 'Sources/macOS/*'
   end
 
   s.subspec 'iOS' do |platform|
-    platform.platform = :ios, '10.0'
+    platform.platform = :ios, '11.0'
     platform.dependency 'CodeQuickKit/Foundation'
     platform.source_files = 'Sources/iOS/*'
   end
 
   s.subspec 'tvOS' do |platform|
-    platform.platform = :tvos, '10.0'
+    platform.platform = :tvos, '11.0'
     platform.dependency 'CodeQuickKit/Foundation'
     #platform.source_files = 'Sources/tvOS/*'
   end
 
   s.subspec 'watchOS' do |platform|
-    platform.platform = :watchos, '3.0'
+    platform.platform = :watchos, '4.0'
     platform.dependency 'CodeQuickKit/Foundation'
     #platform.source_files = 'Sources/watchOS/*'
   end

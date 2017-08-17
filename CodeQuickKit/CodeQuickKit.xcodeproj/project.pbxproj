@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		E15444861CE12674004409EA /* SerializableManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E154446B1CE12674004409EA /* SerializableManagedObject.swift */; };
 		E15444871CE12674004409EA /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E154446D1CE12674004409EA /* Downloader.swift */; };
-		E15444881CE12674004409EA /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E154446E1CE12674004409EA /* Logger.swift */; };
 		E15444891CE12674004409EA /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E154446F1CE12674004409EA /* Bundle.swift */; };
 		E154448A1CE12674004409EA /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15444701CE12674004409EA /* Date.swift */; };
 		E154448B1CE12674004409EA /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15444711CE12674004409EA /* DateFormatter.swift */; };
@@ -58,7 +57,6 @@
 /* Begin PBXFileReference section */
 		E154446B1CE12674004409EA /* SerializableManagedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializableManagedObject.swift; sourceTree = "<group>"; };
 		E154446D1CE12674004409EA /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
-		E154446E1CE12674004409EA /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		E154446F1CE12674004409EA /* Bundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		E15444701CE12674004409EA /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		E15444711CE12674004409EA /* DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
@@ -165,7 +163,6 @@
 				E154446D1CE12674004409EA /* Downloader.swift */,
 				E15444721CE12674004409EA /* FileManager.swift */,
 				E1B559A21E17191100ABECB6 /* Log.swift */,
-				E154446E1CE12674004409EA /* Logger.swift */,
 				E15444731CE12674004409EA /* NSMetadataQuery.swift */,
 				E15444751CE12674004409EA /* NSObject.swift */,
 				E15444741CE12674004409EA /* NumberFormatter.swift */,
@@ -381,7 +378,6 @@
 				E154448A1CE12674004409EA /* Date.swift in Sources */,
 				E1F825FB1DC153B3006C53AE /* ProgrammaticView.swift in Sources */,
 				E15444961CE12674004409EA /* UIPickerView.swift in Sources */,
-				E15444881CE12674004409EA /* Logger.swift in Sources */,
 				E154448E1CE12674004409EA /* NumberFormatter.swift in Sources */,
 				E15444951CE12674004409EA /* WebAPI.swift in Sources */,
 				E154448D1CE12674004409EA /* NSMetadataQuery.swift in Sources */,
@@ -464,7 +460,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -515,7 +511,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -536,11 +532,15 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = com.richardpiazza.codequickkit;
 				PRODUCT_NAME = CodeQuickKit;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos watchsimulator watchos macosx";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Debug;
 		};
@@ -558,10 +558,14 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = com.richardpiazza.codequickkit;
 				PRODUCT_NAME = CodeQuickKit;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos watchsimulator watchos macosx";
 				SWIFT_VERSION = 4.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Release;
 		};
@@ -577,6 +581,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.richardpiazza.codequickkit.iOSTests;
 				PRODUCT_NAME = CodeQuickKitTests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos watchsimulator watchos macosx";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -595,6 +600,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.richardpiazza.codequickkit.iOSTests;
 				PRODUCT_NAME = CodeQuickKitTests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos watchsimulator watchos macosx";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};

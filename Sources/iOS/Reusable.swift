@@ -25,6 +25,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if os(iOS)
+
 import UIKit
 
 public protocol Reusable {
@@ -36,3 +38,5 @@ extension UIView: Reusable {
         return String(describing: self)
     }
 }
+
+#endif

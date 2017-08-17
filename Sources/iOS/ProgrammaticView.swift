@@ -25,6 +25,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if os(iOS)
+
 import UIKit
 
 public protocol ProgrammaticViewInitializable {
@@ -98,3 +100,5 @@ open class ProgrammaticCollectionViewCell: UICollectionViewCell, ProgrammaticVie
         
     }
 }
+
+#endif

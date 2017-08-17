@@ -25,6 +25,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if os(iOS)
+
 import UIKit
 
 public typealias DownloaderImageCompletion = (_ statusCode: Int, _ responseImage: UIImage?, _ error: NSError?) -> Void
@@ -52,3 +54,5 @@ public extension Downloader {
         }
     }
 }
+
+#endif

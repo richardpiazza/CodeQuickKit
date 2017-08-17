@@ -25,6 +25,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if os(iOS)
+
 import UIKit
 
 public protocol Storyboarded {
@@ -59,3 +61,5 @@ public extension UIStoryboard {
         return self.instantiateViewController(withIdentifier: viewControllerClass.storyboardIdentifier()) as! T
     }
 }
+
+#endif

@@ -25,6 +25,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if os(iOS)
+
 import UIKit
 
 extension UIViewController {
@@ -55,3 +57,5 @@ extension UIViewController {
         titleView.layer.removeAnimation(forKey: "animateTitle")
     }
 }
+
+#endif

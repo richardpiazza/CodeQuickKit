@@ -25,6 +25,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if os(iOS)
+
 import UIKit
 
 public typealias DefaultAlertCompletion = (_ selectedAction: String?, _ wasCanceled: Bool) -> Void
@@ -373,3 +375,5 @@ public extension UIAlertController {
         }
     }
 }
+
+#endif
