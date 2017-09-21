@@ -24,7 +24,6 @@ Pod::Spec.new do |s|
   s.source = { :git => "https://github.com/richardpiazza/CodeQuickKit.git", :tag => s.version.to_s }
   s.source_files = 'Sources/*'
   s.requires_arc = true
-  s.default_subspec = 'iOS'
 
   s.osx.deployment_target = "10.13"
   s.osx.frameworks = 'Foundation'
