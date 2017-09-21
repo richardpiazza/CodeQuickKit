@@ -13,6 +13,6 @@ xcuserdata/
 .DS_Store
 *.swp
 *~.nib
-
+.build/
 build/
 pkg/
