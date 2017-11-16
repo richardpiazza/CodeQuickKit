@@ -148,7 +148,12 @@ open class WebAPI {
     /// - note: Injected Responses are ignored when using this method.
     open func task(request: URLRequest, completion: @escaping WebAPIRequestCompletion) -> URLSessionDataTask {
         return self.session.dataTask(with: request, completionHandler: { (responseData, urlResponse, error) in
-            guard let httpResponse = urlResponse as? HTTPURLResponse else {
+            guard let response = urlResponse else {
+                completion(0, nil, responseData, error)
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
                 Log.error(error, message: "URLResponse failed to cast as HTTPURLResponse")
                 completion(0, nil, responseData, error)
                 return
