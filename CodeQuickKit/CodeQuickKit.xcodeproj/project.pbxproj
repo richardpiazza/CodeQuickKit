@@ -49,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E105D25E1FBDF5F000EC627B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		E176A68D1D8D7B2B00823E19 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		E187406D1C8D8ED300A7761C /* NumberFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumberFormatterTests.swift; path = ../../Tests/NumberFormatterTests.swift; sourceTree = "<group>"; };
 		E187406F1C8D932300A7761C /* DateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTests.swift; path = ../../Tests/DateTests.swift; sourceTree = "<group>"; };
@@ -138,8 +139,9 @@
 		E1D6448C1BE358A9006860FD = {
 			isa = PBXGroup;
 			children = (
-				E1B133271F73EE3900AB0BE3 /* Package.swift */,
 				E176A68D1D8D7B2B00823E19 /* README.md */,
+				E105D25E1FBDF5F000EC627B /* LICENSE */,
+				E1B133271F73EE3900AB0BE3 /* Package.swift */,
 				E1A1D51C1D25D8190082793F /* CodeQuickKit.podspec */,
 				E15444681CE12674004409EA /* Sources */,
 				E1D6455C1BE35B8E006860FD /* CoreData.framework */,

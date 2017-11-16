@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name = "CodeQuickKit"
-  s.version = "6.0.0"
+  s.version = "6.0.1"
   s.summary = "An Apple Library simplifying some everyday tasks."
   s.description = <<-DESC
   CodeQuickKit is a collection of Swift extensions and classes designed to aid in
