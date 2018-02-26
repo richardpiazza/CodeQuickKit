@@ -122,11 +122,7 @@ public protocol KeyValueUbiquityContainerDelegate {
             case .disabled:
                 self.keyValueStore = nil
             default:
-                #if os(tvOS)
-                    self.keyValueStore = NSUbiquitousKeyValueStore.default()
-                #else
-                    self.keyValueStore = NSUbiquitousKeyValueStore.default
-                #endif
+                self.keyValueStore = NSUbiquitousKeyValueStore.default
             }
         }
         
