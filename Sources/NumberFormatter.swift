@@ -77,11 +77,11 @@ public extension NumberFormatter {
         return common.singleDecimalFormatter
     }
     
-    public static func singleDecimal(fromString string: String) -> Float? {
-        return common.singleDecimalFormatter.number(from: string)?.floatValue
+    public static func singleDecimal(fromString string: String) -> Double? {
+        return common.singleDecimalFormatter.number(from: string)?.doubleValue
     }
     
-    public static func string(fromSingleDecimal number: Float) -> String? {
+    public static func string(fromSingleDecimal number: Double) -> String? {
         return common.singleDecimalFormatter.string(from: NSNumber(value: number))
     }
     
@@ -92,11 +92,11 @@ public extension NumberFormatter {
         return common.decimalFormatter
     }
     
-    public static func decimal(fromString string: String) -> Float? {
-        return common.decimalFormatter.number(from: string)?.floatValue
+    public static func decimal(fromString string: String) -> Double? {
+        return common.decimalFormatter.number(from: string)?.doubleValue
     }
     
-    public static func string(fromDecimal number: Float) -> String? {
+    public static func string(fromDecimal number: Double) -> String? {
         return common.decimalFormatter.string(from: NSNumber(value: number))
     }
     
@@ -106,11 +106,11 @@ public extension NumberFormatter {
         return common.currencyFormatter
     }
     
-    public static func currency(fromString string: String) -> Float? {
-        return common.currencyFormatter.number(from: string)?.floatValue
+    public static func currency(fromString string: String) -> Double? {
+        return common.currencyFormatter.number(from: string)?.doubleValue
     }
     
-    public static func string(fromCurrency number: Float) -> String? {
+    public static func string(fromCurrency number: Double) -> String? {
         return common.currencyFormatter.string(from: NSNumber(value: number))
     }
     
@@ -121,11 +121,11 @@ public extension NumberFormatter {
         return common.percentFormatter
     }
     
-    public static func percent(fromString string: String) -> Float? {
-        return common.percentFormatter.number(from: string)?.floatValue
+    public static func percent(fromString string: String) -> Double? {
+        return common.percentFormatter.number(from: string)?.doubleValue
     }
     
-    public static func string(fromPercent number: Float) -> String? {
+    public static func string(fromPercent number: Double) -> String? {
         return common.percentFormatter.string(from: NSNumber(value: number))
     }
 }
