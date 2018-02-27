@@ -90,7 +90,7 @@ public protocol KeyValueUbiquityContainerDelegate {
     func didSet(_ item: KeyValueItem, forKey: String)
 }
 
-#if (os(macOS) || os(iOS))
+#if (os(macOS) || os(iOS) || os(tvOS))
     extension NSUbiquitousKeyValueStore: KeyValueStorage {
         
     }
@@ -122,7 +122,7 @@ public protocol KeyValueUbiquityContainerDelegate {
             case .disabled:
                 self.keyValueStore = nil
             default:
-                self.keyValueStore = NSUbiquitousKeyValueStore.default
+                self.keyValueStore = NSUbiquitousKeyValueStore.`default`
             }
         }
         
