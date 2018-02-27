@@ -122,7 +122,12 @@ public protocol KeyValueUbiquityContainerDelegate {
             case .disabled:
                 self.keyValueStore = nil
             default:
+                #if os(tvOS)
+                // CocoaPods screws this up.
+                self.keyValueStore = nil
+                #else
                 self.keyValueStore = NSUbiquitousKeyValueStore.default
+                #endif
             }
         }
         
