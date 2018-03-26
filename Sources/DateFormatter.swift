@@ -1,5 +1,17 @@
 import Foundation
 
+public extension Locale {
+    static var enUSPosix: Locale {
+        return Locale(identifier: "en_US_POSIX")
+    }
+}
+
+public extension TimeZone {
+    static var gmt: TimeZone {
+        return TimeZone(identifier: "GMT")!
+    }
+}
+
 /// ## DateFormat
 ///
 /// Enum grouping the format options for `DateFormatter`s.
@@ -46,41 +58,27 @@ public enum DateFormat {
         default: return nil
         }
     }
-    
-    public var locale: Locale {
-        switch self {
-        case .rfc1123: return Locale(identifier: "en_US_POSIX")
-        default: return Locale.current
-        }
-    }
-    
-    public var timeZone: TimeZone {
-        switch self {
-        case .rfc1123: return TimeZone(abbreviation: "GMT")!
-        default: return TimeZone.current
-        }
-    }
 }
 
 /// Extension of `DateFormatter` adding static access to common formatters.
 public extension DateFormatter {
     fileprivate struct common {
-        static let rfc1123DateFormatter: DateFormatter = DateFormatter(.rfc1123)
-        static let shortDateTimeFormatter: DateFormatter = DateFormatter(.shortDateTime)
-        static let shortDateOnlyFormatter: DateFormatter = DateFormatter(.shortDateOnly)
-        static let shortTimeOnlyFormatter: DateFormatter = DateFormatter(.shortTimeOnly)
-        static let mediumDateTimeFormatter: DateFormatter = DateFormatter(.mediumDateTime)
-        static let mediumDateOnlyFormatter: DateFormatter = DateFormatter(.mediumDateOnly)
-        static let mediumTimeOnlyFormatter: DateFormatter = DateFormatter(.mediumTimeOnly)
-        static let longDateTimeFormatter: DateFormatter = DateFormatter(.longDateTime)
-        static let longDateOnlyFormatter: DateFormatter = DateFormatter(.longDateOnly)
-        static let longTimeOnlyFormatter: DateFormatter = DateFormatter(.longTimeOnly)
-        static let fullDateTimeFormatter: DateFormatter = DateFormatter(.fullDateTime)
-        static let fullDateOnlyFormatter: DateFormatter = DateFormatter(.fullDateOnly)
-        static let fullTimeOnlyFormatter: DateFormatter = DateFormatter(.fullTimeOnly)
+        static let rfc1123DateFormatter: DateFormatter = DateFormatter(dateFormat: .rfc1123)
+        static let shortDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .shortDateTime)
+        static let shortDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .shortDateOnly)
+        static let shortTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .shortTimeOnly)
+        static let mediumDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .mediumDateTime)
+        static let mediumDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .mediumDateOnly)
+        static let mediumTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .mediumTimeOnly)
+        static let longDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .longDateTime)
+        static let longDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .longDateOnly)
+        static let longTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .longTimeOnly)
+        static let fullDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .fullDateTime)
+        static let fullDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .fullDateOnly)
+        static let fullTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .fullTimeOnly)
     }
     
-    public convenience init(_ format: DateFormat) {
+    public convenience init(dateFormat format: DateFormat, locale: Locale = Locale.enUSPosix, timeZone: TimeZone = TimeZone.gmt) {
         self.init()
         if let dateFormat = format.dateFormat {
             self.dateFormat = dateFormat
@@ -91,8 +89,18 @@ public extension DateFormatter {
         if let timeStyle = format.timeStyle {
             self.timeStyle = timeStyle
         }
-        locale = format.locale
-        timeZone = format.timeZone
+        self.locale = locale
+        self.timeZone = timeZone
+    }
+    
+    public var display: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = self.dateFormat
+        formatter.dateStyle = self.dateStyle
+        formatter.timeStyle = self.timeStyle
+        formatter.locale = Locale.current
+        formatter.timeZone = TimeZone.current
+        return formatter
     }
     
     /// DateFormatter with the format "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"

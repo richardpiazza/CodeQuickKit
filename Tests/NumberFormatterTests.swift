@@ -35,7 +35,7 @@ class NumberFormatterTests: XCTestCase {
             return
         }
         
-        XCTAssertTrue(number == 147.362701)
+        XCTAssertTrue((147.3627 - number) < 0.0001)
         
         guard let string = NumberFormatter.string(fromSingleDecimal: number) else {
             XCTFail()

@@ -8,12 +8,12 @@ A Swift library for simplifying some everyday tasks.
 
 __CocoaPods__
 
-    pod 'CodeQuickKit', '~> 6.0'
+    pod 'CodeQuickKit', '~> 6.1'
 
 
 __Swift Package Manager__
 
-    .package(url: "https://github.com/richardpiazza/CodeQuickKit", .upToNextMinor(from: "6.0.3"))
+    .package(url: "https://github.com/richardpiazza/CodeQuickKit", .upToNextMinor(from: "6.1.0"))
 
 
 ## Essential Classes
