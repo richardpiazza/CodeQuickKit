@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name = "CodeQuickKit"
-  s.version = "6.1.0"
+  s.version = "6.1.1"
   s.summary = "An Apple Library simplifying some everyday tasks."
   s.description = <<-DESC
   CodeQuickKit is a collection of Swift extensions and classes designed to aid in
@@ -29,8 +29,8 @@ Pod::Spec.new do |s|
   s.osx.frameworks = 'Foundation'
   s.ios.deployment_target = "11.0"
   s.ios.frameworks = 'Foundation', 'UIKit'
-#s.tvos.deployment_target = "11.0"
-#s.tvos.frameworks = 'Foundation', 'UIKit'
+  s.tvos.deployment_target = "11.0"
+  s.tvos.frameworks = 'Foundation', 'UIKit'
   s.watchos.deployment_target = "4.0"
   s.watchos.frameworks = 'Foundation'
 
