@@ -82,7 +82,7 @@ open class Downloader {
     }
 }
 
-#if os(iOS)
+#if (os(iOS) || os(tvOS))
     import UIKit
     
     public typealias DownloaderImageCompletion = (_ statusCode: Int, _ responseImage: UIImage?, _ error: Error?) -> Void
