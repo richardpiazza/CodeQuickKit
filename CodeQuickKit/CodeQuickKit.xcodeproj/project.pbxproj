@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E12DC4F62092008300299260 /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F52092008300299260 /* EnvironmentTests.swift */; };
+		E12DC4F8209206DD00299260 /* FileManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F7209206DD00299260 /* FileManagerTests.swift */; };
+		E12DC4FA209209A400299260 /* BundleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F9209209A400299260 /* BundleTests.swift */; };
 		E187406E1C8D8ED300A7761C /* NumberFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406D1C8D8ED300A7761C /* NumberFormatterTests.swift */; };
 		E18740701C8D932300A7761C /* DateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406F1C8D932300A7761C /* DateTests.swift */; };
 		E18740741C8DAEE200A7761C /* WebAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740731C8DAEE200A7761C /* WebAPITests.swift */; };
@@ -50,6 +53,9 @@
 
 /* Begin PBXFileReference section */
 		E105D25E1FBDF5F000EC627B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		E12DC4F52092008300299260 /* EnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EnvironmentTests.swift; path = ../../Tests/EnvironmentTests.swift; sourceTree = "<group>"; };
+		E12DC4F7209206DD00299260 /* FileManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FileManagerTests.swift; path = ../../Tests/FileManagerTests.swift; sourceTree = "<group>"; };
+		E12DC4F9209209A400299260 /* BundleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BundleTests.swift; path = ../../Tests/BundleTests.swift; sourceTree = "<group>"; };
 		E176A68D1D8D7B2B00823E19 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		E187406D1C8D8ED300A7761C /* NumberFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumberFormatterTests.swift; path = ../../Tests/NumberFormatterTests.swift; sourceTree = "<group>"; };
 		E187406F1C8D932300A7761C /* DateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTests.swift; path = ../../Tests/DateTests.swift; sourceTree = "<group>"; };
@@ -173,11 +179,14 @@
 			isa = PBXGroup;
 			children = (
 				E1D644A71BE358A9006860FD /* Info.plist */,
+				E12DC4F9209209A400299260 /* BundleTests.swift */,
 				E1D0CA031E18777100A718DC /* LogTests.swift */,
 				E187406F1C8D932300A7761C /* DateTests.swift */,
+				E12DC4F52092008300299260 /* EnvironmentTests.swift */,
 				E187406D1C8D8ED300A7761C /* NumberFormatterTests.swift */,
 				E1FB2C0D1DA02E2800A8E0C6 /* PausableTimerTests.swift */,
 				E18740731C8DAEE200A7761C /* WebAPITests.swift */,
+				E12DC4F7209206DD00299260 /* FileManagerTests.swift */,
 			);
 			path = CodeQuickKitTests;
 			sourceTree = "<group>";
@@ -239,7 +248,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Richard Piazza";
 				TargetAttributes = {
 					E1D644951BE358A9006860FD = {
@@ -323,10 +332,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E18740701C8D932300A7761C /* DateTests.swift in Sources */,
+				E12DC4FA209209A400299260 /* BundleTests.swift in Sources */,
 				E187406E1C8D8ED300A7761C /* NumberFormatterTests.swift in Sources */,
 				E1D0CA041E18777100A718DC /* LogTests.swift in Sources */,
 				E1FB2C0E1DA02E2800A8E0C6 /* PausableTimerTests.swift in Sources */,
 				E18740741C8DAEE200A7761C /* WebAPITests.swift in Sources */,
+				E12DC4F62092008300299260 /* EnvironmentTests.swift in Sources */,
+				E12DC4F8209206DD00299260 /* FileManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,12 +365,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -410,12 +424,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

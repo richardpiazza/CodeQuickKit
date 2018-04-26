@@ -74,13 +74,15 @@ public struct Log {
     }
     
     public var level: LogLevel
+    public var date: Date
     public var file: String
     public var line: Int
     public var message: String?
     public var error: Error?
     
-    public init(_ level: LogLevel, file: String = #file, line: Int = #line, message: String? = nil, error: Error? = nil) {
+    public init(_ level: LogLevel, date: Date = Date(), file: String = #file, line: Int = #line, message: String? = nil, error: Error? = nil) {
         self.level = level
+        self.date = date
         self.file = file
         self.line = line
         self.message = message
@@ -91,13 +93,13 @@ public struct Log {
         let url = URL(fileURLWithPath: file)
         
         if let m = message, let e = error {
-            return "[\(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(m) | \(e.localizedDescription)"
+            return "[\(date) \(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(m) | \(e.localizedDescription)"
         } else if let m = message {
-            return "[\(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(m)"
+            return "[\(date) \(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(m)"
         } else if let e = error {
-            return "[\(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(e.localizedDescription)"
+            return "[\(date) \(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)] \(e.localizedDescription)"
         } else {
-            return "[\(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)]"
+            return "[\(date) \(level.gem) \(level.fixedSpaceStringValue) \(url.lastPathComponent) \(line)]"
         }
     }
 }
@@ -140,7 +142,7 @@ public protocol LogObserver: NSObjectProtocol {
 /// A Simple class conforming to `LogObserver` that writes `Log`s to a file on disk.
 public class LogFile: NSObject, LogObserver {
     #if (os(macOS) || os(iOS) || os(tvOS) || os(watchOS))
-    public static var `default`: LogFile = LogFile(fileName: "log.txt", autoPurge: true)
+    public static var `default`: LogFile = LogFile(fileName: "log.txt", logLevel: .debug, autoPurge: true)
     #endif
     
     private static var fileDirectory: URL {
