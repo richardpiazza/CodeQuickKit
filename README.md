@@ -8,12 +8,12 @@ A Swift library for simplifying some everyday tasks.
 
 __CocoaPods__
 
-    pod 'CodeQuickKit', '~> 6.1'
+    pod 'CodeQuickKit', '~> 6.2'
 
 
 __Swift Package Manager__
 
-    .package(url: "https://github.com/richardpiazza/CodeQuickKit", .upToNextMinor(from: "6.1.0"))
+    .package(url: "https://github.com/richardpiazza/CodeQuickKit", .upToNextMinor(from: "6.2.0"))
 
 
 ## Essential Classes
@@ -98,4 +98,4 @@ An extension on UIAlertController that provides static methods for displaying Al
 
 #### WebAPI.swift
 
-A wrapper for `NSURLSession` for communication with REST API's.
+A wrapper for `URLSession` for communication with JSON API's.

@@ -8,7 +8,7 @@ class WebAPITests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        api = WebAPI(baseURL: URL(string: "http://www.example.com/api"), sessionDelegate: nil)
+        api = WebAPI(baseURL: URL(string: "http://www.example.com/api")!)
         guard let webApi = api else {
             XCTFail("WebAPI is nil")
             return
@@ -24,8 +24,8 @@ class WebAPITests: XCTestCase {
             return
         }
         
-        let injectedResponse = WebAPI.InjectedResponse(statusCode: 200, headers: nil, data: data, error: nil, timeout: 2)
-        webApi.injectedResponses[WebAPI.InjectedPath(string: "http://www.example.com/api/test")] = injectedResponse
+        let injectedResponse = InjectedResponse(statusCode: 200, headers: nil, data: data, error: nil, timeout: 2)
+        webApi.injectedResponses[InjectedPath(string: "http://www.example.com/api/test")] = injectedResponse
     }
     
     override func tearDown() {
@@ -73,7 +73,7 @@ class WebAPITests: XCTestCase {
     func testIPv6DNSError() {
         let expectation = self.expectation(description: "IPv6 DNS Error")
         
-        let invalidApi = WebAPI(baseURL: URL(string: "https://api.richardpiazza.com"), sessionDelegate: nil)
+        let invalidApi = WebAPI(baseURL: URL(string: "https://api.richardpiazza.com")!)
         invalidApi.get("") { (statusCode, response, responseObject, error) in
             guard let _ = error else {
                 XCTFail()

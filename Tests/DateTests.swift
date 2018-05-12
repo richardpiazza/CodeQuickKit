@@ -108,7 +108,7 @@ class DateTests: XCTestCase {
     func testRFC1123DateFormatter() {
         let string = "Fri, 05 Nov 1982 08:00:00 GMT"
         
-        DateFormatter.rfc1123DateFormatter.timeZone = TimeZone(identifier: "GMT")
+        HTTP.Header.dateFormatter.timeZone = TimeZone(identifier: "GMT")
         
         var dateComponents = DateComponents()
         dateComponents.calendar = calendar
@@ -126,38 +126,38 @@ class DateTests: XCTestCase {
             return
         }
         
-        guard let d1 = DateFormatter.rfc1123Date(fromString: string) else {
+        guard let d1 = HTTP.Header.dateFormatter.date(from: string) else {
             XCTFail()
             return
         }
         
         XCTAssertTrue(date.isSame(d1))
         
-        let s1 = DateFormatter.rfc1123String(fromDate: date)
+        let s1 = HTTP.Header.dateFormatter.string(from: date)
         XCTAssertTrue(string == s1)
     }
     
     func testNSDateFormatterStyleFormatters() {
         let string = "Fri, 05 Nov 1982 08:00:00 GMT"
         
-        guard let date = DateFormatter.rfc1123DateFormatter.date(from: string) else {
+        guard let date = HTTP.Header.dateFormatter.date(from: string) else {
             XCTFail()
             return
         }
         
-        XCTAssertTrue(DateFormatter.shortDateTimeFormatter.string(from: date) == "11/5/82, 8:00 AM")
-        XCTAssertTrue(DateFormatter.shortDateOnlyFormatter.string(from: date) == "11/5/82")
-        XCTAssertTrue(DateFormatter.shortTimeOnlyFormatter.string(from: date) == "8:00 AM")
-        var actual = DateFormatter.mediumDateTimeFormatter.string(from: date)
+        XCTAssertTrue(DateFormatter.GMT.shortDateTimeFormatter.string(from: date) == "11/5/82, 8:00 AM")
+        XCTAssertTrue(DateFormatter.GMT.shortDateOnlyFormatter.string(from: date) == "11/5/82")
+        XCTAssertTrue(DateFormatter.GMT.shortTimeOnlyFormatter.string(from: date) == "8:00 AM")
+        var actual = DateFormatter.GMT.mediumDateTimeFormatter.string(from: date)
         XCTAssertTrue(actual == "Nov 5, 1982 at 8:00:00 AM" || actual == "Nov 5, 1982, 8:00:00 AM")
-        XCTAssertTrue(DateFormatter.mediumDateOnlyFormatter.string(from: date) == "Nov 5, 1982")
-        XCTAssertTrue(DateFormatter.mediumTimeOnlyFormatter.string(from: date) == "8:00:00 AM")
-        XCTAssertTrue(DateFormatter.longDateTimeFormatter.string(from: date) == "November 5, 1982 at 8:00:00 AM GMT")
-        XCTAssertTrue(DateFormatter.longDateOnlyFormatter.string(from: date) == "November 5, 1982")
-        XCTAssertTrue(DateFormatter.longTimeOnlyFormatter.string(from: date) == "8:00:00 AM GMT")
-        XCTAssertTrue(DateFormatter.fullDateTimeFormatter.string(from: date) == "Friday, November 5, 1982 at 8:00:00 AM Greenwich Mean Time")
-        XCTAssertTrue(DateFormatter.fullDateOnlyFormatter.string(from: date) == "Friday, November 5, 1982")
-        XCTAssertTrue(DateFormatter.fullTimeOnlyFormatter.string(from: date) == "8:00:00 AM Greenwich Mean Time")
+        XCTAssertTrue(DateFormatter.GMT.mediumDateOnlyFormatter.string(from: date) == "Nov 5, 1982")
+        XCTAssertTrue(DateFormatter.GMT.mediumTimeOnlyFormatter.string(from: date) == "8:00:00 AM")
+        XCTAssertTrue(DateFormatter.GMT.longDateTimeFormatter.string(from: date) == "November 5, 1982 at 8:00:00 AM GMT")
+        XCTAssertTrue(DateFormatter.GMT.longDateOnlyFormatter.string(from: date) == "November 5, 1982")
+        XCTAssertTrue(DateFormatter.GMT.longTimeOnlyFormatter.string(from: date) == "8:00:00 AM GMT")
+        XCTAssertTrue(DateFormatter.GMT.fullDateTimeFormatter.string(from: date) == "Friday, November 5, 1982 at 8:00:00 AM Greenwich Mean Time")
+        XCTAssertTrue(DateFormatter.GMT.fullDateOnlyFormatter.string(from: date) == "Friday, November 5, 1982")
+        XCTAssertTrue(DateFormatter.GMT.fullTimeOnlyFormatter.string(from: date) == "8:00:00 AM Greenwich Mean Time")
         
         guard TimeZone.current.identifier == "America/Chicago" else {
             return
@@ -165,34 +165,34 @@ class DateTests: XCTestCase {
         
         if TimeZone.current.isDaylightSavingTime() {
             // minus 6:00
-            XCTAssertTrue(DateFormatter.shortDateTimeFormatter.display.string(from: date) == "11/5/82, 2:00 AM")
-            XCTAssertTrue(DateFormatter.shortDateOnlyFormatter.display.string(from: date) == "11/5/82")
-            XCTAssertTrue(DateFormatter.shortTimeOnlyFormatter.display.string(from: date) == "2:00 AM")
-            actual = DateFormatter.mediumDateTimeFormatter.display.string(from: date)
+            XCTAssertTrue(DateFormatter.Local.shortDateTimeFormatter.string(from: date) == "11/5/82, 2:00 AM")
+            XCTAssertTrue(DateFormatter.Local.shortDateOnlyFormatter.string(from: date) == "11/5/82")
+            XCTAssertTrue(DateFormatter.Local.shortTimeOnlyFormatter.string(from: date) == "2:00 AM")
+            actual = DateFormatter.Local.mediumDateTimeFormatter.string(from: date)
             XCTAssertTrue(actual == "Nov 5, 1982 at 2:00:00 AM" || actual == "Nov 5, 1982, 2:00:00 AM")
-            XCTAssertTrue(DateFormatter.mediumDateOnlyFormatter.display.string(from: date) == "Nov 5, 1982")
-            XCTAssertTrue(DateFormatter.mediumTimeOnlyFormatter.display.string(from: date) == "2:00:00 AM")
-            XCTAssertTrue(DateFormatter.longDateTimeFormatter.display.string(from: date) == "November 5, 1982 at 2:00:00 AM CST")
-            XCTAssertTrue(DateFormatter.longDateOnlyFormatter.display.string(from: date) == "November 5, 1982")
-            XCTAssertTrue(DateFormatter.longTimeOnlyFormatter.display.string(from: date) == "2:00:00 AM CST")
-            XCTAssertTrue(DateFormatter.fullDateTimeFormatter.display.string(from: date) == "Friday, November 5, 1982 at 2:00:00 AM Central Standard Time")
-            XCTAssertTrue(DateFormatter.fullDateOnlyFormatter.display.string(from: date) == "Friday, November 5, 1982")
-            XCTAssertTrue(DateFormatter.fullTimeOnlyFormatter.display.string(from: date) == "2:00:00 AM Central Standard Time")
+            XCTAssertTrue(DateFormatter.Local.mediumDateOnlyFormatter.string(from: date) == "Nov 5, 1982")
+            XCTAssertTrue(DateFormatter.Local.mediumTimeOnlyFormatter.string(from: date) == "2:00:00 AM")
+            XCTAssertTrue(DateFormatter.Local.longDateTimeFormatter.string(from: date) == "November 5, 1982 at 2:00:00 AM CST")
+            XCTAssertTrue(DateFormatter.Local.longDateOnlyFormatter.string(from: date) == "November 5, 1982")
+            XCTAssertTrue(DateFormatter.Local.longTimeOnlyFormatter.string(from: date) == "2:00:00 AM CST")
+            XCTAssertTrue(DateFormatter.Local.fullDateTimeFormatter.string(from: date) == "Friday, November 5, 1982 at 2:00:00 AM Central Standard Time")
+            XCTAssertTrue(DateFormatter.Local.fullDateOnlyFormatter.string(from: date) == "Friday, November 5, 1982")
+            XCTAssertTrue(DateFormatter.Local.fullTimeOnlyFormatter.string(from: date) == "2:00:00 AM Central Standard Time")
         } else {
             // minus 5:00
-            XCTAssertTrue(DateFormatter.shortDateTimeFormatter.display.string(from: date) == "11/5/82, 3:00 AM")
-            XCTAssertTrue(DateFormatter.shortDateOnlyFormatter.display.string(from: date) == "11/5/82")
-            XCTAssertTrue(DateFormatter.shortTimeOnlyFormatter.display.string(from: date) == "3:00 AM")
-            actual = DateFormatter.mediumDateTimeFormatter.display.string(from: date)
+            XCTAssertTrue(DateFormatter.Local.shortDateTimeFormatter.string(from: date) == "11/5/82, 3:00 AM")
+            XCTAssertTrue(DateFormatter.Local.shortDateOnlyFormatter.string(from: date) == "11/5/82")
+            XCTAssertTrue(DateFormatter.Local.shortTimeOnlyFormatter.string(from: date) == "3:00 AM")
+            actual = DateFormatter.Local.mediumDateTimeFormatter.string(from: date)
             XCTAssertTrue(actual == "Nov 5, 1982 at 3:00:00 AM" || actual == "Nov 5, 1982, 3:00:00 AM")
-            XCTAssertTrue(DateFormatter.mediumDateOnlyFormatter.display.string(from: date) == "Nov 5, 1982")
-            XCTAssertTrue(DateFormatter.mediumTimeOnlyFormatter.display.string(from: date) == "3:00:00 AM")
-            XCTAssertTrue(DateFormatter.longDateTimeFormatter.display.string(from: date) == "November 5, 1982 at 3:00:00 AM CDT")
-            XCTAssertTrue(DateFormatter.longDateOnlyFormatter.display.string(from: date) == "November 5, 1982")
-            XCTAssertTrue(DateFormatter.longTimeOnlyFormatter.display.string(from: date) == "3:00:00 AM CDT")
-            XCTAssertTrue(DateFormatter.fullDateTimeFormatter.display.string(from: date) == "Friday, November 5, 1982 at 3:00:00 AM Central Daylight Time")
-            XCTAssertTrue(DateFormatter.fullDateOnlyFormatter.display.string(from: date) == "Friday, November 5, 1982")
-            XCTAssertTrue(DateFormatter.fullTimeOnlyFormatter.display.string(from: date) == "3:00:00 AM Central Daylight Time")
+            XCTAssertTrue(DateFormatter.Local.mediumDateOnlyFormatter.string(from: date) == "Nov 5, 1982")
+            XCTAssertTrue(DateFormatter.Local.mediumTimeOnlyFormatter.string(from: date) == "3:00:00 AM")
+            XCTAssertTrue(DateFormatter.Local.longDateTimeFormatter.string(from: date) == "November 5, 1982 at 3:00:00 AM CDT")
+            XCTAssertTrue(DateFormatter.Local.longDateOnlyFormatter.string(from: date) == "November 5, 1982")
+            XCTAssertTrue(DateFormatter.Local.longTimeOnlyFormatter.string(from: date) == "3:00:00 AM CDT")
+            XCTAssertTrue(DateFormatter.Local.fullDateTimeFormatter.string(from: date) == "Friday, November 5, 1982 at 3:00:00 AM Central Daylight Time")
+            XCTAssertTrue(DateFormatter.Local.fullDateOnlyFormatter.string(from: date) == "Friday, November 5, 1982")
+            XCTAssertTrue(DateFormatter.Local.fullTimeOnlyFormatter.string(from: date) == "3:00:00 AM Central Daylight Time")
         }
     }
 }

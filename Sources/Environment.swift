@@ -12,6 +12,10 @@ public struct Environment {
     public static var release: Release {
         return Release.current
     }
+    
+    public static var targetEnvironment: TargetEnvironment {
+        return TargetEnvironment.current
+    }
 }
 
 /// The supported Swift compilation OSs
@@ -93,9 +97,15 @@ public enum Release {
     case swift3_1
     case swift3_2
     case swift4_0
+    case swift4_1
+    case swift5_0
     
     public static var current: Release {
-        #if swift(>=4.0)
+        #if swift(>=5.0)
+            return .swift5_0
+        #elseif swift(>=4.1)
+            return .swift4_1
+        #elseif swift(>=4.0)
             return .swift4_0
         #elseif swift(>=3.2)
             return .swift3_2
@@ -109,6 +119,20 @@ public enum Release {
             return .swift2_2
         #else
             return .other
+        #endif
+    }
+}
+
+/// Target Environment; i.e Simulator/Device
+public enum TargetEnvironment {
+    case simulator
+    case device
+    
+    public static var current: TargetEnvironment {
+        #if targetEnvironment(simulator)
+        return .simulator
+        #else
+        return .device
         #endif
     }
 }

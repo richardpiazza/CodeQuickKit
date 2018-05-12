@@ -19,40 +19,74 @@ public enum BundleConfiguration {
 public extension Bundle {
     
     public struct Keys {
-        static let BundleName = "CFBundleName"
+        /// CFBundleName
+        static let BundleName = kCFBundleNameKey as String
+        /// CFBundleDisplayName
         static let BundleDisplayName = "CFBundleDisplayName"
-        static let BundleExecutableName = "CFBundleExecutable"
+        /// CFBundleExecutable
+        static let BundleExecutableName = kCFBundleExecutableKey as String
+        /// CFBundleShortVersionString
         static let AppVersion = "CFBundleShortVersionString"
-        static let BuildNumber = "CFBundleVersion"
-        static let BundleIdentifier = "CFBundleIdentifier"
+        /// CFBundleVersion
+        static let BuildNumber = kCFBundleVersionKey as String
+        /// CFBundleIdentifier
+        static let BundleIdentifier = kCFBundleIdentifierKey as String
+        /// UILaunchStoryboardName
         static let LaunchScreen = "UILaunchStoryboardName"
+        /// UIMainStoryboardFile
         static let MainStoryboard = "UIMainStoryboardFile"
     }
     
-    public var bundleName: String? { return self.object(forInfoDictionaryKey: Keys.BundleName) as? String }
-    public var bundleDisplayName: String? { return self.object(forInfoDictionaryKey: Keys.BundleDisplayName) as? String }
-    public var executableName: String? { return self.object(forInfoDictionaryKey: Keys.BundleExecutableName) as? String }
-    public var appVersion: String? { return self.object(forInfoDictionaryKey: Keys.AppVersion) as? String }
-    public var buildNumber: String? { return self.object(forInfoDictionaryKey: Keys.BuildNumber) as? String }
-    public var launchScreenStoryboardName: String? { return self.object(forInfoDictionaryKey: Keys.LaunchScreen) as? String }
-    public var mainStoryboardName: String? { return self.object(forInfoDictionaryKey: Keys.MainStoryboard) as? String }
+    public var bundleName: String? {
+        return self.object(forInfoDictionaryKey: Keys.BundleName) as? String
+    }
     
-    public var isSandboxReceipt: Bool { return appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" }
+    public var bundleDisplayName: String? {
+        return self.object(forInfoDictionaryKey: Keys.BundleDisplayName) as? String
+    }
+    
+    public var executableName: String? {
+        return self.object(forInfoDictionaryKey: Keys.BundleExecutableName) as? String
+    }
+    
+    public var appVersion: String? {
+        return self.object(forInfoDictionaryKey: Keys.AppVersion) as? String
+    }
+    
+    public var buildNumber: String? {
+        return self.object(forInfoDictionaryKey: Keys.BuildNumber) as? String
+    }
+    
+    public var launchScreenStoryboardName: String? {
+        return self.object(forInfoDictionaryKey: Keys.LaunchScreen) as? String
+    }
+    
+    public var mainStoryboardName: String? {
+        return self.object(forInfoDictionaryKey: Keys.MainStoryboard) as? String
+    }
+    
+    public var hasSandboxReceipt: Bool {
+        return appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
+    }
     
     public var configuration: BundleConfiguration {
-        return (isSandboxReceipt) ? .testFlight : .appStore
+        #if targetEnvironment(simulator)
+        return .debug
+        #else
+        return (hasSandboxReceipt) ? .testFlight : .appStore
+        #endif
     }
     
     public var dictionary: [String : String] {
         return [
-            Keys.BundleName : (bundleName == nil) ? "" : bundleName!,
-            Keys.BundleDisplayName : (bundleDisplayName == nil) ? "" : bundleDisplayName!,
-            Keys.BundleExecutableName : (executableName == nil) ? "" : executableName!,
-            Keys.BundleIdentifier : (bundleIdentifier == nil) ? "" : bundleIdentifier!,
-            Keys.AppVersion : (appVersion == nil) ? "" : appVersion!,
-            Keys.BuildNumber : (buildNumber == nil) ? "" : buildNumber!,
-            Keys.LaunchScreen : (launchScreenStoryboardName == nil) ? "" : launchScreenStoryboardName!,
-            Keys.MainStoryboard : (mainStoryboardName == nil) ? "" : mainStoryboardName!,
+            Keys.BundleName : bundleName ?? "",
+            Keys.BundleDisplayName : bundleDisplayName ?? "",
+            Keys.BundleExecutableName : executableName ?? "",
+            Keys.BundleIdentifier : bundleIdentifier ?? "",
+            Keys.AppVersion : appVersion ?? "",
+            Keys.BuildNumber : buildNumber ?? "",
+            Keys.LaunchScreen : launchScreenStoryboardName ?? "",
+            Keys.MainStoryboard : mainStoryboardName ?? "",
             "Configuration" : configuration.description
         ]
     }

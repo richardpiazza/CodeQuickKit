@@ -3,11 +3,11 @@
 import UIKit
 
 public protocol Reusable {
-    static func reuseIdentifier() -> String
+    static var reuseIdentifier: String { get }
 }
 
 extension UIView: Reusable {
-    open class func reuseIdentifier() -> String {
+    open class var reuseIdentifier: String {
         return String(describing: self)
     }
 }
