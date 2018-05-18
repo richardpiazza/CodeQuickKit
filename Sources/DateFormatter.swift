@@ -66,78 +66,78 @@ public extension DateFormatter {
     public struct GMT {
         /// Date Formatter using the .ShortStyle for both Date and Time
         /// ***Example:*** "11/5/82, 8:00 AM"
-        static let shortDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .shortDateTime)
+        public static let shortDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .shortDateTime)
         /// Date Formatter using the .ShortStyle for Date and .NoStyle for Time
         /// ***Example:*** "11/5/82"
-        static let shortDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .shortDateOnly)
+        public static let shortDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .shortDateOnly)
         /// Date Formatter using the .NoStyle for Date and .ShortStyle for Time
         /// ***Example:*** "8:00 AM"
-        static let shortTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .shortTimeOnly)
+        public static let shortTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .shortTimeOnly)
         /// Date Formatter using the .MediumStyle for both Date and Time
         /// ***Example:*** "Nov 5, 1982, 8:00:00 AM"
-        static let mediumDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .mediumDateTime)
+        public static let mediumDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .mediumDateTime)
         /// Date Formatter using the .MediumStyle for Date and .NoStyle for Time
         /// ***Example:*** "Nov 5, 1982"
-        static let mediumDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .mediumDateOnly)
+        public static let mediumDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .mediumDateOnly)
         /// Date Formatter using the .NoStyle for Date and .MediumStyle for Time
         /// ***Example:*** "8:00:00 AM"
-        static let mediumTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .mediumTimeOnly)
+        public static let mediumTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .mediumTimeOnly)
         /// Date Formatter using the .LongStyle for both Date and Time
         /// ***Example:*** "November 5, 1982 at 8:00:00 AM GMT"
-        static let longDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .longDateTime)
+        public static let longDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .longDateTime)
         /// Date Formatter using the .LongStyle for Date and .NoStyle for Time
         /// ***Example:*** "November 5, 1982"
-        static let longDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .longDateOnly)
+        public static let longDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .longDateOnly)
         /// Date Formatter using the .NoStyle for Date and .LongStyle for Time
         /// ***Example:*** "8:00:00 AM GMT"
-        static let longTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .longTimeOnly)
+        public static let longTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .longTimeOnly)
         /// Date Formatter using the .FullStyle for both Date and Time
         /// ***Example:*** "Friday, November 5, 1982 at 8:00:00 AM GMT"
-        static let fullDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .fullDateTime)
+        public static let fullDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .fullDateTime)
         /// Date Formatter using the .LongStyle for Date and .NoStyle for Time
         /// ***Example:*** "Friday, November 5, 1982"
-        static let fullDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .fullDateOnly)
+        public static let fullDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .fullDateOnly)
         /// Date Formatter using the .NoStyle for Date and .LongStyle for Time
         /// ***Example:*** "8:00:00 AM GMT"
-        static let fullTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .fullTimeOnly)
+        public static let fullTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .fullTimeOnly)
     }
     
     public struct Local {
         /// Date Formatter using the .ShortStyle for both Date and Time
         /// ***Example:*** "11/5/82, 8:00 AM"
-        static let shortDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .shortDateTime, locale: Locale.current, timeZone: TimeZone.current)
+        public static let shortDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .shortDateTime, locale: Locale.current, timeZone: TimeZone.current)
         /// Date Formatter using the .ShortStyle for Date and .NoStyle for Time
         /// ***Example:*** "11/5/82"
-        static let shortDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .shortDateOnly, locale: Locale.current, timeZone: TimeZone.current)
+        public static let shortDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .shortDateOnly, locale: Locale.current, timeZone: TimeZone.current)
         /// Date Formatter using the .NoStyle for Date and .ShortStyle for Time
         /// ***Example:*** "8:00 AM"
-        static let shortTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .shortTimeOnly, locale: Locale.current, timeZone: TimeZone.current)
+        public static let shortTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .shortTimeOnly, locale: Locale.current, timeZone: TimeZone.current)
         /// Date Formatter using the .MediumStyle for both Date and Time
         /// ***Example:*** "Nov 5, 1982, 8:00:00 AM"
-        static let mediumDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .mediumDateTime, locale: Locale.current, timeZone: TimeZone.current)
+        public static let mediumDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .mediumDateTime, locale: Locale.current, timeZone: TimeZone.current)
         /// Date Formatter using the .MediumStyle for Date and .NoStyle for Time
         /// ***Example:*** "Nov 5, 1982"
-        static let mediumDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .mediumDateOnly, locale: Locale.current, timeZone: TimeZone.current)
+        public static let mediumDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .mediumDateOnly, locale: Locale.current, timeZone: TimeZone.current)
         /// Date Formatter using the .NoStyle for Date and .MediumStyle for Time
         /// ***Example:*** "8:00:00 AM"
-        static let mediumTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .mediumTimeOnly, locale: Locale.current, timeZone: TimeZone.current)
+        public static let mediumTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .mediumTimeOnly, locale: Locale.current, timeZone: TimeZone.current)
         /// Date Formatter using the .LongStyle for both Date and Time
         /// ***Example:*** "November 5, 1982 at 8:00:00 AM GMT"
-        static let longDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .longDateTime, locale: Locale.current, timeZone: TimeZone.current)
+        public static let longDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .longDateTime, locale: Locale.current, timeZone: TimeZone.current)
         /// Date Formatter using the .LongStyle for Date and .NoStyle for Time
         /// ***Example:*** "November 5, 1982"
-        static let longDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .longDateOnly, locale: Locale.current, timeZone: TimeZone.current)
+        public static let longDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .longDateOnly, locale: Locale.current, timeZone: TimeZone.current)
         /// Date Formatter using the .NoStyle for Date and .LongStyle for Time
         /// ***Example:*** "8:00:00 AM GMT"
-        static let longTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .longTimeOnly, locale: Locale.current, timeZone: TimeZone.current)
+        public static let longTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .longTimeOnly, locale: Locale.current, timeZone: TimeZone.current)
         /// Date Formatter using the .FullStyle for both Date and Time
         /// ***Example:*** "Friday, November 5, 1982 at 8:00:00 AM GMT"
-        static let fullDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .fullDateTime, locale: Locale.current, timeZone: TimeZone.current)
+        public static let fullDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .fullDateTime, locale: Locale.current, timeZone: TimeZone.current)
         /// Date Formatter using the .LongStyle for Date and .NoStyle for Time
         /// ***Example:*** "Friday, November 5, 1982"
-        static let fullDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .fullDateOnly, locale: Locale.current, timeZone: TimeZone.current)
+        public static let fullDateOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .fullDateOnly, locale: Locale.current, timeZone: TimeZone.current)
         /// Date Formatter using the .NoStyle for Date and .LongStyle for Time
         /// ***Example:*** "8:00:00 AM GMT"
-        static let fullTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .fullTimeOnly, locale: Locale.current, timeZone: TimeZone.current)
+        public static let fullTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .fullTimeOnly, locale: Locale.current, timeZone: TimeZone.current)
     }
 }
