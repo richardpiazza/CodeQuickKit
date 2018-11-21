@@ -35,11 +35,11 @@ extension UIPickerView {
                 self.pickerViewController.view.frame = self.onScreenFrame()
             }) 
             
-            NotificationCenter.default.addObserver(self, selector: #selector(Manager.uiKeyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(Manager.uiKeyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         }
         
         func resign() {
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
             
             UIView.animate(withDuration: 0.4, animations: { 
                 self.pickerViewController.view.frame = self.offScreenFrame()
