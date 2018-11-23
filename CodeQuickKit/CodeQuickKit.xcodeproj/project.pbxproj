@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7371DA8C21A8B24D006E03FA /* WebAPI+Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7371DA8B21A8B24D006E03FA /* WebAPI+Client.swift */; };
 		E12DC4F62092008300299260 /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F52092008300299260 /* EnvironmentTests.swift */; };
 		E12DC4F8209206DD00299260 /* FileManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F7209206DD00299260 /* FileManagerTests.swift */; };
 		E12DC4FA209209A400299260 /* BundleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F9209209A400299260 /* BundleTests.swift */; };
 		E181016820A787C1007A5625 /* WebAPI+HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016720A787C1007A5625 /* WebAPI+HTTP.swift */; };
-		E181016A20A787F3007A5625 /* WebAPI+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016920A787F3007A5625 /* WebAPI+Injection.swift */; };
+		E181016A20A787F3007A5625 /* WebAPI+Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016920A787F3007A5625 /* WebAPI+Injectable.swift */; };
 		E181016C20A78810007A5625 /* WebAPI+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016B20A78810007A5625 /* WebAPI+Codable.swift */; };
 		E181016E20A7888B007A5625 /* WebAPI+MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016D20A7888B007A5625 /* WebAPI+MultipartFormData.swift */; };
 		E181017020A7896B007A5625 /* WebAPI+SSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016F20A7896B007A5625 /* WebAPI+SSL.swift */; };
@@ -57,13 +58,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7371DA8B21A8B24D006E03FA /* WebAPI+Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+Client.swift"; sourceTree = "<group>"; };
 		E105D25E1FBDF5F000EC627B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		E12DC4F52092008300299260 /* EnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EnvironmentTests.swift; path = ../../Tests/EnvironmentTests.swift; sourceTree = "<group>"; };
 		E12DC4F7209206DD00299260 /* FileManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FileManagerTests.swift; path = ../../Tests/FileManagerTests.swift; sourceTree = "<group>"; };
 		E12DC4F9209209A400299260 /* BundleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BundleTests.swift; path = ../../Tests/BundleTests.swift; sourceTree = "<group>"; };
 		E176A68D1D8D7B2B00823E19 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		E181016720A787C1007A5625 /* WebAPI+HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+HTTP.swift"; sourceTree = "<group>"; };
-		E181016920A787F3007A5625 /* WebAPI+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+Injection.swift"; sourceTree = "<group>"; };
+		E181016920A787F3007A5625 /* WebAPI+Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+Injectable.swift"; sourceTree = "<group>"; };
 		E181016B20A78810007A5625 /* WebAPI+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+Codable.swift"; sourceTree = "<group>"; };
 		E181016D20A7888B007A5625 /* WebAPI+MultipartFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+MultipartFormData.swift"; sourceTree = "<group>"; };
 		E181016F20A7896B007A5625 /* WebAPI+SSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+SSL.swift"; sourceTree = "<group>"; };
@@ -147,9 +149,10 @@
 				E1B133361F73F80200AB0BE3 /* UIViewController.swift */,
 				E1B133421F73F80300AB0BE3 /* UserDefaults.swift */,
 				E1B133391F73F80300AB0BE3 /* WebAPI.swift */,
-				E181016720A787C1007A5625 /* WebAPI+HTTP.swift */,
-				E181016920A787F3007A5625 /* WebAPI+Injection.swift */,
+				7371DA8B21A8B24D006E03FA /* WebAPI+Client.swift */,
 				E181016B20A78810007A5625 /* WebAPI+Codable.swift */,
+				E181016720A787C1007A5625 /* WebAPI+HTTP.swift */,
+				E181016920A787F3007A5625 /* WebAPI+Injectable.swift */,
 				E181016D20A7888B007A5625 /* WebAPI+MultipartFormData.swift */,
 				E181016F20A7896B007A5625 /* WebAPI+SSL.swift */,
 			);
@@ -326,7 +329,7 @@
 				E1B133551F73F80400AB0BE3 /* NumberFormatter.swift in Sources */,
 				E1B1334F1F73F80400AB0BE3 /* Log.swift in Sources */,
 				E1B133511F73F80400AB0BE3 /* UIAlertController.swift in Sources */,
-				E181016A20A787F3007A5625 /* WebAPI+Injection.swift in Sources */,
+				E181016A20A787F3007A5625 /* WebAPI+Injectable.swift in Sources */,
 				E1B1335B1F73F80400AB0BE3 /* NSObject.swift in Sources */,
 				E1B133581F73F80400AB0BE3 /* UITableView.swift in Sources */,
 				E1B133461F73F80400AB0BE3 /* NSMetadataQuery.swift in Sources */,
@@ -334,6 +337,7 @@
 				E1B133451F73F80400AB0BE3 /* DateFormatter.swift in Sources */,
 				E1B1334A1F73F80400AB0BE3 /* Downloader.swift in Sources */,
 				E1B133491F73F80400AB0BE3 /* Date.swift in Sources */,
+				7371DA8C21A8B24D006E03FA /* WebAPI+Client.swift in Sources */,
 				E1B133591F73F80400AB0BE3 /* Bundle.swift in Sources */,
 				E1B133431F73F80400AB0BE3 /* UIPickerView.swift in Sources */,
 				E1B1334B1F73F80400AB0BE3 /* Storyboarded.swift in Sources */,

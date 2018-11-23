@@ -1,5 +1,34 @@
 import Foundation
 
+/// Protocol used to extend an `HTTPDataClient` with support for
+/// injecting and retrieving canned responses.
+public protocol HTTPInjectable {
+    var injectedResponses: [InjectedPath : InjectedResponse] { get set }
+}
+
+public extension HTTPInjectable where Self: HTTPClient {
+    public func execute(request: URLRequest, completion: @escaping HTTP.DataTaskCompletion) {
+        let injectedPath = InjectedPath(request: request)
+        
+        guard let injectedResponse = injectedResponses[injectedPath] else {
+            completion(0, nil, nil, HTTP.Error.invalidResponse)
+            return
+        }
+        
+        #if (os(macOS) || os(iOS) || os(tvOS) || os(watchOS))
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(injectedResponse.timeout * NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: { () -> Void in
+            completion(injectedResponse.statusCode, injectedResponse.headers, injectedResponse.data, injectedResponse.error)
+        })
+        #else
+        let _ = Timer.scheduledTimer(withTimeInterval: TimeInterval(exactly: injectedResponse.timeout) ?? TimeInterval(floatLiteral: 0.0), repeats: false, block: { (timer) in
+            completion(injectedResponse.statusCode, injectedResponse.headers, injectedResponse.data, injectedResponse.error)
+        })
+        #endif
+    }
+}
+
+/// A Hashable compound type based on the method and absolute path of
+/// a URLRequest.
 public struct InjectedPath: Hashable {
     var method: HTTP.RequestMethod = .get
     var absolutePath: String
@@ -42,6 +71,7 @@ public struct InjectedPath: Hashable {
     }
 }
 
+/// A response to provide for a pre-determinied request.
 public struct InjectedResponse {
     public var statusCode: Int = 0
     public var headers: HTTP.Headers?

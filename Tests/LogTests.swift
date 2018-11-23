@@ -46,7 +46,7 @@ class LogManagerTests: XCTestCase {
         Log.debug("doh...")
         Log.info("FYI...")
         Log.warn("Danger Will Robinson...")
-        Log.error(TestError.fanError, message: "Shit just hit the fan...")
+        Log.error(TestError.fanError, message: "Feces just impacted the oscillating device...")
         
         XCTAssertTrue(FileManager.default.fileExists(atPath: logFile.url.path))
     }

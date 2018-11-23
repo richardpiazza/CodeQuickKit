@@ -3,7 +3,7 @@ import Foundation
 public extension WebAPI {
     /// Transforms the request into a `multipart/form-data` request.
     /// The request `content-type` will be set to `image/png`
-    public func execute(method: HTTP.RequestMethod, path: String, queryItems: [URLQueryItem]?, pngImageData: Data, filename: String = "image.png", completion: @escaping DataTaskCompletion) {
+    public func execute(method: HTTP.RequestMethod, path: String, queryItems: [URLQueryItem]?, pngImageData: Data, filename: String = "image.png", completion: @escaping HTTP.DataTaskCompletion) {
         var request: URLRequest
         do {
             request = try self.request(method: method, path: path, queryItems: queryItems, data: nil)
