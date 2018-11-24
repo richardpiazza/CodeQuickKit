@@ -1,20 +1,11 @@
-#
-# Be sure to run `pod lib lint CodeQuickKit.podspec' to ensure this is a
-# valid spec before submitting.
-#
-# Any lines starting with a # are optional, but their use is encouraged
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name = "CodeQuickKit"
-  s.version = "6.3.0"
+  s.version = "6.4.0"
   s.summary = "An Apple Library simplifying some everyday tasks."
   s.description = <<-DESC
   CodeQuickKit is a collection of Swift extensions and classes designed to aid in
   app development. This collection includes (but not limited to): logging, file management,
   JSON Web APIs, UIStoryboard/UIAlertController shortcuts, date handling, and environment data.
-  and CoreData wrappers.
                      DESC
   s.homepage = "https://github.com/richardpiazza/CodeQuickKit"
   s.license = 'MIT'
