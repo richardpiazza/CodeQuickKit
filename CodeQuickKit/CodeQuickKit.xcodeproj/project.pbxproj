@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7371DA8C21A8B24D006E03FA /* WebAPI+Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7371DA8B21A8B24D006E03FA /* WebAPI+Client.swift */; };
 		7371DA8E21A8BBE9006E03FA /* NSMutableAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7371DA8D21A8BBE9006E03FA /* NSMutableAttributedString.swift */; };
+		7383B26821B9549400C72588 /* KeyedDecodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7383B26721B9549400C72588 /* KeyedDecodingContainer.swift */; };
+		7383B26A21B954EE00C72588 /* KeyedDecodingContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7383B26921B954EE00C72588 /* KeyedDecodingContainerTests.swift */; };
 		E12DC4F62092008300299260 /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F52092008300299260 /* EnvironmentTests.swift */; };
 		E12DC4F8209206DD00299260 /* FileManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F7209206DD00299260 /* FileManagerTests.swift */; };
 		E12DC4FA209209A400299260 /* BundleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F9209209A400299260 /* BundleTests.swift */; };
@@ -61,6 +63,8 @@
 /* Begin PBXFileReference section */
 		7371DA8B21A8B24D006E03FA /* WebAPI+Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+Client.swift"; sourceTree = "<group>"; };
 		7371DA8D21A8BBE9006E03FA /* NSMutableAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedString.swift; sourceTree = "<group>"; };
+		7383B26721B9549400C72588 /* KeyedDecodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedDecodingContainer.swift; sourceTree = "<group>"; };
+		7383B26921B954EE00C72588 /* KeyedDecodingContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KeyedDecodingContainerTests.swift; path = ../../Tests/KeyedDecodingContainerTests.swift; sourceTree = "<group>"; };
 		E105D25E1FBDF5F000EC627B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		E12DC4F52092008300299260 /* EnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EnvironmentTests.swift; path = ../../Tests/EnvironmentTests.swift; sourceTree = "<group>"; };
 		E12DC4F7209206DD00299260 /* FileManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FileManagerTests.swift; path = ../../Tests/FileManagerTests.swift; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 				E1B133301F73F80200AB0BE3 /* Downloader.swift */,
 				E1B1332D1F73F80200AB0BE3 /* Environment.swift */,
 				E1B1333C1F73F80300AB0BE3 /* FileManager.swift */,
+				7383B26721B9549400C72588 /* KeyedDecodingContainer.swift */,
 				E1B133351F73F80200AB0BE3 /* Log.swift */,
 				E1B1332C1F73F80200AB0BE3 /* NSMetadataQuery.swift */,
 				E1B133411F73F80300AB0BE3 /* NSObject.swift */,
@@ -208,6 +213,7 @@
 				E1FB2C0D1DA02E2800A8E0C6 /* PausableTimerTests.swift */,
 				E18740731C8DAEE200A7761C /* WebAPITests.swift */,
 				E12DC4F7209206DD00299260 /* FileManagerTests.swift */,
+				7383B26921B954EE00C72588 /* KeyedDecodingContainerTests.swift */,
 			);
 			path = CodeQuickKitTests;
 			sourceTree = "<group>";
@@ -327,6 +333,7 @@
 				E1B133501F73F80400AB0BE3 /* UIViewController.swift in Sources */,
 				E1B1334C1F73F80400AB0BE3 /* ProgrammaticView.swift in Sources */,
 				E1B1334E1F73F80400AB0BE3 /* Ubiquity.swift in Sources */,
+				7383B26821B9549400C72588 /* KeyedDecodingContainer.swift in Sources */,
 				E1B1335C1F73F80400AB0BE3 /* UserDefaults.swift in Sources */,
 				7371DA8E21A8BBE9006E03FA /* NSMutableAttributedString.swift in Sources */,
 				E181016C20A78810007A5625 /* WebAPI+Codable.swift in Sources */,
@@ -363,6 +370,7 @@
 				E12DC4FA209209A400299260 /* BundleTests.swift in Sources */,
 				E187406E1C8D8ED300A7761C /* NumberFormatterTests.swift in Sources */,
 				E1D0CA041E18777100A718DC /* LogTests.swift in Sources */,
+				7383B26A21B954EE00C72588 /* KeyedDecodingContainerTests.swift in Sources */,
 				E1FB2C0E1DA02E2800A8E0C6 /* PausableTimerTests.swift in Sources */,
 				E18740741C8DAEE200A7761C /* WebAPITests.swift in Sources */,
 				E12DC4F62092008300299260 /* EnvironmentTests.swift in Sources */,
