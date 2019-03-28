@@ -45,12 +45,12 @@ public extension UIAlertController {
     
     fileprivate static var manager = Manager()
     
-    public static func reset() {
+    static func reset() {
         manager.reset()
     }
     
     /// A basic message and single button `.Default` alert
-    public static func prompt(presentedFrom vc: UIViewController?, withMessage message: String?, action: String = "OK") {
+    static func prompt(presentedFrom vc: UIViewController?, withMessage message: String?, action: String = "OK") {
         manager.dismiss()
         
         var vc = vc
@@ -77,7 +77,7 @@ public extension UIAlertController {
     }
     
     /// A configurable `.Default` alert
-    public static func alert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, cancelAction: String?, destructiveAction: String?, otherActions: [String]?, completion: @escaping DefaultAlertCompletion) {
+    static func alert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, cancelAction: String?, destructiveAction: String?, otherActions: [String]?, completion: @escaping DefaultAlertCompletion) {
         manager.dismiss()
         
         var vc = vc
@@ -129,7 +129,7 @@ public extension UIAlertController {
     }
     
     /// A configurable `.Default` style alert with a single `UITextField`
-    public static func textAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialText: String?, cancelAction: String?, otherActions: [String]?, completion: @escaping TextAlertCompletion) {
+    static func textAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialText: String?, cancelAction: String?, otherActions: [String]?, completion: @escaping TextAlertCompletion) {
         manager.dismiss()
         
         var vc = vc
@@ -177,7 +177,7 @@ public extension UIAlertController {
     }
     
     /// A configurable `.Default` style alert with a single secure `UITextField`
-    public static func secureAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialText: String?, cancelAction: String?, otherActions: [String]?, completion: @escaping TextAlertCompletion) {
+    static func secureAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialText: String?, cancelAction: String?, otherActions: [String]?, completion: @escaping TextAlertCompletion) {
         manager.dismiss()
         
         var vc = vc
@@ -227,7 +227,7 @@ public extension UIAlertController {
     
     /// A configurable `.Default` style alert with two `UITextField`s, the 
     /// second of which is secure
-    public static func credentialAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialCredentials: URLCredential?, cancelAction: String?, otherActions: [String]?, completion: @escaping CredentialAlertCompletion) {
+    static func credentialAlert(presentedFrom vc: UIViewController?, withTitle title: String?, message: String?, initialCredentials: URLCredential?, cancelAction: String?, otherActions: [String]?, completion: @escaping CredentialAlertCompletion) {
         manager.dismiss()
         
         var vc = vc
@@ -289,7 +289,7 @@ public extension UIAlertController {
     
     /// A configurable `.ActionSheet` style alert presented from the 
     /// `viewController` or `sourceView` on Regular horizontal size classes
-    public static func sheet(presentedFrom vc: UIViewController?, withBarButtonItem barButtonItem: UIBarButtonItem?, orSourceView sourceView: UIView?, title: String?, message: String?, cancelAction: String?, destructiveAction: String?, otherActions: [String]?, completion: @escaping DefaultAlertCompletion) {
+    static func sheet(presentedFrom vc: UIViewController?, withBarButtonItem barButtonItem: UIBarButtonItem?, orSourceView sourceView: UIView?, title: String?, message: String?, cancelAction: String?, destructiveAction: String?, otherActions: [String]?, completion: @escaping DefaultAlertCompletion) {
         manager.dismiss()
         
         var vc = vc

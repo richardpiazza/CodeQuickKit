@@ -7,7 +7,7 @@ public protocol HTTPInjectable {
 }
 
 public extension HTTPInjectable where Self: HTTPClient {
-    public func execute(request: URLRequest, completion: @escaping HTTP.DataTaskCompletion) {
+    func execute(request: URLRequest, completion: @escaping HTTP.DataTaskCompletion) {
         let injectedPath = InjectedPath(request: request)
         
         guard let injectedResponse = injectedResponses[injectedPath] else {
@@ -54,9 +54,15 @@ public struct InjectedPath: Hashable {
         self.absolutePath = absolutePath
     }
     
+    #if swift(>=5.0)
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine("\(method.rawValue)\(absolutePath)")
+    }
+    #else
     public var hashValue: Int {
         return "\(method.rawValue)\(absolutePath)".hashValue
     }
+    #endif
     
     public static func ==(lhs: InjectedPath, rhs: InjectedPath) -> Bool {
         guard lhs.method == rhs.method else {

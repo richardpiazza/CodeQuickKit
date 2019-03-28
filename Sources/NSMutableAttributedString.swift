@@ -14,7 +14,7 @@ public extension NSMutableAttributedString {
     /// - note: If a NSAttributeString.Key.font is specified in the attributes, the requested
     ///         font will be used in place of one created from the provided `textStyle` and
     ///         `traits.
-    public func append(_ string: String, textStyle: UIFont.TextStyle = .body, scale: CGFloat = 1.0, attributes: [NSAttributedString.Key : Any] = [:], traits: UIFontDescriptor.SymbolicTraits? = nil) {
+    func append(_ string: String, textStyle: UIFont.TextStyle = .body, scale: CGFloat = 1.0, attributes: [NSAttributedString.Key : Any] = [:], traits: UIFontDescriptor.SymbolicTraits? = nil) {
         let preferredFont = UIFont.preferredFont(forTextStyle: textStyle)
         let size = preferredFont.pointSize * scale
         
@@ -73,22 +73,22 @@ self.append(attributedString)
 
 #if swift(>=4.2)
 public extension NSMutableAttributedString {
-    public func appendPlain(_ string: String, textStyle: UIFont.TextStyle = .body, color: UIColor = .black) {
+    func appendPlain(_ string: String, textStyle: UIFont.TextStyle = .body, color: UIColor = .black) {
         let attributes: [NSAttributedString.Key : Any] = [.foregroundColor : color]
         self.append(string, textStyle: textStyle, attributes: attributes)
     }
     
-    public func appendBold(_ string: String, textStyle: UIFont.TextStyle = .body, color: UIColor = .black) {
+    func appendBold(_ string: String, textStyle: UIFont.TextStyle = .body, color: UIColor = .black) {
         let attributes: [NSAttributedString.Key : Any] = [.foregroundColor : color]
         self.append(string, textStyle: textStyle, attributes: attributes, traits: .traitBold)
     }
     
-    public func appendItalic(_ string: String, textStyle: UIFont.TextStyle = .body, color: UIColor = .black) {
+    func appendItalic(_ string: String, textStyle: UIFont.TextStyle = .body, color: UIColor = .black) {
         let attributes: [NSAttributedString.Key : Any] = [.foregroundColor : color]
         self.append(string, textStyle: textStyle, attributes: attributes, traits: .traitItalic)
     }
     
-    public func appendBoldItalic(_ string: String, textStyle: UIFont.TextStyle = .body, color: UIColor = .black) {
+    func appendBoldItalic(_ string: String, textStyle: UIFont.TextStyle = .body, color: UIColor = .black) {
         let attributes: [NSAttributedString.Key : Any] = [.foregroundColor : color]
         let traits = UIFontDescriptor.SymbolicTraits(arrayLiteral: [.traitBold, .traitItalic])
         self.append(string, textStyle: textStyle, attributes: attributes, traits: traits)
