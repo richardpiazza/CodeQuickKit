@@ -7,18 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7371DA8C21A8B24D006E03FA /* WebAPI+Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7371DA8B21A8B24D006E03FA /* WebAPI+Client.swift */; };
+		7371DA8C21A8B24D006E03FA /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7371DA8B21A8B24D006E03FA /* HTTPClient.swift */; };
 		7371DA8E21A8BBE9006E03FA /* NSMutableAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7371DA8D21A8BBE9006E03FA /* NSMutableAttributedString.swift */; };
 		7383B26821B9549400C72588 /* KeyedDecodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7383B26721B9549400C72588 /* KeyedDecodingContainer.swift */; };
 		7383B26A21B954EE00C72588 /* KeyedDecodingContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7383B26921B954EE00C72588 /* KeyedDecodingContainerTests.swift */; };
 		E12DC4F62092008300299260 /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F52092008300299260 /* EnvironmentTests.swift */; };
-		E12DC4F8209206DD00299260 /* FileManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F7209206DD00299260 /* FileManagerTests.swift */; };
 		E12DC4FA209209A400299260 /* BundleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F9209209A400299260 /* BundleTests.swift */; };
-		E181016820A787C1007A5625 /* WebAPI+HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016720A787C1007A5625 /* WebAPI+HTTP.swift */; };
-		E181016A20A787F3007A5625 /* WebAPI+Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016920A787F3007A5625 /* WebAPI+Injectable.swift */; };
-		E181016C20A78810007A5625 /* WebAPI+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016B20A78810007A5625 /* WebAPI+Codable.swift */; };
-		E181016E20A7888B007A5625 /* WebAPI+MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016D20A7888B007A5625 /* WebAPI+MultipartFormData.swift */; };
-		E181017020A7896B007A5625 /* WebAPI+SSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016F20A7896B007A5625 /* WebAPI+SSL.swift */; };
+		E181016820A787C1007A5625 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016720A787C1007A5625 /* HTTP.swift */; };
+		E181016A20A787F3007A5625 /* HTTPInjectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016920A787F3007A5625 /* HTTPInjectable.swift */; };
+		E181016C20A78810007A5625 /* HTTPCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016B20A78810007A5625 /* HTTPCodable.swift */; };
 		E187406E1C8D8ED300A7761C /* NumberFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406D1C8D8ED300A7761C /* NumberFormatterTests.swift */; };
 		E18740701C8D932300A7761C /* DateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187406F1C8D932300A7761C /* DateTests.swift */; };
 		E18740741C8DAEE200A7761C /* WebAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18740731C8DAEE200A7761C /* WebAPITests.swift */; };
@@ -61,20 +58,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7371DA8B21A8B24D006E03FA /* WebAPI+Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+Client.swift"; sourceTree = "<group>"; };
+		7371DA8B21A8B24D006E03FA /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		7371DA8D21A8BBE9006E03FA /* NSMutableAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedString.swift; sourceTree = "<group>"; };
 		7383B26721B9549400C72588 /* KeyedDecodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedDecodingContainer.swift; sourceTree = "<group>"; };
 		7383B26921B954EE00C72588 /* KeyedDecodingContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KeyedDecodingContainerTests.swift; path = ../../Tests/KeyedDecodingContainerTests.swift; sourceTree = "<group>"; };
 		E105D25E1FBDF5F000EC627B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		E12DC4F52092008300299260 /* EnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EnvironmentTests.swift; path = ../../Tests/EnvironmentTests.swift; sourceTree = "<group>"; };
-		E12DC4F7209206DD00299260 /* FileManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FileManagerTests.swift; path = ../../Tests/FileManagerTests.swift; sourceTree = "<group>"; };
 		E12DC4F9209209A400299260 /* BundleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BundleTests.swift; path = ../../Tests/BundleTests.swift; sourceTree = "<group>"; };
 		E176A68D1D8D7B2B00823E19 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		E181016720A787C1007A5625 /* WebAPI+HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+HTTP.swift"; sourceTree = "<group>"; };
-		E181016920A787F3007A5625 /* WebAPI+Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+Injectable.swift"; sourceTree = "<group>"; };
-		E181016B20A78810007A5625 /* WebAPI+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+Codable.swift"; sourceTree = "<group>"; };
-		E181016D20A7888B007A5625 /* WebAPI+MultipartFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+MultipartFormData.swift"; sourceTree = "<group>"; };
-		E181016F20A7896B007A5625 /* WebAPI+SSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebAPI+SSL.swift"; sourceTree = "<group>"; };
+		E181016720A787C1007A5625 /* HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
+		E181016920A787F3007A5625 /* HTTPInjectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPInjectable.swift; sourceTree = "<group>"; };
+		E181016B20A78810007A5625 /* HTTPCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPCodable.swift; sourceTree = "<group>"; };
 		E187406D1C8D8ED300A7761C /* NumberFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumberFormatterTests.swift; path = ../../Tests/NumberFormatterTests.swift; sourceTree = "<group>"; };
 		E187406F1C8D932300A7761C /* DateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTests.swift; path = ../../Tests/DateTests.swift; sourceTree = "<group>"; };
 		E18740731C8DAEE200A7761C /* WebAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebAPITests.swift; path = ../../Tests/WebAPITests.swift; sourceTree = "<group>"; };
@@ -140,6 +134,10 @@
 				E1B133301F73F80200AB0BE3 /* Downloader.swift */,
 				E1B1332D1F73F80200AB0BE3 /* Environment.swift */,
 				E1B1333C1F73F80300AB0BE3 /* FileManager.swift */,
+				E181016720A787C1007A5625 /* HTTP.swift */,
+				7371DA8B21A8B24D006E03FA /* HTTPClient.swift */,
+				E181016B20A78810007A5625 /* HTTPCodable.swift */,
+				E181016920A787F3007A5625 /* HTTPInjectable.swift */,
 				7383B26721B9549400C72588 /* KeyedDecodingContainer.swift */,
 				E1B133351F73F80200AB0BE3 /* Log.swift */,
 				E1B1332C1F73F80200AB0BE3 /* NSMetadataQuery.swift */,
@@ -157,12 +155,6 @@
 				E1B133361F73F80200AB0BE3 /* UIViewController.swift */,
 				E1B133421F73F80300AB0BE3 /* UserDefaults.swift */,
 				E1B133391F73F80300AB0BE3 /* WebAPI.swift */,
-				7371DA8B21A8B24D006E03FA /* WebAPI+Client.swift */,
-				E181016B20A78810007A5625 /* WebAPI+Codable.swift */,
-				E181016720A787C1007A5625 /* WebAPI+HTTP.swift */,
-				E181016920A787F3007A5625 /* WebAPI+Injectable.swift */,
-				E181016D20A7888B007A5625 /* WebAPI+MultipartFormData.swift */,
-				E181016F20A7896B007A5625 /* WebAPI+SSL.swift */,
 			);
 			name = Sources;
 			path = ../Sources;
@@ -212,7 +204,6 @@
 				E187406D1C8D8ED300A7761C /* NumberFormatterTests.swift */,
 				E1FB2C0D1DA02E2800A8E0C6 /* PausableTimerTests.swift */,
 				E18740731C8DAEE200A7761C /* WebAPITests.swift */,
-				E12DC4F7209206DD00299260 /* FileManagerTests.swift */,
 				7383B26921B954EE00C72588 /* KeyedDecodingContainerTests.swift */,
 			);
 			path = CodeQuickKitTests;
@@ -337,29 +328,27 @@
 				7383B26821B9549400C72588 /* KeyedDecodingContainer.swift in Sources */,
 				E1B1335C1F73F80400AB0BE3 /* UserDefaults.swift in Sources */,
 				7371DA8E21A8BBE9006E03FA /* NSMutableAttributedString.swift in Sources */,
-				E181016C20A78810007A5625 /* WebAPI+Codable.swift in Sources */,
+				E181016C20A78810007A5625 /* HTTPCodable.swift in Sources */,
 				E1B133551F73F80400AB0BE3 /* NumberFormatter.swift in Sources */,
 				E1B1334F1F73F80400AB0BE3 /* Log.swift in Sources */,
 				E1B133511F73F80400AB0BE3 /* UIAlertController.swift in Sources */,
-				E181016A20A787F3007A5625 /* WebAPI+Injectable.swift in Sources */,
+				E181016A20A787F3007A5625 /* HTTPInjectable.swift in Sources */,
 				E1B1335B1F73F80400AB0BE3 /* NSObject.swift in Sources */,
 				E1B133581F73F80400AB0BE3 /* UITableView.swift in Sources */,
 				E1B133461F73F80400AB0BE3 /* NSMetadataQuery.swift in Sources */,
-				E181017020A7896B007A5625 /* WebAPI+SSL.swift in Sources */,
 				E1B133451F73F80400AB0BE3 /* DateFormatter.swift in Sources */,
 				E1B1334A1F73F80400AB0BE3 /* Downloader.swift in Sources */,
 				E1B133491F73F80400AB0BE3 /* Date.swift in Sources */,
-				7371DA8C21A8B24D006E03FA /* WebAPI+Client.swift in Sources */,
+				7371DA8C21A8B24D006E03FA /* HTTPClient.swift in Sources */,
 				E1B133591F73F80400AB0BE3 /* Bundle.swift in Sources */,
 				E1B133431F73F80400AB0BE3 /* UIPickerView.swift in Sources */,
 				E1B1334B1F73F80400AB0BE3 /* Storyboarded.swift in Sources */,
 				E1B133541F73F80400AB0BE3 /* Reusable.swift in Sources */,
 				E1B133521F73F80400AB0BE3 /* PausableTimer.swift in Sources */,
-				E181016E20A7888B007A5625 /* WebAPI+MultipartFormData.swift in Sources */,
 				E1B133561F73F80400AB0BE3 /* FileManager.swift in Sources */,
 				E1B133531F73F80400AB0BE3 /* WebAPI.swift in Sources */,
 				E1B133471F73F80400AB0BE3 /* Environment.swift in Sources */,
-				E181016820A787C1007A5625 /* WebAPI+HTTP.swift in Sources */,
+				E181016820A787C1007A5625 /* HTTP.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,7 +364,6 @@
 				E1FB2C0E1DA02E2800A8E0C6 /* PausableTimerTests.swift in Sources */,
 				E18740741C8DAEE200A7761C /* WebAPITests.swift in Sources */,
 				E12DC4F62092008300299260 /* EnvironmentTests.swift in Sources */,
-				E12DC4F8209206DD00299260 /* FileManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

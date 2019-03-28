@@ -207,7 +207,7 @@ public extension FileManager {
         do {
             allDocuments = try FileManager.default.contentsOfDirectory(at: documentsDirectory, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions.skipsHiddenFiles)
         } catch {
-            Log.error(error)
+            Log.error(error, message: "Failed to get directory contents.")
             return urls
         }
         

@@ -14,7 +14,6 @@ public protocol HTTPClient {
     /// Auth credentials to provide in the request headers.
     var authorization: HTTP.Authorization? { get set }
     
-    
     /// Constructs the request, setting the method, body data, and headers
     /// based on parameters specified.
     func request(method: HTTP.RequestMethod, path: String, queryItems: [URLQueryItem]?, data: Data?) throws -> URLRequest
