@@ -1,4 +1,4 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.0
 
 import PackageDescription
 
@@ -12,5 +12,6 @@ let package = Package(
     targets: [
         .target(name: "CodeQuickKit", path: "Sources"),
         .testTarget(name: "CodeQuickKitTests", dependencies: ["CodeQuickKit"], path:"Tests")
-    ]
+    ],
+    swiftLanguageVersions: [.v4_2, .v5]
 )

@@ -170,7 +170,7 @@ public class DocumentsUbiquityContainer: UbiquityContainer {
 
 public extension FileManager {
     
-    public var sandboxDirectory: URL? {
+    var sandboxDirectory: URL? {
         guard let directory = self.sandboxDocumentsDirectory else {
             return nil
         }
@@ -178,7 +178,7 @@ public extension FileManager {
         return directory.deletingLastPathComponent()
     }
     
-    public var sandboxDocumentsDirectory: URL? {
+    var sandboxDocumentsDirectory: URL? {
         let searchPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         guard let path = searchPath.last else {
             return nil
@@ -187,11 +187,11 @@ public extension FileManager {
         return URL(fileURLWithPath: path)
     }
     
-    public func sandboxDocuments(withExtension ext: String?) -> [URL] {
+    func sandboxDocuments(withExtension ext: String?) -> [URL] {
         return self.sandboxDocuments(atPath: nil, withExtension: ext)
     }
     
-    public func sandboxDocuments(atPath path: String?, withExtension ext: String?) -> [URL] {
+    func sandboxDocuments(atPath path: String?, withExtension ext: String?) -> [URL] {
         var urls: [URL] = [URL]()
         
         guard let documentsURL = self.sandboxDocumentsDirectory else {
@@ -231,5 +231,5 @@ public extension FileManager {
         return urls
     }
     
-    public static var ubiquityContainer: DocumentsUbiquityContainer = DocumentsUbiquityContainer()
+    static var ubiquityContainer: DocumentsUbiquityContainer = DocumentsUbiquityContainer()
 }

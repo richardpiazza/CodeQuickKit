@@ -21,7 +21,7 @@ public struct Log {
     
     // MARK: - Observers
     private static func index(of observer: LogObserver) -> Array<LogObserver>.Index? {
-        let index = observers.index { (o: LogObserver) -> Bool in
+        let index = observers.firstIndex { (o: LogObserver) -> Bool in
             return o.isEqual(observer)
         }
         

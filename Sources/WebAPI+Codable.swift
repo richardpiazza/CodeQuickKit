@@ -1,7 +1,7 @@
 import Foundation
 
 public extension HTTP {
-    public typealias CodableTaskCompletion<D: Decodable> = (_ statusCode: Int, _ headers: Headers?, _ data: D?, _ error: Swift.Error?) -> Void
+    typealias CodableTaskCompletion<D: Decodable> = (_ statusCode: Int, _ headers: Headers?, _ data: D?, _ error: Swift.Error?) -> Void
 }
 
 /// Protocol used to extend an `HTTPDataClient` with support for
@@ -35,13 +35,13 @@ public extension HTTPCodable where Self: HTTPClient {
         }
     }
     
-    public func get<D: Decodable>(_ path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.CodableTaskCompletion<D>) {
+    func get<D: Decodable>(_ path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.CodableTaskCompletion<D>) {
         self.get(path, queryItems: queryItems) { (statusCode, headers, data: Data?, error) in
             self.decode(statusCode: statusCode, headers: headers, data: data, error: error, completion: completion)
         }
     }
     
-    public func put<E: Encodable, D: Decodable>(_ encodable: E?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.CodableTaskCompletion<D>) {
+    func put<E: Encodable, D: Decodable>(_ encodable: E?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.CodableTaskCompletion<D>) {
         var data: Data? = nil
         do {
             data = try self.encode(encodable)
@@ -55,7 +55,7 @@ public extension HTTPCodable where Self: HTTPClient {
         }
     }
     
-    public func post<E: Encodable, D: Decodable>(_ encodable: E?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.CodableTaskCompletion<D>) {
+    func post<E: Encodable, D: Decodable>(_ encodable: E?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.CodableTaskCompletion<D>) {
         var data: Data? = nil
         do {
             data = try self.encode(encodable)
@@ -69,13 +69,13 @@ public extension HTTPCodable where Self: HTTPClient {
         }
     }
     
-    public func post<D: Decodable>(_ data: Data?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.CodableTaskCompletion<D>) {
+    func post<D: Decodable>(_ data: Data?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.CodableTaskCompletion<D>) {
         self.post(data, path: path, queryItems: queryItems) { (statusCode, headers, data: Data?, error) in
             self.decode(statusCode: statusCode, headers: headers, data: data, error: error, completion: completion)
         }
     }
     
-    public func patch<E: Encodable, D: Decodable>(_ encodable: E?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.CodableTaskCompletion<D>) {
+    func patch<E: Encodable, D: Decodable>(_ encodable: E?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.CodableTaskCompletion<D>) {
         var data: Data? = nil
         do {
             data = try self.encode(encodable)
@@ -89,7 +89,7 @@ public extension HTTPCodable where Self: HTTPClient {
         }
     }
     
-    public func delete<D: Decodable>(_ path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.CodableTaskCompletion<D>) {
+    func delete<D: Decodable>(_ path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.CodableTaskCompletion<D>) {
         self.delete(path, queryItems: queryItems) { (statusCode, headers, data: Data?, error) in
             self.decode(statusCode: statusCode, headers: headers, data: data, error: error, completion: completion)
         }

@@ -47,7 +47,7 @@ public extension NumberFormatter {
         static let percentFormatter = NumberFormatter(.percent)
     }
     
-    public convenience init(_ format: NumberFormat) {
+    convenience init(_ format: NumberFormat) {
         self.init()
         numberStyle = format.numberStyle
         locale = format.locale
@@ -58,74 +58,74 @@ public extension NumberFormatter {
     /// An NumberFormatter for whole integers.
     /// Uses the NumberFormatterDecimalStyle with MaximumFractionDigits set to
     /// 0 (zero).
-    public static func integerFormatter() -> NumberFormatter {
+    static func integerFormatter() -> NumberFormatter {
         return common.integerFormatter
     }
     
-    public static func integer(fromString string: String) -> Int? {
+    static func integer(fromString string: String) -> Int? {
         return common.integerFormatter.number(from: string)?.intValue
     }
     
-    public static func string(fromInteger number: Int) -> String? {
+    static func string(fromInteger number: Int) -> String? {
         return common.integerFormatter.string(from: NSNumber(value: number))
     }
     
     /// An NumberFormatter for whole integers.
     /// Uses the NumberFormatterDecimalStyle with MaximumFractionDigits set to
     /// 1 (one).
-    public static func singleDecimalFormatter() -> NumberFormatter {
+    static func singleDecimalFormatter() -> NumberFormatter {
         return common.singleDecimalFormatter
     }
     
-    public static func singleDecimal(fromString string: String) -> Double? {
+    static func singleDecimal(fromString string: String) -> Double? {
         return common.singleDecimalFormatter.number(from: string)?.doubleValue
     }
     
-    public static func string(fromSingleDecimal number: Double) -> String? {
+    static func string(fromSingleDecimal number: Double) -> String? {
         return common.singleDecimalFormatter.string(from: NSNumber(value: number))
     }
     
     /// An NumberFormatter for whole integers.
     /// Uses the NumberFormatterDecimalStyle with MaximumFractionDigits set to
     /// 2 (two).
-    public static func decimalFormatter() -> NumberFormatter {
+    static func decimalFormatter() -> NumberFormatter {
         return common.decimalFormatter
     }
     
-    public static func decimal(fromString string: String) -> Double? {
+    static func decimal(fromString string: String) -> Double? {
         return common.decimalFormatter.number(from: string)?.doubleValue
     }
     
-    public static func string(fromDecimal number: Double) -> String? {
+    static func string(fromDecimal number: Double) -> String? {
         return common.decimalFormatter.string(from: NSNumber(value: number))
     }
     
     /// An NumberFormatter for whole integers.
     /// Uses the NumberFormatterCurrencyStyle.
-    public static func currencyFormatter() -> NumberFormatter {
+    static func currencyFormatter() -> NumberFormatter {
         return common.currencyFormatter
     }
     
-    public static func currency(fromString string: String) -> Double? {
+    static func currency(fromString string: String) -> Double? {
         return common.currencyFormatter.number(from: string)?.doubleValue
     }
     
-    public static func string(fromCurrency number: Double) -> String? {
+    static func string(fromCurrency number: Double) -> String? {
         return common.currencyFormatter.string(from: NSNumber(value: number))
     }
     
     /// An NumberFormatter for whole integers.
     /// Uses the NumberFormatterPercentStyle with MinimumFractionDigits set to
     /// 1 (one) and MaximumFractionDigits set to 3 (three).
-    public static func percentFormatter() -> NumberFormatter {
+    static func percentFormatter() -> NumberFormatter {
         return common.percentFormatter
     }
     
-    public static func percent(fromString string: String) -> Double? {
+    static func percent(fromString string: String) -> Double? {
         return common.percentFormatter.number(from: string)?.doubleValue
     }
     
-    public static func string(fromPercent number: Double) -> String? {
+    static func string(fromPercent number: Double) -> String? {
         return common.percentFormatter.string(from: NSNumber(value: number))
     }
 }

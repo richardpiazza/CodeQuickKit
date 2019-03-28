@@ -180,10 +180,10 @@ public protocol KeyValueUbiquityContainerDelegate {
     }
     
     public extension UserDefaults {
-        public static var ubiquityUserDefaults: KeyValueUbiquityContainer = KeyValueUbiquityContainer()
+        static var ubiquityUserDefaults: KeyValueUbiquityContainer = KeyValueUbiquityContainer()
         
         /// Attempts to set an item on `NSUbiquitousKeyValueStore`. Will fallback to `NSUserDefaults`
-        public static func setItem(_ item: KeyValueItem, forKey key: String) {
+        static func setItem(_ item: KeyValueItem, forKey key: String) {
             if let keyValueStore = UserDefaults.ubiquityUserDefaults.keyValueStore {
                 keyValueStore.set(item, forKey: key)
                 if let delegate = ubiquityUserDefaults.keyValueDelegate {
@@ -195,7 +195,7 @@ public protocol KeyValueUbiquityContainerDelegate {
         }
         
         /// Attemps to retrieve an item from `NSUbiquitousKeyValueStore`. Will fallback to `NSUserDefaults`
-        public static func itemForKey(_ key: String) -> KeyValueItem? {
+        static func itemForKey(_ key: String) -> KeyValueItem? {
             if let item = UserDefaults.ubiquityUserDefaults.keyValueStore?.item(forKey: key) {
                 return item
             }

@@ -51,7 +51,7 @@ public enum DateFormat {
 }
 
 public extension DateFormatter {
-    public convenience init(dateFormat format: DateFormat, locale: Locale = Locale.enUSPosix, timeZone: TimeZone = TimeZone.gmt) {
+    convenience init(dateFormat format: DateFormat, locale: Locale = Locale.enUSPosix, timeZone: TimeZone = TimeZone.gmt) {
         self.init()
         self.dateStyle = format.dateStyle
         self.timeStyle = format.timeStyle
@@ -63,7 +63,7 @@ public extension DateFormatter {
 /// Extension of `DateFormatter` adding static access to common formatters.
 public extension DateFormatter {
     /// Collection of DateFormatters using the GMT TimeZone and en_US_Posix Locale.
-    public struct GMT {
+    struct GMT {
         /// Date Formatter using the .ShortStyle for both Date and Time
         /// ***Example:*** "11/5/82, 8:00 AM"
         public static let shortDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .shortDateTime)
@@ -102,7 +102,7 @@ public extension DateFormatter {
         public static let fullTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .fullTimeOnly)
     }
     
-    public struct Local {
+    struct Local {
         /// Date Formatter using the .ShortStyle for both Date and Time
         /// ***Example:*** "11/5/82, 8:00 AM"
         public static let shortDateTimeFormatter: DateFormatter = DateFormatter(dateFormat: .shortDateTime, locale: Locale.current, timeZone: TimeZone.current)

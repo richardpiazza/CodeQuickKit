@@ -4,7 +4,7 @@ import Foundation
 
 public extension NSObject {
     /// Returns a probable Obj-C setter for the specified property name.
-    public func setter(forPropertyName propertyName: String) -> Selector? {
+    func setter(forPropertyName propertyName: String) -> Selector? {
         guard propertyName.lengthOfBytes(using: String.Encoding.utf8) > 0 else {
             return nil
         }
@@ -16,7 +16,7 @@ public extension NSObject {
         return NSSelectorFromString("set\(setter):")
     }
     
-    public func respondsToSetter(forPropertyName propertyName: String) -> Bool {
+    func respondsToSetter(forPropertyName propertyName: String) -> Bool {
         guard let selector = setter(forPropertyName: propertyName) else {
             return false
         }
