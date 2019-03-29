@@ -11,6 +11,7 @@
 		7371DA8E21A8BBE9006E03FA /* NSMutableAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7371DA8D21A8BBE9006E03FA /* NSMutableAttributedString.swift */; };
 		7383B26821B9549400C72588 /* KeyedDecodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7383B26721B9549400C72588 /* KeyedDecodingContainer.swift */; };
 		7383B26A21B954EE00C72588 /* KeyedDecodingContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7383B26921B954EE00C72588 /* KeyedDecodingContainerTests.swift */; };
+		73CF99B8224E592C007213F8 /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CF99B7224E592C007213F8 /* LogViewController.swift */; };
 		E12DC4F62092008300299260 /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F52092008300299260 /* EnvironmentTests.swift */; };
 		E12DC4FA209209A400299260 /* BundleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12DC4F9209209A400299260 /* BundleTests.swift */; };
 		E181016820A787C1007A5625 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181016720A787C1007A5625 /* HTTP.swift */; };
@@ -62,6 +63,7 @@
 		7371DA8D21A8BBE9006E03FA /* NSMutableAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedString.swift; sourceTree = "<group>"; };
 		7383B26721B9549400C72588 /* KeyedDecodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedDecodingContainer.swift; sourceTree = "<group>"; };
 		7383B26921B954EE00C72588 /* KeyedDecodingContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KeyedDecodingContainerTests.swift; path = ../../Tests/KeyedDecodingContainerTests.swift; sourceTree = "<group>"; };
+		73CF99B7224E592C007213F8 /* LogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
 		E105D25E1FBDF5F000EC627B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		E12DC4F52092008300299260 /* EnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EnvironmentTests.swift; path = ../../Tests/EnvironmentTests.swift; sourceTree = "<group>"; };
 		E12DC4F9209209A400299260 /* BundleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BundleTests.swift; path = ../../Tests/BundleTests.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				E181016920A787F3007A5625 /* HTTPInjectable.swift */,
 				7383B26721B9549400C72588 /* KeyedDecodingContainer.swift */,
 				E1B133351F73F80200AB0BE3 /* Log.swift */,
+				73CF99B7224E592C007213F8 /* LogViewController.swift */,
 				E1B1332C1F73F80200AB0BE3 /* NSMetadataQuery.swift */,
 				E1B133411F73F80300AB0BE3 /* NSObject.swift */,
 				7371DA8D21A8BBE9006E03FA /* NSMutableAttributedString.swift */,
@@ -341,6 +344,7 @@
 				E1B133491F73F80400AB0BE3 /* Date.swift in Sources */,
 				7371DA8C21A8B24D006E03FA /* HTTPClient.swift in Sources */,
 				E1B133591F73F80400AB0BE3 /* Bundle.swift in Sources */,
+				73CF99B8224E592C007213F8 /* LogViewController.swift in Sources */,
 				E1B133431F73F80400AB0BE3 /* UIPickerView.swift in Sources */,
 				E1B1334B1F73F80400AB0BE3 /* Storyboarded.swift in Sources */,
 				E1B133541F73F80400AB0BE3 /* Reusable.swift in Sources */,

@@ -1,6 +1,3 @@
-#if !COCOAPODS && canImport(Amada)
-import Amada
-#endif
 #if canImport(MessageUI)
 import MessageUI
 #endif
@@ -159,9 +156,9 @@ extension LogViewController {
             return
         }
         
-        let app = App(bundleIdentifier: Bundle.main.bundleIdentifier) ?? .measure
-        let subject = String(format: "%@ Log", app.name)
-        let attachment = String(format: "%@.log.txt", app.name)
+        let productName = Bundle.main.bundleName ?? "App"
+        let subject = String(format: "%@ Log", productName)
+        let attachment = String(format: "%@.log.txt", productName)
         
         let controller = MFMailComposeViewController()
         controller.mailComposeDelegate = self
