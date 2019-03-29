@@ -90,7 +90,7 @@ open class Downloader {
     /// A wrapper for `URLSession` similar to `WebAPI` for general purpose
     /// downloading of data and images.
     public extension Downloader {
-        public func getImageAtPath(_ path: String, cachePolicy: URLRequest.CachePolicy, completion: @escaping DownloaderImageCompletion) {
+        func getImageAtPath(_ path: String, cachePolicy: URLRequest.CachePolicy, completion: @escaping DownloaderImageCompletion) {
             guard let url = self.urlForPath(path) else {
                 completion(0, nil, Errors.invalidBaseURL)
                 return
@@ -99,7 +99,7 @@ open class Downloader {
             self.getImageAtURL(url, cachePolicy: cachePolicy, completion: completion)
         }
         
-        public func getImageAtURL(_ url: URL, cachePolicy: URLRequest.CachePolicy, completion: @escaping DownloaderImageCompletion) {
+        func getImageAtURL(_ url: URL, cachePolicy: URLRequest.CachePolicy, completion: @escaping DownloaderImageCompletion) {
             self.getDataAtURL(url, cachePolicy: cachePolicy) { (statusCode, responseData, error) -> Void in
                 var image: UIImage?
                 if responseData != nil {

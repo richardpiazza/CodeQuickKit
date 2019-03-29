@@ -12,7 +12,7 @@ public extension KeyedDecodingContainer {
     ///
     /// - parameter keys: The keys to search for.
     /// - returns: Wether the `Decoder` has an entry for any of the keys.
-    public func contains(_ keys: [KeyedDecodingContainer<K>.Key]) -> Bool {
+    func contains(_ keys: [KeyedDecodingContainer<K>.Key]) -> Bool {
         for key in keys {
             if contains(key) {
                 return true
@@ -35,7 +35,7 @@ public extension KeyedDecodingContainer {
     ///   one of the keys is not convertible to the requested type.
     /// - throws: `DecodingError.valueNotFound` if `self` has a null entry for all
     ///   of the given keys.
-    public func decode<T>(_ type: T.Type, forKeys keys: [KeyedDecodingContainer<K>.Key]) throws -> T where T: Decodable {
+    func decode<T>(_ type: T.Type, forKeys keys: [KeyedDecodingContainer<K>.Key]) throws -> T where T: Decodable {
         guard keys.count > 0 else {
             let context = DecodingError.Context(codingPath: [], debugDescription: "No Keys Specified")
             throw DecodingError.dataCorrupted(context)
@@ -63,7 +63,7 @@ public extension KeyedDecodingContainer {
     /// - throws: `DecodingError.dataCorrupted` if no keys are specified.
     /// - throws: `DecodingError.typeMismatch` if an encountered encoded value for
     ///   one of the keys is not convertible to the requested type.
-    public func decodeIfPresent<T>(_ type: T.Type, forKeys keys: [KeyedDecodingContainer<K>.Key]) throws -> T? where T: Decodable {
+    func decodeIfPresent<T>(_ type: T.Type, forKeys keys: [KeyedDecodingContainer<K>.Key]) throws -> T? where T: Decodable {
         guard keys.count > 0 else {
             let context = DecodingError.Context(codingPath: [], debugDescription: "No Keys Specified")
             throw DecodingError.dataCorrupted(context)

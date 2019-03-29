@@ -98,11 +98,14 @@ public enum Release {
     case swift3_2
     case swift4_0
     case swift4_1
+    case swift4_2
     case swift5_0
     
     public static var current: Release {
         #if swift(>=5.0)
             return .swift5_0
+        #elseif swift(>=4.2)
+            return .swift4_2
         #elseif swift(>=4.1)
             return .swift4_1
         #elseif swift(>=4.0)

@@ -24,7 +24,7 @@ public extension NSMetadataQuery {
             do {
                 try (url as NSURL).getResourceValue(&isHidden, forKey: URLResourceKey.isHiddenKey)
             } catch {
-                Log.error(error)
+                Log.error(error, message: "Failed to get 'isHidden' attribute.")
                 continue
             }
             

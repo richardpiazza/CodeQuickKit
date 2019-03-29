@@ -19,7 +19,7 @@ public protocol Reusable: class {
 }
 
 public extension Reusable {
-    public static var reuseIdentifier: String {
+    static var reuseIdentifier: String {
         return String(describing: self)
     }
 }
@@ -31,7 +31,7 @@ extension UIViewController: Reusable {}
 public extension UIStoryboard {
     /// Instantiates a UIViewController for the provided `Reusable` type.
     /// - throws: NSInvalidArgumentException (when unable to locate view with identifier)
-    public func instantiateViewController<T: Reusable>(withType type: T.Type) -> T {
+    func instantiateViewController<T: Reusable>(withType type: T.Type) -> T {
         return self.instantiateViewController(withIdentifier: type.reuseIdentifier) as! T
     }
 }
@@ -50,7 +50,7 @@ public extension UITableView {
     /// * MyCustomTableViewCell.swift
     /// * MyCustomTableViewCell.xib
     ///
-    public func register<T: UITableViewCell>(reusableType: T.Type) {
+    func register<T: UITableViewCell>(reusableType: T.Type) {
         let bundle = Bundle(for: T.self)
         if let _ = bundle.url(forResource: T.reuseIdentifier, withExtension: "nib") {
             let nib = UINib(nibName: T.reuseIdentifier, bundle: bundle)
@@ -63,7 +63,7 @@ public extension UITableView {
     /// Dequeue a UITableViewCell for the specific type.
     /// This implementation relys on the `Reusable` protocol for
     /// suppling the needed 'reuseIdentifier'.
-    public func dequeueReusableCell<T: UITableViewCell>(withType: T.Type, for indexPath: IndexPath) -> T {
+    func dequeueReusableCell<T: UITableViewCell>(withType: T.Type, for indexPath: IndexPath) -> T {
         guard let cell = self.dequeueReusableCell(withIdentifier: T.reuseIdentifier, for: indexPath) as? T else {
             fatalError("\(#function); Failed to dequeue cell with identifier '\(T.reuseIdentifier)'")
         }
@@ -74,7 +74,7 @@ public extension UITableView {
 
 public extension UICollectionView {
     /// Registers a UICollectionViewCell.Type with the `collectionView`.
-    public func register<T: UICollectionViewCell>(reusableType: T.Type) {
+    func register<T: UICollectionViewCell>(reusableType: T.Type) {
         let bundle = Bundle(for: T.self)
         if let _ = bundle.url(forResource: T.reuseIdentifier, withExtension: "nib") {
             let nib = UINib(nibName: T.reuseIdentifier, bundle: bundle)
@@ -85,7 +85,7 @@ public extension UICollectionView {
     }
     
     /// Dequeue a typed UICollectionViewCell from the `collectionView`.
-    public func dequeueReusableCell<T: UICollectionViewCell>(withType: T.Type, for indexPath: IndexPath) -> T {
+    func dequeueReusableCell<T: UICollectionViewCell>(withType: T.Type, for indexPath: IndexPath) -> T {
         guard let cell = self.dequeueReusableCell(withReuseIdentifier: T.reuseIdentifier, for: indexPath) as? T else {
             fatalError("\(#function); Failed to dequeue cell with identifier '\(T.reuseIdentifier)'")
         }
@@ -98,7 +98,7 @@ public extension UICollectionView {
     /// Default/Defined kinds:
     /// * UICollectionView.elementKindSectionHeader
     /// * UICollectionView.elementKindSectionFooter
-    public func register<T: UICollectionReusableView>(reusableType: T.Type, supplementaryViewOfKind ofKind: String) {
+    func register<T: UICollectionReusableView>(reusableType: T.Type, supplementaryViewOfKind ofKind: String) {
         let bundle = Bundle(for: T.self)
         if let _ = bundle.url(forResource: T.reuseIdentifier, withExtension: "nib") {
             let nib = UINib(nibName: T.reuseIdentifier, bundle: bundle)
@@ -113,7 +113,7 @@ public extension UICollectionView {
     /// Default/Defined kinds:
     /// * UICollectionView.elementKindSectionHeader
     /// * UICollectionView.elementKindSectionFooter
-    public func dequeueReusableSupplementaryView<T: UICollectionReusableView>(withType: T.Type, ofKind: String, for indexPath: IndexPath) -> T {
+    func dequeueReusableSupplementaryView<T: UICollectionReusableView>(withType: T.Type, ofKind: String, for indexPath: IndexPath) -> T {
         guard let view = self.dequeueReusableSupplementaryView(ofKind: ofKind, withReuseIdentifier: T.reuseIdentifier, for: indexPath) as? T else {
             fatalError("\(#function); Failed to dequeue supplementary view with identifier '\(T.reuseIdentifier)'")
         }

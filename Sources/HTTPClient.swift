@@ -14,7 +14,6 @@ public protocol HTTPClient {
     /// Auth credentials to provide in the request headers.
     var authorization: HTTP.Authorization? { get set }
     
-    
     /// Constructs the request, setting the method, body data, and headers
     /// based on parameters specified.
     func request(method: HTTP.RequestMethod, path: String, queryItems: [URLQueryItem]?, data: Data?) throws -> URLRequest
@@ -29,7 +28,7 @@ public protocol HTTPClient {
 }
 
 public extension HTTPClient {
-    public func request(method: HTTP.RequestMethod, path: String, queryItems: [URLQueryItem]?, data: Data?) throws -> URLRequest {
+    func request(method: HTTP.RequestMethod, path: String, queryItems: [URLQueryItem]?, data: Data?) throws -> URLRequest {
         let pathURL = baseURL.appendingPathComponent(path)
         
         var urlComponents = URLComponents(url: pathURL, resolvingAgainstBaseURL: false)
@@ -56,7 +55,7 @@ public extension HTTPClient {
         return request
     }
     
-    public func task(request: URLRequest, completion: @escaping HTTP.DataTaskCompletion) throws -> URLSessionDataTask {
+    func task(request: URLRequest, completion: @escaping HTTP.DataTaskCompletion) throws -> URLSessionDataTask {
         guard request.url != nil else {
             throw HTTP.Error.invalidURL
         }
@@ -71,7 +70,7 @@ public extension HTTPClient {
         }
     }
     
-    public func execute(request: URLRequest, completion: @escaping HTTP.DataTaskCompletion) {
+    func execute(request: URLRequest, completion: @escaping HTTP.DataTaskCompletion) {
         let task: URLSessionDataTask
         do {
             task = try self.task(request: request, completion: completion)
@@ -86,7 +85,7 @@ public extension HTTPClient {
 
 public extension HTTPClient {
     /// Convenience method for generating and executing a request using the `GET` http method.
-    public func get(_ path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.DataTaskCompletion) {
+    func get(_ path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.DataTaskCompletion) {
         do {
             let request = try self.request(method: .get, path: path, queryItems: queryItems, data: nil)
             self.execute(request: request, completion: completion)
@@ -96,7 +95,7 @@ public extension HTTPClient {
     }
     
     /// Convenience method for generating and executing a request using the `PUT` http method.
-    public func put(_ data: Data?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.DataTaskCompletion) {
+    func put(_ data: Data?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.DataTaskCompletion) {
         do {
             let request = try self.request(method: .put, path: path, queryItems: queryItems, data: data)
             self.execute(request: request, completion: completion)
@@ -106,7 +105,7 @@ public extension HTTPClient {
     }
     
     /// Convenience method for generating and executing a request using the `POST` http method.
-    public func post(_ data: Data?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.DataTaskCompletion) {
+    func post(_ data: Data?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.DataTaskCompletion) {
         do {
             let request = try self.request(method: .post, path: path, queryItems: queryItems, data: data)
             self.execute(request: request, completion: completion)
@@ -116,7 +115,7 @@ public extension HTTPClient {
     }
     
     /// Convenience method for generating and executing a request using the `PATCH` http method.
-    public func patch(_ data: Data?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.DataTaskCompletion) {
+    func patch(_ data: Data?, path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.DataTaskCompletion) {
         do {
             let request = try self.request(method: .patch, path: path, queryItems: queryItems, data: data)
             self.execute(request: request, completion: completion)
@@ -126,7 +125,7 @@ public extension HTTPClient {
     }
     
     /// Convenience method for generating and executing a request using the `DELETE` http method.
-    public func delete(_ path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.DataTaskCompletion) {
+    func delete(_ path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.DataTaskCompletion) {
         do {
             let request = try self.request(method: .delete, path: path, queryItems: queryItems, data: nil)
             self.execute(request: request, completion: completion)

@@ -121,7 +121,7 @@ public struct HTTP {
 }
 
 public extension URLRequest {
-    public mutating func setValue(_ value: String, forHTTPHeader header: HTTP.Header) {
+    mutating func setValue(_ value: String, forHTTPHeader header: HTTP.Header) {
         self.setValue(value, forHTTPHeaderField: header.rawValue)
     }
 }

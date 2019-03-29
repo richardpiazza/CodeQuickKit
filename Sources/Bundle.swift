@@ -25,42 +25,42 @@ public struct BundleKeys {
 public extension Bundle {
     /// Typically the 'Product Name' of the app.
     /// - path: Build Settings > Packaging > Product Name
-    public var bundleName: String? {
+    var bundleName: String? {
         return self.object(forInfoDictionaryKey: BundleKeys.BundleName) as? String
     }
     
     /// The Display Name entered for a given target.
     /// - path: Target > General > Display Name
-    public var bundleDisplayName: String? {
+    var bundleDisplayName: String? {
         return self.object(forInfoDictionaryKey: BundleKeys.BundleDisplayName) as? String
     }
     
     /// The name of the Executable the bundle produces.
-    public var executableName: String? {
+    var executableName: String? {
         return self.object(forInfoDictionaryKey: BundleKeys.BundleExecutableName) as? String
     }
     
     /// The Version specificed for the Target, typically displayed as a semantic
     /// version number like: 2.3.4
     /// - path: Target > General > Version
-    public var appVersion: String? {
+    var appVersion: String? {
         return self.object(forInfoDictionaryKey: BundleKeys.AppVersion) as? String
     }
     
     /// The Build specified for the Target, typically an auto incrementing or
     /// number specicified by a build pipeline.
     /// - path: Target > General > Build
-    public var buildNumber: String? {
+    var buildNumber: String? {
         return self.object(forInfoDictionaryKey: BundleKeys.BuildNumber) as? String
     }
     
     /// The name of the launch UIStroyboard specified in Target > General
-    public var launchStoryboardName: String? {
+    var launchStoryboardName: String? {
         return self.object(forInfoDictionaryKey: BundleKeys.LaunchScreen) as? String
     }
     
     /// The name of the main UIStroyboard specified in Target > General
-    public var mainStoryboardName: String? {
+    var mainStoryboardName: String? {
         return self.object(forInfoDictionaryKey: BundleKeys.MainStoryboard) as? String
     }
 }
@@ -70,7 +70,7 @@ public extension Bundle {
     /// A human-readable version of the specified app version and build number.
     /// When both pieces of information are present, the format is: {VERSION} ({BUILD})
     /// - exampple: 3.2.1 (54)
-    public var presentableVersionNumber: String {
+    var presentableVersionNumber: String {
         var output: [String] = []
         if let version = appVersion {
             output.append(version)
@@ -82,7 +82,7 @@ public extension Bundle {
     }
     
     /// Common iOS App bundle keys and values for printing/logging.
-    public var presentableDictionary: [String : String] {
+    var presentableDictionary: [String : String] {
         return [
             BundleKeys.BundleName : bundleName ?? "",
             BundleKeys.BundleDisplayName : bundleDisplayName ?? "",
@@ -104,7 +104,7 @@ public extension Bundle {
     /// - parameter extension: The resource extension (sans .)
     /// - throws: CocoaError
     /// - returns: A Data representation of the specified resource.
-    public func data(forResource resource: String, withExtension `extension`: String = "json") throws -> Data {
+    func data(forResource resource: String, withExtension `extension`: String = "json") throws -> Data {
         guard let fileURL = self.url(forResource: resource, withExtension: `extension`) else {
             throw CocoaError(.fileNoSuchFile)
         }
@@ -120,7 +120,7 @@ public extension Bundle {
     /// - parameter decoder: The JSONDecoder used to produce the `ofType` output.
     /// - throws: CocoaError / DecodingError
     /// - returns: An object of the specified `Decodable` type.
-    public func decodableData<T: Decodable>(ofType type: T.Type, forResource resource: String, withExtension `extension`: String = "json", usingDecoder decoder: JSONDecoder = JSONDecoder()) throws -> T {
+    func decodableData<T: Decodable>(ofType type: T.Type, forResource resource: String, withExtension `extension`: String = "json", usingDecoder decoder: JSONDecoder = JSONDecoder()) throws -> T {
         let data = try self.data(forResource: resource, withExtension: `extension`)
         return try decoder.decode(type, from: data)
     }
@@ -131,7 +131,7 @@ public extension Bundle {
     /// Attempts to determine the "full" modularized name for a given class.
     /// For example: when using CodeQuickKit as a module, the moduleClass for
     /// the `WebAPI` class would be `CodeQuickKit.WebAPI`.
-    public func moduleClass(forClassNamed classNamed: String) -> AnyClass {
+    func moduleClass(forClassNamed classNamed: String) -> AnyClass {
         var moduleClass: AnyClass? = NSClassFromString(classNamed)
         if moduleClass != nil && moduleClass != NSNull.self {
             return moduleClass!
@@ -157,7 +157,7 @@ public extension Bundle {
     }
     
     /// Takes the moduleClass for a given class and attempts to singularize it.
-    public func singularizedModuleClass(forClassNamed classNamed: String) -> AnyClass {
+    func singularizedModuleClass(forClassNamed classNamed: String) -> AnyClass {
         var moduleClass: AnyClass? = self.moduleClass(forClassNamed: classNamed)
         if moduleClass != nil && moduleClass != NSNull.self {
             return moduleClass!
@@ -187,7 +187,7 @@ import UIKit
 
 public extension Bundle {
     /// This call potentially throws an execption that cannot be caught.
-    public var launchScreenStoryboard: UIStoryboard? {
+    var launchScreenStoryboard: UIStoryboard? {
         guard let name = launchStoryboardName else {
             return nil
         }
@@ -196,7 +196,7 @@ public extension Bundle {
     }
     
     /// This call potentially throws an execption that cannot be caught.
-    public var mainStoryboard: UIStoryboard? {
+    var mainStoryboard: UIStoryboard? {
         guard let name = mainStoryboardName else {
             return nil
         }

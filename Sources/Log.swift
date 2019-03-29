@@ -95,7 +95,11 @@ public class Log {
         
         private static var jsonEncoder: JSONEncoder = {
             let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .iso8601
+            if #available(macOS 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *) {
+                encoder.dateEncodingStrategy = .iso8601
+            } else {
+                encoder.dateEncodingStrategy = .formatted(gmtDateFormatter)
+            }
             return encoder
         }()
         

@@ -11,24 +11,28 @@ import XCTest
 
 class LogManagerTests: XCTestCase {
     
-    lazy var logFile: LogFile = {
+    lazy var log: Log = {
         let url = URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent("logTests.txt")
-        return LogFile(url: url, logLevel: .debug, autoPurge: true)
+        let log = Log(fileUrl: url)
+        log.minimumConsoleLevel = .debug
+        log.minimumFileLevel = .debug
+        return log
     }()
     
     override func setUp() {
         super.setUp()
         
-        Log.consoleLevel = .debug
-        Log.add(observer: logFile)
-        logFile.logLevel = .debug
-        logFile.purge()
+        log.clear()
     }
     
     override func tearDown() {
-        Log.remove(observer: logFile)
+        guard let url = log.fileUrl else {
+            super.tearDown()
+            return
+        }
+        
         do {
-            try FileManager.default.removeItem(at: logFile.url)
+            try FileManager.default.removeItem(at: url)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -41,13 +45,15 @@ class LogManagerTests: XCTestCase {
     }
     
     func testLog() {
-        XCTAssertFalse(FileManager.default.fileExists(atPath: logFile.url.path))
+        let url = log.fileUrl!
         
-        Log.debug("doh...")
-        Log.info("FYI...")
-        Log.warn("Danger Will Robinson...")
-        Log.error(TestError.fanError, message: "Feces just impacted the oscillating device...")
+        XCTAssertFalse(FileManager.default.fileExists(atPath: url.path))
         
-        XCTAssertTrue(FileManager.default.fileExists(atPath: logFile.url.path))
+        log.debug("doh...")
+        log.info("FYI...")
+        log.warn("Danger Will Robinson...")
+        log.error("Feces just impacted the oscillating device...", error: TestError.fanError)
+        
+        XCTAssertTrue(FileManager.default.fileExists(atPath: url.path))
     }
 }
