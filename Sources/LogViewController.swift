@@ -55,6 +55,7 @@ public class LogViewController: UIViewController, LogObserver {
         control.translatesAutoresizingMaskIntoConstraints = false
         control.setTitle("Email", for: .normal)
         control.setTitleColor(.blue, for: .normal)
+        control.setTitleColor(.gray, for: .disabled)
         control.addTarget(self, action: #selector(didTapEmail(_:)), for: .touchUpInside)
         return control
     }()
@@ -78,23 +79,37 @@ public class LogViewController: UIViewController, LogObserver {
         view.backgroundColor = .white
         
         view.addSubview(viewer)
-        view.addSubview(close)
-        view.addSubview(clear)
-        view.addSubview(email)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: close, attribute: .top, relatedBy: .equal, toItem: view, attribute: .topMargin, multiplier: 1.0, constant: 8.0),
-            NSLayoutConstraint(item: close, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leadingMargin, multiplier: 1.0, constant: 8.0),
-            NSLayoutConstraint(item: email, attribute: .top, relatedBy: .equal, toItem: view, attribute: .topMargin, multiplier: 1.0, constant: 8.0),
-            NSLayoutConstraint(item: email, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailingMargin, multiplier: 1.0, constant: -8.0),
-            NSLayoutConstraint(item: clear, attribute: .top, relatedBy: .equal, toItem: view, attribute: .topMargin, multiplier: 1.0, constant: 8.0),
-            NSLayoutConstraint(item: clear, attribute: .trailing, relatedBy: .equal, toItem: email, attribute: .leading, multiplier: 1.0, constant: -16.0),
-            NSLayoutConstraint(item: clear, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: close, attribute: .trailing, multiplier: 1.0, constant: 16.0),
-            NSLayoutConstraint(item: viewer, attribute: .top, relatedBy: .equal, toItem: close, attribute: .bottom, multiplier: 1.0, constant: 8.0),
             NSLayoutConstraint(item: viewer, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leadingMargin, multiplier: 1.0, constant: 8.0),
             NSLayoutConstraint(item: viewer, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailingMargin, multiplier: 1.0, constant: -8.0),
             NSLayoutConstraint(item: viewer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: -8.0)
             ])
+        
+        if let _ = navigationController {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: close)
+            navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: email), UIBarButtonItem(customView: clear)]
+            navigationItem.title = log.fileUrl?.lastPathComponent
+            
+            NSLayoutConstraint.activate([
+                NSLayoutConstraint(item: viewer, attribute: .top, relatedBy: .equal, toItem: view, attribute: .topMargin, multiplier: 1.0, constant:8.0)
+                ])
+        } else {
+            view.addSubview(close)
+            view.addSubview(clear)
+            view.addSubview(email)
+            
+            NSLayoutConstraint.activate([
+                NSLayoutConstraint(item: close, attribute: .top, relatedBy: .equal, toItem: view, attribute: .topMargin, multiplier: 1.0, constant: 8.0),
+                NSLayoutConstraint(item: close, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leadingMargin, multiplier: 1.0, constant: 8.0),
+                NSLayoutConstraint(item: email, attribute: .top, relatedBy: .equal, toItem: view, attribute: .topMargin, multiplier: 1.0, constant: 8.0),
+                NSLayoutConstraint(item: email, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailingMargin, multiplier: 1.0, constant: -8.0),
+                NSLayoutConstraint(item: clear, attribute: .top, relatedBy: .equal, toItem: view, attribute: .topMargin, multiplier: 1.0, constant: 8.0),
+                NSLayoutConstraint(item: clear, attribute: .trailing, relatedBy: .equal, toItem: email, attribute: .leading, multiplier: 1.0, constant: -16.0),
+                NSLayoutConstraint(item: clear, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: close, attribute: .trailing, multiplier: 1.0, constant: 16.0),
+                NSLayoutConstraint(item: viewer, attribute: .top, relatedBy: .equal, toItem: close, attribute: .bottom, multiplier: 1.0, constant: 8.0),
+                ])
+        }
         
         #if canImport(MessageUI)
         email.isEnabled = MFMailComposeViewController.canSendMail()
@@ -111,6 +126,12 @@ public class LogViewController: UIViewController, LogObserver {
         log.addObserver(self)
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        viewer.scrollToBottom()
+    }
+    
     // MARK: - LogObserver
     public func log(entry: Log.Entry) {
         guard let data = entry.data, let string = String(data: data, encoding: .utf8) else {
@@ -120,6 +141,7 @@ public class LogViewController: UIViewController, LogObserver {
         DispatchQueue.main.async {
             let output = String(format: "%@\n%@", self.viewer.text, string)
             self.viewer.text = output
+            self.viewer.scrollToBottom()
             self.viewer.flashScrollIndicators()
         }
     }
@@ -162,6 +184,13 @@ extension LogViewController {
         }
         
         delegate.shouldDismissLogViewController(self)
+    }
+}
+
+extension UITextView {
+    func scrollToBottom() {
+        let range = NSRange(location: text.lengthOfBytes(using: .utf8), length: 0)
+        scrollRangeToVisible(range)
     }
 }
 
