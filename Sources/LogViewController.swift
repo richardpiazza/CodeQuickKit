@@ -1,7 +1,7 @@
 #if canImport(MessageUI)
 import MessageUI
 #endif
-#if canImport(UIKit)
+#if os(iOS)
 import UIKit
 
 public protocol LogViewControllerDelegate: class {
