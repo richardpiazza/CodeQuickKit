@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   s.ios.frameworks = 'Foundation', 'UIKit'
   s.tvos.deployment_target = "11.0"
   s.tvos.frameworks = 'Foundation', 'UIKit'
-  s.watchos.deployment_target = "4.0"
-  s.watchos.frameworks = 'Foundation'
+  #s.watchos.deployment_target = "4.0"
+  #s.watchos.frameworks = 'Foundation'
 
 end
