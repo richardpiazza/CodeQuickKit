@@ -23,7 +23,11 @@ open class Downloader {
         configuration.requestCachePolicy = .returnCacheDataElseLoad
         return URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
     }()
+    #if os(UIKitForMac)
+    fileprivate var cache: URLCache = URLCache(memoryCapacity: Downloader.twentyFiveMB, diskCapacity: Downloader.twoHundredMB)
+    #else
     fileprivate var cache: URLCache = URLCache(memoryCapacity: Downloader.twentyFiveMB, diskCapacity: Downloader.twoHundredMB, diskPath: "Downloader")
+    #endif
     public var baseURL: URL?
     public var timeout: TimeInterval = 20
     
