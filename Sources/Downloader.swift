@@ -23,7 +23,7 @@ open class Downloader {
         configuration.requestCachePolicy = .returnCacheDataElseLoad
         return URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
     }()
-    #if os(UIKitForMac)
+    #if targetEnvironment(macCatalyst)
     fileprivate var cache: URLCache = URLCache(memoryCapacity: Downloader.twentyFiveMB, diskCapacity: Downloader.twoHundredMB)
     #else
     fileprivate var cache: URLCache = URLCache(memoryCapacity: Downloader.twentyFiveMB, diskCapacity: Downloader.twoHundredMB, diskPath: "Downloader")

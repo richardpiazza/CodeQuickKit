@@ -2,11 +2,7 @@
 
 import UIKit
 
-public protocol ProgrammaticViewInitializable {
-    func initializeSubviews()
-}
-
-open class ProgrammaticView: UIView, ProgrammaticViewInitializable {
+open class ProgrammaticView: UIView {
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,9 +17,13 @@ open class ProgrammaticView: UIView, ProgrammaticViewInitializable {
     open func initializeSubviews() {
         
     }
+    
+    open func updateSubviews() {
+        
+    }
 }
 
-open class ProgrmmaticTableViewCell: UITableViewCell, ProgrammaticViewInitializable {
+open class ProgrmmaticTableViewCell: UITableViewCell {
     
     override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -38,9 +38,13 @@ open class ProgrmmaticTableViewCell: UITableViewCell, ProgrammaticViewInitializa
     open func initializeSubviews() {
         
     }
+    
+    open func updateSubviews() {
+        
+    }
 }
 
-open class ProgrammaticCollectionReusableView: UICollectionReusableView, ProgrammaticViewInitializable {
+open class ProgrammaticCollectionReusableView: UICollectionReusableView {
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -55,9 +59,13 @@ open class ProgrammaticCollectionReusableView: UICollectionReusableView, Program
     open func initializeSubviews() {
         
     }
+    
+    open func updateSubviews() {
+        
+    }
 }
 
-open class ProgrammaticCollectionViewCell: UICollectionViewCell, ProgrammaticViewInitializable {
+open class ProgrammaticCollectionViewCell: UICollectionViewCell {
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -70,6 +78,10 @@ open class ProgrammaticCollectionViewCell: UICollectionViewCell, ProgrammaticVie
     }
     
     open func initializeSubviews() {
+        
+    }
+    
+    open func updateSubviews() {
         
     }
 }
