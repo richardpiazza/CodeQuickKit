@@ -22,6 +22,7 @@ public class HUD: UIView {
     
     private static var container: CenteringContainerView = {
         let view = CenteringContainerView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
         if #available(iOS 13.0, *) {
             view.backgroundColor = UIColor.systemBackground
         } else {
