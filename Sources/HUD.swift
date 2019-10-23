@@ -257,7 +257,7 @@ public class HUD: UIView {
 
     public private(set) lazy var activity: UIActivityIndicatorView = {
         let view: UIActivityIndicatorView
-        if #available(iOS 13.0, *) {
+        if #available(iOS 13.0, tvOS 13.0, *) {
             view = UIActivityIndicatorView(style: .large)
         } else {
             view = UIActivityIndicatorView(style: .whiteLarge)
