@@ -1,5 +1,4 @@
-#if os(iOS)
-
+#if canImport(UIKit)
 import UIKit
 
 public typealias DefaultAlertCompletion = (_ selectedAction: String?, _ wasCanceled: Bool) -> Void
