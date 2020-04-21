@@ -1,16 +1,19 @@
 import Foundation
 
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 public extension HTTP {
     typealias CodableTaskCompletion<D: Decodable> = (_ statusCode: Int, _ headers: Headers?, _ data: D?, _ error: Swift.Error?) -> Void
 }
 
 /// Protocol used to extend an `HTTPDataClient` with support for
 /// automatic encoding and decoding or request and response data.
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 public protocol HTTPCodable {
     var jsonEncoder: JSONEncoder { get set }
     var jsonDecoder: JSONDecoder { get set }
 }
 
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 public extension HTTPCodable where Self: HTTPClient {
     fileprivate func encode<E: Encodable>(_ encodable: E?) throws -> Data? {
         var data: Data? = nil

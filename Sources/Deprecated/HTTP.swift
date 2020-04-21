@@ -2,6 +2,7 @@ import Foundation
 
 /// A Collection of methods/headers/values/types used during basic HTTP
 /// interactions.
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 public struct HTTP {
     
     /// HTTP defines a set of request methods to indicate the desired action to be performed for a given resource.
@@ -120,6 +121,7 @@ public struct HTTP {
     public typealias DataTaskCompletion = (_ statusCode: Int, _ headers: Headers?, _ data: Data?, _ error: Swift.Error?) -> Void
 }
 
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 public extension URLRequest {
     mutating func setValue(_ value: String, forHTTPHeader header: HTTP.Header) {
         self.setValue(value, forHTTPHeaderField: header.rawValue)

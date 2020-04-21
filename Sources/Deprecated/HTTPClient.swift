@@ -1,8 +1,10 @@
 import Foundation
 
 /// The essential components of a HTTP/REST/JSON Client.
-/// This protocol provides a lightweight wrapper around Foundations URLSeesion
+///
+/// This protocol expresses a lightweight wrapper around Foundations `URLSeesion`
 /// for interacting with JSON REST API's.
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 public protocol HTTPClient {
     
     /// The root URL used to construct all queries.
@@ -27,6 +29,7 @@ public protocol HTTPClient {
     func execute(request: URLRequest, completion: @escaping HTTP.DataTaskCompletion)
 }
 
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 public extension HTTPClient {
     func request(method: HTTP.RequestMethod, path: String, queryItems: [URLQueryItem]?, data: Data?) throws -> URLRequest {
         let pathURL = baseURL.appendingPathComponent(path)
@@ -83,6 +86,7 @@ public extension HTTPClient {
     }
 }
 
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 public extension HTTPClient {
     /// Convenience method for generating and executing a request using the `GET` http method.
     func get(_ path: String, queryItems: [URLQueryItem]? = nil, completion: @escaping HTTP.DataTaskCompletion) {

@@ -2,7 +2,6 @@ import Foundation
 #if canImport(UIKit)
 import UIKit
 
-#if swift(>=4.2)
 public extension NSMutableAttributedString {
     /// Appends a plain `String` with the given parameters
     /// - parameter string: The `String` to append to the instance.
@@ -36,42 +35,6 @@ public extension NSMutableAttributedString {
     }
 }
 
-#else
-public extension NSMutableAttributedString {
-/// Appends a plain `String` with the given parameters
-/// - parameter string: The `String` to append to the instance.
-/// - parameter textStyle: The preferred UIFontTextStyle used to create the Font.
-/// - parameter scale: Multiplier to apply to the `textStyle` 'pointSize'.
-/// - parameter attributes: Additional attributes that should apply to the given `string`.
-/// - parameter traits: Traits that should be applied to the created Font.
-///
-/// - note: If a NSAttributeString.Key.font is specified in the attributes, the requested
-///         font will be used in place of one created from the provided `textStyle` and
-///         `traits.
-public func append(_ string: String, textStyle: UIFontTextStyle = .body, scale: CGFloat = 1.0, attributes: [NSAttributedStringKey : Any] = [:], traits: UIFontDescriptorSymbolicTraits? = nil) {
-let font = UIFont.preferredFont(forTextStyle: textStyle)
-let size = font.pointSize * scale
-
-let outputFont: UIFont
-if let traits = traits, let fontDescriptor = font.fontDescriptor.withSymbolicTraits(traits) {
-outputFont = UIFont(descriptor: fontDescriptor, size: size)
-} else {
-outputFont = UIFont(descriptor: font.fontDescriptor, size: size)
-}
-
-var fontAttributes: [NSAttributedStringKey : Any] = attributes
-if !fontAttributes.keys.contains(.font) {
-fontAttributes[.font] = outputFont
-}
-
-let attributedString = NSAttributedString(string: string, attributes: attributes)
-
-self.append(attributedString)
-}
-}
-#endif
-
-#if swift(>=4.2)
 public extension NSMutableAttributedString {
     func appendPlain(_ string: String, textStyle: UIFont.TextStyle = .body, color: UIColor = .black) {
         let attributes: [NSAttributedString.Key : Any] = [.foregroundColor : color]
@@ -94,6 +57,5 @@ public extension NSMutableAttributedString {
         self.append(string, textStyle: textStyle, attributes: attributes, traits: traits)
     }
 }
-#endif
 
 #endif

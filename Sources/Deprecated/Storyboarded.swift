@@ -2,12 +2,14 @@
 
 import UIKit
 
+@available(*, deprecated, message: "`Reusable` should be used instead.")
 public protocol Storyboarded {
     static var bundle: Bundle { get }
     static var storyboard: UIStoryboard { get }
     static var storyboardIdentifier: String { get }
 }
 
+@available(*, deprecated)
 extension UIViewController: Storyboarded {
     public class var bundle: Bundle {
         return Bundle(for: self)
@@ -27,6 +29,7 @@ extension UIViewController: Storyboarded {
     }
 }
 
+@available(*, deprecated)
 public extension UIStoryboard {
     /// Instantiates a UIViewController for the provided `Storyboarded` class
     /// This call potentially throws an execption that cannot be caught.

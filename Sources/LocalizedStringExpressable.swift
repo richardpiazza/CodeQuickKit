@@ -71,7 +71,7 @@ public extension LocalizedStringExpressable {
     // Each localization needs a unique 'key' to be defined in the '.strings' files.
     // By default, a key will automatically be generated from the enumation case itself.
     // If a `prefix` is specific, it will be appended to the beginning of the key name.
-    public var key: String {
+    var key: String {
         if let prefix = self.prefix {
             return String(format: "%@_%@", prefix.localizableKey, String(describing: self).localizableKey)
         } else {
@@ -82,28 +82,28 @@ public extension LocalizedStringExpressable {
     // By default, we are going to assume the default bundle.
     // If creating a shared library or multiple modules, the bundle value
     // can be specified by overriding this value.
-    public var bundle: Bundle {
+    var bundle: Bundle {
         return Bundle.main
     }
     
     // By default, specifying 'nil' for the 'tableName' in NSLocalizedString()
     // will use the 'Localizable.strings' file. If multiple '.strings' files
     // are in use, the specific file can be indicated.
-    public var tableName: String? {
+    var tableName: String? {
         return nil
     }
     
     // Comments are useful in clarifying usage and intent. That being said,
     // in the attempt to make localization as easy as possible, a default
     // empty string is supplied here.
-    public var comment: String {
+    var comment: String {
         return ""
     }
     
     // A prefix is another useful option to group and express localization intent.
     // By default, the strings file key will be created from the enumeration case
     // only.
-    public var prefix: String? {
+    var prefix: String? {
         return nil
     }
 }
@@ -112,14 +112,14 @@ public extension LocalizedStringExpressable where Self: RawRepresentable, Self.R
     // When an enumaration is declared to be using a `RawValue` of type `String`,
     // the assumtion will be that the value specified is the default value for localization
     // should the '.strings' lookup fail.
-    public var value: String {
+    var value: String {
         return rawValue
     }
 }
 
 public extension LocalizedStringExpressable {
     /// The value returned from 'NSLocalizedString(...)'
-    public var localizedValue: String {
+    var localizedValue: String {
         return NSLocalizedString(key, tableName: tableName, bundle: bundle, value: value, comment: comment)
     }
 }

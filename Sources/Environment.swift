@@ -100,9 +100,15 @@ public enum Release {
     case swift4_1
     case swift4_2
     case swift5_0
+    case swift5_1
+    case swift5_2
     
     public static var current: Release {
-        #if swift(>=5.0)
+        #if swift(>=5.2)
+            return .swift5_2
+        #elseif swift(>=5.1)
+            return .swift5_1
+        #elseif swift(>=5.0)
             return .swift5_0
         #elseif swift(>=4.2)
             return .swift4_2
@@ -129,11 +135,14 @@ public enum Release {
 /// Target Environment; i.e Simulator/Device
 public enum TargetEnvironment {
     case simulator
+    case macCatalyst
     case device
     
     public static var current: TargetEnvironment {
         #if targetEnvironment(simulator)
         return .simulator
+        #elseif targetEnvironment(macCatalyst)
+        return .macCatalyst
         #else
         return .device
         #endif

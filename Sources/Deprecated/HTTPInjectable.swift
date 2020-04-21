@@ -2,6 +2,7 @@ import Foundation
 
 /// Protocol used to extend an `HTTPDataClient` with support for
 /// injecting and retrieving canned responses.
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 public protocol HTTPInjectable {
     var injectedResponses: [InjectedPath : InjectedResponse] { get set }
 }
@@ -29,6 +30,7 @@ public extension HTTPInjectable where Self: HTTPClient {
 
 /// A Hashable compound type based on the method and absolute path of
 /// a URLRequest.
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 public struct InjectedPath: Hashable {
     var method: HTTP.RequestMethod = .get
     var absolutePath: String
@@ -78,6 +80,7 @@ public struct InjectedPath: Hashable {
 }
 
 /// A response to provide for a pre-determinied request.
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 public struct InjectedResponse {
     public var statusCode: Int = 0
     public var headers: HTTP.Headers?

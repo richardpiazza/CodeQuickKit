@@ -1,5 +1,6 @@
 import Foundation
 
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 open class WebAPI: HTTPClient, HTTPCodable, HTTPInjectable {
     
     public var baseURL: URL
@@ -39,6 +40,7 @@ open class WebAPI: HTTPClient, HTTPCodable, HTTPInjectable {
     }
 }
 
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 public extension WebAPI {
     /// Transforms the request into a `multipart/form-data` request.
     /// The request `content-type` will be set to `image/png`
@@ -84,6 +86,7 @@ public extension WebAPI {
 }
 
 /// A preconfigured URLSessionDelegate that will ignore invalid/self-signed SSL Certificates.
+@available(*, deprecated, message: "https://github.com/richardpiazza/SessionPlus")
 public class SelfSignedSessionDelegate: NSObject, URLSessionDelegate {
     public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard challenge.previousFailureCount < 1 else {
