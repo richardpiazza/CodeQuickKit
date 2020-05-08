@@ -1,12 +1,15 @@
 import Foundation
 
+@available(*, deprecated, renamed: "LocalizedStringExpressible")
+public typealias LocalizedStringExpressable = LocalizedStringExpressible
+
 /// Protocol to which an enumeration can conform to produce String localizations.
 ///
 /// Localization is one of the key differentiators between *good* apps and
 /// *great* apps. Though many development teams take on this challenge only
 /// after the application is 'complete'.
 ///
-/// The aim of `LocalizedStringExpressable` is to quicken the procress of
+/// The aim of `LocalizedStringExpressible` is to quicken the procress of
 /// localization, at the same time, taking much of the *guess-work* out of the
 /// picture.
 ///
@@ -16,7 +19,7 @@ import Foundation
 ///
 /// ```
 /// /// Localized Strings for the MyAwesomeController class.
-/// enum Strings: String, LocalizedStringExpressable {
+/// enum Strings: String, LocalizedStringExpressible {
 ///     /// My Awesome Controller
 ///     case navigationTitle = "My Awesome Controller"
 ///     /// Next
@@ -33,7 +36,7 @@ import Foundation
 ///
 /// For detailed information on using `String` resources, see
 /// [Apple's Documentation](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/LoadingResources/Strings/Strings.html#//apple_ref/doc/uid/20000005-97055)
-public protocol LocalizedStringExpressable {
+public protocol LocalizedStringExpressible {
     /// The '.strings' unique identifier for the localization
     var key: String { get }
     
@@ -67,48 +70,58 @@ public protocol LocalizedStringExpressable {
     var prefix: String? { get }
 }
 
-public extension LocalizedStringExpressable {
-    // Each localization needs a unique 'key' to be defined in the '.strings' files.
-    // By default, a key will automatically be generated from the enumation case itself.
-    // If a `prefix` is specific, it will be appended to the beginning of the key name.
+public extension LocalizedStringExpressible {
+    /// Each localization needs a unique 'key' to be defined in the '.strings' files.
+    /// By default, a key will automatically be generated from the enumation case itself.
+    /// If a `prefix` is specific, it will be appended to the beginning of the key name.
+    ///
+    /// An '_' seperated, uppercased representation of a camelCased string.
+    ///
+    /// For example: the `String` 'navigationControllerTitle' would be converted to
+    /// 'NAVIGATION_CONTROLLER_TITLE'. This can be used for identifying keys in
+    /// Localizable.strings files.
     var key: String {
+        let caseKey = String(describing: self).replacingOccurrences(of: "([A-Z])", with: "_$1", options: .regularExpression).lowercased()
+        
         if let prefix = self.prefix {
-            return String(format: "%@_%@", prefix.localizableKey, String(describing: self).localizableKey)
+            let prefixKey = prefix.replacingOccurrences(of: "([A-Z])", with: "_$1", options: .regularExpression).lowercased()
+            return String(format: "%@_%@", prefixKey, caseKey)
         } else {
-            return String(describing: self).localizableKey
+            return caseKey
         }
     }
     
-    // By default, we are going to assume the default bundle.
-    // If creating a shared library or multiple modules, the bundle value
-    // can be specified by overriding this value.
+    /// By default, we are going to assume the main bundle.
+    ///
+    /// If creating a shared library or multiple modules, the bundle value can be specified by overriding this value.
     var bundle: Bundle {
         return Bundle.main
     }
     
-    // By default, specifying 'nil' for the 'tableName' in NSLocalizedString()
-    // will use the 'Localizable.strings' file. If multiple '.strings' files
-    // are in use, the specific file can be indicated.
+    /// String table to search
+    ///
+    /// By default, specifying 'nil' for the 'tableName' in NSLocalizedString() will use the 'Localizable.strings' file.
+    /// If multiple '.strings' files are in use, the specific file can be indicated.
     var tableName: String? {
         return nil
     }
     
-    // Comments are useful in clarifying usage and intent. That being said,
-    // in the attempt to make localization as easy as possible, a default
-    // empty string is supplied here.
+    /// Comments are useful in clarifying usage and intent. That being said,
+    /// in the attempt to make localization as easy as possible, a default
+    /// empty string is supplied here.
     var comment: String {
         return ""
     }
     
-    // A prefix is another useful option to group and express localization intent.
-    // By default, the strings file key will be created from the enumeration case
-    // only.
+    /// A prefix is another useful option to group and express localization intent.
+    /// By default, the strings file key will be created from the enumeration case
+    /// only.
     var prefix: String? {
         return nil
     }
 }
 
-public extension LocalizedStringExpressable where Self: RawRepresentable, Self.RawValue == String {
+public extension LocalizedStringExpressible where Self: RawRepresentable, Self.RawValue == String {
     // When an enumaration is declared to be using a `RawValue` of type `String`,
     // the assumtion will be that the value specified is the default value for localization
     // should the '.strings' lookup fail.
@@ -117,21 +130,9 @@ public extension LocalizedStringExpressable where Self: RawRepresentable, Self.R
     }
 }
 
-public extension LocalizedStringExpressable {
+public extension LocalizedStringExpressible {
     /// The value returned from 'NSLocalizedString(...)'
     var localizedValue: String {
         return NSLocalizedString(key, tableName: tableName, bundle: bundle, value: value, comment: comment)
-    }
-}
-
-extension StringProtocol {
-    /// An '_' seperated, uppercased representation of a camelCased string.
-    ///
-    /// For example: the `String` 'navigationControllerTitle' would be converted to
-    /// 'NAVIGATION_CONTROLLER_TITLE'. This can be used for identifying keys in
-    /// Localizable.strings files.
-    var localizableKey: String {
-        let components = self.splitBefore(separator: { $0.isUppercased }).map({ String($0).uppercased() })
-        return components.joined(separator: "_")
     }
 }
