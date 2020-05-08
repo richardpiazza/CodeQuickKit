@@ -81,10 +81,10 @@ public extension LocalizedStringExpressible {
     /// 'NAVIGATION_CONTROLLER_TITLE'. This can be used for identifying keys in
     /// Localizable.strings files.
     var key: String {
-        let caseKey = String(describing: self).replacingOccurrences(of: "([A-Z])", with: "_$1", options: .regularExpression).lowercased()
+        let caseKey = String(describing: self).replacingOccurrences(of: "([A-Z])", with: "_$1", options: .regularExpression).uppercased()
         
         if let prefix = self.prefix {
-            let prefixKey = prefix.replacingOccurrences(of: "([A-Z])", with: "_$1", options: .regularExpression).lowercased()
+            let prefixKey = prefix.replacingOccurrences(of: "([A-Z])", with: "_$1", options: .regularExpression).uppercased()
             return String(format: "%@_%@", prefixKey, caseKey)
         } else {
             return caseKey
