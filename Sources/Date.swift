@@ -1,32 +1,32 @@
 import Foundation
 
 public extension Date {
-    /// Provides the current datetime minus 24 hours.
-    static var yesturday: Date {
+    /// Provides the current timestamp minus 24 hours.
+    static var yesterday: Date {
         return Date().dateByAdding(days: -1)!
     }
     
-    /// Provides the current datetime minus 48 hours.
+    /// Provides the current timestamp minus 48 hours.
     static var twoDaysAgo: Date {
         return Date().dateByAdding(days: -2)!
     }
     
-    /// Provides the current datetime minus 7 days.
+    /// Provides the current timestamp minus 7 days.
     static var lastWeek: Date {
         return Date().dateByAdding(days: -7)!
     }
     
-    /// Provides the current datetime plus 24 hours.
+    /// Provides the current timestamp plus 24 hours.
     static var tomorrow: Date {
         return Date().dateByAdding(days: 1)!
     }
     
-    /// Provides the current datetime plus 48 days.
+    /// Provides the current timestamp plus 48 days.
     static var dayAfterTomorrow: Date {
         return Date().dateByAdding(days: 2)!
     }
     
-    /// Provides the current datetime plus 7 days.
+    /// Provides the current timestamp plus 7 days.
     static var nextWeek: Date {
         return Date().dateByAdding(days: 7)!
     }

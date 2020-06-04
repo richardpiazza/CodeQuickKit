@@ -9,7 +9,7 @@ public typealias LocalizedStringExpressable = LocalizedStringExpressible
 /// *great* apps. Though many development teams take on this challenge only
 /// after the application is 'complete'.
 ///
-/// The aim of `LocalizedStringExpressible` is to quicken the procress of
+/// The aim of `LocalizedStringExpressible` is to quicken the process of
 /// localization, at the same time, taking much of the *guess-work* out of the
 /// picture.
 ///
@@ -29,7 +29,7 @@ public typealias LocalizedStringExpressable = LocalizedStringExpressible
 /// }
 /// ```
 ///
-/// Each enumeration case will automagically refrence a specifc value in the
+/// Each enumeration case will automagically reference a specific value in the
 /// default 'Localizable.strings' file. The 'rawValue' will be used as the
 /// default value in the scenario where a key is not found. A `///` comment
 /// will provide a quick code-completion hint.
@@ -52,7 +52,7 @@ public protocol LocalizedStringExpressible {
     /// a default value should be provided.
     var value: String { get }
     
-    /// A comment to clarify the intented usage of the localization
+    /// A comment to clarify the intended usage of the localization
     ///
     /// This should be provided to translation teams to assist in proper
     /// proper translation.
@@ -72,10 +72,10 @@ public protocol LocalizedStringExpressible {
 
 public extension LocalizedStringExpressible {
     /// Each localization needs a unique 'key' to be defined in the '.strings' files.
-    /// By default, a key will automatically be generated from the enumation case itself.
+    /// By default, a key will automatically be generated from the enumeration case itself.
     /// If a `prefix` is specific, it will be appended to the beginning of the key name.
     ///
-    /// An '_' seperated, uppercased representation of a camelCased string.
+    /// An '_' separated, uppercased representation of a camelCased string.
     ///
     /// For example: the `String` 'navigationControllerTitle' would be converted to
     /// 'NAVIGATION_CONTROLLER_TITLE'. This can be used for identifying keys in
@@ -122,8 +122,8 @@ public extension LocalizedStringExpressible {
 }
 
 public extension LocalizedStringExpressible where Self: RawRepresentable, Self.RawValue == String {
-    // When an enumaration is declared to be using a `RawValue` of type `String`,
-    // the assumtion will be that the value specified is the default value for localization
+    // When an enumeration is declared to be using a `RawValue` of type `String`,
+    // the assumption will be that the value specified is the default value for localization
     // should the '.strings' lookup fail.
     var value: String {
         return rawValue

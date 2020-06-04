@@ -124,12 +124,12 @@ public class HUD: UIView {
     ///
     /// Typically you want the hud to be presented at a `UIWindow` level, so passing
     /// `view.window ?? view` (in the context of a `UIViewController` subclass) or
-    /// `window ?? self` (in the contexted of a `UIView` subclass).
+    /// `window ?? self` (in the context of a `UIView` subclass).
     ///
-    /// No animations are currently enabled, the hud is simpled added to the view.
+    /// No animations are currently enabled, the hud is simply added to the view.
     ///
     /// The `delayPresentation` parameter helps to mitigate the undesired effect of
-    /// 'flashing' huds onto the screen. It is typically to use a hud during asyncronous
+    /// 'flashing' huds onto the screen. It is typically to use a hud during asynchronous
     /// methods. Using a slight delay allows for quick methods to still call show/hide
     /// but not actually display the hud if the action is *quick enough*.
     ///
@@ -351,7 +351,7 @@ public class HUD: UIView {
 /// A `CenteringView`
 ///
 /// Container that will position its _contents_ centered horizontally and vertically.
-/// The contents will always be presented at its instrinsic size.
+/// The contents will always be presented at its intrinsic size.
 internal class CenteringView: UIView {
 
     var contentView: UIView? {

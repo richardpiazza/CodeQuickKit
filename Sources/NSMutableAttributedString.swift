@@ -4,7 +4,7 @@ import UIKit
 
 public extension NSMutableAttributedString {
     /// Appends a plain `String` with the given parameters
-    /// - parameter string: The `String` to append to the instance.
+    /// - parameter string: The `String` appended to the instance.
     /// - parameter textStyle: The preferred UIFont.TextStyle used to create the Font.
     /// - parameter scale: Multiplier to apply to the `textStyle` 'pointSize'.
     /// - parameter attributes: Additional attributes that should apply to the given `string`.

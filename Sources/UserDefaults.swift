@@ -2,7 +2,7 @@ import Foundation
 
 /// ### UserDefault
 /// A defined structure for storing information in `UserDefaults` and `NSUbiquitousKeyValueStore`.
-/// The `timestamp` and optional `build` variables allow for comparisson during syncing.
+/// The `timestamp` and optional `build` variables allow for comparison during syncing.
 public struct KeyValueItem {
     public struct Keys {
         static let value = "value"
@@ -194,7 +194,7 @@ public protocol KeyValueUbiquityContainerDelegate {
             }
         }
         
-        /// Attemps to retrieve an item from `NSUbiquitousKeyValueStore`. Will fallback to `NSUserDefaults`
+        /// Attempts to retrieve an item from `NSUbiquitousKeyValueStore`. Will fallback to `NSUserDefaults`
         static func itemForKey(_ key: String) -> KeyValueItem? {
             if let item = UserDefaults.ubiquityUserDefaults.keyValueStore?.item(forKey: key) {
                 return item

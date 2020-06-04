@@ -68,7 +68,7 @@ public class PausableTimer {
         return DispatchTime.now() + Double(Int64(delegateRefreshRate * Float(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
     }
     
-    /// Resets the timer to the inital state and begins counting.
+    /// Resets the timer to the initial state and begins counting.
     public func reset() {
         completedIntervals = 0
         resume()

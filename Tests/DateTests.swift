@@ -15,18 +15,18 @@ class DateTests: XCTestCase {
         super.tearDown()
     }
     
-    func testYesturday() {
+    func testYesterday() {
         let now = Date()
-        let yesturday = Date.yesturday
+        let yesterday = Date.yesterday
         
-        XCTAssertTrue(yesturday.isBefore(now))
+        XCTAssertTrue(yesterday.isBefore(now))
         
-        guard let today = yesturday.dateByAdding(hours: 24) else {
+        guard let today = yesterday.dateByAdding(hours: 24) else {
             XCTFail()
             return
         }
         
-        XCTAssertTrue(today.isAfter(yesturday))
+        XCTAssertTrue(today.isAfter(yesterday))
         XCTAssertTrue(now.isSame(today))
     }
     

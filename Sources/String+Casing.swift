@@ -1,7 +1,7 @@
 import Foundation
 
 public extension String {
-    /// Returns a sentance cased version of the string.
+    /// Returns a sentence cased version of the string.
     ///
     /// This is a mixed-case style in which the first word of the sentence is capitalized.
     /// The following example transforms a string to sentence-cased letters:
@@ -95,9 +95,9 @@ public extension String {
 }
 
 private extension String {
-    /// Produce a mixed-case string (sentance, title)
+    /// Produce a mixed-case string (sentence, title)
     /// - parameter capitalizedFragments: Force all fragments to be capitalized.
-    /// - parameter fragmentHandler: A function block to execute with all fragments (index > 0) to dertermine capitalization.
+    /// - parameter fragmentHandler: A function block to execute with all fragments (index > 0) to determine capitalization.
     func mixedCase(capitalizeFragments: Bool, locale: Locale? = nil, fragmentHandler: ((_ fragment: String) -> Bool)? = nil) -> String {
         let fragments = self.splitBefore { (character) -> Bool in
             return (character.isPunctuation || character.isWhitespace || character.isNewline)
@@ -147,7 +147,7 @@ private extension String {
         return outputFragments.joined()
     }
     
-    /// Produces a camel-cased string containg only alphanumeric characters.
+    /// Produces a camel-cased string containing only alphanumeric characters.
     /// - parameter upperFirst: Controls wether the first character in the resulting string is 'capitalized'.
     func camel(upperFirst: Bool, locale: Locale? = nil) -> String {
         let nonLetters = CharacterSet.alphanumerics.inverted

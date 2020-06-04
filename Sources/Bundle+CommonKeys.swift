@@ -41,7 +41,7 @@ public extension Bundle {
         return self.object(forInfoDictionaryKey: Keys.BundleExecutableName) as? String
     }
     
-    /// The Version specificed for the Target, typically displayed as a semantic
+    /// The Version specified for the Target, typically displayed as a semantic
     /// version number like: 2.3.4
     /// - path: Target > General > Version
     var appVersion: String? {
@@ -49,18 +49,18 @@ public extension Bundle {
     }
     
     /// The Build specified for the Target, typically an auto incrementing or
-    /// number specicified by a build pipeline.
+    /// number specified by a build pipeline.
     /// - path: Target > General > Build
     var buildNumber: String? {
         return self.object(forInfoDictionaryKey: Keys.BuildNumber) as? String
     }
     
-    /// The name of the launch UIStroyboard specified in Target > General
+    /// The name of the launch UIStoryboard specified in Target > General
     var launchStoryboardName: String? {
         return self.object(forInfoDictionaryKey: Keys.LaunchScreen) as? String
     }
     
-    /// The name of the main UIStroyboard specified in Target > General
+    /// The name of the main UIStoryboard specified in Target > General
     var mainStoryboardName: String? {
         return self.object(forInfoDictionaryKey: Keys.MainStoryboard) as? String
     }
@@ -70,7 +70,7 @@ public extension Bundle {
 public extension Bundle {
     /// A human-readable version of the specified app version and build number.
     /// When both pieces of information are present, the format is: {VERSION} ({BUILD})
-    /// - exampple: 3.2.1 (54)
+    /// - example: 3.2.1 (54)
     var presentableVersionNumber: String {
         var output: [String] = []
         if let version = appVersion {

@@ -38,8 +38,8 @@ public extension UIStoryboard {
 
 public extension UITableView {
     /// Registers a UITableViewCell.Type with the tableView.
-    /// This implementation relys on the `Reusable` protocol for
-    /// supplyings a 'reuseIdentifier'.
+    /// This implementation relies on the `Reusable` protocol for
+    /// supplying a 'reuseIdentifier'.
     ///
     /// When creating UITableViewCell subclasses, if you are using
     /// a XIB, be sure to name the file exactly after the class name.
@@ -61,7 +61,7 @@ public extension UITableView {
     }
     
     /// Dequeue a UITableViewCell for the specific type.
-    /// This implementation relys on the `Reusable` protocol for
+    /// This implementation relies on the `Reusable` protocol for
     /// suppling the needed 'reuseIdentifier'.
     func dequeueReusableCell<T: UITableViewCell>(withType: T.Type, for indexPath: IndexPath) -> T {
         guard let cell = self.dequeueReusableCell(withIdentifier: T.reuseIdentifier, for: indexPath) as? T else {

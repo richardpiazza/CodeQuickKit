@@ -1,6 +1,6 @@
 import Foundation
 
-/// An observer that is passed `Log.Entry`s as they are proccessed.
+/// An observer that is passed `Log.Entry`s as they are processed.
 public protocol LogObserver {
     var observerId: UUID { get }
     func log(entry: Log.Entry)
