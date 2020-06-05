@@ -68,6 +68,12 @@ public protocol LocalizedStringExpressible {
     ///         the enumeration case (i.e. camelCase) with no spaces or
     ///         punctuation.
     var prefix: String? { get }
+    
+    /// Optional characters that will be prepended/appended to the `value` if used.
+    ///
+    /// This is handy if you want to easily know when the default value is used in your UI
+    /// if lookup fails.
+    var defaultIndicators: (prefix: Character, suffix: Character)? { get }
 }
 
 public extension LocalizedStringExpressible {
@@ -119,14 +125,25 @@ public extension LocalizedStringExpressible {
     var prefix: String? {
         return nil
     }
+    
+    /// Defaults to no prefix/suffix when displaying the default (raw) value.
+    var defaultIndicators: (prefix: Character, suffix: Character)? {
+        return nil
+    }
 }
 
 public extension LocalizedStringExpressible where Self: RawRepresentable, Self.RawValue == String {
     // When an enumeration is declared to be using a `RawValue` of type `String`,
     // the assumption will be that the value specified is the default value for localization
     // should the '.strings' lookup fail.
+    //
+    // The default indicator prefix/suffix will be added if available.
     var value: String {
-        return rawValue
+        if let indicators = defaultIndicators {
+            return String(indicators.prefix) + rawValue + String(indicators.suffix)
+        } else {
+            return rawValue
+        }
     }
 }
 

@@ -5,6 +5,14 @@ class DateTests: XCTestCase {
     let calendar = Calendar.current
     let timeZone = TimeZone(identifier: "GMT")!
     
+    var rfc1124DateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
+        formatter.timeZone = TimeZone(identifier: "GMT")!
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter
+    }()
+    
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -108,7 +116,7 @@ class DateTests: XCTestCase {
     func testRFC1123DateFormatter() {
         let string = "Fri, 05 Nov 1982 08:00:00 GMT"
         
-        HTTP.Header.dateFormatter.timeZone = TimeZone(identifier: "GMT")
+        rfc1124DateFormatter.timeZone = timeZone
         
         var dateComponents = DateComponents()
         dateComponents.calendar = calendar
@@ -126,21 +134,21 @@ class DateTests: XCTestCase {
             return
         }
         
-        guard let d1 = HTTP.Header.dateFormatter.date(from: string) else {
+        guard let d1 = rfc1124DateFormatter.date(from: string) else {
             XCTFail()
             return
         }
         
         XCTAssertTrue(date.isSame(d1))
         
-        let s1 = HTTP.Header.dateFormatter.string(from: date)
+        let s1 = rfc1124DateFormatter.string(from: date)
         XCTAssertTrue(string == s1)
     }
     
     func testNSDateFormatterStyleFormatters() {
         let string = "Fri, 05 Nov 1982 08:00:00 GMT"
         
-        guard let date = HTTP.Header.dateFormatter.date(from: string) else {
+        guard let date = rfc1124DateFormatter.date(from: string) else {
             XCTFail()
             return
         }
