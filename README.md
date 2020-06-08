@@ -1,34 +1,68 @@
 # CodeQuickKit
-[![Version](https://img.shields.io/cocoapods/v/CodeQuickKit.svg?style=flat)](http://cocoadocs.org/docsets/CodeQuickKit)
-[![Platform](https://img.shields.io/cocoapods/p/CodeQuickKit.svg?style=flat)](http://cocoadocs.org/docsets/CodeQuickKit)
 
 A Swift library for simplifying some everyday tasks.
 
-## How to Use
+<p>
+    <img src="https://github.com/richardpiazza/CodeQuickKit/workflows/Swift/badge.svg?branch=master" />
+    <img src="https://img.shields.io/badge/Swift-5.2-orange.svg" />
+    <a href="https://twitter.com/richardpiazza">
+        <img src="https://img.shields.io/badge/twitter-@richardpiazza-blue.svg?style=flat" alt="Twitter: @richardpiazza" />
+    </a>
+</p>
 
+## Installation
 
-__Swift Package Manager__
+CodeQuickKit is distributed using the [Swift Package Manager](https://swift.org/package-manager). To install it into a project, Use the Xcode 'Swift Packages' menu or add it as a dependency within your `Package.swift` manifest:
 
-    .package(url: "https://github.com/richardpiazza/CodeQuickKit", .upToNextMinor(from: "7.0.0"))
+```swift
+let package = Package(
+    ...
+    dependencies: [
+        .package(url: "https://github.com/richardpiazza/CodeQuickKit.git", from: "6.8.3")
+    ],
+    ...
+)
+```
 
+Then import the **CodeQuickKit** packages wherever you'd like to use it:
 
-## Essential Classes
+```swift
+import CodeQuickKit
+```
 
-#### Bundle.swift
+## Features
 
-Extension on `Bundle` that provides first level property access to common bundle items. Also provides methods for determining class names in other modules.
+### Bundle
 
-#### Date.swift
+Apple uses bundles to represent apps, frameworks, plug-ins, and many other specific types of content. Bundles organize their contained resources into well-defined subdirectories, and bundle structures vary depending on the platform and the type of the bundle.
 
-Extension on `Date` that provides several helpful variables and methods.
+CodeQuickKit offers some extensions to `Bundle` for some commonly used functions, including:
+* Direct access to the _CFBundle*_ info dictionary keys like 'display name' and 'build number'.
+  `Bundle.main.buildNumber`
+* Retrieval and decoding of JSON resources.
+  `Bundle.main.decodableData<T: Decodable>(ofType:forResource:withExtension:usingDecoder:) throws -> T`
+* Storyboard references for _launch_ and _main_.
+  `Bundle.main.mainStoryboard`
+* Determining modularized and singularized class names.
 
-Some examples include:
+### Character
 
-    let nextWeek = Date.nextWeek
-    let before = date1.isBefore(date2)
-    let same = date1.isSame(date2)
-    let after = date1.isAfter(date2)
-    let future = Date().dateByAdding(hours: 4)
+The Character type represents a character made up of one or more Unicode scalar values, grouped by a Unicode boundary algorithm.
+
+The extensions provided allow for a check on casing with: `Character.isUppercased`
+
+### Date
+
+A Date value encapsulate a single point in time, independent of any particular calendrical system or time zone. Date values represent a time interval relative to an absolute reference date.
+
+CodeQuickKit extensions provide many semantic variables including:
+```swift
+let nextWeek = Date.nextWeek
+let before = date1.isBefore(date2)
+let same = date1.isSame(date2)
+let after = date1.isAfter(date2)
+let future = Date().dateByAdding(hours: 4)
+```
 
 #### DateFormatter.swift
 
