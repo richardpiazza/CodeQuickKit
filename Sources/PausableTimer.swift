@@ -7,10 +7,10 @@ public protocol PausableTimerDelegate {
     func pausableTimer(_ timer: PausableTimer, percentComplete: Double)
 }
 
-/// PausableTimer
-/// Implements a timer that can be paused/resumed. Has options for 
-/// delegate callbacks of status or a expiry completion handler.
-public class PausableTimer {
+/// A timer that can be paused/resumed.
+///
+/// Has options for delegate callbacks of status or a expiry completion handler.
+open class PausableTimer {
     fileprivate let maxPercentComplete: Double = 1.0
     fileprivate var completedIntervals: TimeInterval = 0.0
     fileprivate var referenceDate: Date?
