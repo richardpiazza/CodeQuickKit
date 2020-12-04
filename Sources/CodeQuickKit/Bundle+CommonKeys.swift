@@ -3,67 +3,100 @@ import Foundation
 /// Extension on `Bundle` allowing for keyed access to common paths.
 public extension Bundle {
     
-    /// A collection of key (strings) used to reference specific keys
-    /// within an iOS App Bundle.
-    struct Keys {
+    @available(*, deprecated, renamed: "Key")
+    typealias Keys = Key
+    
+    /// A collection of key (strings) used to reference specific keys within an iOS App Bundle.
+    enum Key {
         /// CFBundleName
-        public static let BundleName = kCFBundleNameKey as String
+        case name
         /// CFBundleDisplayName
-        public static let BundleDisplayName = "CFBundleDisplayName"
+        case displayName
         /// CFBundleExecutable
-        public static let BundleExecutableName = kCFBundleExecutableKey as String
+        case executableName
         /// CFBundleShortVersionString
-        public static let AppVersion = "CFBundleShortVersionString"
+        case version
         /// CFBundleVersion
-        public static let BuildNumber = kCFBundleVersionKey as String
+        case build
         /// CFBundleIdentifier
-        public static let BundleIdentifier = kCFBundleIdentifierKey as String
+        case identifier
         /// UILaunchStoryboardName
-        public static let LaunchScreen = "UILaunchStoryboardName"
+        case launchStoryboard
         /// UIMainStoryboardFile
-        public static let MainStoryboard = "UIMainStoryboardFile"
+        case mainStoryboard
+        
+        var rawValue: String {
+            #if canImport(ObjectiveC)
+            switch self {
+            case .name: return kCFBundleNameKey as String
+            case .executableName: return kCFBundleExecutableKey as String
+            case .build: return kCFBundleVersionKey as String
+            case .identifier: return kCFBundleIdentifierKey as String
+            default:
+                break
+            }
+            #endif
+            
+            switch self {
+            case .name: return "CFBundleName"
+            case .displayName: return "CFBundleDisplayName"
+            case .executableName: return "CFBundleExecutable"
+            case .version: return "CFBundleShortVersionString"
+            case .build: return "CFBundleVersion"
+            case .identifier: return "CFBundleIdentifier"
+            case .launchStoryboard: return "UILaunchStoryboardName"
+            case .mainStoryboard: return "UIMainStoryboardFile"
+            }
+        }
+        
+        @available(*, deprecated, renamed: "Key.name.rawValue")
+        public static var BundleName: String { Key.name.rawValue }
+        @available(*, deprecated, renamed: "Key.displayName.rawValue")
+        public static var BundleDisplayName: String { Key.displayName.rawValue }
+        @available(*, deprecated, renamed: "Key.executableName.rawValue")
+        public static var BundleExecutableName: String { Key.executableName.rawValue }
+        @available(*, deprecated, renamed: "Key.version.rawValue")
+        public static var AppVersion: String { Key.version.rawValue }
+        @available(*, deprecated, renamed: "Key.build.rawValue")
+        public static var BuildNumber: String { Key.build.rawValue }
+        @available(*, deprecated, renamed: "Key.identifier.rawValue")
+        public static var BundleIdentifier: String { Key.identifier.rawValue }
+        @available(*, deprecated, renamed: "Key.launchStoryboard.rawValue")
+        public static var LaunchScreen: String { Key.launchStoryboard.rawValue }
+        @available(*, deprecated, renamed: "Key.mainStoryboard.rawValue")
+        public static var MainStoryboard: String { Key.mainStoryboard.rawValue }
+    }
+    
+    private func object(forInfoDictionaryKey key: Key) -> Any? {
+        return object(forInfoDictionaryKey: key.rawValue)
     }
     
     /// Typically the 'Product Name' of the app.
     /// - path: Build Settings > Packaging > Product Name
-    var bundleName: String? {
-        return self.object(forInfoDictionaryKey: Keys.BundleName) as? String
-    }
+    var bundleName: String? { object(forInfoDictionaryKey: .name) as? String }
     
     /// The Display Name entered for a given target.
     /// - path: Target > General > Display Name
-    var bundleDisplayName: String? {
-        return self.object(forInfoDictionaryKey: Keys.BundleDisplayName) as? String
-    }
+    var bundleDisplayName: String? { object(forInfoDictionaryKey: .displayName) as? String }
     
     /// The name of the Executable the bundle produces.
-    var executableName: String? {
-        return self.object(forInfoDictionaryKey: Keys.BundleExecutableName) as? String
-    }
+    var executableName: String? { object(forInfoDictionaryKey: .executableName) as? String }
     
     /// The Version specified for the Target, typically displayed as a semantic
     /// version number like: 2.3.4
     /// - path: Target > General > Version
-    var appVersion: String? {
-        return self.object(forInfoDictionaryKey: Keys.AppVersion) as? String
-    }
+    var appVersion: String? { object(forInfoDictionaryKey: .version) as? String }
     
     /// The Build specified for the Target, typically an auto incrementing or
     /// number specified by a build pipeline.
     /// - path: Target > General > Build
-    var buildNumber: String? {
-        return self.object(forInfoDictionaryKey: Keys.BuildNumber) as? String
-    }
+    var buildNumber: String? { object(forInfoDictionaryKey: .build) as? String }
     
     /// The name of the launch UIStoryboard specified in Target > General
-    var launchStoryboardName: String? {
-        return self.object(forInfoDictionaryKey: Keys.LaunchScreen) as? String
-    }
+    var launchStoryboardName: String? { object(forInfoDictionaryKey: .launchStoryboard) as? String }
     
     /// The name of the main UIStoryboard specified in Target > General
-    var mainStoryboardName: String? {
-        return self.object(forInfoDictionaryKey: Keys.MainStoryboard) as? String
-    }
+    var mainStoryboardName: String? { object(forInfoDictionaryKey: .mainStoryboard) as? String }
 }
 
 /// Additions to Bundle for presenting information
@@ -85,14 +118,14 @@ public extension Bundle {
     /// Common iOS App bundle keys and values for printing/logging.
     var presentableDictionary: [String : String] {
         return [
-            Keys.BundleName : bundleName ?? "",
-            Keys.BundleDisplayName : bundleDisplayName ?? "",
-            Keys.BundleExecutableName : executableName ?? "",
-            Keys.BundleIdentifier : bundleIdentifier ?? "",
-            Keys.AppVersion : appVersion ?? "",
-            Keys.BuildNumber : buildNumber ?? "",
-            Keys.LaunchScreen : launchStoryboardName ?? "",
-            Keys.MainStoryboard : mainStoryboardName ?? ""
+            Key.name.rawValue : bundleName ?? "",
+            Key.displayName.rawValue : bundleDisplayName ?? "",
+            Key.executableName.rawValue : executableName ?? "",
+            Key.identifier.rawValue : bundleIdentifier ?? "",
+            Key.version.rawValue : appVersion ?? "",
+            Key.build.rawValue : buildNumber ?? "",
+            Key.launchStoryboard.rawValue : launchStoryboardName ?? "",
+            Key.mainStoryboard.rawValue : mainStoryboardName ?? ""
         ]
     }
 }

@@ -1,3 +1,4 @@
+#if canImport(ObjectiveC)
 import Foundation
 
 public typealias MetadataQueryResults = [String : Date]
@@ -38,3 +39,4 @@ public extension NSMetadataQuery {
         return documents
     }
 }
+#endif
