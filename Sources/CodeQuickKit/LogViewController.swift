@@ -136,7 +136,7 @@ public class LogViewController: UIViewController, LogObserver {
         }
         
         DispatchQueue.main.async {
-            let output = String(format: "%@\n%@", self.viewer.text, string)
+            let output = "\(self.viewer.text)\n\(string)"
             self.viewer.text = output
             self.viewer.scrollToBottom()
             self.viewer.flashScrollIndicators()
@@ -157,8 +157,8 @@ extension LogViewController {
         }
         
         let productName = Bundle.main.bundleName ?? "App"
-        let subject = String(format: "%@ Log", productName)
-        let attachment = String(format: "%@.log.txt", productName)
+        let subject = "\(productName) Log"
+        let attachment = "\(produceName).log.txt"
         
         let controller = MFMailComposeViewController()
         controller.mailComposeDelegate = self

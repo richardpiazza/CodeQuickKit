@@ -1,3 +1,4 @@
+#if canImport(ObjectiveC)
 import Foundation
 
 public struct UbiquityDocuments {
@@ -233,3 +234,4 @@ public extension FileManager {
     
     static var ubiquityContainer: DocumentsUbiquityContainer = DocumentsUbiquityContainer()
 }
+#endif

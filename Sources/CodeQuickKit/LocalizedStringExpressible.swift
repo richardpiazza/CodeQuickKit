@@ -91,7 +91,7 @@ public extension LocalizedStringExpressible {
         
         if let prefix = self.prefix {
             let prefixKey = prefix.replacingOccurrences(of: "([A-Z])", with: "_$1", options: .regularExpression).uppercased()
-            return String(format: "%@_%@", prefixKey, caseKey)
+            return "\(prefixKey)_\(caseKey)"
         } else {
             return caseKey
         }
