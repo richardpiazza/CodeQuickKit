@@ -3,103 +3,57 @@ import XCTest
 
 class NumberFormatterTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+    static var allTests = [
+        ("testIntegerFormatter", testIntegerFormatter),
+        ("testSingleDecimalFormatter", testSingleDecimalFormatter),
+        ("testDecimalFormatter", testDecimalFormatter),
+        ("testCurrencyFormatter", testCurrencyFormatter),
+        ("testPercentFormatter", testPercentFormatter),
+    ]
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testIntegerFormatter() {
-        guard let number = NumberFormatter.integer(fromString: "25.5") else {
-            XCTFail()
-            return
-        }
-        
+    func testIntegerFormatter() throws {
+        let number = try XCTUnwrap(NumberFormatter.integer(fromString: "25.5"))
         XCTAssertTrue(number == 25)
         
-        guard let string = NumberFormatter.string(fromInteger: number) else {
-            XCTFail()
-            return
-        }
-        
+        let string = try XCTUnwrap(NumberFormatter.string(fromInteger: number))
         XCTAssertTrue(string == "25")
     }
     
-    func testSingleDecimalFormatter() {
-        guard let number = NumberFormatter.singleDecimal(fromString: "147.3627") else {
-            XCTFail()
-            return
-        }
-        
+    func testSingleDecimalFormatter() throws {
+        let number = try XCTUnwrap(NumberFormatter.singleDecimal(fromString: "147.3627"))
         XCTAssertTrue((147.3627 - number) < 0.0001)
         
-        guard let string = NumberFormatter.string(fromSingleDecimal: number) else {
-            XCTFail()
-            return
-        }
-        
+        let string = try XCTUnwrap(NumberFormatter.string(fromSingleDecimal: number))
         XCTAssertTrue(string == "147.4")
     }
     
-    func testDecimalFormatter() {
-        guard let number = NumberFormatter.decimal(fromString: "999") else {
-            XCTFail()
-            return
-        }
-        
+    func testDecimalFormatter() throws {
+        let number = try XCTUnwrap(NumberFormatter.decimal(fromString: "999"))
         XCTAssertTrue(number == 999.0)
         
-        guard let string = NumberFormatter.string(fromDecimal: number) else {
-            XCTFail()
-            return
-        }
-        
+        let string = try XCTUnwrap(NumberFormatter.string(fromDecimal: number))
         XCTAssertTrue(string == "999")
     }
     
-    func testCurrencyFormatter() {
-        guard let currencySymbol = NumberFormatter.currencyFormatter().currencySymbol else {
-            // No Currency Symbol in currect environment
-            return
-        }
+    func testCurrencyFormatter() throws {
+        let currencySymbol = NumberFormatter.currencyFormatter().currencySymbol
+        try XCTSkipIf(currencySymbol == nil, "No Currency Symbol in current environment")
         
-        guard let number = NumberFormatter.currency(fromString: "\(currencySymbol)84.55") else {
-            XCTFail()
-            return
-        }
-        
+        let number = try XCTUnwrap(NumberFormatter.currency(fromString: "\(currencySymbol!)84.55"))
         XCTAssertTrue(number == 84.55)
         
-        guard let string = NumberFormatter.string(fromCurrency: number) else {
-            XCTFail()
-            return
-        }
-        
-        XCTAssertTrue(string == "\(currencySymbol)84.55")
+        let string = try XCTUnwrap(NumberFormatter.string(fromCurrency: number))
+        XCTAssertTrue(string == "\(currencySymbol!)84.55")
     }
     
-    func testPercentFormatter() {
-        guard let percentSymbol = NumberFormatter.percentFormatter().percentSymbol else {
-            // No Percent Symbol in current environment
-            return
-        }
+    func testPercentFormatter() throws {
+        let percentSymbol = NumberFormatter.percentFormatter().percentSymbol
+        try XCTSkipIf(percentSymbol == nil, "No Percent Symbol in current environment")
         
-        guard let number = NumberFormatter.percent(fromString: "69.75\(percentSymbol)") else {
-            XCTFail()
-            return
-        }
-        
+        let number = try XCTUnwrap(NumberFormatter.percent(fromString: "69.75\(percentSymbol!)"))
         XCTAssertTrue(number == 0.6975)
         
-        guard let string = NumberFormatter.string(fromPercent: number) else {
-            XCTFail()
-            return
-        }
-        
-        XCTAssertTrue(string == "69.75\(percentSymbol)")
+        let string = try XCTUnwrap(NumberFormatter.string(fromPercent: number))
+        XCTAssertTrue(string == "69.75\(percentSymbol!)")
     }
 }
