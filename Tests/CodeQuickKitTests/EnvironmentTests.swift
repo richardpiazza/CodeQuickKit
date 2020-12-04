@@ -13,39 +13,26 @@ class EnvironmentTests: XCTestCase {
         let release = Release.current
         print("Current Environment - Platform: \(platform) Arch: \(architecture) Release: \(release)")
         
-        #if os(macOS)
-            #if arch(x86_64)
-                // Device
-            #else
-                XCTFail("Untested Architecture")
-            #endif
-        #elseif os(iOS)
-            #if arch(x86_64)
-                // Simulator
-            #elseif (arch(arm) || arch(arm64))
-                // Device
-            #else
-                XCTFail("Untested Architecture")
-            #endif
-        #elseif os(tvOS)
-            #if arch(x86_64)
-                // Simulator
-            #elseif (arch(arm) || arch(arm64))
-                // Device
-            #else
-                XCTFail("Untested Architecture")
-            #endif
-        #elseif os(watchOS)
-            #if arch(x86_64)
-                // Simulator
-            #elseif (arch(arm) || arch(arm64))
-                // Device
-            #else
-                XCTFail("Untested Architecture")
-            #endif
-        #else
-            XCTFail("Untested Platform")
-        #endif
+        switch platform {
+        case .macOS, .iOS, .tvOS, .watchOS, .linux:
+            break
+        default:
+            XCTFail("Untested Platform: \(platform)")
+        }
+        
+        switch architecture {
+        case .arm, .arm64, .x86_64:
+            break
+        default:
+            XCTFail("Untested Architecture: \(architecture)")
+        }
+        
+        switch release {
+        case .swift5_3, .swift5_2, .swift5_1, .swift5_0:
+            break
+        default:
+            XCTFail("Untested Release: \(release)")
+        }
     }
 
 }

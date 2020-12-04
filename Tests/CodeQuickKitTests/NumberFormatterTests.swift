@@ -54,6 +54,10 @@ class NumberFormatterTests: XCTestCase {
         XCTAssertEqual(number, 0.6975)
         
         let string = try XCTUnwrap(NumberFormatter.string(fromPercent: number))
+        #if canImport(ObjectiveC)
         XCTAssertEqual(string, "69.75\(percentSymbol!)")
+        #else
+        XCTAssertEqual(string, "69.8\(percentSymbol!)")
+        #endif
     }
 }
