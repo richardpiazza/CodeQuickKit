@@ -3,6 +3,11 @@ import XCTest
 
 class LocalizedStringExpressibleTests: XCTestCase {
     
+    static var allTests = [
+        ("testKey", testKey),
+        ("testDefault", testDefault),
+    ]
+    
     private static var indicators: (prefix: Character, suffix: Character)? = nil
     
     private enum Strings: String, LocalizedStringExpressible {

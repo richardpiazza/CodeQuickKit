@@ -11,13 +11,21 @@ let package = Package(
         .watchOS(.v5),
     ],
     products: [
-        .library(name: "CodeQuickKit", targets: ["CodeQuickKit"])
+        .library(
+            name: "CodeQuickKit",
+            targets: ["CodeQuickKit"]
+        )
     ],
     dependencies: [
     ],
     targets: [
-        .target(name: "CodeQuickKit", path: "Sources"),
-        .testTarget(name: "CodeQuickKitTests", dependencies: ["CodeQuickKit"], path:"Tests")
+        .target(
+            name: "CodeQuickKit"
+        ),
+        .testTarget(
+            name: "CodeQuickKitTests",
+            dependencies: ["CodeQuickKit"]
+        )
     ],
     swiftLanguageVersions: [.v5]
 )

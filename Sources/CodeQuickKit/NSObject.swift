@@ -1,5 +1,4 @@
-#if (os(macOS) || os(iOS) || os(tvOS) || os(watchOS))
-
+#if canImport(ObjectiveC)
 import Foundation
 
 public extension NSObject {

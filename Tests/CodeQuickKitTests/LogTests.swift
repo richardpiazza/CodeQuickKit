@@ -1,15 +1,11 @@
-//
-//  LogManagerTests.swift
-//  CodeQuickKit
-//
-//  Created by Richard Piazza on 12/31/16.
-//  Copyright © 2016 Richard Piazza. All rights reserved.
-//
-
 import XCTest
 @testable import CodeQuickKit
 
-class LogManagerTests: XCTestCase {
+class LogTests: XCTestCase {
+    
+    static var allTests = [
+        ("testLog", testLog),
+    ]
     
     lazy var log: Log = {
         let url = URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent("logTests.txt")

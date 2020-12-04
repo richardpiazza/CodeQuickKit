@@ -1,5 +1,6 @@
 import Foundation
 
+@available(*, deprecated)
 public struct Environment {
     public static var platform: Platform {
         return Platform.current
@@ -102,9 +103,12 @@ public enum Release {
     case swift5_0
     case swift5_1
     case swift5_2
+    case swift5_3
     
     public static var current: Release {
-        #if swift(>=5.2)
+        #if swift(>=5.3)
+            return .swift5_3
+        #elseif swift(>=5.2)
             return .swift5_2
         #elseif swift(>=5.1)
             return .swift5_1

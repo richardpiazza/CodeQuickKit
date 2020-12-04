@@ -1,5 +1,4 @@
-#if os(iOS)
-
+#if canImport(UIKit)
 import UIKit
 
 open class ProgrammaticView: UIView {
@@ -85,5 +84,4 @@ open class ProgrammaticCollectionViewCell: UICollectionViewCell {
         
     }
 }
-
 #endif

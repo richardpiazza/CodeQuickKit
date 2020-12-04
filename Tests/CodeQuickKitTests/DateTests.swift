@@ -2,6 +2,18 @@ import XCTest
 @testable import CodeQuickKit
 
 class DateTests: XCTestCase {
+    
+    static var allTests = [
+        ("testYesterday", testYesterday),
+        ("testTwoDaysAgo", testTwoDaysAgo),
+        ("testLastWeek", testLastWeek),
+        ("testTomorrow", testTomorrow),
+        ("testDayAfterTomorrow", testDayAfterTomorrow),
+        ("testNextWeek", testNextWeek),
+        ("testRFC1123DateFormatter", testRFC1123DateFormatter),
+        ("testNSDateFormatterStyleFormatters", testNSDateFormatterStyleFormatters),
+    ]
+    
     let calendar = Calendar.current
     let timeZone = TimeZone(identifier: "GMT")!
     
@@ -12,16 +24,6 @@ class DateTests: XCTestCase {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter
     }()
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
     
     func testYesterday() {
         let now = Date()

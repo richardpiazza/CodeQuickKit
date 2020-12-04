@@ -1,5 +1,4 @@
-#if (os(macOS) || os(iOS) || os(tvOS) || os(watchOS))
-
+#if canImport(ObjectiveC)
 import Foundation
 
 public enum UbiquityState {
@@ -90,5 +89,4 @@ open class UbiquityContainer: UbiquityContainerDelegate {
         Log.debug("Ubiquity State did change from '\(oldState.description)' to '\(newState.description)'")
     }
 }
-
 #endif

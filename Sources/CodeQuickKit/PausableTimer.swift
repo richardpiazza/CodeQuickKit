@@ -1,6 +1,5 @@
-#if (os(macOS) || os(iOS) || os(tvOS) || os(watchOS))
-    
 import Foundation
+import Dispatch
 
 public typealias PausableTimerExpiredCompletion = () -> Void
 public protocol PausableTimerDelegate {
@@ -120,5 +119,3 @@ open class PausableTimer {
         }
     }
 }
-
-#endif

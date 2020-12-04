@@ -1,5 +1,4 @@
 #if os(iOS)
-
 import UIKit
 
 extension UIPickerView {
@@ -158,5 +157,4 @@ internal class PickerViewController: UIViewController {
         }
     }
 }
-
 #endif

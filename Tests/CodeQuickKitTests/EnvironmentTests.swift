@@ -3,20 +3,14 @@ import XCTest
 
 class EnvironmentTests: XCTestCase {
 
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
+    static var allTests = [
+        ("testEnvironmentVariables", testEnvironmentVariables),
+    ]
 
     func testEnvironmentVariables() {
-        let platform = Environment.platform
-        let architecture = Environment.architecture
-        let release = Environment.release
+        let platform = Platform.current
+        let architecture = Architecture.current
+        let release = Release.current
         print("Current Environment - Platform: \(platform) Arch: \(architecture) Release: \(release)")
         
         #if os(macOS)

@@ -1,4 +1,4 @@
-#if os(iOS) || os(tvOS)
+#if canImport(UIKit)
 import UIKit
 
 /// Reusable is meant to make working with UIStoryboard/UINibs
@@ -121,5 +121,4 @@ public extension UICollectionView {
         return view
     }
 }
-
 #endif

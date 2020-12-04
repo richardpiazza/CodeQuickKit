@@ -1,6 +1,6 @@
 import Foundation
 
-#if (os(macOS) || os(iOS) || os(tvOS) || os(watchOS))
+#if canImport(ObjectiveC)
 public extension Bundle {
     /// Attempts to determine the "full" modularized name for a given class.
     /// For example: when using CodeQuickKit as a module, the moduleClass for
