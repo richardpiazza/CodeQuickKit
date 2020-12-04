@@ -63,10 +63,6 @@ open class PausableTimer {
         return min(percent, maxPercentComplete)
     }
     
-    fileprivate var dispatchTime: DispatchTime {
-        return DispatchTime.now() + Double(Int64(delegateRefreshRate * Float(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-    }
-    
     /// Resets the timer to the initial state and begins counting.
     public func reset() {
         completedIntervals = 0
@@ -85,7 +81,7 @@ open class PausableTimer {
     }
     
     /// Calculates the number of completed intervals and notifies the delegate.
-    fileprivate func update() {
+    private func update() {
         guard let referenceDate = self.referenceDate else {
             return
         }
@@ -103,13 +99,13 @@ open class PausableTimer {
             delegate.pausableTimer(self, percentComplete: percent)
         }
         
-        DispatchQueue.global(qos: .utility).asyncAfter(deadline: dispatchTime) {
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + Double(delegateRefreshRate)) {
             self.update()
         }
     }
     
     /// Terminates the execution of the timer and notifies delegates.
-    fileprivate func expire() {
+    private func expire() {
         referenceDate = nil
         if let delegate = self.delegate {
             delegate.pausableTimer(self, percentComplete: maxPercentComplete)
