@@ -6,6 +6,7 @@ public typealias TextAlertCompletion = (_ selectedAction: String?, _ wasCanceled
 public typealias CredentialAlertCompletion = (_ selectedAction: String?, _ wasCanceled: Bool, _ enteredCredentials: URLCredential?) -> Void
 
 /// Extension allowing for a single callback.
+@available(iOSApplicationExtension, unavailable)
 public extension UIAlertController {
     
     fileprivate struct Manager {

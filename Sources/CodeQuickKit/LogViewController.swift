@@ -4,7 +4,7 @@ import MessageUI
 #if os(iOS)
 import UIKit
 
-public protocol LogViewControllerDelegate: class {
+public protocol LogViewControllerDelegate: AnyObject {
     func shouldDismissLogViewController(_ viewController: LogViewController)
 }
 
@@ -135,8 +135,8 @@ public class LogViewController: UIViewController, LogObserver {
             return
         }
         
+        let output = "\(viewer.text ?? "")\n\(string)"
         DispatchQueue.main.async {
-            let output = "\(self.viewer.text)\n\(string)"
             self.viewer.text = output
             self.viewer.scrollToBottom()
             self.viewer.flashScrollIndicators()
@@ -158,7 +158,7 @@ extension LogViewController {
         
         let productName = Bundle.main.bundleName ?? "App"
         let subject = "\(productName) Log"
-        let attachment = "\(produceName).log.txt"
+        let attachment = "\(productName).log.txt"
         
         let controller = MFMailComposeViewController()
         controller.mailComposeDelegate = self

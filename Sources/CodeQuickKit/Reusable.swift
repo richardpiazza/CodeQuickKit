@@ -14,7 +14,7 @@ import UIKit
 /// * **UITableViewCell**: When creating UITableViewCell subclasses
 ///   with XIBs, be sure to keep the nib and class names in sync.
 ///
-public protocol Reusable: class {
+public protocol Reusable: AnyObject {
     static var reuseIdentifier: String { get }
 }
 
