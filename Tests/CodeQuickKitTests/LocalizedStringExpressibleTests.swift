@@ -1,6 +1,7 @@
 import XCTest
 @testable import CodeQuickKit
 
+@available(*, deprecated, message: "See: https://github.com/richardpiazza/LocaleSupport")
 class LocalizedStringExpressibleTests: XCTestCase {
     
     static var allTests = [

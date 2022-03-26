@@ -36,6 +36,7 @@ public typealias LocalizedStringExpressable = LocalizedStringExpressible
 ///
 /// For detailed information on using `String` resources, see
 /// [Apple's Documentation](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/LoadingResources/Strings/Strings.html#//apple_ref/doc/uid/20000005-97055)
+@available(*, deprecated, message: "See: https://github.com/richardpiazza/LocaleSupport")
 public protocol LocalizedStringExpressible {
     /// The '.strings' unique identifier for the localization
     var key: String { get }
@@ -76,6 +77,7 @@ public protocol LocalizedStringExpressible {
     var defaultIndicators: (prefix: Character, suffix: Character)? { get }
 }
 
+@available(*, deprecated, message: "See: https://github.com/richardpiazza/LocaleSupport")
 public extension LocalizedStringExpressible {
     /// Each localization needs a unique 'key' to be defined in the '.strings' files.
     /// By default, a key will automatically be generated from the enumeration case itself.
@@ -132,6 +134,7 @@ public extension LocalizedStringExpressible {
     }
 }
 
+@available(*, deprecated, message: "See: https://github.com/richardpiazza/LocaleSupport")
 public extension LocalizedStringExpressible where Self: RawRepresentable, Self.RawValue == String {
     // When an enumeration is declared to be using a `RawValue` of type `String`,
     // the assumption will be that the value specified is the default value for localization
@@ -147,6 +150,7 @@ public extension LocalizedStringExpressible where Self: RawRepresentable, Self.R
     }
 }
 
+@available(*, deprecated, message: "See: https://github.com/richardpiazza/LocaleSupport")
 public extension LocalizedStringExpressible {
     /// The value returned from 'NSLocalizedString(...)'
     var localizedValue: String {

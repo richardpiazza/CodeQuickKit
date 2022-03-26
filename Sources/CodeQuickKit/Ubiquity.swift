@@ -86,7 +86,7 @@ open class UbiquityContainer: UbiquityContainerDelegate {
     }
     
     public func ubiquityStateDidChange(_ oldState: UbiquityState, newState: UbiquityState) {
-        Log.debug("Ubiquity State did change from '\(oldState.description)' to '\(newState.description)'")
+        print("Ubiquity State did change from '\(oldState.description)' to '\(newState.description)'")
     }
 }
 #endif
