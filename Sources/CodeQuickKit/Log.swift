@@ -1,6 +1,7 @@
 import Foundation
 
 /// An observer that is passed `Log.Entry`s as they are processed.
+@available(*, deprecated, message: "See: https://github.com/richardpiazza/Occurrence")
 public protocol LogObserver {
     var observerId: UUID { get }
     func log(entry: Log.Entry)
@@ -9,6 +10,7 @@ public protocol LogObserver {
 /// A General Purpose Log
 ///
 ///
+@available(*, deprecated, message: "See: https://github.com/richardpiazza/Occurrence")
 public class Log {
     
     /// The distinguishing severity of a Log Entry.

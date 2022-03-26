@@ -4,10 +4,12 @@ import MessageUI
 #if os(iOS)
 import UIKit
 
+@available(*, deprecated, message: "See: https://github.com/richardpiazza/Occurrence")
 public protocol LogViewControllerDelegate: AnyObject {
     func shouldDismissLogViewController(_ viewController: LogViewController)
 }
 
+@available(*, deprecated, message: "See: https://github.com/richardpiazza/Occurrence")
 public class LogViewController: UIViewController, LogObserver {
     
     public weak var delegate: LogViewControllerDelegate?
@@ -145,6 +147,7 @@ public class LogViewController: UIViewController, LogObserver {
 }
 
 // MARK: - IBActions
+@available(*, deprecated, message: "See: https://github.com/richardpiazza/Occurrence")
 extension LogViewController {
     @IBAction private func didTapEmail(_ sender: UIButton) {
         #if canImport(MessageUI)
@@ -194,6 +197,7 @@ extension UITextView {
 #endif
 
 #if canImport(MessageUI) && os(iOS)
+@available(*, deprecated, message: "See: https://github.com/richardpiazza/Occurrence")
 extension LogViewController: MFMailComposeViewControllerDelegate {
     public func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)

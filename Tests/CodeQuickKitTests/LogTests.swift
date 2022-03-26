@@ -1,6 +1,7 @@
 import XCTest
 @testable import CodeQuickKit
 
+@available(*, deprecated, message: "See: https://github.com/richardpiazza/Occurrence")
 class LogTests: XCTestCase {
     
     static var allTests = [
