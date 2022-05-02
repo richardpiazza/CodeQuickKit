@@ -19,7 +19,7 @@ open class PausableTimer {
     public var delegateRefreshRate: Float = 0.1
     public var expireCompletion: PausableTimerExpiredCompletion?
     
-    /// Instantiates a new PausabelTimer and automatically 'resumes' the execution.
+    /// Instantiates a new `PausableTimer` and automatically 'resumes' the execution.
     public static func makeTimer(timeInterval: TimeInterval, delegate: PausableTimerDelegate? = nil, expireCompletion: PausableTimerExpiredCompletion? = nil) -> PausableTimer {
         let timer = PausableTimer(timeInterval: timeInterval, delegate: delegate, expireCompletion: expireCompletion)
         timer.resume()

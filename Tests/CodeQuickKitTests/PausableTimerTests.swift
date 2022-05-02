@@ -3,11 +3,6 @@ import XCTest
 
 class PausableTimerTests: XCTestCase, PausableTimerDelegate {
     
-    static var allTests = [
-        ("testPausableCompletionHandler", testPausableCompletionHandler),
-        ("testPausableDelegate", testPausableDelegate),
-    ]
-    
     var delegateExpectation: XCTestExpectation?
     
     // MARK: - PausableTimerDelegate

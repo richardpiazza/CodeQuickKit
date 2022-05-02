@@ -15,6 +15,7 @@ public extension TimeZone {
 /// ## DateFormat
 ///
 /// Enum grouping the format options for `DateFormatter`s.
+@available(swift, deprecated: 5.5, message: "Prefer the new `Date.formatted()` api.")
 public enum DateFormat {
     case shortDateTime
     case shortDateOnly
@@ -51,6 +52,7 @@ public enum DateFormat {
 }
 
 public extension DateFormatter {
+    @available(swift, deprecated: 5.5, message: "Prefer the new `Date.formatted()` api.")
     convenience init(dateFormat format: DateFormat, locale: Locale = Locale.enUSPosix, timeZone: TimeZone = TimeZone.gmt) {
         self.init()
         self.dateStyle = format.dateStyle
@@ -63,6 +65,7 @@ public extension DateFormatter {
 /// Extension of `DateFormatter` adding static access to common formatters.
 public extension DateFormatter {
     /// Collection of DateFormatters using the GMT TimeZone and en_US_Posix Locale.
+    @available(swift, deprecated: 5.5, message: "Prefer the new `Date.formatted()` api.")
     struct GMT {
         /// Date Formatter using the .ShortStyle for both Date and Time
         /// ***Example:*** "11/5/82, 8:00 AM"
@@ -102,6 +105,7 @@ public extension DateFormatter {
         public static let fullTimeOnlyFormatter: DateFormatter = DateFormatter(dateFormat: .fullTimeOnly)
     }
     
+    @available(swift, deprecated: 5.5, message: "Prefer the new `Date.formatted()` api.")
     struct Local {
         /// Date Formatter using the .ShortStyle for both Date and Time
         /// ***Example:*** "11/5/82, 8:00 AM"

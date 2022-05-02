@@ -3,14 +3,6 @@ import XCTest
 
 class NumberFormatterTests: XCTestCase {
     
-    static var allTests = [
-        ("testIntegerFormatter", testIntegerFormatter),
-        ("testSingleDecimalFormatter", testSingleDecimalFormatter),
-        ("testDecimalFormatter", testDecimalFormatter),
-        ("testCurrencyFormatter", testCurrencyFormatter),
-        ("testPercentFormatter", testPercentFormatter),
-    ]
-    
     func testIntegerFormatter() throws {
         let number = try XCTUnwrap(NumberFormatter.integer(fromString: "25.5"))
         XCTAssertEqual(number, 25)

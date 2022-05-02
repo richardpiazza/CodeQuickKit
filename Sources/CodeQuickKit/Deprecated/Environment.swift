@@ -1,6 +1,6 @@
 import Foundation
 
-@available(*, deprecated)
+@available(*, deprecated, message: "Obscure/Ambiguous implementations")
 public struct Environment {
     public static var platform: Platform {
         return Platform.current
@@ -20,6 +20,7 @@ public struct Environment {
 }
 
 /// The supported Swift compilation OSs
+@available(*, deprecated, message: "Requires heavy maintenance, prefer local checks as needed.")
 public enum Platform {
     case other
     case macOS
@@ -58,6 +59,7 @@ public enum Platform {
 }
 
 /// The supported Swift compilation architectures
+@available(*, deprecated, message: "Requires heavy maintenance, prefer local checks as needed.")
 public enum Architecture {
     case other
     case arm
@@ -90,6 +92,7 @@ public enum Architecture {
 }
 
 /// Recent Swift milestone releases
+@available(*, deprecated, message: "Requires heavy maintenance, prefer local checks as needed.")
 public enum Release {
     case other
     case swift2_2
@@ -137,6 +140,7 @@ public enum Release {
 }
 
 /// Target Environment; i.e Simulator/Device
+@available(*, deprecated, message: "Requires heavy maintenance, prefer local checks as needed.")
 public enum TargetEnvironment {
     case simulator
     case macCatalyst

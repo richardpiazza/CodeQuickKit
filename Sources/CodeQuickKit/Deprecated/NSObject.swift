@@ -3,6 +3,7 @@ import Foundation
 
 public extension NSObject {
     /// Returns a probable Obj-C setter for the specified property name.
+    @available(*, deprecated, message: "Objective-C focused api will be removed in the next major version.")
     func setter(forPropertyName propertyName: String) -> Selector? {
         guard propertyName.lengthOfBytes(using: String.Encoding.utf8) > 0 else {
             return nil
@@ -15,6 +16,7 @@ public extension NSObject {
         return NSSelectorFromString("set\(setter):")
     }
     
+    @available(*, deprecated, message: "Objective-C focused api will be removed in the next major version.")
     func respondsToSetter(forPropertyName propertyName: String) -> Bool {
         guard let selector = setter(forPropertyName: propertyName) else {
             return false

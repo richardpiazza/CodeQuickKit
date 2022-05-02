@@ -1,6 +1,7 @@
 #if canImport(UIKit)
 import UIKit
 
+@available(*, deprecated, message: "UIKit focused api that will be removed in the next major version.")
 open class ProgrammaticView: UIView {
     
     override public init(frame: CGRect) {
@@ -22,6 +23,7 @@ open class ProgrammaticView: UIView {
     }
 }
 
+@available(*, deprecated, message: "UIKit focused api that will be removed in the next major version.")
 open class ProgrmmaticTableViewCell: UITableViewCell {
     
     override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -43,6 +45,7 @@ open class ProgrmmaticTableViewCell: UITableViewCell {
     }
 }
 
+@available(*, deprecated, message: "UIKit focused api that will be removed in the next major version.")
 open class ProgrammaticCollectionReusableView: UICollectionReusableView {
     
     override public init(frame: CGRect) {
@@ -64,6 +67,7 @@ open class ProgrammaticCollectionReusableView: UICollectionReusableView {
     }
 }
 
+@available(*, deprecated, message: "UIKit focused api that will be removed in the next major version.")
 open class ProgrammaticCollectionViewCell: UICollectionViewCell {
     
     override public init(frame: CGRect) {
