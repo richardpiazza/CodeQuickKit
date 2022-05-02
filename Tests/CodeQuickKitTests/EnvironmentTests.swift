@@ -1,12 +1,9 @@
 import XCTest
 @testable import CodeQuickKit
 
+@available(*, deprecated)
 class EnvironmentTests: XCTestCase {
-
-    static var allTests = [
-        ("testEnvironmentVariables", testEnvironmentVariables),
-    ]
-
+    
     func testEnvironmentVariables() {
         let platform = Platform.current
         let architecture = Architecture.current

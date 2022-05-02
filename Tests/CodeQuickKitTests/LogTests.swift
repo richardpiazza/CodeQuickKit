@@ -4,10 +4,6 @@ import XCTest
 @available(*, deprecated, message: "See: https://github.com/richardpiazza/Occurrence")
 class LogTests: XCTestCase {
     
-    static var allTests = [
-        ("testLog", testLog),
-    ]
-    
     lazy var log: Log = {
         let url = URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent("logTests.txt")
         let log = Log(fileUrl: url)

@@ -5,6 +5,7 @@ public extension Bundle {
     /// Attempts to determine the "full" modularized name for a given class.
     /// For example: when using CodeQuickKit as a module, the moduleClass for
     /// the `WebAPI` class would be `CodeQuickKit.WebAPI`.
+    @available(*, deprecated, message: "Objective-C focused api will be removed in the next major version.")
     func moduleClass(forClassNamed classNamed: String) -> AnyClass {
         var moduleClass: AnyClass? = NSClassFromString(classNamed)
         if moduleClass != nil && moduleClass != NSNull.self {
@@ -31,6 +32,7 @@ public extension Bundle {
     }
     
     /// Takes the moduleClass for a given class and attempts to singularize it.
+    @available(*, deprecated, message: "Objective-C focused api will be removed in the next major version.")
     func singularizedModuleClass(forClassNamed classNamed: String) -> AnyClass {
         var moduleClass: AnyClass? = self.moduleClass(forClassNamed: classNamed)
         if moduleClass != nil && moduleClass != NSNull.self {

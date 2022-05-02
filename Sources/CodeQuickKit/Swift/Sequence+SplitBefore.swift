@@ -1,5 +1,3 @@
-import Foundation
-
 public extension Sequence {
     /// Splits a sequence at each instance of the supplied separator.
     /// [Stack Overflow](https://stackoverflow.com/questions/39592563/split-string-in-swift-by-their-capital-letters)

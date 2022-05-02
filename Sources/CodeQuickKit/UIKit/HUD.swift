@@ -1,7 +1,7 @@
 #if canImport(UIKit)
 import UIKit
 
-/// A simple **H**eads **U**p **D**isplay implementation.
+/// A simple Heads Up Display (**HUD**) implementation.
 ///
 /// HUDs are a common component of app design. Typically used to indicated
 /// to a user that action is in progress, or something has been completed.
@@ -129,7 +129,7 @@ public class HUD: UIView {
     /// No animations are currently enabled, the hud is simply added to the view.
     ///
     /// The `delayPresentation` parameter helps to mitigate the undesired effect of
-    /// 'flashing' huds onto the screen. It is typically to use a hud during asynchronous
+    /// 'flashing' HUDs onto the screen. It is typically to use a hud during asynchronous
     /// methods. Using a slight delay allows for quick methods to still call show/hide
     /// but not actually display the hud if the action is *quick enough*.
     ///

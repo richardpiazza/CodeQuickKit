@@ -3,17 +3,6 @@ import XCTest
 
 class DateTests: XCTestCase {
     
-    static var allTests = [
-        ("testYesterday", testYesterday),
-        ("testTwoDaysAgo", testTwoDaysAgo),
-        ("testLastWeek", testLastWeek),
-        ("testTomorrow", testTomorrow),
-        ("testDayAfterTomorrow", testDayAfterTomorrow),
-        ("testNextWeek", testNextWeek),
-        ("testRFC1123DateFormatter", testRFC1123DateFormatter),
-        ("testNSDateFormatterStyleFormatters", testNSDateFormatterStyleFormatters),
-    ]
-    
     let calendar = Calendar.current
     let timeZone = TimeZone(identifier: "GMT")!
     
@@ -147,6 +136,7 @@ class DateTests: XCTestCase {
         XCTAssertTrue(string == s1)
     }
     
+    @available(*, deprecated)
     func testNSDateFormatterStyleFormatters() {
         let string = "Fri, 05 Nov 1982 08:00:00 GMT"
         
