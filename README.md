@@ -4,7 +4,7 @@ A Swift library for simplifying some everyday tasks.
 
 <p>
     <img src="https://github.com/richardpiazza/CodeQuickKit/workflows/Swift/badge.svg?branch=main" />
-    <img src="https://img.shields.io/badge/Swift-5.5-orange.svg" />
+    <img src="https://img.shields.io/badge/Swift-5.5.2-orange.svg" />
     <a href="https://twitter.com/richardpiazza">
         <img src="https://img.shields.io/badge/twitter-@richardpiazza-blue.svg?style=flat" alt="Twitter: @richardpiazza" />
     </a>
@@ -51,9 +51,9 @@ Features in this project are largely grouped around how the apply-to or extend e
 
 ### SwiftUI
 
-
+Nothing here... yet!
 
 ## 🛠 Wanna Help?
 
-Contributions are welcomed and encouraged! See the [Contribution Guide](CONTRIBUTING.md) for more information.
+Contributions are welcome and encouraged! See the [Contribution Guide](CONTRIBUTING.md) for more information.
 
