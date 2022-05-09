@@ -4,7 +4,7 @@ A Swift library for simplifying some everyday tasks.
 
 <p>
     <img src="https://github.com/richardpiazza/CodeQuickKit/workflows/Swift/badge.svg?branch=main" />
-    <img src="https://img.shields.io/badge/Swift-5.5.2-orange.svg" />
+    <img src="https://img.shields.io/badge/Swift-5.5-orange.svg" />
     <a href="https://twitter.com/richardpiazza">
         <img src="https://img.shields.io/badge/twitter-@richardpiazza-blue.svg?style=flat" alt="Twitter: @richardpiazza" />
     </a>
@@ -19,7 +19,7 @@ You can add it using Xcode or by listing it as a dependency in your `Package.swi
 let package = Package(
   ...
   dependencies: [
-    .package(url: "https://github.com/richardpiazza/CodeQuickKit", .upToNextMajor(from: "6.10.0")
+    .package(url: "https://github.com/richardpiazza/CodeQuickKit", .upToNextMajor(from: "7.0.0")
   ],
   ...
   targets: [
