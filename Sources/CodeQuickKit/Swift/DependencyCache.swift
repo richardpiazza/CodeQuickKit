@@ -6,24 +6,14 @@
 /// @UIApplicationMain
 /// class AppDelegate: UIResponder, UIApplicationDelegate {
 ///     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-///         let dependencySource = Dependencies()
-///         dependencySource.cacheDependencies()
+///         DependencyCache.configure(with: Supplier())
 ///
 ///         return true
 ///     }
 /// }
-///
-/// class Dependencies {
-///     lazy var service: ServiceProtocol = ServiceProtocolImplementation()
-///
-///     init() {
-///     }
-///
-///     func cacheDependencies() {
-///         DependencyCache.cache { self.service }
-///     }
-/// }
 /// ```
+///
+/// See `DependencySupplier` for additional details.
 public class DependencyCache {
     
     public enum Error: Swift.Error {
@@ -31,16 +21,18 @@ public class DependencyCache {
         case type(Any.Type)
     }
     
+    public static var shared: DependencyCache = .init()
+    
     /// Dependencies maintained by the cache
     ///
     /// - note: `ObjectIdentifier` provides a hashable reference to a specific type being cached.
-    private static var dependencies: [ObjectIdentifier: () -> Any] = [:]
+    private var dependencies: [ObjectIdentifier: () -> Any] = [:]
     
     private init() {
     }
     
     /// Add a dependency to the cache.
-    public static func cache<T>(dependency: @escaping () -> T) {
+    public func cache<T>(dependency: @escaping () -> T) {
         dependencies[ObjectIdentifier(T.self)] = dependency
     }
     
@@ -48,7 +40,7 @@ public class DependencyCache {
     ///
     /// - throws `DependencyCache.Error`
     /// - returns The resolved dependency for the request type.
-    public static func resolve<T>() throws -> T {
+    public func resolve<T>() throws -> T {
         guard let source = dependencies[ObjectIdentifier(T.self)] else {
             throw Error.source(T.self)
         }
@@ -58,5 +50,28 @@ public class DependencyCache {
         }
         
         return dependency
+    }
+    
+    public func configure(with supplier: DependencySupplier) {
+        supplier.supply(cache: self)
+    }
+}
+
+public extension DependencyCache {
+    /// Add a dependency to the cache.
+    static func cache<T>(dependency: @escaping () -> T) {
+        DependencyCache.shared.cache(dependency: dependency)
+    }
+    
+    /// Resolve a dependency stored in the cache.
+    ///
+    /// - throws `DependencyCache.Error`
+    /// - returns The resolved dependency for the request type.
+    static func resolve<T>() throws -> T {
+        try DependencyCache.shared.resolve()
+    }
+    
+    static func configure(with supplier: DependencySupplier) {
+        DependencyCache.shared.configure(with: supplier)
     }
 }

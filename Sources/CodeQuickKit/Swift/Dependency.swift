@@ -1,6 +1,7 @@
 /// Convenience property wrapper that provides a type from the `DependencyCache`.
-@propertyWrapper public struct Resolved<T> {
+@propertyWrapper public struct Dependency<T> {
     
+    private let cache: DependencyCache = .shared
     private(set) var value: T?
     
     public init() {
@@ -10,7 +11,7 @@
         mutating get {
             guard let value = self.value else {
                 do {
-                    let resolved: T = try DependencyCache.resolve()
+                    let resolved: T = try cache.resolve()
                     self.value = resolved
                     return resolved
                 } catch {
