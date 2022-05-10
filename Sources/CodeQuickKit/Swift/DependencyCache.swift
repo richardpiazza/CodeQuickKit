@@ -28,7 +28,7 @@ public class DependencyCache {
     /// - note: `ObjectIdentifier` provides a hashable reference to a specific type being cached.
     private var dependencies: [ObjectIdentifier: () -> Any] = [:]
     
-    private init() {
+    public init() {
     }
     
     /// Add a dependency to the cache.
@@ -52,18 +52,19 @@ public class DependencyCache {
         return dependency
     }
     
+    /// Configures the cache with a `DependencySupplier`.
     public func configure(with supplier: DependencySupplier) {
         supplier.supply(cache: self)
     }
 }
 
 public extension DependencyCache {
-    /// Add a dependency to the cache.
+    /// Add a dependency to the `.shared` cache.
     static func cache<T>(dependency: @escaping () -> T) {
         DependencyCache.shared.cache(dependency: dependency)
     }
     
-    /// Resolve a dependency stored in the cache.
+    /// Resolve a dependency stored in the `.shared` cache.
     ///
     /// - throws `DependencyCache.Error`
     /// - returns The resolved dependency for the request type.
@@ -71,6 +72,7 @@ public extension DependencyCache {
         try DependencyCache.shared.resolve()
     }
     
+    /// Configures the `.shared` cache with a `DependencySupplier`.
     static func configure(with supplier: DependencySupplier) {
         DependencyCache.shared.configure(with: supplier)
     }

@@ -1,10 +1,11 @@
 /// Convenience property wrapper that provides a type from the `DependencyCache`.
 @propertyWrapper public struct Dependency<T> {
     
-    private let cache: DependencyCache = .shared
+    private let cache: DependencyCache
     private(set) var value: T?
     
-    public init() {
+    public init(cache: DependencyCache = .shared) {
+        self.cache = cache
     }
     
     public var wrappedValue: T {
@@ -25,6 +26,7 @@
         }
     }
     
+    /// Resets the underlying dependency reference, forcing resolution on the next access.
     public mutating func dissolve() {
         value = nil
     }
