@@ -49,7 +49,11 @@ Features in this project are largely grouped around how the apply-to or extend e
 
 ### Foundation
 
-
+* **UserDefaults**:
+    `UserDefault` is a property wrapper designed to interact with the `UserDefaults` storage.
+    ```swift
+    @UserDefault("counter", defaultValue: 0) var counter: Int
+    ```
 
 ### UIKit
 
