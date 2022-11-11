@@ -348,5 +348,4 @@ public extension UIAlertController {
         }
     }
 }
-
 #endif
