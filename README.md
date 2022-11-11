@@ -43,27 +43,32 @@ Features in this project are largely grouped around how the apply-to or extend e
     `DependencyCache` offers a singleton approach to managing service and configuration dependencies throughout an application.
     The cache is configured by passing a `DependencySupplier` to the `configure(with:)` function.
     A _dependency_ can be directly resolved from the _cache_ using `resolve<T>() throws -> T`, or the `Dependency` property wrapper can be used to lazily reference as needed:
-    ```swift
-    @Dependency private var someService: SomeService
-    ```
+  
+  ```swift
+  @Dependency private var someService: SomeService
+  ```
 
 ### Foundation
 
 * **UserDefaults**:
     `UserDefault` is a property wrapper designed to interact with the `UserDefaults` storage.
-    ```swift
-    @UserDefault("counter", defaultValue: 0) var counter: Int
-    ```
+  
+  ```swift
+  @UserDefault("counter", defaultValue: 0) var counter: Int
+  ```
 
 ### UIKit
 
-
+* **UIAlertController.ActivityAlertController**:
+  
+  This *hack* creates a alert dialog with a progress indicator and optional title/messaging strings.
 
 ### SwiftUI
 
-Nothing here... yet!
+* **ActivityAlertView**
+  
+  A SwiftUI workaround for using the `ActivityAlertController`. (UIKit Only)
 
 ## 🛠 Wanna Help?
 
 Contributions are welcome and encouraged! See the [Contribution Guide](CONTRIBUTING.md) for more information.
-
