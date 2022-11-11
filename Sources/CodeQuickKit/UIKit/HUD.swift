@@ -5,6 +5,7 @@ import UIKit
 ///
 /// HUDs are a common component of app design. Typically used to indicated
 /// to a user that action is in progress, or something has been completed.
+@available(*, deprecated, message: "Prefer `UIAlertController.presentActivityAlert()`")
 public class HUD: UIView {
 
     public static var animationDuration: TimeInterval = 0.15
@@ -449,7 +450,5 @@ internal class CenteringView: UIView {
             trailingLessThan,
         ])
     }
-
 }
-
 #endif

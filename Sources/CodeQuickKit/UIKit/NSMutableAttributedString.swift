@@ -56,5 +56,4 @@ public extension NSMutableAttributedString {
         self.append(string, textStyle: textStyle, attributes: attributes, traits: traits)
     }
 }
-
 #endif
