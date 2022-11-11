@@ -6,25 +6,56 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  PACKAGE_NAME: CodeQuickKit
+
 jobs:
   macos-build:
-
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout Source
+      uses: actions/checkout@v3
+    
     - name: Build (macOS)
       run: swift build -v
+    
     - name: Run tests
-      run: swift test -v
+      run: swift test --enable-code-coverage -v 2>&1 | xcpretty --report junit
+    
+    - name: Code Coverage
+      run: xcrun llvm-cov export -format="lcov" .build/debug/${{ env.PACKAGE_NAME }}PackageTests.xctest/Contents/MacOS/${{ env.PACKAGE_NAME }}PackageTests -instr-profile .build/debug/codecov/default.profdata > build/reports/coverage.lcov
+    
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: |
+          build/reports/junit.xml
+          build/reports/coverage.lcov
+    
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action/composite@v1
+      with:
+        files: build/reports/junit.xml
+    
+    - name: Publish Code Coverage
+      uses: vebr/jest-lcov-reporter@v0.2.1
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        lcov-file: build/reports/coverage.lcov
+        update-comment: true
   
   ubuntu-build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout Source
+      uses: actions/checkout@v3
+    
     - name: Build (Ubuntu)
       run: swift build -v
+    
     - name: Run tests
       run: swift test -v
+      
