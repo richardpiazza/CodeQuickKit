@@ -82,6 +82,8 @@ extension UIViewController {
     }
     
     /// The currently presented alert controller (if available)
+    ///
+    /// **WARNING**: Must be called on main thread!
     private var currentAlert: UIAlertController? { presentedViewController as? UIAlertController }
     
     /// Presents an alert dialog with an embedded `ActivityAlertController`.
@@ -110,39 +112,44 @@ extension UIViewController {
         delayPresentation: TimeInterval = 0.0,
         completion: (() -> Void)? = nil
     ) {
-        if let alert = currentAlert {
-            DispatchQueue.main.async {
-                alert.title = title
-                alert.message = message
-                completion?()
-            }
-            return
-        }
-        
-        let controller = UIAlertController.makeActivityAlert(title: title, message: message, padding: padding)
-        
-        AlertScheduler.scheduledActivation = Date(timeIntervalSinceNow: abs(delayPresentation))
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + abs(delayPresentation)) { [weak self] in
-            guard AlertScheduler.scheduledActivation != nil else {
-                completion?()
-                return
-            }
-            
+        DispatchQueue.main.async { [weak self] in
             guard let self = self else {
                 completion?()
                 return
             }
             
-            guard self.parent != nil else {
+            if let alert = self.currentAlert {
+                alert.title = title
+                alert.message = message
                 completion?()
                 return
             }
             
-            self.present(controller, animated: true) {
-                if let handler = completion {
-                    DispatchQueue.main.async {
-                        handler()
+            let controller = UIAlertController.makeActivityAlert(title: title, message: message, padding: padding)
+            
+            AlertScheduler.scheduledActivation = Date(timeIntervalSinceNow: abs(delayPresentation))
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + abs(delayPresentation)) { [weak self] in
+                guard AlertScheduler.scheduledActivation != nil else {
+                    completion?()
+                    return
+                }
+                
+                guard let self = self else {
+                    completion?()
+                    return
+                }
+                
+                guard self.parent != nil else {
+                    completion?()
+                    return
+                }
+                
+                self.present(controller, animated: true) {
+                    if let handler = completion {
+                        DispatchQueue.main.async {
+                            handler()
+                        }
                     }
                 }
             }
@@ -161,32 +168,39 @@ extension UIViewController {
         afterMinimumVisibility visibility: TimeInterval = 0.0,
         completion: (() -> Void)? = nil
     ) {
-        switch currentAlert {
-        case .some(let alert):
-            DispatchQueue.main.asyncAfter(deadline: .now() + abs(visibility)) {
-                alert.dismiss(animated: true, completion: completion)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else {
+                completion?()
+                return
             }
-        case .none:
-            let activation = AlertScheduler.scheduledActivation
-            switch activation {
-            case .some(let date):
-                guard visibility > 0.0 else {
-                    AlertScheduler.scheduledActivation = nil
-                    completion?()
-                    return
-                }
-                
-                let deactivation = date.addingTimeInterval(visibility)
-                let interval = Date().timeIntervalSince(deactivation)
-                DispatchQueue.main.asyncAfter(deadline: .now() + interval) { [weak self] in
-                    if let alert = self?.currentAlert {
-                        alert.dismiss(animated: true, completion: completion)
-                    } else {
-                        completion?()
-                    }
+            
+            switch self.currentAlert {
+            case .some(let alert):
+                DispatchQueue.main.asyncAfter(deadline: .now() + abs(visibility)) {
+                    alert.dismiss(animated: true, completion: completion)
                 }
             case .none:
-                break
+                let activation = AlertScheduler.scheduledActivation
+                switch activation {
+                case .some(let date):
+                    guard visibility > 0.0 else {
+                        AlertScheduler.scheduledActivation = nil
+                        completion?()
+                        return
+                    }
+                    
+                    let deactivation = date.addingTimeInterval(visibility)
+                    let interval = Date().timeIntervalSince(deactivation)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + interval) { [weak self] in
+                        if let alert = self?.currentAlert {
+                            alert.dismiss(animated: true, completion: completion)
+                        } else {
+                            completion?()
+                        }
+                    }
+                case .none:
+                    break
+                }
             }
         }
     }
