@@ -16,6 +16,13 @@ public struct ActivityAlertView: UIViewControllerRepresentable {
     /// Inset values that should be used in place of defaults.
     public var padding: EdgeInsets? = nil
     
+    public init(isPresented: Binding<Bool>, title: String? = nil, message: String? = nil, padding: EdgeInsets? = nil) {
+        _isPresented = isPresented
+        self.title = title
+        self.message = message
+        self.padding = padding
+    }
+    
     public func makeCoordinator() -> UIAlertController {
         var insets: UIEdgeInsets?
         if let padding = padding {

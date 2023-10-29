@@ -44,19 +44,14 @@ class DateTests: XCTestCase {
         XCTAssertTrue(now.isSame(today))
     }
     
-    func testLastWeek() {
+    func testLastWeek() throws {
         let now = Date()
         let lastWeek = Date.lastWeek
         
         XCTAssertTrue(lastWeek.isBefore(now))
         
-        let offset = TimeZone.current.daylightSavingTimeOffset(for: lastWeek)
-        let minutesToToday = 10080 + Int(offset / 60)
-        
-        guard let today = lastWeek.dateByAdding(minutes: minutesToToday) else {
-            XCTFail()
-            return
-        }
+        let minutesToToday = 60 * 24 * 7
+        let today = try XCTUnwrap(lastWeek.dateByAdding(minutes: minutesToToday))
         
         XCTAssertTrue(today.isAfter(lastWeek))
         XCTAssertTrue(now.isSame(today))
@@ -92,16 +87,13 @@ class DateTests: XCTestCase {
         XCTAssertTrue(now.isSame(today))
     }
     
-    func testNextWeek() {
+    func testNextWeek() throws {
         let now = Date()
         let nextWeek = Date.nextWeek
         
         XCTAssertTrue(nextWeek.isAfter(now))
         
-        guard let today = nextWeek.dateByAdding(minutes: -10080) else {
-            XCTFail()
-            return
-        }
+        let today = try XCTUnwrap(nextWeek.dateByAdding(days: -7))
         
         XCTAssertTrue(today.isBefore(nextWeek))
         XCTAssertTrue(now.isSame(today))
